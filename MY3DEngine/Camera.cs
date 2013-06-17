@@ -92,7 +92,7 @@ namespace MY3DEngine
         {
             this.eye = eye;
             this.lookAt = lookat;
-            this.upDirection = up;
+            upDirection = up;
             View = Matrix.Translation(eye);
             Engine.GameEngine.LocalDevice.LocalDevice.SetTransform(TransformState.View, View);
         }
@@ -104,7 +104,7 @@ namespace MY3DEngine
         /// <param name="aspectRatio"> width/height</param>
         /// <param name="close"> how close do we draw objects</param>
         /// <param name="far"> how far away do we draw objects</param>
-        public void SetProjection(float fov, float aspectRatio, float close, float far)
+        public void SetProjection(float fov, float aspectRatio, float close = 0.01f, float far = 100.0f)
         {
             this.fov = fov;
             this.aspectRatio = aspectRatio;
