@@ -2,7 +2,10 @@
 
 namespace MY3DEngine
 {
-    public class DeviceManager
+    /// <summary>
+    /// 
+    /// </summary>
+    public sealed class DeviceManager
     {
         public Device LocalDevice { get; set; }
 
