@@ -28,10 +28,13 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.rendererPnl = new System.Windows.Forms.Panel();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.tabEditPlay = new System.Windows.Forms.TabControl();
             this.tbEdit = new System.Windows.Forms.TabPage();
+            this.lblCameraPosition = new System.Windows.Forms.Label();
             this.tbPlay = new System.Windows.Forms.TabPage();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -49,8 +52,6 @@
             this.addDirectionalLightToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.soundToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.addSoundToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.lblCameraPosition = new System.Windows.Forms.Label();
-            this.txtInformationOutput = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.tabEditPlay.SuspendLayout();
             this.tbEdit.SuspendLayout();
@@ -59,9 +60,9 @@
             // 
             // rendererPnl
             // 
-            this.rendererPnl.Location = new System.Drawing.Point(293, 6);
+            this.rendererPnl.Location = new System.Drawing.Point(237, 6);
             this.rendererPnl.Name = "rendererPnl";
-            this.rendererPnl.Size = new System.Drawing.Size(516, 347);
+            this.rendererPnl.Size = new System.Drawing.Size(572, 377);
             this.rendererPnl.TabIndex = 1;
             this.rendererPnl.MouseEnter += new System.EventHandler(this.rendererPnl_MouseEnter);
             this.rendererPnl.MouseMove += new System.Windows.Forms.MouseEventHandler(this.rendererPnl_MouseMove);
@@ -69,7 +70,23 @@
             // 
             // dataGridView1
             // 
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGridView1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dataGridView1.DefaultCellStyle = dataGridViewCellStyle2;
             this.dataGridView1.Location = new System.Drawing.Point(8, 507);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.Size = new System.Drawing.Size(801, 75);
@@ -87,7 +104,6 @@
             // 
             // tbEdit
             // 
-            this.tbEdit.Controls.Add(this.txtInformationOutput);
             this.tbEdit.Controls.Add(this.lblCameraPosition);
             this.tbEdit.Controls.Add(this.rendererPnl);
             this.tbEdit.Controls.Add(this.dataGridView1);
@@ -98,6 +114,14 @@
             this.tbEdit.TabIndex = 0;
             this.tbEdit.Text = "Edit";
             this.tbEdit.UseVisualStyleBackColor = true;
+            // 
+            // lblCameraPosition
+            // 
+            this.lblCameraPosition.AutoSize = true;
+            this.lblCameraPosition.Location = new System.Drawing.Point(8, 6);
+            this.lblCameraPosition.Name = "lblCameraPosition";
+            this.lblCameraPosition.Size = new System.Drawing.Size(0, 13);
+            this.lblCameraPosition.TabIndex = 3;
             // 
             // tbPlay
             // 
@@ -229,22 +253,6 @@
             this.addSoundToolStripMenuItem.Size = new System.Drawing.Size(133, 22);
             this.addSoundToolStripMenuItem.Text = "Add Sound";
             // 
-            // lblCameraPosition
-            // 
-            this.lblCameraPosition.AutoSize = true;
-            this.lblCameraPosition.Location = new System.Drawing.Point(8, 6);
-            this.lblCameraPosition.Name = "lblCameraPosition";
-            this.lblCameraPosition.Size = new System.Drawing.Size(0, 13);
-            this.lblCameraPosition.TabIndex = 3;
-            // 
-            // txtInformationOutput
-            // 
-            this.txtInformationOutput.Location = new System.Drawing.Point(6, 446);
-            this.txtInformationOutput.Multiline = true;
-            this.txtInformationOutput.Name = "txtInformationOutput";
-            this.txtInformationOutput.Size = new System.Drawing.Size(803, 55);
-            this.txtInformationOutput.TabIndex = 4;
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -291,7 +299,6 @@
         private System.Windows.Forms.ToolStripMenuItem addSoundToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem saveLevelToolStripMenuItem;
         private System.Windows.Forms.Label lblCameraPosition;
-        private System.Windows.Forms.TextBox txtInformationOutput;
     }
 }
 
