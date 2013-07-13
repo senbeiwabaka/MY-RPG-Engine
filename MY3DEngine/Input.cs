@@ -24,7 +24,9 @@ namespace MY3DEngine
 
                 _keyboard = new Keyboard(_directInput);
 
-                if ((result = _keyboard.SetCooperativeLevel(Engine.GameEngine.Window, CooperativeLevel.Background | CooperativeLevel.Nonexclusive)) != ResultCode.Success)
+                IntPtr handle = Engine.GameEngine.Window;
+
+                if ((result = _keyboard.SetCooperativeLevel(handle, CooperativeLevel.Nonexclusive | CooperativeLevel.Background)) != ResultCode.Success)
                 {
                     Engine.GameEngine.Exception.Exceptions.Add(new ExceptionData(result.Description,
                         result.Name, "keyboard cooperation"));
@@ -32,7 +34,7 @@ namespace MY3DEngine
 
                 _mouse = new Mouse(_directInput);
 
-                if ((result = _mouse.SetCooperativeLevel(Engine.GameEngine.Window, CooperativeLevel.Foreground | CooperativeLevel.Nonexclusive)) != ResultCode.Success)
+                if ((result = _mouse.SetCooperativeLevel(handle, CooperativeLevel.Foreground | CooperativeLevel.Nonexclusive)) != ResultCode.Success)
                 {
                     Engine.GameEngine.Exception.Exceptions.Add(new ExceptionData(result.Description,
                         result.Name, "mouse cooperation"));
