@@ -102,6 +102,32 @@ namespace MY3DEngineGUI
         }
 
         #endregion
-        
+
+        private void globalLightsOnOffToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Engine.GameEngine.GlobalLights();
+        }
+
+        private void addCubeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+        }
+
+        private void addPointLightToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if(Engine.GameEngine.Manager.AddObject(new LightClass()))
+            {
+                Add_RemoveObject("Point light added");
+            }
+        }
+
+        private void label2_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Add_RemoveObject(string s)
+        {
+            lblAddRemove.Text = s;
+        }
     }
 }

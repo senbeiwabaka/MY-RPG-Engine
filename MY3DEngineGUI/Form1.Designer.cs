@@ -28,8 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             this.rendererPnl = new System.Windows.Forms.Panel();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.tabEditPlay = new System.Windows.Forms.TabControl();
@@ -52,6 +52,11 @@
             this.addDirectionalLightToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.soundToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.addSoundToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.propertiesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.globalLightsOnOffToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.wireframOnOffToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.label1 = new System.Windows.Forms.Label();
+            this.lblAddRemove = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.tabEditPlay.SuspendLayout();
             this.tbEdit.SuspendLayout();
@@ -70,23 +75,23 @@
             // 
             // dataGridView1
             // 
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dataGridView1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGridView1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dataGridView1.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dataGridView1.DefaultCellStyle = dataGridViewCellStyle4;
             this.dataGridView1.Location = new System.Drawing.Point(8, 507);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.Size = new System.Drawing.Size(801, 75);
@@ -104,6 +109,8 @@
             // 
             // tbEdit
             // 
+            this.tbEdit.Controls.Add(this.lblAddRemove);
+            this.tbEdit.Controls.Add(this.label1);
             this.tbEdit.Controls.Add(this.lblCameraPosition);
             this.tbEdit.Controls.Add(this.rendererPnl);
             this.tbEdit.Controls.Add(this.dataGridView1);
@@ -140,7 +147,8 @@
             this.shapesObjectsToolStripMenuItem,
             this.terrainToolStripMenuItem,
             this.lightsToolStripMenuItem,
-            this.soundToolStripMenuItem});
+            this.soundToolStripMenuItem,
+            this.propertiesToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(823, 24);
@@ -197,6 +205,7 @@
             this.addCubeToolStripMenuItem.Name = "addCubeToolStripMenuItem";
             this.addCubeToolStripMenuItem.Size = new System.Drawing.Size(142, 22);
             this.addCubeToolStripMenuItem.Text = "Add Cube";
+            this.addCubeToolStripMenuItem.Click += new System.EventHandler(this.addCubeToolStripMenuItem_Click);
             // 
             // addTriangleToolStripMenuItem
             // 
@@ -232,6 +241,7 @@
             this.addPointLightToolStripMenuItem.Name = "addPointLightToolStripMenuItem";
             this.addPointLightToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
             this.addPointLightToolStripMenuItem.Text = "Add Point Light";
+            this.addPointLightToolStripMenuItem.Click += new System.EventHandler(this.addPointLightToolStripMenuItem_Click);
             // 
             // addDirectionalLightToolStripMenuItem
             // 
@@ -252,6 +262,46 @@
             this.addSoundToolStripMenuItem.Name = "addSoundToolStripMenuItem";
             this.addSoundToolStripMenuItem.Size = new System.Drawing.Size(133, 22);
             this.addSoundToolStripMenuItem.Text = "Add Sound";
+            // 
+            // propertiesToolStripMenuItem
+            // 
+            this.propertiesToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.globalLightsOnOffToolStripMenuItem,
+            this.wireframOnOffToolStripMenuItem});
+            this.propertiesToolStripMenuItem.Name = "propertiesToolStripMenuItem";
+            this.propertiesToolStripMenuItem.Size = new System.Drawing.Size(72, 20);
+            this.propertiesToolStripMenuItem.Text = "Properties";
+            // 
+            // globalLightsOnOffToolStripMenuItem
+            // 
+            this.globalLightsOnOffToolStripMenuItem.Name = "globalLightsOnOffToolStripMenuItem";
+            this.globalLightsOnOffToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
+            this.globalLightsOnOffToolStripMenuItem.Text = "Global Lights On/Off";
+            this.globalLightsOnOffToolStripMenuItem.Click += new System.EventHandler(this.globalLightsOnOffToolStripMenuItem_Click);
+            // 
+            // wireframOnOffToolStripMenuItem
+            // 
+            this.wireframOnOffToolStripMenuItem.Name = "wireframOnOffToolStripMenuItem";
+            this.wireframOnOffToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
+            this.wireframOnOffToolStripMenuItem.Text = "Wirefram On/Off";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(4, 54);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(93, 13);
+            this.label1.TabIndex = 4;
+            this.label1.Text = "Object Information";
+            // 
+            // lblAddRemove
+            // 
+            this.lblAddRemove.AutoSize = true;
+            this.lblAddRemove.Location = new System.Drawing.Point(4, 71);
+            this.lblAddRemove.Name = "lblAddRemove";
+            this.lblAddRemove.Size = new System.Drawing.Size(0, 13);
+            this.lblAddRemove.TabIndex = 5;
+            this.lblAddRemove.TextChanged += new System.EventHandler(this.label2_TextChanged);
             // 
             // Form1
             // 
@@ -299,6 +349,11 @@
         private System.Windows.Forms.ToolStripMenuItem addSoundToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem saveLevelToolStripMenuItem;
         private System.Windows.Forms.Label lblCameraPosition;
+        private System.Windows.Forms.ToolStripMenuItem propertiesToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem globalLightsOnOffToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem wireframOnOffToolStripMenuItem;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label lblAddRemove;
     }
 }
 
