@@ -53,7 +53,7 @@ namespace MY3DEngine
             {
                 cameraRotation = new Vector3(cameraRotation.X + value.X, cameraRotation.Y + value.Y, cameraRotation.Z + value.Z);
                 View = Matrix.RotationYawPitchRoll(cameraRotation.Y, cameraRotation.X, cameraRotation.Z) * Matrix.Translation(eye);
-                Engine.GameEngine.LocalDevice.LocalDevice.SetTransform(TransformState.View, View);
+                Engine.GameEngine.LocalDevice.ThisDevice.SetTransform(TransformState.View, View);
             }
         }
 
@@ -62,22 +62,22 @@ namespace MY3DEngine
         /// </summary>
         public Camera()
         {
-            Engine.GameEngine.LocalDevice.LocalDevice.SetTransform(TransformState.World, Matrix.Identity);
+            Engine.GameEngine.LocalDevice.ThisDevice.SetTransform(TransformState.World, Matrix.Identity);
 
             eye = new Vector3(0, 0, 3.5f);
             lookAt = Vector3.Zero;
             upDirection = Vector3.UnitY;
 
             View = Matrix.Translation(eye);
-            Engine.GameEngine.LocalDevice.LocalDevice.SetTransform(TransformState.View, View);
+            Engine.GameEngine.LocalDevice.ThisDevice.SetTransform(TransformState.View, View);
 
             fov = (float)Math.PI / 4.0f;
-            aspectRatio = (float)Engine.GameEngine.LocalDevice.LocalDevice.Viewport.Width / Engine.GameEngine.LocalDevice.LocalDevice.Viewport.Height;
+            aspectRatio = (float)Engine.GameEngine.LocalDevice.ThisDevice.Viewport.Width / Engine.GameEngine.LocalDevice.ThisDevice.Viewport.Height;
             nearClipping = 1.0f;
             farClipping = 100.0f;
 
             projection = Matrix.PerspectiveFovLH(fov, aspectRatio, nearClipping, farClipping);
-            Engine.GameEngine.LocalDevice.LocalDevice.SetTransform(TransformState.Projection, projection);
+            Engine.GameEngine.LocalDevice.ThisDevice.SetTransform(TransformState.Projection, projection);
 
             cameraRotation = Vector3.Zero;
         }
@@ -94,7 +94,7 @@ namespace MY3DEngine
             this.lookAt = lookat;
             upDirection = up;
             View = Matrix.Translation(eye);
-            Engine.GameEngine.LocalDevice.LocalDevice.SetTransform(TransformState.View, View);
+            Engine.GameEngine.LocalDevice.ThisDevice.SetTransform(TransformState.View, View);
         }
 
         /// <summary>
@@ -112,7 +112,7 @@ namespace MY3DEngine
             this.farClipping = far;
             projection = Matrix.PerspectiveFovLH(this.fov, this.aspectRatio,
                 nearClipping, this.farClipping);
-            Engine.GameEngine.LocalDevice.LocalDevice.SetTransform(TransformState.Projection,
+            Engine.GameEngine.LocalDevice.ThisDevice.SetTransform(TransformState.Projection,
                 projection);
         }
 
@@ -126,7 +126,7 @@ namespace MY3DEngine
             this.eye = eye;
             this.lookAt = lookAt;
             View = Matrix.Translation(eye);
-            Engine.GameEngine.LocalDevice.LocalDevice.SetTransform(TransformState.View, View);
+            Engine.GameEngine.LocalDevice.ThisDevice.SetTransform(TransformState.View, View);
         }
 
         /// <summary>
@@ -140,7 +140,7 @@ namespace MY3DEngine
             eye.Z += z;
 
             View = Matrix.RotationYawPitchRoll(cameraRotation.Y, cameraRotation.X, cameraRotation.Z) * Matrix.Translation(eye);
-            Engine.GameEngine.LocalDevice.LocalDevice.SetTransform(TransformState.View, View);
+            Engine.GameEngine.LocalDevice.ThisDevice.SetTransform(TransformState.View, View);
         }
 
         /// <summary>
@@ -150,14 +150,14 @@ namespace MY3DEngine
         {
             cameraRotation = Vector3.Zero;
 
-            Engine.GameEngine.LocalDevice.LocalDevice.SetTransform(TransformState.World, Matrix.Identity);
+            Engine.GameEngine.LocalDevice.ThisDevice.SetTransform(TransformState.World, Matrix.Identity);
 
             eye = new Vector3(0, 0, 3.5f);
             lookAt = Vector3.Zero;
             upDirection = Vector3.UnitY;
 
             View = Matrix.Translation(eye);
-            Engine.GameEngine.LocalDevice.LocalDevice.SetTransform(TransformState.View, View);
+            Engine.GameEngine.LocalDevice.ThisDevice.SetTransform(TransformState.View, View);
         }
 
         /// <summary>

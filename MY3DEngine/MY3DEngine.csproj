@@ -59,9 +59,9 @@
     <Compile Include="LightClass.cs" />
     <Compile Include="MeshClass.cs" />
     <Compile Include="ObjectClass.cs" />
+    <Compile Include="ObjectManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Renderer.cs" />
-    <Compile Include="Resource.cs" />
     <Compile Include="Scripting.cs" />
     <Compile Include="SoundSystem.cs" />
   </ItemGroup>

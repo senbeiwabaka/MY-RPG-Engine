@@ -7,7 +7,7 @@ namespace MY3DEngine
     /// </summary>
     public sealed class DeviceManager
     {
-        public Device LocalDevice { get; set; }
+        public Device ThisDevice { get; set; }
 
         public PresentParameters PresentationParameters { get; set; }
 
@@ -31,12 +31,12 @@ namespace MY3DEngine
                 PresentationInterval = PresentInterval.Default
             };
 
-            LocalDevice = new Device(new Direct3D(), 0, DeviceType.Hardware, windowHandle, CreateFlags.HardwareVertexProcessing, PresentationParameters);
+            ThisDevice = new Device(new Direct3D(), 0, DeviceType.Hardware, windowHandle, CreateFlags.HardwareVertexProcessing, PresentationParameters);
         }
 
         public void ResetDevice()
         {
-            LocalDevice.Reset(PresentationParameters);
+            ThisDevice.Reset(PresentationParameters);
         }
     }
 }
