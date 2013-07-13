@@ -10,9 +10,11 @@ namespace MY3DEngine
         private bool _loaded;
         private Thread _renderThread;
         private Input _input;
-        
+        private bool _lighting;
+        private ObjectManager _manager;
         
         public static Engine GameEngine { get; set; }
+
 
         public IntPtr Window { get; private set; }
         public ExceptionHolder Exception { get; set; }
@@ -20,6 +22,22 @@ namespace MY3DEngine
         public DeviceManager LocalDevice { get; set; }
         public Camera Camera { get; set; }
 
+        public ObjectManager Manager
+        {
+            get { return _manager; }
+            set
+            {
+                if (_manager == null)
+                {
+                    _manager = new ObjectManager();
+                }
+            }
+        }
+
+        /// <summary>
+        /// Engine Constructor. Must be called first
+        /// </summary>
+        /// <param name="window">The pointer of the window that the engine will be rendered too</param>
         public Engine(IntPtr window)
         {
             IsNotShutDown = false;
@@ -29,6 +47,8 @@ namespace MY3DEngine
             Window = window;
 
             Exception = new ExceptionHolder();
+
+            _lighting = false;
         }
 
         public void Dispose()
@@ -36,6 +56,11 @@ namespace MY3DEngine
             _input.Dispose();
         }
 
+        /// <summary>
+        /// Must be called after the constructor. Finishes initalizing the variables
+        /// </summary>
+        /// <param name="width"></param>
+        /// <param name="height"></param>
         public void Initliaze(int width, int height)
         {
             _input = new Input();
@@ -48,14 +73,16 @@ namespace MY3DEngine
 
             Camera = new Camera();
 
+            Manager = new ObjectManager();
+
             Start();
 
-            LocalDevice.LocalDevice.SetRenderState(RenderState.Lighting, false);
-            LocalDevice.LocalDevice.SetRenderState(RenderState.CullMode, Cull.Counterclockwise);
-            LocalDevice.LocalDevice.SetRenderState(RenderState.ZEnable, ZBufferType.UseZBuffer);
-            LocalDevice.LocalDevice.SetRenderState(RenderState.NormalizeNormals, true);
-            LocalDevice.LocalDevice.SetRenderState(RenderState.Ambient, Color.Gray.ToArgb());
-            LocalDevice.LocalDevice.SetRenderState(RenderState.SpecularEnable, false);
+            LocalDevice.ThisDevice.SetRenderState(RenderState.Lighting, _lighting);
+            LocalDevice.ThisDevice.SetRenderState(RenderState.CullMode, Cull.Counterclockwise);
+            LocalDevice.ThisDevice.SetRenderState(RenderState.ZEnable, ZBufferType.UseZBuffer);
+            LocalDevice.ThisDevice.SetRenderState(RenderState.NormalizeNormals, true);
+            
+            LocalDevice.ThisDevice.SetRenderState(RenderState.SpecularEnable, false);
         }
 
         public void Start()
@@ -76,12 +103,19 @@ namespace MY3DEngine
                 _renderThread.Abort();
             }
 
-            while (!LocalDevice.LocalDevice.Disposed && !_renderThread.IsAlive)
+            while (!LocalDevice.ThisDevice.Disposed && !_renderThread.IsAlive)
             {
-                LocalDevice.LocalDevice.EvictManagedResources();
-                LocalDevice.LocalDevice.Direct3D.Dispose();
-                LocalDevice.LocalDevice.Dispose();
+                LocalDevice.ThisDevice.EvictManagedResources();
+                LocalDevice.ThisDevice.Direct3D.Dispose();
+                LocalDevice.ThisDevice.Dispose();
             }
+        }
+
+        public void GlobalLights()
+        {
+            _lighting = _lighting == false ? true : false;
+            LocalDevice.ThisDevice.SetRenderState(RenderState.Lighting, _lighting);
+            LocalDevice.ThisDevice.SetRenderState(RenderState.Ambient, Color.Gray.ToArgb());
         }
     }
 }
