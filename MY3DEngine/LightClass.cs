@@ -28,11 +28,11 @@ namespace MY3DEngine
         /// Constructor or added a new light to the scene
         /// </summary>
         /// <param name="type">the light type you wish to have or default of point</param>
-        public LightClass(LightType type = LightType.Point)
+        public LightClass(string type = "Point")
         {
-            if (type == LightType.Point)
+            if (type == LightType.Point.ToString())
             {
-                light.Type = type;
+                light.Type = LightType.Point;
                 light.Diffuse = Color.White;
                 light.Ambient = Color.White;
                 light.Specular = Color.White;
@@ -40,9 +40,9 @@ namespace MY3DEngine
                 light.Range = 100.0f;
 
             }
-            else if (type == LightType.Directional)
+            else if (type == LightType.Directional.ToString())
             {
-                light.Type = type;
+                light.Type = LightType.Directional;
                 light.Direction = Vector3.Zero;
                 light.Ambient = Color.White;
                 light.Diffuse = Color.White;
@@ -61,7 +61,7 @@ namespace MY3DEngine
             material.Diffuse = Color.White;
             material.Ambient = Color.White;
 
-            Engine.GameEngine.LocalDevice.LocalDevice.Material = material;
+            Engine.GameEngine.LocalDevice.ThisDevice.Material = material;
         }
 
         /// <summary>
@@ -71,8 +71,8 @@ namespace MY3DEngine
         public void LightOnOff(int index)
         {
             isLightEnabled = isLightEnabled == true ? false : true;
-            Engine.GameEngine.LocalDevice.LocalDevice.SetLight(index, light);
-            Engine.GameEngine.LocalDevice.LocalDevice.EnableLight(index, isLightEnabled);
+            Engine.GameEngine.LocalDevice.ThisDevice.SetLight(index, light);
+            Engine.GameEngine.LocalDevice.ThisDevice.EnableLight(index, isLightEnabled);
         }
 
         /// <summary>
@@ -81,7 +81,7 @@ namespace MY3DEngine
         public void Render()
         {
             world = Matrix.Translation(Position);
-            Engine.GameEngine.LocalDevice.LocalDevice.SetTransform(TransformState.World, world);
+            Engine.GameEngine.LocalDevice.ThisDevice.SetTransform(TransformState.World, world);
 
             //mesh.DrawSubset(0);
         }
