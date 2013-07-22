@@ -9,23 +9,38 @@ namespace MY3DEngine
     public class ObjectManager
     {
         private List<ObjectClass> _gameObjects = null;
+        private int index;
 
         public List<ObjectClass> GameObjects
         {
-            get { return _gameObjects; }
+            get
+            {
+                if (_gameObjects == null)
+                {
+                    _gameObjects = new List<ObjectClass>();
+                }
+                lock (_gameObjects)
+                {
+                    return _gameObjects;
+                }
+            }
             set
             {
                 if (_gameObjects == null)
                 {
                     _gameObjects = new List<ObjectClass>();
                 }
-                _gameObjects = value;
+                lock (_gameObjects)
+                {
+                    _gameObjects = value;
+                }
             }
         }
 
         public ObjectManager()
         {
             GameObjects = new List<ObjectClass>();
+            index = 0;
         }
 
         public bool AddObject(ObjectClass obj)
@@ -35,11 +50,16 @@ namespace MY3DEngine
                 lock (GameObjects)
                 {
                     GameObjects.Add(obj);
+                    if (obj.GetType() == typeof(LightClass))
+                    {
+                        ((LightClass)obj).index = index;
+                        ++index;
+                    }
                 }
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                Engine.GameEngine.Exception.Exceptions.Add(new ExceptionData());
+                Engine.GameEngine.Exception.Exceptions.Add(new ExceptionData(e.Message, e.Source, e.StackTrace));
                 return false;
             }
 
@@ -52,7 +72,6 @@ namespace MY3DEngine
             {
                 lock (GameObjects)
                 {
-
                 }
                 Engine.GameEngine.Exception.Exceptions.Add(new ExceptionData("Not Implemented", "ObjectManager.RemoveObject", string.Empty));
             }

@@ -10,19 +10,27 @@ namespace MY3DEngine
 {
     public class LightClass : ObjectClass
     {
-        private Light light;
-        private Material material;
         private bool isLightEnabled;
+
+        private Light light;
+
+        private Material material;
+
         private Matrix world;
 
-        public string Type { get; private set; }
-        public Vector3 Position { get; set; }
         public Vector3 Direction { get; set; }
+
+        public int index { get; set; }
+
         public bool IsLightEnabled
         {
             get { return isLightEnabled; }
             private set { isLightEnabled = value; }
         }
+
+        public Vector3 Position { get; set; }
+
+        public string Type { get; private set; }
 
         /// <summary>
         /// Constructor or added a new light to the scene
@@ -38,7 +46,6 @@ namespace MY3DEngine
                 light.Specular = Color.White;
                 light.Position = Vector3.Zero;
                 light.Range = 100.0f;
-
             }
             else if (type == LightType.Directional.ToString())
             {
@@ -52,6 +59,7 @@ namespace MY3DEngine
 
             isLightEnabled = false;
             Type = type.ToString();
+            Name = Type;
             Position = Vector3.Zero;
             Direction = Vector3.Zero;
             world = Matrix.Identity;
@@ -62,28 +70,6 @@ namespace MY3DEngine
             material.Ambient = Color.White;
 
             Engine.GameEngine.LocalDevice.ThisDevice.Material = material;
-        }
-
-        /// <summary>
-        /// Turn the specific light light on/off
-        /// </summary>
-        /// <param name="index">the light in which you want to turn on or off</param>
-        public void LightOnOff(int index)
-        {
-            isLightEnabled = isLightEnabled == true ? false : true;
-            Engine.GameEngine.LocalDevice.ThisDevice.SetLight(index, light);
-            Engine.GameEngine.LocalDevice.ThisDevice.EnableLight(index, isLightEnabled);
-        }
-
-        /// <summary>
-        /// Render the location if global light is on
-        /// </summary>
-        public void Render()
-        {
-            world = Matrix.Translation(Position);
-            Engine.GameEngine.LocalDevice.ThisDevice.SetTransform(TransformState.World, world);
-
-            //mesh.DrawSubset(0);
         }
 
         public override void Dispose()
@@ -107,6 +93,27 @@ namespace MY3DEngine
             {
                 light.Direction = Position;
             }
+        }
+
+        /// <summary>
+        /// Turn the specific light light on/off
+        /// </summary>
+        public void LightOnOff()
+        {
+            isLightEnabled = isLightEnabled == true ? false : true;
+            Engine.GameEngine.LocalDevice.ThisDevice.SetLight(index, light);
+            Engine.GameEngine.LocalDevice.ThisDevice.EnableLight(index, isLightEnabled);
+        }
+
+        /// <summary>
+        /// Render the location if global light is on
+        /// </summary>
+        public void Render()
+        {
+            world = Matrix.Translation(Position);
+            Engine.GameEngine.LocalDevice.ThisDevice.SetTransform(TransformState.World, world);
+
+            //mesh.DrawSubset(0);
         }
     }
 }

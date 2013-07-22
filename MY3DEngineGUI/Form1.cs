@@ -1,14 +1,14 @@
-﻿using System;
-using System.Windows.Forms;
-using MY3DEngine;
+﻿using MY3DEngine;
+using System;
 using System.Drawing;
+using System.Windows.Forms;
 
 namespace MY3DEngineGUI
 {
     public partial class Form1 : Form
     {
-        private Point _mouseLocation;
         private bool _firstMouse;
+        private Point _mouseLocation;
 
         public Form1()
         {
@@ -30,6 +30,13 @@ namespace MY3DEngineGUI
 
         #region Shutdown/Exit
 
+        private static void ShutDown()
+        {
+            Engine.GameEngine.Dispose();
+
+            Engine.GameEngine.Shutdown();
+        }
+
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Close();
@@ -40,14 +47,7 @@ namespace MY3DEngineGUI
             ShutDown();
         }
 
-        private static void ShutDown()
-        {
-            Engine.GameEngine.Dispose();
-
-            Engine.GameEngine.Shutdown();
-        }
-
-        #endregion
+        #endregion Shutdown/Exit
 
         #region Camera
 
@@ -84,6 +84,11 @@ namespace MY3DEngineGUI
             }
         }
 
+        private void rendererPnl_MouseUp(object sender, MouseEventArgs e)
+        {
+            _firstMouse = false;
+        }
+
         private void rendererPnl_MouseWheel(object sender, MouseEventArgs e)
         {
             Engine.GameEngine.Camera.MoveEye(z: (e.Delta / 120 * -1));
@@ -91,43 +96,64 @@ namespace MY3DEngineGUI
             UpdateCameraLocation();
         }
 
-        private void rendererPnl_MouseUp(object sender, MouseEventArgs e)
-        {
-            _firstMouse = false;
-        }
-
         private void UpdateCameraLocation()
         {
             lblCameraPosition.Text = Engine.GameEngine.Camera.CameraLocation();
         }
 
-        #endregion
+        #endregion Camera
 
-        private void globalLightsOnOffToolStripMenuItem_Click(object sender, EventArgs e)
+        private void Add_RemoveObject(string s)
         {
-            Engine.GameEngine.GlobalLights();
+            lblAddRemove.Text = s;
         }
 
         private void addCubeToolStripMenuItem_Click(object sender, EventArgs e)
         {
         }
 
+        private void addDirectionalLightToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (Engine.GameEngine.Manager.AddObject(new LightClass("Directional")))
+            {
+                Add_RemoveObject("Directional Light Added");
+            }
+        }
+
+        private void addObjectToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog open = new OpenFileDialog();
+            open.Multiselect = false;
+
+            DialogResult result = open.ShowDialog();
+
+            if (result == DialogResult.OK)
+            {
+                if (open.FileName.ToLower().EndsWith(".x"))
+                {
+                }
+            }
+        }
+
         private void addPointLightToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if(Engine.GameEngine.Manager.AddObject(new LightClass()))
+            if (Engine.GameEngine.Manager.AddObject(new LightClass()))
             {
                 Add_RemoveObject("Point light added");
             }
         }
 
-        private void label2_TextChanged(object sender, EventArgs e)
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
-
         }
 
-        private void Add_RemoveObject(string s)
+        private void globalLightsOnOffToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            lblAddRemove.Text = s;
+            Engine.GameEngine.GlobalLights();
+        }
+
+        private void label2_TextChanged(object sender, EventArgs e)
+        {
         }
     }
 }
