@@ -1,20 +1,30 @@
 ﻿using SlimDX.DirectSound;
+using SlimDX.Multimedia;
+using SlimDX.X3DAudio;
+using System;
 
 namespace MY3DEngine
 {
-    internal class SoundSystem
+    internal class SoundSystem : IDisposable
     {
-        private float _scale;
-        private bool _loop = false;
-        private bool _play = false;
-        DirectSound sound;
-        SecondarySoundBuffer secondBuffer;
+        private SecondarySoundBuffer sound;
+        private PrimarySoundBuffer sound1;
+        private DirectSound soundDevice;
 
         public SoundSystem(float scale = 1.0f)
         {
-            this._scale = scale;
-            sound = new DirectSound();
-            sound.SetCooperativeLevel(Engine.GameEngine.Window, CooperativeLevel.Priority);
+        }
+
+        public void Dispose()
+        {
+        }
+
+        public void InitAudio()
+        {
+        }
+
+        public void SetSearchDirectory(string path = "")
+        {
         }
     }
 }

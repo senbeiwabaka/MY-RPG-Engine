@@ -1,5 +1,6 @@
 ﻿using MY3DEngine;
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -9,6 +10,7 @@ namespace MY3DEngineGUI
     {
         private bool _firstMouse;
         private Point _mouseLocation;
+        private ObjectClass none = new ObjectClass { ID = -1, Name = "--NONE--" };
 
         public Form1()
         {
@@ -26,6 +28,10 @@ namespace MY3DEngineGUI
 
             _mouseLocation = new Point(0, 0);
             _firstMouse = false;
+
+            var list = Engine.GameEngine.Manager.GameObjects;
+            list.Insert(0, none);
+            cmbObjectList.DataSource = list;
         }
 
         #region Shutdown/Exit
@@ -106,6 +112,13 @@ namespace MY3DEngineGUI
         private void Add_RemoveObject(string s)
         {
             lblAddRemove.Text = s;
+            //var list = Engine.GameEngine.Manager.GameObjects;
+            var list = new List<ObjectClass>(Engine.GameEngine.Manager.GameObjects);
+            if (!list.Contains(none))
+            {
+                list.Insert(0, none);
+            }
+            cmbObjectList.DataSource = list;
         }
 
         private void addCubeToolStripMenuItem_Click(object sender, EventArgs e)
@@ -129,8 +142,13 @@ namespace MY3DEngineGUI
 
             if (result == DialogResult.OK)
             {
-                if (open.FileName.ToLower().EndsWith(".x"))
+                if (open.SafeFileName.ToLower().EndsWith(".x"))
                 {
+                    ObjectClass objclass = new ObjectClass(fileName: open.SafeFileName, path: open.FileName);
+                    if (Engine.GameEngine.Manager.AddObject(objclass))
+                    {
+                        Add_RemoveObject(open.SafeFileName + " added");
+                    }
                 }
             }
         }
@@ -154,6 +172,11 @@ namespace MY3DEngineGUI
 
         private void label2_TextChanged(object sender, EventArgs e)
         {
+        }
+
+        private void wireframOnOffToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Engine.GameEngine.WireFrame();
         }
     }
 }

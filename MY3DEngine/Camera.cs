@@ -123,13 +123,6 @@ namespace MY3DEngine
             Engine.GameEngine.LocalDevice.ThisDevice.SetTransform(TransformState.View, View);
         }
 
-        /// <summary>
-        /// Used to find which primitive object the mouse is currently hold over for selecting that object
-        /// </summary>
-        /// <param name="mousePosition">the mouses location</param>
-        /// <param name="shape">the primitive that you wish to see if the mouse is currently hovering over</param>
-        /// <param name="distance">the distance from the mouse to the shape</param>
-        /// <returns>true is mouse is over that primitive; false otherwise</returns>
         public bool RayCalculation(Vector2 mousePosition, MeshClass mesh)
         {
             var mouseNear = new Vector3(mousePosition, 0.0f);

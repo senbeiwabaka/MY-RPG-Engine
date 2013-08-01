@@ -6,9 +6,13 @@ using System.Text;
 
 namespace MY3DEngine
 {
+    /// <summary>
+    /// Manages the list of objects
+    /// </summary>
     public class ObjectManager
     {
         private List<ObjectClass> _gameObjects = null;
+        private int id;
         private int index;
 
         public List<ObjectClass> GameObjects
@@ -37,24 +41,33 @@ namespace MY3DEngine
             }
         }
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
         public ObjectManager()
         {
             GameObjects = new List<ObjectClass>();
-            index = 0;
+            index = -1;
+            id = -1;
         }
 
+        /// <summary>
+        /// Add an object to the list
+        /// </summary>
+        /// <param name="obj">The object to be added</param>
+        /// <returns>True when successful, false otherwise</returns>
         public bool AddObject(ObjectClass obj)
         {
             try
             {
                 lock (GameObjects)
                 {
-                    GameObjects.Add(obj);
                     if (obj.GetType() == typeof(LightClass))
                     {
-                        ((LightClass)obj).index = index;
-                        ++index;
+                        ((LightClass)obj).index = ++index;
                     }
+                    obj.ID = ++id;
+                    GameObjects.Add(obj);
                 }
             }
             catch (Exception e)
@@ -66,6 +79,10 @@ namespace MY3DEngine
             return true;
         }
 
+        /// <summary>
+        /// Removes an object from the list
+        /// </summary>
+        /// <returns>True when successful, false otherwise</returns>
         public bool RemoveObject()
         {
             try

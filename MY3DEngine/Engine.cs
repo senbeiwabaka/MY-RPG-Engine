@@ -7,24 +7,29 @@ namespace MY3DEngine
 {
     public sealed class Engine : IDisposable
     {
-        private bool _loaded;
-        private Thread _renderThread;
         private Input _input;
         private bool _lighting;
+        private bool _loaded;
         private ObjectManager _manager;
-        
+        private Thread _renderThread;
+        private bool _wireFrame;
+
         public static Engine GameEngine { get; set; }
 
-
-        public IntPtr Window { get; private set; }
-        public ExceptionHolder Exception { get; set; }
-        public bool IsNotShutDown { get; set; }
-        public DeviceManager LocalDevice { get; set; }
         public Camera Camera { get; set; }
+
+        public ExceptionHolder Exception { get; set; }
+
+        public bool IsNotShutDown { get; set; }
+
+        public DeviceManager LocalDevice { get; set; }
 
         public ObjectManager Manager
         {
-            get { return _manager; }
+            get
+            {
+                return _manager;
+            }
             set
             {
                 if (_manager == null)
@@ -33,6 +38,8 @@ namespace MY3DEngine
                 }
             }
         }
+
+        public IntPtr Window { get; private set; }
 
         /// <summary>
         /// Engine Constructor. Must be called first
@@ -49,11 +56,19 @@ namespace MY3DEngine
             Exception = new ExceptionHolder();
 
             _lighting = false;
+            _wireFrame = true;
         }
 
         public void Dispose()
         {
             _input.Dispose();
+        }
+
+        public void GlobalLights()
+        {
+            _lighting = _lighting == false ? true : false;
+            LocalDevice.ThisDevice.SetRenderState(RenderState.Lighting, _lighting);
+            LocalDevice.ThisDevice.SetRenderState(RenderState.Ambient, Color.Gray.ToArgb());
         }
 
         /// <summary>
@@ -81,17 +96,8 @@ namespace MY3DEngine
             LocalDevice.ThisDevice.SetRenderState(RenderState.CullMode, Cull.Counterclockwise);
             LocalDevice.ThisDevice.SetRenderState(RenderState.ZEnable, ZBufferType.UseZBuffer);
             LocalDevice.ThisDevice.SetRenderState(RenderState.NormalizeNormals, true);
-            
-            LocalDevice.ThisDevice.SetRenderState(RenderState.SpecularEnable, false);
-        }
 
-        public void Start()
-        {
-            if (_loaded)
-            {
-                _renderThread = new Thread(Renderer.RenderScene) {Name = "Rendering Thread"};
-                _renderThread.Start();
-            }
+            LocalDevice.ThisDevice.SetRenderState(RenderState.SpecularEnable, false);
         }
 
         public void Shutdown()
@@ -111,11 +117,27 @@ namespace MY3DEngine
             }
         }
 
-        public void GlobalLights()
+        public void Start()
         {
-            _lighting = _lighting == false ? true : false;
-            LocalDevice.ThisDevice.SetRenderState(RenderState.Lighting, _lighting);
-            LocalDevice.ThisDevice.SetRenderState(RenderState.Ambient, Color.Gray.ToArgb());
+            if (_loaded)
+            {
+                _renderThread = new Thread(Renderer.RenderScene) { Name = "Rendering Thread" };
+                _renderThread.Start();
+            }
+        }
+
+        public void WireFrame()
+        {
+            if (_wireFrame)
+            {
+                LocalDevice.ThisDevice.SetRenderState(RenderState.FillMode, FillMode.Wireframe);
+                _wireFrame = false;
+            }
+            else
+            {
+                LocalDevice.ThisDevice.SetRenderState(RenderState.FillMode, FillMode.Solid);
+                _wireFrame = true;
+            }
         }
     }
 }
