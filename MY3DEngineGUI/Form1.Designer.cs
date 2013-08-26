@@ -28,12 +28,14 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.rendererPnl = new System.Windows.Forms.Panel();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.tabEditPlay = new System.Windows.Forms.TabControl();
             this.tbEdit = new System.Windows.Forms.TabPage();
+            this.pnlObjectProperties = new System.Windows.Forms.Panel();
+            this.txtError_Info = new System.Windows.Forms.TextBox();
             this.cmbObjectList = new System.Windows.Forms.ComboBox();
             this.lblAddRemove = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
@@ -58,6 +60,7 @@
             this.propertiesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.globalLightsOnOffToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.wireframOnOffToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.tvObjectHirarchy = new System.Windows.Forms.TreeView();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.tabEditPlay.SuspendLayout();
             this.tbEdit.SuspendLayout();
@@ -76,26 +79,26 @@
             // 
             // dataGridView1
             // 
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dataGridView1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGridView1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dataGridView1.DefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dataGridView1.DefaultCellStyle = dataGridViewCellStyle2;
             this.dataGridView1.Location = new System.Drawing.Point(8, 507);
             this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(801, 75);
+            this.dataGridView1.Size = new System.Drawing.Size(369, 75);
             this.dataGridView1.TabIndex = 2;
             // 
             // tabEditPlay
@@ -110,6 +113,9 @@
             // 
             // tbEdit
             // 
+            this.tbEdit.Controls.Add(this.tvObjectHirarchy);
+            this.tbEdit.Controls.Add(this.pnlObjectProperties);
+            this.tbEdit.Controls.Add(this.txtError_Info);
             this.tbEdit.Controls.Add(this.cmbObjectList);
             this.tbEdit.Controls.Add(this.lblAddRemove);
             this.tbEdit.Controls.Add(this.label1);
@@ -123,6 +129,21 @@
             this.tbEdit.TabIndex = 0;
             this.tbEdit.Text = "Edit";
             this.tbEdit.UseVisualStyleBackColor = true;
+            // 
+            // pnlObjectProperties
+            // 
+            this.pnlObjectProperties.Location = new System.Drawing.Point(11, 125);
+            this.pnlObjectProperties.Name = "pnlObjectProperties";
+            this.pnlObjectProperties.Size = new System.Drawing.Size(220, 258);
+            this.pnlObjectProperties.TabIndex = 8;
+            // 
+            // txtError_Info
+            // 
+            this.txtError_Info.Location = new System.Drawing.Point(383, 507);
+            this.txtError_Info.Multiline = true;
+            this.txtError_Info.Name = "txtError_Info";
+            this.txtError_Info.Size = new System.Drawing.Size(424, 71);
+            this.txtError_Info.TabIndex = 7;
             // 
             // cmbObjectList
             // 
@@ -317,6 +338,13 @@
             this.wireframOnOffToolStripMenuItem.Text = "Wirefram On/Off";
             this.wireframOnOffToolStripMenuItem.Click += new System.EventHandler(this.wireframOnOffToolStripMenuItem_Click);
             // 
+            // tvObjectHirarchy
+            // 
+            this.tvObjectHirarchy.Location = new System.Drawing.Point(11, 390);
+            this.tvObjectHirarchy.Name = "tvObjectHirarchy";
+            this.tvObjectHirarchy.Size = new System.Drawing.Size(220, 111);
+            this.tvObjectHirarchy.TabIndex = 9;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -369,6 +397,9 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label lblAddRemove;
         private System.Windows.Forms.ComboBox cmbObjectList;
+        private System.Windows.Forms.TextBox txtError_Info;
+        private System.Windows.Forms.Panel pnlObjectProperties;
+        private System.Windows.Forms.TreeView tvObjectHirarchy;
     }
 }
 

@@ -37,7 +37,7 @@ namespace MY3DEngine
         public ObjectClass(string fileName = "", string path = "")
         {
             MeshObject = new MeshClass(path, fileName);
-            FileName = FileName;
+            FileName = fileName;
             FilePath = path;
         }
 

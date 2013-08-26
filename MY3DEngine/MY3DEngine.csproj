@@ -55,6 +55,7 @@
     <Compile Include="Engine.cs" />
     <Compile Include="ExceptionHolder.cs" />
     <Compile Include="ExceptionData.cs" />
+    <Compile Include="ILevel.cs" />
     <Compile Include="Input.cs" />
     <Compile Include="LightClass.cs" />
     <Compile Include="MeshClass.cs" />
