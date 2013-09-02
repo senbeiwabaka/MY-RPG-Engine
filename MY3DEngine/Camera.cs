@@ -4,16 +4,21 @@ using System;
 
 namespace MY3DEngine
 {
+    /// <summary>
+    /// Holds all the properties and methods of the camera
+    /// </summary>
     public class Camera
     {
-        // the actual view from eye, lookat, and up
+        /// <summary>
+        /// the actual view from eye, lookat, and up
+        /// </summary>
         public Matrix View;
 
         // how the screen is displayed such as wide screen
         private float aspectRatio;
 
         private Vector3 cameraRotation;
-        private Vector3 eye;
+        private Vector3 Eye { get; set; }
 
         // how far away from us are things drawn
         private float farClipping;
@@ -46,20 +51,8 @@ namespace MY3DEngine
             set
             {
                 cameraRotation = new Vector3(cameraRotation.X + value.X, cameraRotation.Y + value.Y, cameraRotation.Z + value.Z);
-                View = Matrix.RotationYawPitchRoll(cameraRotation.Y, cameraRotation.X, cameraRotation.Z) * Matrix.Translation(eye);
+                View = Matrix.RotationYawPitchRoll(cameraRotation.Y, cameraRotation.X, cameraRotation.Z) * Matrix.Translation(Eye);
                 Engine.GameEngine.LocalDevice.ThisDevice.SetTransform(TransformState.View, View);
-            }
-        }
-
-        public Vector3 Eye
-        {
-            get
-            {
-                return eye;
-            }
-            private set
-            {
-                eye = value;
             }
         }
 
@@ -70,11 +63,11 @@ namespace MY3DEngine
         {
             Engine.GameEngine.LocalDevice.ThisDevice.SetTransform(TransformState.World, Matrix.Identity);
 
-            eye = new Vector3(0, 0, 3.5f);
+            Eye = new Vector3(0, 0, 3.5f);
             lookAt = Vector3.Zero;
             upDirection = Vector3.UnitY;
 
-            View = Matrix.Translation(eye);
+            View = Matrix.Translation(Eye);
             Engine.GameEngine.LocalDevice.ThisDevice.SetTransform(TransformState.View, View);
 
             fov = (float)Math.PI / 4.0f;
@@ -88,9 +81,13 @@ namespace MY3DEngine
             cameraRotation = Vector3.Zero;
         }
 
+        /// <summary>
+        /// Gets the cameras location and rotation
+        /// </summary>
+        /// <returns>The concatenated string of the position and rotation to three decimal places</returns>
         public string CameraLocation()
         {
-            var position = string.Format("Location - X: {0}, Y: {1}, Z: {2}", eye.X.ToString("0.000"), eye.Y.ToString("0.000"), eye.Z.ToString("0.000"));
+            var position = string.Format("Location - X: {0}, Y: {1}, Z: {2}", Eye.X.ToString("0.000"), Eye.Y.ToString("0.000"), Eye.Z.ToString("0.000"));
             position += Environment.NewLine;
             var rotation = string.Format("Rotation - X: {0}, Y: {1}, Z: {2}", cameraRotation.X.ToString("0.000"), cameraRotation.Y.ToString("0.000"), cameraRotation.Z.ToString("0.000"));
             return position + rotation;
@@ -103,23 +100,23 @@ namespace MY3DEngine
         /// <param name="lookAt">what you want the camera to look at</param>
         public void ChangeView(Vector3 eye, Vector3 lookAt)
         {
-            this.eye = eye;
+            this.Eye = eye;
             this.lookAt = lookAt;
             View = Matrix.Translation(eye);
             Engine.GameEngine.LocalDevice.ThisDevice.SetTransform(TransformState.View, View);
         }
 
         /// <summary>
-        /// move the camera along the axis by the specified amount
+        /// Move the camera along the axis by the specified amount
         /// </summary>
-        /// <param name="units">number of units you want to move</param>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <param name="z"></param>
         public void MoveEye(float x = 0, float y = 0, float z = 0)
         {
-            eye.X += x;
-            eye.Y += y;
-            eye.Z += z;
+            Eye = new Vector3(x, y, z);
 
-            View = Matrix.RotationYawPitchRoll(cameraRotation.Y, cameraRotation.X, cameraRotation.Z) * Matrix.Translation(eye);
+            View = Matrix.RotationYawPitchRoll(cameraRotation.Y, cameraRotation.X, cameraRotation.Z) * Matrix.Translation(Eye);
             Engine.GameEngine.LocalDevice.ThisDevice.SetTransform(TransformState.View, View);
         }
 
@@ -152,11 +149,11 @@ namespace MY3DEngine
 
             Engine.GameEngine.LocalDevice.ThisDevice.SetTransform(TransformState.World, Matrix.Identity);
 
-            eye = new Vector3(0, 0, 3.5f);
+            Eye = new Vector3(0, 0, 3.5f);
             lookAt = Vector3.Zero;
             upDirection = Vector3.UnitY;
 
-            View = Matrix.Translation(eye);
+            View = Matrix.Translation(Eye);
             Engine.GameEngine.LocalDevice.ThisDevice.SetTransform(TransformState.View, View);
         }
 
@@ -187,7 +184,7 @@ namespace MY3DEngine
         /// <param name="up"> which way is up</param>
         public void SetView(Vector3 eye, Vector3 lookat, Vector3 up)
         {
-            this.eye = eye;
+            this.Eye = eye;
             this.lookAt = lookat;
             upDirection = up;
             View = Matrix.Translation(eye);
