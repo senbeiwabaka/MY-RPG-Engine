@@ -114,7 +114,7 @@ namespace MY3DEngine
         /// <param name="z"></param>
         public void MoveEye(float x = 0, float y = 0, float z = 0)
         {
-            Eye = new Vector3(x, y, z);
+            Eye += new Vector3(x, y, z);
 
             View = Matrix.RotationYawPitchRoll(cameraRotation.Y, cameraRotation.X, cameraRotation.Z) * Matrix.Translation(Eye);
             Engine.GameEngine.LocalDevice.ThisDevice.SetTransform(TransformState.View, View);
@@ -135,9 +135,18 @@ namespace MY3DEngine
                 Engine.GameEngine.LocalDevice.ThisDevice.Viewport.Height, 0f, 1f, ref mat, out mouseFar);
 
             var direction = mouseFar - mouseNear;
+            direction.Normalize();
             var selectionRay = new Ray(mouseNear, direction);
+            Engine.GameEngine.Exception.Information.Add("Selection: " + selectionRay);
 
-            return mesh.ObjectMesh.Intersects(selectionRay);
+            if (mesh != null)
+            {
+                Engine.GameEngine.Exception.Information.Add("Mesh: " + mesh);
+                Engine.GameEngine.Exception.Information.Add(mesh.ObjectMesh.Intersects(selectionRay).ToString());
+                return mesh.ObjectMesh.Intersects(selectionRay);
+            }
+
+            return false;
         }
 
         /// <summary>

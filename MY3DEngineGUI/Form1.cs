@@ -32,6 +32,19 @@ namespace MY3DEngineGUI
             var list = Engine.GameEngine.Manager.GameObjects;
             list.Insert(0, none);
             cmbObjectList.DataSource = list;
+
+            Engine.GameEngine.Exception.Information.CollectionChanged += Information_CollectionChanged;
+        }
+
+        void Information_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            if (e.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Add)
+            {
+                foreach (var item in e.NewItems)
+                {
+                    txtError_Info.Text += item + Environment.NewLine;
+                }
+            }
         }
 
         #region Shutdown/Exit
@@ -67,8 +80,20 @@ namespace MY3DEngineGUI
             //get previous mouse location
             var prevX = _mouseLocation.X;
             var PrevY = _mouseLocation.Y;
+            var objectSelected = false;
 
-            if (e.Button == MouseButtons.Left)
+            lock (Engine.GameEngine.Manager)
+            {
+                foreach (var item in Engine.GameEngine.Manager.GameObjects)
+                {
+                    objectSelected = Engine.GameEngine.Camera.RayCalculation(new SlimDX.Vector2(e.X, e.Y), item.MeshObject);
+                }
+            }
+
+            Engine.GameEngine.Exception.Information.Add("Mesh is selected: " + objectSelected);
+            Engine.GameEngine.Exception.Information.Add((e.Button == MouseButtons.Left & !objectSelected).ToString());
+
+            if (e.Button == MouseButtons.Left & !objectSelected)
             {
                 float DeltaX = e.X - prevX;
                 float DeltaY = e.Y - PrevY;
