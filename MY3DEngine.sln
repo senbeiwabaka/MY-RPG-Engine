@@ -1,8 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.20617.1 PREVIEW
-MinimumVisualStudioVersion = 10.0.40219.1
+# Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MY3DEngine", "MY3DEngine\MY3DEngine.csproj", "{03537171-7E7B-41BE-AF46-CF5B85C1EB65}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MY3DEngineGUI", "MY3DEngineGUI\MY3DEngineGUI.csproj", "{7925BAF7-9C72-4A0C-A9B9-E4A7E93416C9}"
@@ -41,8 +39,5 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(Performance) = preSolution
-		HasPerformanceSessions = true
 	EndGlobalSection
 EndGlobal
