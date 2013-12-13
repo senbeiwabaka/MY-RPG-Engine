@@ -59,7 +59,7 @@
     <Compile Include="Input.cs" />
     <Compile Include="LightClass.cs" />
     <Compile Include="MeshClass.cs" />
-    <Compile Include="ObjectClass.cs" />
+    <Compile Include="GameObject.cs" />
     <Compile Include="ObjectManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Renderer.cs" />

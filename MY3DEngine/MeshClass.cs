@@ -112,7 +112,7 @@ namespace MY3DEngine
             }
             else if (type == MeshType.Triangle)
             {
-                var ShapeVertices = new VertexPositionColor[] {
+                VertexPositionColor[] ShapeVertices = new VertexPositionColor[] {
                     new VertexPositionColor() { Color = Color.White.ToArgb(), Position = new Vector3(-1f, 0f, 1f) },
                     new VertexPositionColor() { Color = Color.White.ToArgb(), Position = new Vector3(1f, 0f, 1f) },
                     new VertexPositionColor() { Color = Color.White.ToArgb(), Position = new Vector3(-1f, 0f, -1f) },
@@ -267,7 +267,7 @@ namespace MY3DEngine
         /// <param name="x">x units to change</param>
         /// <param name="y">y units to change</param>
         /// <param name="z">z units to change</param>
-        public void Translate(float x, float y, float z)
+        public void Translate(float x = 0, float y = 0, float z = 0)
         {
             ObjectPosition = new Vector3(x, y, z);
         }

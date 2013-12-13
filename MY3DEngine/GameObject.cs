@@ -7,7 +7,7 @@ using System.Xml.Serialization;
 namespace MY3DEngine
 {
     [Serializable]
-    public class ObjectClass : IDisposable
+    public class GameObject : IDisposable
     {
         public string FileName { get; private set; }
 
@@ -25,7 +25,7 @@ namespace MY3DEngine
         /// <summary>
         /// blank constructor
         /// </summary>
-        public ObjectClass()
+        public GameObject()
         {
         }
 
@@ -34,14 +34,14 @@ namespace MY3DEngine
         /// </summary>
         /// <param name="fileName">The file name of the object</param>
         /// <param name="path">The path of the object</param>
-        public ObjectClass(string fileName = "", string path = "")
+        public GameObject(string fileName = "", string path = "")
         {
             MeshObject = new MeshClass(path, fileName);
             FileName = fileName;
             FilePath = path;
         }
 
-        public ObjectClass(string type = "Cube")
+        public GameObject(string type = "Cube")
         {
             if (type.ToLower().Equals("triangle"))
             {
@@ -57,6 +57,9 @@ namespace MY3DEngine
 
         #endregion Constructors
 
+        /// <summary>
+        /// Disposes of the object's mesh
+        /// </summary>
         public virtual void Dispose()
         {
             MeshObject.Dispose();

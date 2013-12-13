@@ -8,7 +8,7 @@ using System.Text;
 
 namespace MY3DEngine
 {
-    public class LightClass : ObjectClass
+    public class LightClass : GameObject
     {
         private bool isLightEnabled;
 

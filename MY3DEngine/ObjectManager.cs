@@ -11,17 +11,17 @@ namespace MY3DEngine
     /// </summary>
     public class ObjectManager
     {
-        private List<ObjectClass> _gameObjects = null;
-        private int id;
-        private int index;
+        private List<GameObject> _gameObjects = null;
+        private int _id;
+        private int _index;
 
-        public List<ObjectClass> GameObjects
+        public List<GameObject> GameObjects
         {
             get
             {
                 if (_gameObjects == null)
                 {
-                    _gameObjects = new List<ObjectClass>();
+                    _gameObjects = new List<GameObject>();
                 }
                 lock (_gameObjects)
                 {
@@ -32,7 +32,7 @@ namespace MY3DEngine
             {
                 if (_gameObjects == null)
                 {
-                    _gameObjects = new List<ObjectClass>();
+                    _gameObjects = new List<GameObject>();
                 }
                 lock (_gameObjects)
                 {
@@ -46,9 +46,9 @@ namespace MY3DEngine
         /// </summary>
         public ObjectManager()
         {
-            GameObjects = new List<ObjectClass>();
-            index = -1;
-            id = -1;
+            GameObjects = new List<GameObject>();
+            _index = -1;
+            _id = -1;
         }
 
         /// <summary>
@@ -56,7 +56,7 @@ namespace MY3DEngine
         /// </summary>
         /// <param name="obj">The object to be added</param>
         /// <returns>True when successful, false otherwise</returns>
-        public bool AddObject(ObjectClass obj)
+        public bool AddObject(GameObject obj)
         {
             try
             {
@@ -64,9 +64,9 @@ namespace MY3DEngine
                 {
                     if (obj.GetType() == typeof(LightClass))
                     {
-                        ((LightClass)obj).index = ++index;
+                        ((LightClass)obj).index = ++_index;
                     }
-                    obj.ID = ++id;
+                    obj.ID = ++_id;
                     GameObjects.Add(obj);
                 }
             }
