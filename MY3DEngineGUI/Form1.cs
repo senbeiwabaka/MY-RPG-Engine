@@ -266,7 +266,7 @@ namespace MY3DEngineGUI
 
                 cmbObjectList.DataSource = null;
                 cmbObjectList.Items.Clear();
-                list.Insert(0, none);
+                //list.Insert(0, none);
                 cmbObjectList.DataSource = list;
             }
         }
