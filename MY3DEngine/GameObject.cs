@@ -25,9 +25,7 @@ namespace MY3DEngine
         /// <summary>
         /// blank constructor
         /// </summary>
-        public GameObject()
-        {
-        }
+        public GameObject() { }
 
         /// <summary>
         /// Constructor for building a .x object

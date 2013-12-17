@@ -129,7 +129,7 @@ namespace MY3DEngine
                     2, 0, 4,
                 };
 
-                ObjectMesh = new Mesh(Engine.GameEngine.LocalDevice.ThisDevice, ShapeIndices.Length, ShapeVertices.Length, MeshFlags.Managed, VertexFormat.Position | VertexFormat.Diffuse);
+                ObjectMesh = new Mesh(Engine.GameEngine.LocalDevice.ThisDevice, ShapeIndices.Length, ShapeVertices.Length, MeshFlags.Managed, VertexPositionColor.Format);
 
                 ObjectMesh.LockVertexBuffer(LockFlags.None).WriteRange<VertexPositionColor>(ShapeVertices);
                 ObjectMesh.UnlockVertexBuffer();
@@ -140,7 +140,7 @@ namespace MY3DEngine
                 Mesh other = ObjectMesh.Clone(Engine.GameEngine.LocalDevice.ThisDevice, MeshFlags.Managed, ObjectMesh.VertexFormat | VertexFormat.Normal | VertexFormat.Texture2);
                 ObjectMesh.Dispose();
                 ObjectMesh = null;
-                other.ComputeNormals();
+                //other.ComputeNormals();
                 ObjectMesh = other.Clone(Engine.GameEngine.LocalDevice.ThisDevice, MeshFlags.Managed, other.VertexFormat);
                 other.Dispose();
 
@@ -220,12 +220,12 @@ namespace MY3DEngine
         /// Apply a color to a mesh
         /// </summary>
         /// <param name="ambientColor">The color you wish you apply</param>
-        /// <param name="diffuseColor"></param>
+        /// <param name="diffuseColor">Have to make it nullable because you can't make a compile-time constant color</param>
         public void ApplyColor(Color ambientColor, Color? diffuseColor = null)
         {
             _material = new Material[1];
             _material[0].Ambient = ambientColor;
-            _material[0].Diffuse = diffuseColor.HasValue ? (Color)diffuseColor : Color.White;
+            _material[0].Diffuse = diffuseColor ?? Color.White;
             _material[0].Specular = ambientColor;
             _material[0].Emissive = Color.Black;
             _material[0].Power = 50.0f;
