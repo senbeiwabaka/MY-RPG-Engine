@@ -234,10 +234,26 @@ namespace MY3DEngineGUI
             {
                 txtName.Text = Engine.GameEngine.Manager.GameObjects[index].Name;
                 lblLocation.Text = "Location: " + Engine.GameEngine.Manager.GameObjects[index].MeshObject.ObjectPosition.ToString();
+                
+                if (Engine.GameEngine.Manager.GameObjects[index] is LightClass)
+                {
+                    ckbxLightOnOff.Visible = true;
+                    ckbxLightOnOff.Checked = (Engine.GameEngine.Manager.GameObjects[index] as LightClass).IsLightEnabled;
+                    lblColor.Text = string.Empty;
+                    btnColor.Visible = false;
+                }
+                else
+                {
+                    ckbxLightOnOff.Visible = false;
+                    lblColor.Text = "Color: " + Engine.GameEngine.Manager.GameObjects[index].MeshObject.MeshColorasString;
+                    btnColor.Visible = true;
+                }
             }
             else
             {
                 lblLocation.Text = string.Empty;
+                lblColor.Text = string.Empty;
+                btnColor.Visible = false;
             }
         }
 
@@ -298,5 +314,50 @@ namespace MY3DEngineGUI
         }
 
         #endregion Events
+
+        private void ckbxLightOnOff_CheckedChanged(object sender, EventArgs e)
+        {
+            int index = -1;
+            lock (Engine.GameEngine.Manager)
+            {
+                index = Engine.GameEngine.Manager.GameObjects.IndexOf((GameObject)cmbObjectList.SelectedValue);
+            }
+
+            if (index >= 0)
+            {
+                if (Engine.GameEngine.Manager.GameObjects[index] is LightClass)
+                {
+                    (Engine.GameEngine.Manager.GameObjects[index] as LightClass).LightOnOff();
+                }
+            }
+        }
+
+        private void btnColor_Click(object sender, EventArgs e)
+        {
+            int index = -1;
+            lock (Engine.GameEngine.Manager)
+            {
+                index = Engine.GameEngine.Manager.GameObjects.IndexOf((GameObject)cmbObjectList.SelectedValue);
+            }
+
+            if (index >= 0)
+            {
+                if (Engine.GameEngine.Manager.GameObjects[index] is GameObject)
+                {
+                    colorDialog1.Color = Engine.GameEngine.Manager.GameObjects[index].MeshObject.MeshColor;
+                }
+            }
+
+            if (colorDialog1.ShowDialog() == DialogResult.OK)
+            {
+                if (index >= 0)
+                {
+                    if (Engine.GameEngine.Manager.GameObjects[index] is GameObject)
+                    {
+                        Engine.GameEngine.Manager.GameObjects[index].MeshObject.ApplyColor(colorDialog1.Color);
+                    }
+                }
+            }
+        }
     }
 }

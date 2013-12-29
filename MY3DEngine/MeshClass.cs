@@ -37,9 +37,9 @@ namespace MY3DEngine
         private Matrix _world;
 
         /// <summary>
-        /// 
+        /// Return the mesh color as a string
         /// </summary>
-        public string MeshColor
+        public string MeshColorasString
         {
             get
             {
@@ -49,6 +49,17 @@ namespace MY3DEngine
                 }
 
                 return "No Color";
+            }
+        }
+
+        /// <summary>
+        /// Return the actual mesh color
+        /// </summary>
+        public Color MeshColor
+        {
+            get
+            {
+                return _material[0].Ambient.ToColor();
             }
         }
 
