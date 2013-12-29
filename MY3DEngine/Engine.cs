@@ -73,7 +73,7 @@ namespace MY3DEngine
         {
             _lighting = _lighting == false ? true : false;
             LocalDevice.ThisDevice.SetRenderState(RenderState.Lighting, _lighting);
-            LocalDevice.ThisDevice.SetRenderState(RenderState.Ambient, Color.Gray.ToArgb());
+            LocalDevice.ThisDevice.SetRenderState(RenderState.Ambient, new SlimDX.Color4(Color.Gray).ToArgb());
         }
 
         /// <summary>

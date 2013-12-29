@@ -236,7 +236,7 @@ namespace MY3DEngine
         {
             _material = new Material[1];
             _material[0].Ambient = ambientColor;
-            _material[0].Diffuse = diffuseColor ?? Color.White;
+            _material[0].Diffuse = ambientColor;
             _material[0].Specular = ambientColor;
             _material[0].Emissive = Color.Black;
             _material[0].Power = 50.0f;
