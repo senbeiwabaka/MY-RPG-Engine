@@ -17,9 +17,10 @@ namespace MY3DEngine
     {
         string Name { get; set; }
         LevelType LevelType { get; set; }
+        List<GameObject> GameObjects { get; set; }
 
-        bool LoadLevel();
+        bool LoadLevel(string path);
+
         bool UnLoadLevel();
-
     }
 }

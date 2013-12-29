@@ -51,6 +51,8 @@ namespace MY3DEngine
 
             _loaded = false;
 
+            Window = new IntPtr();
+
             Window = window;
 
             Exception = new ExceptionHolder();

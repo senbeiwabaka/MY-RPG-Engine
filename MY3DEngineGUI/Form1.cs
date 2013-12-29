@@ -10,7 +10,8 @@ namespace MY3DEngineGUI
     {
         private bool _firstMouse;
         private Point _mouseLocation;
-        private GameObject none = new GameObject { ID = -1, Name = "--NONE--" };
+        private GameObject _none = new GameObject { ID = -1, Name = "--NONE--" };
+        private bool _isObjectSelected;
 
         public Form1()
         {
@@ -28,9 +29,10 @@ namespace MY3DEngineGUI
 
             _mouseLocation = new Point(0, 0);
             _firstMouse = false;
+            _isObjectSelected = false;
 
             List<GameObject> list = Engine.GameEngine.Manager.GameObjects;
-            //list.Insert(0, none);
+            list.Insert(0, _none);
             cmbObjectList.DataSource = list;
 
             Engine.GameEngine.Exception.Information.CollectionChanged += Information_CollectionChanged;
@@ -69,26 +71,33 @@ namespace MY3DEngineGUI
             //get previous mouse location
             int prevX = _mouseLocation.X;
             int PrevY = _mouseLocation.Y;
-            bool objectSelected = false;
             int objectIndex = -1;
 
             lock (Engine.GameEngine.Manager)
             {
-                foreach (var item in Engine.GameEngine.Manager.GameObjects)
+                foreach (GameObject item in Engine.GameEngine.Manager.GameObjects)
                 {
-                    objectSelected = Engine.GameEngine.Camera.RayCalculation(new SlimDX.Vector2(e.X, e.Y), item.MeshObject);
+                    Point p = PointToClient(e.Location);
 
-                    if (objectSelected)
+                    
+
+                    _isObjectSelected = Engine.GameEngine.Camera.RayCalculation(new SlimDX.Vector2(p.X, p.Y), item.MeshObject);
+
+                    if (_isObjectSelected)
                     {
                         objectIndex = Engine.GameEngine.Manager.GameObjects.FindIndex(x => x.ID == item.ID && x.Name == x.Name);
                     }
                 }
             }
 
-            Engine.GameEngine.Exception.Information.Add("Mesh is selected: " + objectSelected);
-            Engine.GameEngine.Exception.Information.Add("Is object not selected and left mouse down: " + (e.Button == MouseButtons.Left & !objectSelected).ToString());
+            if (objectIndex > 0)
+            {
+                Engine.GameEngine.Exception.Information.Add("Mesh is: " + Engine.GameEngine.Manager.GameObjects[objectIndex].Name);
+            }
+            Engine.GameEngine.Exception.Information.Add("Mesh is selected: " + _isObjectSelected);
+            Engine.GameEngine.Exception.Information.Add("Is object not selected and left mouse down: " + (e.Button == MouseButtons.Left & !_isObjectSelected).ToString());
 
-            if (e.Button == MouseButtons.Left & !objectSelected)
+            if (e.Button == MouseButtons.Left & !_isObjectSelected)
             {
                 txtError_Info.AppendText("No object is selected");
                 float DeltaX = e.X - prevX;
@@ -109,13 +118,15 @@ namespace MY3DEngineGUI
 
                 UpdateCameraLocation();
             }
-            else if (e.Button == MouseButtons.Left & objectSelected)
+            else if (e.Button == MouseButtons.Left & _isObjectSelected)
             {
                 txtError_Info.AppendText("Object selected" + Environment.NewLine);
-                //float DeltaX = e.X - Engine.GameEngine.Manager.GameObjects[objectIndex].MeshObject.ObjectPosition.X;
-                //float DeltaY = e.Y - Engine.GameEngine.Manager.GameObjects[objectIndex].MeshObject.ObjectPosition.Y;
+                float DeltaX = e.X - Engine.GameEngine.Manager.GameObjects[objectIndex].MeshObject.ObjectPosition.X;
+                float DeltaY = e.Y - Engine.GameEngine.Manager.GameObjects[objectIndex].MeshObject.ObjectPosition.Y;
 
-                //Engine.GameEngine.Manager.GameObjects[objectIndex].MeshObject.Translate(DeltaX, DeltaY, 0);
+                Engine.GameEngine.Manager.GameObjects[objectIndex].MeshObject.Translate(DeltaX / 100, DeltaY / 100, 0);
+
+                lblLocation.Text = Engine.GameEngine.Manager.GameObjects[objectIndex].MeshObject.ObjectPosition.ToString();
             }
         }
 
@@ -147,6 +158,7 @@ namespace MY3DEngineGUI
             //{
             //    list.Insert(0, none);
             //}
+            cmbObjectList.DataSource = null;
             cmbObjectList.DataSource = list;
         }
 
@@ -216,7 +228,7 @@ namespace MY3DEngineGUI
                 index = Engine.GameEngine.Manager.GameObjects.IndexOf((GameObject)cmbObjectList.SelectedValue);
             }
 
-            if (index > -1)
+            if (index > 0)
             {
                 txtName.Text = Engine.GameEngine.Manager.GameObjects[index].Name;
                 lblLocation.Text = "Location: " + Engine.GameEngine.Manager.GameObjects[index].MeshObject.ObjectPosition.ToString();

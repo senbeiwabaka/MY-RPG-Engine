@@ -9,10 +9,34 @@ namespace MY3DEngine
     /// </summary>
     public class Camera
     {
+        #region Properties
+
         /// <summary>
         /// the actual view from eye, lookat, and up
         /// </summary>
         public Matrix View;
+
+        /// <summary>
+        /// Rotate the camera around the x, y, and z axis
+        /// </summary>
+        public Vector3 CameraRotation
+        {
+            get
+            {
+                return cameraRotation;
+            }
+
+            set
+            {
+                cameraRotation = new Vector3(cameraRotation.X + value.X, cameraRotation.Y + value.Y, cameraRotation.Z + value.Z);
+                View = Matrix.RotationYawPitchRoll(cameraRotation.Y, cameraRotation.X, cameraRotation.Z) * Matrix.Translation(Eye);
+                Engine.GameEngine.LocalDevice.ThisDevice.SetTransform(TransformState.View, View);
+            }
+        }
+
+        #endregion
+
+        #region Fields
 
         // how the screen is displayed such as wide screen
         private float aspectRatio;
@@ -38,23 +62,7 @@ namespace MY3DEngine
         // which way is up
         private Vector3 upDirection;
 
-        /// <summary>
-        /// Rotate the camera around the x, y, and z axis
-        /// </summary>
-        public Vector3 CameraRotation
-        {
-            get
-            {
-                return cameraRotation;
-            }
-
-            set
-            {
-                cameraRotation = new Vector3(cameraRotation.X + value.X, cameraRotation.Y + value.Y, cameraRotation.Z + value.Z);
-                View = Matrix.RotationYawPitchRoll(cameraRotation.Y, cameraRotation.X, cameraRotation.Z) * Matrix.Translation(Eye);
-                Engine.GameEngine.LocalDevice.ThisDevice.SetTransform(TransformState.View, View);
-            }
-        }
+        #endregion
 
         /// <summary>
         /// Constructor that sets basic values for view and projection
@@ -120,12 +128,18 @@ namespace MY3DEngine
             Engine.GameEngine.LocalDevice.ThisDevice.SetTransform(TransformState.View, View);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="mousePosition"></param>
+        /// <param name="mesh"></param>
+        /// <returns></returns>
         public bool RayCalculation(Vector2 mousePosition, MeshClass mesh)
         {
-            var mouseNear = new Vector3(mousePosition, 0.0f);
-            var mouseFar = new Vector3(mousePosition, 1.0f);
-
-            var mat = this.View * this.projection * Engine.GameEngine.LocalDevice.ThisDevice.GetTransform(TransformState.World);
+            Vector3 mouseNear = new Vector3(mousePosition, 0.0f);
+            Vector3 mouseFar = new Vector3(mousePosition, 1.0f);
+            
+            Matrix mat = this.View * Engine.GameEngine.LocalDevice.ThisDevice.GetTransform(TransformState.World);
 
             Vector3.Unproject(ref mouseNear, Engine.GameEngine.LocalDevice.ThisDevice.Viewport.X,
                 Engine.GameEngine.LocalDevice.ThisDevice.Viewport.Y, Engine.GameEngine.LocalDevice.ThisDevice.Viewport.Width,
@@ -134,15 +148,15 @@ namespace MY3DEngine
                 Engine.GameEngine.LocalDevice.ThisDevice.Viewport.Y, Engine.GameEngine.LocalDevice.ThisDevice.Viewport.Width,
                 Engine.GameEngine.LocalDevice.ThisDevice.Viewport.Height, 0f, 1f, ref mat, out mouseFar);
 
-            var direction = mouseFar - mouseNear;
+            Vector3 direction = mouseFar - mouseNear;
             direction.Normalize();
-            var selectionRay = new Ray(mouseNear, direction);
+            Ray selectionRay = new Ray(mouseNear, direction);
             Engine.GameEngine.Exception.Information.Add("Selection: " + selectionRay);
 
             if (mesh != null)
             {
-                Engine.GameEngine.Exception.Information.Add("Mesh: " + mesh);
-                Engine.GameEngine.Exception.Information.Add(mesh.ObjectMesh.Intersects(selectionRay).ToString());
+                //Engine.GameEngine.Exception.Information.Add("Mesh: " + mesh);
+                Engine.GameEngine.Exception.Information.Add("Mesh was intersected: " + mesh.ObjectMesh.Intersects(selectionRay).ToString());
                 return mesh.ObjectMesh.Intersects(selectionRay);
             }
 
