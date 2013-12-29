@@ -79,8 +79,6 @@ namespace MY3DEngineGUI
                 {
                     Point p = PointToClient(e.Location);
 
-                    
-
                     _isObjectSelected = Engine.GameEngine.Camera.RayCalculation(new SlimDX.Vector2(p.X, p.Y), item.MeshObject);
 
                     if (_isObjectSelected)
@@ -110,7 +108,7 @@ namespace MY3DEngineGUI
                     _firstMouse = true;
                 }
 
-                Engine.GameEngine.Camera.MoveEye(x: (DeltaX / 40), y: (-DeltaY / 40));
+                Engine.GameEngine.Camera.MoveEye(x: (DeltaX / 40f), y: (-DeltaY / 40f));
 
                 //save current mouse location
                 _mouseLocation.X = e.X;
@@ -124,9 +122,12 @@ namespace MY3DEngineGUI
                 float DeltaX = e.X - Engine.GameEngine.Manager.GameObjects[objectIndex].MeshObject.ObjectPosition.X;
                 float DeltaY = e.Y - Engine.GameEngine.Manager.GameObjects[objectIndex].MeshObject.ObjectPosition.Y;
 
-                Engine.GameEngine.Manager.GameObjects[objectIndex].MeshObject.Translate(DeltaX / 100, DeltaY / 100, 0);
+                Engine.GameEngine.Manager.GameObjects[objectIndex].MeshObject.Translate(x: (DeltaX / 40f), y: (-DeltaY / 40f));
 
                 lblLocation.Text = Engine.GameEngine.Manager.GameObjects[objectIndex].MeshObject.ObjectPosition.ToString();
+
+                _mouseLocation.X = e.X;
+                _mouseLocation.Y = e.Y;
             }
         }
 
@@ -284,5 +285,12 @@ namespace MY3DEngineGUI
         }
 
         #endregion Events
+
+        private void resetCameraToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Engine.GameEngine.Camera.ResetEye();
+
+            UpdateCameraLocation();
+        }
     }
 }
