@@ -77,9 +77,10 @@ namespace MY3DEngineGUI
             {
                 foreach (GameObject item in Engine.GameEngine.Manager.GameObjects)
                 {
+                    //Engine.GameEngine.Exception.Information.Add("Location: " + e.Location.ToString());
                     Point p = PointToClient(e.Location);
 
-                    _isObjectSelected = Engine.GameEngine.Camera.RayCalculation(new SlimDX.Vector2(p.X, p.Y), item.MeshObject);
+                    _isObjectSelected = Engine.GameEngine.Camera.RayCalculation(new SlimDX.Vector2(e.X, e.Y), item.MeshObject);
 
                     if (_isObjectSelected)
                     {
@@ -90,10 +91,10 @@ namespace MY3DEngineGUI
 
             if (objectIndex > 0)
             {
-                Engine.GameEngine.Exception.Information.Add("Mesh is: " + Engine.GameEngine.Manager.GameObjects[objectIndex].Name);
+                //Engine.GameEngine.Exception.Information.Add("Mesh is: " + Engine.GameEngine.Manager.GameObjects[objectIndex].Name);
             }
-            Engine.GameEngine.Exception.Information.Add("Mesh is selected: " + _isObjectSelected);
-            Engine.GameEngine.Exception.Information.Add("Is object not selected and left mouse down: " + (e.Button == MouseButtons.Left & !_isObjectSelected).ToString());
+            //Engine.GameEngine.Exception.Information.Add("Mesh is selected: " + _isObjectSelected);
+            //Engine.GameEngine.Exception.Information.Add("Is object not selected and left mouse down: " + (e.Button == MouseButtons.Left & !_isObjectSelected).ToString());
 
             if (e.Button == MouseButtons.Left & !_isObjectSelected)
             {

@@ -14,7 +14,7 @@ namespace MY3DEngine
         /// <summary>
         /// the actual view from eye, lookat, and up
         /// </summary>
-        public Matrix View;
+        public Matrix View { get; set; }
 
         /// <summary>
         /// Rotate the camera around the x, y, and z axis
@@ -136,21 +136,58 @@ namespace MY3DEngine
         /// <returns></returns>
         public bool RayCalculation(Vector2 mousePosition, MeshClass mesh)
         {
-            Vector3 mouseNear = new Vector3(mousePosition, 0.0f);
-            Vector3 mouseFar = new Vector3(mousePosition, 1.0f);
-            
-            Matrix mat = this.View * Engine.GameEngine.LocalDevice.ThisDevice.GetTransform(TransformState.World);
+            //Vector3 mouseNear = new Vector3(mousePosition, 0.0f);
+            //Vector3 mouseFar = new Vector3(mousePosition, 1.0f);
 
-            Vector3.Unproject(ref mouseNear, Engine.GameEngine.LocalDevice.ThisDevice.Viewport.X,
-                Engine.GameEngine.LocalDevice.ThisDevice.Viewport.Y, Engine.GameEngine.LocalDevice.ThisDevice.Viewport.Width,
-                Engine.GameEngine.LocalDevice.ThisDevice.Viewport.Height, 0f, 1f, ref mat, out mouseNear);
-            Vector3.Unproject(ref mouseFar, Engine.GameEngine.LocalDevice.ThisDevice.Viewport.X,
-                Engine.GameEngine.LocalDevice.ThisDevice.Viewport.Y, Engine.GameEngine.LocalDevice.ThisDevice.Viewport.Width,
-                Engine.GameEngine.LocalDevice.ThisDevice.Viewport.Height, 0f, 1f, ref mat, out mouseFar);
+            //Engine.GameEngine.LocalDevice.ThisDevice.
 
-            Vector3 direction = mouseFar - mouseNear;
-            direction.Normalize();
-            Ray selectionRay = new Ray(mouseNear, direction);
+            //Matrix mat = View * projection *
+                
+
+            ////mat = Matrix.Invert(mat);
+
+            ////mat *= this.projection;
+
+            //Vector3.Unproject(ref mouseNear, Engine.GameEngine.LocalDevice.ThisDevice.Viewport.X,
+            //    Engine.GameEngine.LocalDevice.ThisDevice.Viewport.Y, 
+            //    Engine.GameEngine.LocalDevice.ThisDevice.Viewport.Width,
+            //    Engine.GameEngine.LocalDevice.ThisDevice.Viewport.Height, 0f, 1f, ref mat, out mouseNear);
+            //Vector3.Unproject(ref mouseFar, Engine.GameEngine.LocalDevice.ThisDevice.Viewport.X,
+            //    Engine.GameEngine.LocalDevice.ThisDevice.Viewport.Y, 
+            //    Engine.GameEngine.LocalDevice.ThisDevice.Viewport.Width,
+            //    Engine.GameEngine.LocalDevice.ThisDevice.Viewport.Height, 0f, 1f, ref mat, out mouseFar);
+
+            //Vector3 direction = mouseFar - mouseNear;
+            //direction.Normalize();
+            //Ray selectionRay = new Ray(mouseNear, direction);
+
+            Vector3 v = new Vector3();
+
+            v.X = (((2.0f * mousePosition.X) / Engine.GameEngine.LocalDevice.ThisDevice.Viewport.Width) - 1) / projection.M11;
+            v.Y = -(((2.0f * mousePosition.Y) / Engine.GameEngine.LocalDevice.ThisDevice.Viewport.Height) - 1) / projection.M22;
+            v.Z = 1.0f;
+
+            Engine.GameEngine.Exception.Information.Add("V: " + v.ToString());
+            Engine.GameEngine.Exception.Information.Add("Mouse Position: " + mousePosition.ToString());
+
+            Matrix worldView = View * Engine.GameEngine.LocalDevice.ThisDevice.GetTransform(TransformState.World);
+
+            Matrix m = new Matrix();
+
+            m = Matrix.Invert(worldView);
+
+            Vector3 direction = new Vector3();
+
+            direction.X = v.X * m.M11 + v.Y * m.M21 + v.Z * m.M31;
+            direction.Y = v.X * m.M12 + v.Y * m.M22 + v.Z * m.M32;
+            direction.Z = v.X * m.M13 + v.Y * m.M23 + v.Z * m.M33;
+
+            v.X = m.M41;
+            v.Y = m.M42;
+            v.Z = m.M43;
+
+            Ray selectionRay = new Ray(v, direction);
+
             Engine.GameEngine.Exception.Information.Add("Selection: " + selectionRay);
 
             if (mesh != null)

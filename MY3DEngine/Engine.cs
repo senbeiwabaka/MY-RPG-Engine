@@ -66,6 +66,9 @@ namespace MY3DEngine
             _input.Dispose();
         }
 
+        /// <summary>
+        /// Toggle all lights
+        /// </summary>
         public void GlobalLights()
         {
             _lighting = _lighting == false ? true : false;
@@ -102,6 +105,9 @@ namespace MY3DEngine
             LocalDevice.ThisDevice.SetRenderState(RenderState.SpecularEnable, false);
         }
 
+        /// <summary>
+        /// Shutdown the thread and graphics and dispose of all resources
+        /// </summary>
         public void Shutdown()
         {
             IsNotShutDown = true;
@@ -128,6 +134,9 @@ namespace MY3DEngine
             }
         }
 
+        /// <summary>
+        /// Toggle the wireframe of all displayed objects
+        /// </summary>
         public void WireFrame()
         {
             if (_wireFrame)
