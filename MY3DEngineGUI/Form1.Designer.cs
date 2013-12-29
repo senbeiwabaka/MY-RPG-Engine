@@ -202,7 +202,6 @@
             this.lblAddRemove.Name = "lblAddRemove";
             this.lblAddRemove.Size = new System.Drawing.Size(0, 13);
             this.lblAddRemove.TabIndex = 5;
-            this.lblAddRemove.TextChanged += new System.EventHandler(this.label2_TextChanged);
             // 
             // label1
             // 

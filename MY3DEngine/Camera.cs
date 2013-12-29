@@ -136,39 +136,11 @@ namespace MY3DEngine
         /// <returns></returns>
         public bool RayCalculation(Vector2 mousePosition, MeshClass mesh)
         {
-            //Vector3 mouseNear = new Vector3(mousePosition, 0.0f);
-            //Vector3 mouseFar = new Vector3(mousePosition, 1.0f);
+            Vector3 mouse = new Vector3();
 
-            //Engine.GameEngine.LocalDevice.ThisDevice.
-
-            //Matrix mat = View * projection *
-                
-
-            ////mat = Matrix.Invert(mat);
-
-            ////mat *= this.projection;
-
-            //Vector3.Unproject(ref mouseNear, Engine.GameEngine.LocalDevice.ThisDevice.Viewport.X,
-            //    Engine.GameEngine.LocalDevice.ThisDevice.Viewport.Y, 
-            //    Engine.GameEngine.LocalDevice.ThisDevice.Viewport.Width,
-            //    Engine.GameEngine.LocalDevice.ThisDevice.Viewport.Height, 0f, 1f, ref mat, out mouseNear);
-            //Vector3.Unproject(ref mouseFar, Engine.GameEngine.LocalDevice.ThisDevice.Viewport.X,
-            //    Engine.GameEngine.LocalDevice.ThisDevice.Viewport.Y, 
-            //    Engine.GameEngine.LocalDevice.ThisDevice.Viewport.Width,
-            //    Engine.GameEngine.LocalDevice.ThisDevice.Viewport.Height, 0f, 1f, ref mat, out mouseFar);
-
-            //Vector3 direction = mouseFar - mouseNear;
-            //direction.Normalize();
-            //Ray selectionRay = new Ray(mouseNear, direction);
-
-            Vector3 v = new Vector3();
-
-            v.X = (((2.0f * mousePosition.X) / Engine.GameEngine.LocalDevice.ThisDevice.Viewport.Width) - 1) / projection.M11;
-            v.Y = -(((2.0f * mousePosition.Y) / Engine.GameEngine.LocalDevice.ThisDevice.Viewport.Height) - 1) / projection.M22;
-            v.Z = 1.0f;
-
-            Engine.GameEngine.Exception.Information.Add("V: " + v.ToString());
-            Engine.GameEngine.Exception.Information.Add("Mouse Position: " + mousePosition.ToString());
+            mouse.X = (((2.0f * mousePosition.X) / Engine.GameEngine.LocalDevice.ThisDevice.Viewport.Width) - 1) / projection.M11;
+            mouse.Y = -(((2.0f * mousePosition.Y) / Engine.GameEngine.LocalDevice.ThisDevice.Viewport.Height) - 1) / projection.M22;
+            mouse.Z = 1.0f;
 
             Matrix worldView = View * Engine.GameEngine.LocalDevice.ThisDevice.GetTransform(TransformState.World);
 
@@ -178,22 +150,18 @@ namespace MY3DEngine
 
             Vector3 direction = new Vector3();
 
-            direction.X = v.X * m.M11 + v.Y * m.M21 + v.Z * m.M31;
-            direction.Y = v.X * m.M12 + v.Y * m.M22 + v.Z * m.M32;
-            direction.Z = v.X * m.M13 + v.Y * m.M23 + v.Z * m.M33;
+            direction.X = mouse.X * m.M11 + mouse.Y * m.M21 + mouse.Z * m.M31;
+            direction.Y = mouse.X * m.M12 + mouse.Y * m.M22 + mouse.Z * m.M32;
+            direction.Z = mouse.X * m.M13 + mouse.Y * m.M23 + mouse.Z * m.M33;
 
-            v.X = m.M41;
-            v.Y = m.M42;
-            v.Z = m.M43;
+            mouse.X = m.M41;
+            mouse.Y = m.M42;
+            mouse.Z = m.M43;
 
-            Ray selectionRay = new Ray(v, direction);
-
-            Engine.GameEngine.Exception.Information.Add("Selection: " + selectionRay);
+            Ray selectionRay = new Ray(mouse, direction);
 
             if (mesh != null)
             {
-                //Engine.GameEngine.Exception.Information.Add("Mesh: " + mesh);
-                Engine.GameEngine.Exception.Information.Add("Mesh was intersected: " + mesh.ObjectMesh.Intersects(selectionRay).ToString());
                 return mesh.ObjectMesh.Intersects(selectionRay);
             }
 

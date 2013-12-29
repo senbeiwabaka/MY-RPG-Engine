@@ -31,9 +31,12 @@ namespace MY3DEngineGUI
             _firstMouse = false;
             _isObjectSelected = false;
 
-            List<GameObject> list = Engine.GameEngine.Manager.GameObjects;
-            list.Insert(0, _none);
-            cmbObjectList.DataSource = list;
+            lock (Engine.GameEngine.Manager)
+            {
+                List<GameObject> list = new List<GameObject>(Engine.GameEngine.Manager.GameObjects);
+                list.Insert(0, _none);
+                cmbObjectList.DataSource = list;
+            }
 
             Engine.GameEngine.Exception.Information.CollectionChanged += Information_CollectionChanged;
         }
@@ -77,9 +80,6 @@ namespace MY3DEngineGUI
             {
                 foreach (GameObject item in Engine.GameEngine.Manager.GameObjects)
                 {
-                    //Engine.GameEngine.Exception.Information.Add("Location: " + e.Location.ToString());
-                    Point p = PointToClient(e.Location);
-
                     _isObjectSelected = Engine.GameEngine.Camera.RayCalculation(new SlimDX.Vector2(e.X, e.Y), item.MeshObject);
 
                     if (_isObjectSelected)
@@ -89,16 +89,8 @@ namespace MY3DEngineGUI
                 }
             }
 
-            if (objectIndex > 0)
-            {
-                //Engine.GameEngine.Exception.Information.Add("Mesh is: " + Engine.GameEngine.Manager.GameObjects[objectIndex].Name);
-            }
-            //Engine.GameEngine.Exception.Information.Add("Mesh is selected: " + _isObjectSelected);
-            //Engine.GameEngine.Exception.Information.Add("Is object not selected and left mouse down: " + (e.Button == MouseButtons.Left & !_isObjectSelected).ToString());
-
             if (e.Button == MouseButtons.Left & !_isObjectSelected)
             {
-                txtError_Info.AppendText("No object is selected");
                 float DeltaX = e.X - prevX;
                 float DeltaY = e.Y - PrevY;
 
@@ -119,7 +111,6 @@ namespace MY3DEngineGUI
             }
             else if (e.Button == MouseButtons.Left & _isObjectSelected)
             {
-                txtError_Info.AppendText("Object selected" + Environment.NewLine);
                 float DeltaX = e.X - Engine.GameEngine.Manager.GameObjects[objectIndex].MeshObject.ObjectPosition.X;
                 float DeltaY = e.Y - Engine.GameEngine.Manager.GameObjects[objectIndex].MeshObject.ObjectPosition.Y;
 
@@ -154,13 +145,22 @@ namespace MY3DEngineGUI
         private void Add_RemoveObject(string s)
         {
             lblAddRemove.Text = s;
-            //var list = Engine.GameEngine.Manager.GameObjects;
-            List<GameObject> list = new List<GameObject>(Engine.GameEngine.Manager.GameObjects);
-            //if (!list.Contains(none))
-            //{
-            //    list.Insert(0, none);
-            //}
-            cmbObjectList.DataSource = null;
+
+            List<GameObject> list = new List<GameObject>();
+
+            lock (Engine.GameEngine.Manager)
+            {
+                list = new List<GameObject>(Engine.GameEngine.Manager.GameObjects);
+            }
+
+            tvObjectHirarchy.Nodes.Clear();
+
+            foreach (GameObject gameObject in list)
+            {
+                tvObjectHirarchy.Nodes.Add(gameObject.Name);
+            }
+
+            list.Insert(0, _none);
             cmbObjectList.DataSource = list;
         }
 
@@ -230,20 +230,20 @@ namespace MY3DEngineGUI
                 index = Engine.GameEngine.Manager.GameObjects.IndexOf((GameObject)cmbObjectList.SelectedValue);
             }
 
-            if (index > 0)
+            if (index >= 0)
             {
                 txtName.Text = Engine.GameEngine.Manager.GameObjects[index].Name;
                 lblLocation.Text = "Location: " + Engine.GameEngine.Manager.GameObjects[index].MeshObject.ObjectPosition.ToString();
+            }
+            else
+            {
+                lblLocation.Text = string.Empty;
             }
         }
 
         private void globalLightsOnOffToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Engine.GameEngine.GlobalLights();
-        }
-
-        private void label2_TextChanged(object sender, EventArgs e)
-        {
         }
 
         private void wireframOnOffToolStripMenuItem_Click(object sender, EventArgs e)
@@ -275,17 +275,20 @@ namespace MY3DEngineGUI
 
                     Engine.GameEngine.Manager.GameObjects[index].Name = txtName.Text;
 
-                    list = Engine.GameEngine.Manager.GameObjects;
+                    list = new List<GameObject>(Engine.GameEngine.Manager.GameObjects);
                 }
 
-                cmbObjectList.DataSource = null;
-                cmbObjectList.Items.Clear();
-                //list.Insert(0, none);
+                tvObjectHirarchy.Nodes.Clear();
+
+                foreach (GameObject gameObject in list)
+                {
+                    tvObjectHirarchy.Nodes.Add(gameObject.Name);
+                }
+
+                list.Insert(0, _none);
                 cmbObjectList.DataSource = list;
             }
         }
-
-        #endregion Events
 
         private void resetCameraToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -293,5 +296,7 @@ namespace MY3DEngineGUI
 
             UpdateCameraLocation();
         }
+
+        #endregion Events
     }
 }
