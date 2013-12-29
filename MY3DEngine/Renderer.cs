@@ -28,7 +28,17 @@ namespace MY3DEngine
                 {
                     foreach (var item in Engine.GameEngine.Manager.GameObjects)
                     {
-                        item.Renderer();
+                        if (item is LightClass)
+                        {
+                            if (!Engine.GameEngine.LocalDevice.ThisDevice.GetRenderState<bool>(RenderState.Lighting))
+                            {
+                                item.Renderer();
+                            }
+                        }
+                        else
+                        {
+                            item.Renderer();
+                        }
                     }
                 }
 

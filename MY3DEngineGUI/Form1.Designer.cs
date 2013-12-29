@@ -65,6 +65,8 @@
             this.globalLightsOnOffToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.wireframOnOffToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.resetCameraToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.lblColor = new System.Windows.Forms.Label();
+            this.ckbxLightOnOff = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.tabEditPlay.SuspendLayout();
             this.tbEdit.SuspendLayout();
@@ -144,6 +146,8 @@
             // 
             // pnlObjectProperties
             // 
+            this.pnlObjectProperties.Controls.Add(this.ckbxLightOnOff);
+            this.pnlObjectProperties.Controls.Add(this.lblColor);
             this.pnlObjectProperties.Controls.Add(this.lblLocation);
             this.pnlObjectProperties.Controls.Add(this.txtName);
             this.pnlObjectProperties.Controls.Add(this.label2);
@@ -387,6 +391,24 @@
             this.resetCameraToolStripMenuItem.Text = "Reset Camera";
             this.resetCameraToolStripMenuItem.Click += new System.EventHandler(this.resetCameraToolStripMenuItem_Click);
             // 
+            // lblColor
+            // 
+            this.lblColor.AutoSize = true;
+            this.lblColor.Location = new System.Drawing.Point(6, 64);
+            this.lblColor.Name = "lblColor";
+            this.lblColor.Size = new System.Drawing.Size(0, 13);
+            this.lblColor.TabIndex = 3;
+            // 
+            // ckbxLightOnOff
+            // 
+            this.ckbxLightOnOff.AutoSize = true;
+            this.ckbxLightOnOff.Location = new System.Drawing.Point(6, 80);
+            this.ckbxLightOnOff.Name = "ckbxLightOnOff";
+            this.ckbxLightOnOff.Size = new System.Drawing.Size(85, 17);
+            this.ckbxLightOnOff.TabIndex = 4;
+            this.ckbxLightOnOff.Text = "Light On/Off";
+            this.ckbxLightOnOff.UseVisualStyleBackColor = true;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -448,6 +470,8 @@
         private System.Windows.Forms.TextBox txtName;
         private System.Windows.Forms.Label lblLocation;
         private System.Windows.Forms.ToolStripMenuItem resetCameraToolStripMenuItem;
+        private System.Windows.Forms.CheckBox ckbxLightOnOff;
+        private System.Windows.Forms.Label lblColor;
     }
 }
 
