@@ -14,10 +14,19 @@ namespace MY3DEngine
         private Thread _renderThread;
         private bool _wireFrame;
 
+        /// <summary>
+        /// 
+        /// </summary>
         public static Engine GameEngine { get; set; }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public Camera Camera { get; set; }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public ExceptionHolder Exception { get; set; }
 
         public bool IsNotShutDown { get; set; }
@@ -41,11 +50,13 @@ namespace MY3DEngine
 
         public IntPtr Window { get; private set; }
 
+        public static readonly bool IsDebug;
+
         /// <summary>
         /// Engine Constructor. Must be called first
         /// </summary>
         /// <param name="window">The pointer of the window that the engine will be rendered too</param>
-        public Engine(IntPtr window)
+        public Engine(IntPtr window, bool isDebug = true)
         {
             IsNotShutDown = false;
 

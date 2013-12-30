@@ -134,7 +134,7 @@ namespace MY3DEngine
         /// <param name="mousePosition"></param>
         /// <param name="mesh"></param>
         /// <returns></returns>
-        public bool RayCalculation(Vector2 mousePosition, MeshClass mesh)
+        public bool RayIntersection(Vector2 mousePosition, MeshClass mesh)
         {
             Vector3 mouse = new Vector3();
 

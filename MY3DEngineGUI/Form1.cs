@@ -80,7 +80,7 @@ namespace MY3DEngineGUI
             {
                 foreach (GameObject item in Engine.GameEngine.Manager.GameObjects)
                 {
-                    _isObjectSelected = Engine.GameEngine.Camera.RayCalculation(new SlimDX.Vector2(e.X, e.Y), item.MeshObject);
+                    _isObjectSelected = Engine.GameEngine.Camera.RayIntersection(new SlimDX.Vector2(e.X, e.Y), item.MeshObject);
 
                     if (_isObjectSelected)
                     {

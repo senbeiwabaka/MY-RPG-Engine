@@ -121,6 +121,16 @@ namespace MY3DEngine
                 ObjectMesh.Optimize(MeshOptimizeFlags.Compact);
                 ApplyColor(Color.White);
             }
+            else if (type == MeshType.Teapot)
+            {
+                ObjectMesh = Mesh.CreateTeapot(Engine.GameEngine.LocalDevice.ThisDevice);
+
+                ObjectMesh.ComputeNormals();
+
+                ObjectMesh.OptimizeInPlace(MeshOptimizeFlags.Compact);
+
+                ApplyColor(Color.White);
+            }
             else if (type == MeshType.Triangle)
             {
                 VertexPositionColor[] ShapeVertices = new VertexPositionColor[] {
@@ -156,6 +166,8 @@ namespace MY3DEngine
                 other.Dispose();
 
                 ObjectMesh.Optimize(MeshOptimizeFlags.Compact);
+
+                ApplyColor(Color.White);
             }
 
             ObjectPosition = Vector3.Zero;
