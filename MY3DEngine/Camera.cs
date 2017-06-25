@@ -1,6 +1,6 @@
-﻿using SlimDX;
-using SlimDX.Direct3D9;
-using System;
+﻿using System;
+
+using SharpDX;
 
 namespace MY3DEngine
 {
@@ -23,14 +23,15 @@ namespace MY3DEngine
         {
             get
             {
-                return cameraRotation;
+                return this.cameraRotation;
             }
 
             set
             {
-                cameraRotation = new Vector3(cameraRotation.X + value.X, cameraRotation.Y + value.Y, cameraRotation.Z + value.Z);
-                View = Matrix.RotationYawPitchRoll(cameraRotation.Y, cameraRotation.X, cameraRotation.Z) * Matrix.Translation(Eye);
-                Engine.GameEngine.LocalDevice.ThisDevice.SetTransform(TransformState.View, View);
+                this.cameraRotation = new Vector3(this.cameraRotation.X + value.X, this.cameraRotation.Y + value.Y, this.cameraRotation.Z + value.Z);
+                this.View = Matrix.RotationYawPitchRoll(this.cameraRotation.Y, this.cameraRotation.X, this.cameraRotation.Z) * Matrix.Translation(this.Eye);
+
+                //Engine.GameEngine.LocalDevice.ThisDevice.SetTransform(TransformState.View, this.View);
             }
         }
 
@@ -42,6 +43,7 @@ namespace MY3DEngine
         private float aspectRatio;
 
         private Vector3 cameraRotation;
+
         private Vector3 Eye { get; set; }
 
         // how far away from us are things drawn
@@ -69,24 +71,24 @@ namespace MY3DEngine
         /// </summary>
         public Camera()
         {
-            Engine.GameEngine.LocalDevice.ThisDevice.SetTransform(TransformState.World, Matrix.Identity);
+            //Engine.GameEngine.LocalDevice.ThisDevice.SetTransform(TransformState.World, Matrix.Identity);
 
-            Eye = new Vector3(0, 0, 3.5f);
-            lookAt = Vector3.Zero;
-            upDirection = Vector3.UnitY;
+            this.Eye = new Vector3(0, 0, 3.5f);
+            this.lookAt = Vector3.Zero;
+            this.upDirection = Vector3.UnitY;
+            this.View = Matrix.Translation(this.Eye);
 
-            View = Matrix.Translation(Eye);
-            Engine.GameEngine.LocalDevice.ThisDevice.SetTransform(TransformState.View, View);
+            //Engine.GameEngine.LocalDevice.ThisDevice.SetTransform(TransformState.View, View);
 
-            fov = (float)Math.PI / 4.0f;
-            aspectRatio = (float)Engine.GameEngine.LocalDevice.ThisDevice.Viewport.Width / Engine.GameEngine.LocalDevice.ThisDevice.Viewport.Height;
-            nearClipping = 1.0f;
-            farClipping = 100.0f;
+            this.fov = (float)Math.PI / 4.0f;
+            //this.aspectRatio = (float)Engine.GameEngine.LocalDevice.ThisDevice.Viewport.Width / Engine.GameEngine.LocalDevice.ThisDevice.Viewport.Height;
+            this.nearClipping = 1.0f;
+            this.farClipping = 100.0f;
+            this.projection = Matrix.PerspectiveFovLH(this.fov, this.aspectRatio, this.nearClipping, this.farClipping);
 
-            projection = Matrix.PerspectiveFovLH(fov, aspectRatio, nearClipping, farClipping);
-            Engine.GameEngine.LocalDevice.ThisDevice.SetTransform(TransformState.Projection, projection);
+            //Engine.GameEngine.LocalDevice.ThisDevice.SetTransform(TransformState.Projection, this.projection);
 
-            cameraRotation = Vector3.Zero;
+            this.cameraRotation = Vector3.Zero;
         }
 
         /// <summary>
@@ -95,9 +97,10 @@ namespace MY3DEngine
         /// <returns>The concatenated string of the position and rotation to three decimal places</returns>
         public string CameraLocation()
         {
-            var position = string.Format("Location - X: {0}, Y: {1}, Z: {2}", Eye.X.ToString("0.000"), Eye.Y.ToString("0.000"), Eye.Z.ToString("0.000"));
+            var position = $"Location - X: {this.Eye.X:0.000}, Y: {this.Eye.Y:0.000}, Z: {this.Eye.Z:0.000}";
             position += Environment.NewLine;
-            var rotation = string.Format("Rotation - X: {0}, Y: {1}, Z: {2}", cameraRotation.X.ToString("0.000"), cameraRotation.Y.ToString("0.000"), cameraRotation.Z.ToString("0.000"));
+            var rotation = $"Rotation - X: {this.cameraRotation.X:0.000}, Y: {this.cameraRotation.Y:0.000}, Z: {this.cameraRotation.Z:0.000}";
+
             return position + rotation;
         }
 
@@ -110,8 +113,9 @@ namespace MY3DEngine
         {
             this.Eye = eye;
             this.lookAt = lookAt;
-            View = Matrix.Translation(eye);
-            Engine.GameEngine.LocalDevice.ThisDevice.SetTransform(TransformState.View, View);
+            this.View = Matrix.Translation(eye);
+
+            //Engine.GameEngine.LocalDevice.ThisDevice.SetTransform(TransformState.View, View);
         }
 
         /// <summary>
@@ -122,10 +126,10 @@ namespace MY3DEngine
         /// <param name="z"></param>
         public void MoveEye(float x = 0, float y = 0, float z = 0)
         {
-            Eye += new Vector3(x, y, z);
+            this.Eye += new Vector3(x, y, z);
+            this.View = Matrix.RotationYawPitchRoll(this.cameraRotation.Y, this.cameraRotation.X, this.cameraRotation.Z) * Matrix.Translation(this.Eye);
 
-            View = Matrix.RotationYawPitchRoll(cameraRotation.Y, cameraRotation.X, cameraRotation.Z) * Matrix.Translation(Eye);
-            Engine.GameEngine.LocalDevice.ThisDevice.SetTransform(TransformState.View, View);
+            //Engine.GameEngine.LocalDevice.ThisDevice.SetTransform(TransformState.View, this.View);
         }
 
         /// <summary>
@@ -136,19 +140,19 @@ namespace MY3DEngine
         /// <returns></returns>
         public bool RayIntersection(Vector2 mousePosition, MeshClass mesh)
         {
-            Vector3 mouse = new Vector3();
+            var mouse = new Vector3();
 
-            mouse.X = (((2.0f * mousePosition.X) / Engine.GameEngine.LocalDevice.ThisDevice.Viewport.Width) - 1) / projection.M11;
-            mouse.Y = -(((2.0f * mousePosition.Y) / Engine.GameEngine.LocalDevice.ThisDevice.Viewport.Height) - 1) / projection.M22;
-            mouse.Z = 1.0f;
+            //mouse.X = (((2.0f * mousePosition.X) / Engine.GameEngine.LocalDevice.ThisDevice.Viewport.Width) - 1) / projection.M11;
+            //mouse.Y = -(((2.0f * mousePosition.Y) / Engine.GameEngine.LocalDevice.ThisDevice.Viewport.Height) - 1) / projection.M22;
+            //mouse.Z = 1.0f;
 
-            Matrix worldView = View * Engine.GameEngine.LocalDevice.ThisDevice.GetTransform(TransformState.World);
+            Matrix worldView = this.View * Engine.GameEngine.LocalDevice.Device.ImmediateContext.(TransformState.World);
 
-            Matrix m = new Matrix();
+            var m = new Matrix();
 
             m = Matrix.Invert(worldView);
 
-            Vector3 direction = new Vector3();
+            var direction = new Vector3();
 
             direction.X = mouse.X * m.M11 + mouse.Y * m.M21 + mouse.Z * m.M31;
             direction.Y = mouse.X * m.M12 + mouse.Y * m.M22 + mouse.Z * m.M32;
@@ -158,7 +162,7 @@ namespace MY3DEngine
             mouse.Y = m.M42;
             mouse.Z = m.M43;
 
-            Ray selectionRay = new Ray(mouse, direction);
+            var selectionRay = new Ray(mouse, direction);
 
             if (mesh != null)
             {
@@ -173,16 +177,16 @@ namespace MY3DEngine
         /// </summary>
         public void ResetEye()
         {
-            cameraRotation = Vector3.Zero;
+            this.cameraRotation = Vector3.Zero;
 
-            Engine.GameEngine.LocalDevice.ThisDevice.SetTransform(TransformState.World, Matrix.Identity);
+            //Engine.GameEngine.LocalDevice.ThisDevice.SetTransform(TransformState.World, Matrix.Identity);
 
-            Eye = new Vector3(0, 0, 3.5f);
-            lookAt = Vector3.Zero;
-            upDirection = Vector3.UnitY;
+            this.Eye = new Vector3(0, 0, 3.5f);
+            this.lookAt = Vector3.Zero;
+            this.upDirection = Vector3.UnitY;
+            this.View = Matrix.Translation(Eye);
 
-            View = Matrix.Translation(Eye);
-            Engine.GameEngine.LocalDevice.ThisDevice.SetTransform(TransformState.View, View);
+            //Engine.GameEngine.LocalDevice.ThisDevice.SetTransform(TransformState.View, View);
         }
 
         /// <summary>
@@ -196,11 +200,10 @@ namespace MY3DEngine
         {
             this.fov = fov;
             this.aspectRatio = aspectRatio;
-            nearClipping = close;
+            this.nearClipping = close;
             this.farClipping = far;
-            projection = Matrix.PerspectiveFovLH(this.fov, this.aspectRatio,
-                nearClipping, this.farClipping);
-            Engine.GameEngine.LocalDevice.ThisDevice.SetTransform(TransformState.Projection,
+            this.projection = Matrix.PerspectiveFovLH(this.fov, this.aspectRatio, nearClipping, this.farClipping);
+            Engine.GameEngine.LocalDevice.Device.SetTransform(TransformState.Projection,
                 projection);
         }
 
@@ -216,7 +219,7 @@ namespace MY3DEngine
             this.lookAt = lookat;
             upDirection = up;
             View = Matrix.Translation(eye);
-            Engine.GameEngine.LocalDevice.ThisDevice.SetTransform(TransformState.View, View);
+            Engine.GameEngine.LocalDevice.Device.SetTransform(TransformState.View, View);
         }
     }
 }

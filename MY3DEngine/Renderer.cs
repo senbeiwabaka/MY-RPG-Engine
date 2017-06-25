@@ -11,9 +11,9 @@ namespace MY3DEngine
         /// </summary>
         public static void RenderScene()
         {
-            if (Engine.GameEngine.LocalDevice.ThisDevice==null)
+            if (Engine.GameEngine.LocalDevice.Device==null)
             {
-                if (Engine.GameEngine.LocalDevice.ThisDevice.TestCooperativeLevel() == ResultCode.DeviceLost)
+                if (Engine.GameEngine.LocalDevice.Device.TestCooperativeLevel() == ResultCode.DeviceLost)
                 {
                     Engine.GameEngine.LocalDevice.ResetDevice();
                 }
@@ -21,8 +21,8 @@ namespace MY3DEngine
 
             while (!Engine.GameEngine.IsNotShutDown)
             {
-                Engine.GameEngine.LocalDevice.ThisDevice.Clear(ClearFlags.Target | ClearFlags.ZBuffer, Color.Black, 1.0f, 0);
-                Engine.GameEngine.LocalDevice.ThisDevice.BeginScene();
+                Engine.GameEngine.LocalDevice.Device.Clear(ClearFlags.Target | ClearFlags.ZBuffer, Color.Black, 1.0f, 0);
+                Engine.GameEngine.LocalDevice.Device.BeginScene();
 
                 lock (Engine.GameEngine.Manager.GameObjects)
                 {
@@ -30,7 +30,7 @@ namespace MY3DEngine
                     {
                         if (item is LightClass)
                         {
-                            if (!Engine.GameEngine.LocalDevice.ThisDevice.GetRenderState<bool>(RenderState.Lighting))
+                            if (!Engine.GameEngine.LocalDevice.Device.GetRenderState<bool>(RenderState.Lighting))
                             {
                                 item.Renderer();
                             }
@@ -42,8 +42,8 @@ namespace MY3DEngine
                     }
                 }
 
-                Engine.GameEngine.LocalDevice.ThisDevice.EndScene();
-                Engine.GameEngine.LocalDevice.ThisDevice.Present();
+                Engine.GameEngine.LocalDevice.Device.EndScene();
+                Engine.GameEngine.LocalDevice.Device.Present();
             }
         }
     }

@@ -1,62 +1,25 @@
-﻿using System;
+﻿using SharpDX.Multimedia;
+using SharpDX.RawInput;
+using System;
 using System.Drawing;
-using System.Globalization;
-using SlimDX;
-using SlimDX.DirectInput;
 
 namespace MY3DEngine
 {
     internal class Input : IDisposable
     {
-        private Keyboard _keyboard;
-        private Mouse _mouse;
-        private readonly DirectInput _directInput;
-
-        public Point Point { get; set; }
-
         public Input()
         {
-            _directInput = new DirectInput();
-
             try
             {
-                Result result;
+                Engine.GameEngine.Exception.Exceptions.Add(new ExceptionData("Beginning setting up input", "Input", string.Empty));
 
-                _keyboard = new Keyboard(_directInput);
+                Device.RegisterDevice(UsagePage.Generic, UsageId.GenericMouse, DeviceFlags.None);
+                Device.MouseInput += Device_MouseInput;
 
-                IntPtr handle = Engine.GameEngine.Window;
+                Device.RegisterDevice(UsagePage.Generic, UsageId.GenericKeyboard, DeviceFlags.None);
+                Device.KeyboardInput += Device_KeyboardInput;
 
-                if ((result = _keyboard.SetCooperativeLevel(handle, CooperativeLevel.Nonexclusive | CooperativeLevel.Background)) != ResultCode.Success)
-                {
-                    Engine.GameEngine.Exception.Exceptions.Add(new ExceptionData(result.Description,
-                        result.Name, "keyboard cooperation"));
-                }
-
-                _mouse = new Mouse(_directInput);
-
-                if ((result = _mouse.SetCooperativeLevel(handle, CooperativeLevel.Foreground | CooperativeLevel.Nonexclusive)) != ResultCode.Success)
-                {
-                    Engine.GameEngine.Exception.Exceptions.Add(new ExceptionData(result.Description,
-                        result.Name, "mouse cooperation"));
-                }
-                
-                if ((result = _keyboard.Acquire()) != ResultCode.Success)
-                {
-                    Engine.GameEngine.Exception.Exceptions.Add(new ExceptionData(result.Description,
-                        result.Name, "keyboard acquire"));
-                }
-
-                if ((result = _mouse.Acquire()) != ResultCode.Success)
-                {
-                    Engine.GameEngine.Exception.Exceptions.Add(new ExceptionData(result.Description,
-                        result.Name, "mouse acquire"));
-                }
-
-                Engine.GameEngine.Exception.Exceptions.Add(new ExceptionData("worked", "worked", "worked"));
-            }
-            catch (DirectInputException e)
-            {
-                Engine.GameEngine.Exception.Exceptions.Add(new ExceptionData(e.Message, e.Source, e.StackTrace));
+                Engine.GameEngine.Exception.Exceptions.Add(new ExceptionData("Ending setting up input", "Input", string.Empty));
             }
             catch (Exception e)
             {
@@ -64,45 +27,22 @@ namespace MY3DEngine
             }
             finally
             {
-                Dispose();
+                this.Dispose();
             }
+        }
+
+        private void Device_KeyboardInput(object sender, KeyboardInputEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void Device_MouseInput(object sender, MouseInputEventArgs e)
+        {
+            throw new NotImplementedException();
         }
 
         public void Dispose()
         {
-            if (_keyboard != null)
-            {
-                _keyboard.Unacquire();
-                _keyboard.Dispose();
-                _keyboard = null;
-            }
-
-            if (_mouse != null)
-            {
-                _mouse.Unacquire();
-                _mouse.Dispose();
-                _mouse = null;
-            }
-
-            if (_directInput != null)
-            {
-                _directInput.Dispose();
-            }
-        }
-
-        public void Update()
-        {
-            
-        }
-
-        public bool GetKeyPress(Key key, bool ignorePressStamp = false)
-        {
-            return false;
-        }
-
-        public bool GetButtonPress(MouseObject mouseObject, bool ignorePressStamp = false)
-        {
-            return false;
         }
     }
 }

@@ -70,7 +70,7 @@ namespace MY3DEngine
         /// <param name="fileName">The name of the file</param>
         public MeshClass(string filePath, string fileName)
         {
-            ObjectMesh = Mesh.FromFile(Engine.GameEngine.LocalDevice.ThisDevice, filePath, MeshFlags.Managed);
+            ObjectMesh = Mesh.FromFile(Engine.GameEngine.LocalDevice.Device, filePath, MeshFlags.Managed);
             ExtendedMaterial[] externMaterial = ObjectMesh.GetMaterials();
             _material = new Material[externMaterial.Length];
             CurrentTexture = new Texture[externMaterial.Length];
@@ -85,7 +85,7 @@ namespace MY3DEngine
                 s = s.Remove(s.IndexOf(fileName));
                 s = s.Insert(index, externMaterial[i].TextureFileName);
 
-                CurrentTexture[i] = Texture.FromFile(Engine.GameEngine.LocalDevice.ThisDevice, s);
+                CurrentTexture[i] = Texture.FromFile(Engine.GameEngine.LocalDevice.Device, s);
             }
 
             //objectMesh.Optimize(MeshOptimizeFlags.Compact | MeshOptimizeFlags.AttributeSort);
@@ -105,7 +105,7 @@ namespace MY3DEngine
         {
             if (type == MeshType.Cube)
             {
-                ObjectMesh = Mesh.CreateBox(Engine.GameEngine.LocalDevice.ThisDevice, 1f, 1f, 1f);
+                ObjectMesh = Mesh.CreateBox(Engine.GameEngine.LocalDevice.Device, 1f, 1f, 1f);
 
                 ObjectMesh.ComputeNormals();
 
@@ -115,7 +115,7 @@ namespace MY3DEngine
             }
             else if (type == MeshType.Sphere)
             {
-                ObjectMesh = Mesh.CreateSphere(Engine.GameEngine.LocalDevice.ThisDevice, .1f, 10, 10);
+                ObjectMesh = Mesh.CreateSphere(Engine.GameEngine.LocalDevice.Device, .1f, 10, 10);
 
                 ObjectMesh.ComputeNormals();
                 ObjectMesh.Optimize(MeshOptimizeFlags.Compact);
@@ -123,7 +123,7 @@ namespace MY3DEngine
             }
             else if (type == MeshType.Teapot)
             {
-                ObjectMesh = Mesh.CreateTeapot(Engine.GameEngine.LocalDevice.ThisDevice);
+                ObjectMesh = Mesh.CreateTeapot(Engine.GameEngine.LocalDevice.Device);
 
                 ObjectMesh.ComputeNormals();
 
@@ -150,7 +150,7 @@ namespace MY3DEngine
                     2, 0, 4,
                 };
 
-                ObjectMesh = new Mesh(Engine.GameEngine.LocalDevice.ThisDevice, ShapeIndices.Length, ShapeVertices.Length, MeshFlags.Managed, VertexPositionColor.Format);
+                ObjectMesh = new Mesh(Engine.GameEngine.LocalDevice.Device, ShapeIndices.Length, ShapeVertices.Length, MeshFlags.Managed, VertexPositionColor.Format);
 
                 ObjectMesh.LockVertexBuffer(LockFlags.None).WriteRange<VertexPositionColor>(ShapeVertices);
                 ObjectMesh.UnlockVertexBuffer();
@@ -158,11 +158,11 @@ namespace MY3DEngine
                 ObjectMesh.LockIndexBuffer(LockFlags.None).WriteRange<short>(ShapeIndices);
                 ObjectMesh.UnlockIndexBuffer();
 
-                Mesh other = ObjectMesh.Clone(Engine.GameEngine.LocalDevice.ThisDevice, MeshFlags.Managed, ObjectMesh.VertexFormat | VertexFormat.Normal | VertexFormat.Texture2);
+                Mesh other = ObjectMesh.Clone(Engine.GameEngine.LocalDevice.Device, MeshFlags.Managed, ObjectMesh.VertexFormat | VertexFormat.Normal | VertexFormat.Texture2);
                 ObjectMesh.Dispose();
                 ObjectMesh = null;
                 //other.ComputeNormals();
-                ObjectMesh = other.Clone(Engine.GameEngine.LocalDevice.ThisDevice, MeshFlags.Managed, other.VertexFormat);
+                ObjectMesh = other.Clone(Engine.GameEngine.LocalDevice.Device, MeshFlags.Managed, other.VertexFormat);
                 other.Dispose();
 
                 ObjectMesh.Optimize(MeshOptimizeFlags.Compact);
@@ -215,13 +215,13 @@ namespace MY3DEngine
         {
             _world = Matrix.RotationYawPitchRoll(ObjectRotate.Y, ObjectRotate.X, ObjectRotate.Z) * 
                 Matrix.Scaling(ObjectScale) * Matrix.Translation(ObjectPosition);
-            Engine.GameEngine.LocalDevice.ThisDevice.SetTransform(TransformState.World, _world);
+            Engine.GameEngine.LocalDevice.Device.SetTransform(TransformState.World, _world);
 
             if (_material != null)
             {
                 foreach (var item in _material)
                 {
-                    Engine.GameEngine.LocalDevice.ThisDevice.Material = item;
+                    Engine.GameEngine.LocalDevice.Device.Material = item;
                 }
             }
 
@@ -229,7 +229,7 @@ namespace MY3DEngine
             {
                 foreach (var item in CurrentTexture)
                 {
-                    Engine.GameEngine.LocalDevice.ThisDevice.SetTexture(0, item);
+                    Engine.GameEngine.LocalDevice.Device.SetTexture(0, item);
                 }
             }
 
@@ -263,7 +263,7 @@ namespace MY3DEngine
         {
             lock (ObjectMesh)
             {
-                Mesh other = ObjectMesh.Clone(Engine.GameEngine.LocalDevice.ThisDevice, MeshFlags.UseHardwareOnly,
+                Mesh other = ObjectMesh.Clone(Engine.GameEngine.LocalDevice.Device, MeshFlags.UseHardwareOnly,
                     VertexFormat.Position | VertexFormat.Normal | VertexFormat.Texture0);
                 lock (CurrentTexture)
                 {
@@ -316,7 +316,7 @@ namespace MY3DEngine
         public static VertexFormat Format = VertexFormat.Position | VertexFormat.Diffuse;
         public static int VertexByteSize = 16;
 
-        public static VertexDeclaration VertexDecl = new VertexDeclaration(Engine.GameEngine.LocalDevice.ThisDevice, new VertexElement[]
+        public static VertexDeclaration VertexDecl = new VertexDeclaration(Engine.GameEngine.LocalDevice.Device, new VertexElement[]
             {
                 new VertexElement(0, 0, DeclarationType.Float3, DeclarationMethod.Default, DeclarationUsage.Position, 0),
                 new VertexElement(0, 12, DeclarationType.Color, DeclarationMethod.Default, DeclarationUsage.Color, 0),

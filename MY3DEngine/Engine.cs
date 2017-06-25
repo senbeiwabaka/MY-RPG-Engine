@@ -1,5 +1,4 @@
-﻿using SlimDX.Direct3D9;
-using System;
+﻿using System;
 using System.Drawing;
 using System.Threading;
 
@@ -7,12 +6,12 @@ namespace MY3DEngine
 {
     public sealed class Engine : IDisposable
     {
-        private Input _input;
-        private bool _lighting;
-        private bool _loaded;
-        private ObjectManager _manager;
-        private Thread _renderThread;
-        private bool _wireFrame;
+        private Input input;
+        private bool lighting;
+        private bool loaded;
+        private ObjectManager manager;
+        private Thread renderThread;
+        private bool wireFrame;
 
         /// <summary>
         /// 
@@ -29,27 +28,45 @@ namespace MY3DEngine
         /// </summary>
         public ExceptionHolder Exception { get; set; }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public bool IsNotShutDown { get; set; }
 
-        public DeviceManager LocalDevice { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
+        public DirectXManager LocalDevice { get; set; }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public ObjectManager Manager
         {
             get
             {
-                return _manager;
+                return this.manager;
             }
+
             set
             {
-                if (_manager == null)
+                if (this.manager == null)
                 {
-                    _manager = new ObjectManager();
+                    this.manager = new ObjectManager();
                 }
+
+                this.manager = value;
             }
         }
 
-        public IntPtr Window { get; private set; }
+        /// <summary>
+        /// 
+        /// </summary>
+        public IntPtr Window { get; }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public static readonly bool IsDebug;
 
         /// <summary>
@@ -60,7 +77,7 @@ namespace MY3DEngine
         {
             IsNotShutDown = false;
 
-            _loaded = false;
+            this.loaded = false;
 
             Window = new IntPtr();
 
@@ -68,13 +85,18 @@ namespace MY3DEngine
 
             Exception = new ExceptionHolder();
 
-            _lighting = false;
-            _wireFrame = true;
+            this.lighting = false;
+            this.wireFrame = true;
         }
 
         public void Dispose()
         {
-            _input.Dispose();
+            this.input.Dispose();
+
+            while (!this.renderThread.IsAlive)
+            {
+                LocalDevice.Dispose();
+            }
         }
 
         /// <summary>
@@ -82,9 +104,9 @@ namespace MY3DEngine
         /// </summary>
         public void GlobalLights()
         {
-            _lighting = _lighting == false ? true : false;
-            LocalDevice.ThisDevice.SetRenderState(RenderState.Lighting, _lighting);
-            LocalDevice.ThisDevice.SetRenderState(RenderState.Ambient, new SlimDX.Color4(Color.Gray).ToArgb());
+            this.lighting = this.lighting == false ? true : false;
+            //LocalDevice.ThisDevice.SetRenderState(RenderState.Lighting, _lighting);
+            //LocalDevice.ThisDevice.SetRenderState(RenderState.Ambient, new SlimDX.Color4(Color.Gray).ToArgb());
         }
 
         /// <summary>
@@ -94,26 +116,26 @@ namespace MY3DEngine
         /// <param name="height"></param>
         public void Initliaze(int width, int height)
         {
-            _input = new Input();
+            this.input = new Input();
 
-            _loaded = true;
+            this.loaded = true;
 
-            IsNotShutDown = false;
+            this.IsNotShutDown = false;
 
-            LocalDevice = new DeviceManager(Window, width, height);
+            this.LocalDevice = new DirectXManager(this.Window, width, height);
 
-            Camera = new Camera();
+            this.Camera = new Camera();
 
-            Manager = new ObjectManager();
+            this.Manager = new ObjectManager();
 
-            Start();
+            this.Start();
+            
+            //LocalDevice.ThisDevice.SetRenderState(RenderState.Lighting, _lighting);
+            //LocalDevice.ThisDevice.SetRenderState(RenderState.CullMode, Cull.Counterclockwise);
+            //LocalDevice.ThisDevice.SetRenderState(RenderState.ZEnable, ZBufferType.UseZBuffer);
+            //LocalDevice.ThisDevice.SetRenderState(RenderState.NormalizeNormals, true);
 
-            LocalDevice.ThisDevice.SetRenderState(RenderState.Lighting, _lighting);
-            LocalDevice.ThisDevice.SetRenderState(RenderState.CullMode, Cull.Counterclockwise);
-            LocalDevice.ThisDevice.SetRenderState(RenderState.ZEnable, ZBufferType.UseZBuffer);
-            LocalDevice.ThisDevice.SetRenderState(RenderState.NormalizeNormals, true);
-
-            LocalDevice.ThisDevice.SetRenderState(RenderState.SpecularEnable, false);
+            //LocalDevice.ThisDevice.SetRenderState(RenderState.SpecularEnable, false);
         }
 
         /// <summary>
@@ -121,28 +143,26 @@ namespace MY3DEngine
         /// </summary>
         public void Shutdown()
         {
-            IsNotShutDown = true;
+            this.IsNotShutDown = true;
 
-            while (_renderThread.IsAlive)
+            while (this.renderThread.IsAlive)
             {
-                _renderThread.Abort();
-            }
-
-            while (!LocalDevice.ThisDevice.Disposed && !_renderThread.IsAlive)
-            {
-                LocalDevice.ThisDevice.EvictManagedResources();
-                LocalDevice.ThisDevice.Direct3D.Dispose();
-                LocalDevice.ThisDevice.Dispose();
+                this.renderThread.Abort();
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public void Start()
         {
-            if (_loaded)
+            if (!this.loaded)
             {
-                _renderThread = new Thread(Renderer.RenderScene) { Name = "Rendering Thread" };
-                _renderThread.Start();
+                return;
             }
+
+            this.renderThread = new Thread(Renderer.RenderScene) { Name = "RenderingThread" };
+            this.renderThread.Start();
         }
 
         /// <summary>
@@ -150,16 +170,16 @@ namespace MY3DEngine
         /// </summary>
         public void WireFrame()
         {
-            if (_wireFrame)
-            {
-                LocalDevice.ThisDevice.SetRenderState(RenderState.FillMode, FillMode.Wireframe);
-                _wireFrame = false;
-            }
-            else
-            {
-                LocalDevice.ThisDevice.SetRenderState(RenderState.FillMode, FillMode.Solid);
-                _wireFrame = true;
-            }
+            //if (_wireFrame)
+            //{
+            //    LocalDevice.ThisDevice.SetRenderState(RenderState.FillMode, FillMode.Wireframe);
+            //    _wireFrame = false;
+            //}
+            //else
+            //{
+            //    LocalDevice.ThisDevice.SetRenderState(RenderState.FillMode, FillMode.Solid);
+            //    _wireFrame = true;
+            //}
         }
     }
 }
