@@ -1,11 +1,9 @@
-﻿using SharpDX.Direct3D;
+﻿using SharpDX;
+using SharpDX.Direct3D;
 using SharpDX.Direct3D11;
 using SharpDX.DXGI;
-using System;
-
-using SharpDX;
 using SharpDX.Mathematics.Interop;
-
+using System;
 using Device = SharpDX.Direct3D11.Device;
 
 namespace MY3DEngine
@@ -16,8 +14,8 @@ namespace MY3DEngine
     public sealed class DirectXManager : IDisposable
     {
         private bool vsyncEnabled;
-        private int videoCardMemory = 0;
-        private string videoCardDescription = null;
+        private long videoCardMemory = default(long);
+        private string videoCardDescription = default(string);
         private SwapChain swapChain;
         private RenderTargetView renderTargetView;
         private Texture2D depthStencilBuffer;
@@ -31,78 +29,34 @@ namespace MY3DEngine
         /// <summary>
         /// Load content in the background
         /// </summary>
-        public Device Device { get; private set; }
+        public Device GetDevice { get; private set; }
 
         /// <summary>
         /// Renders content to the screen while loading can be happening
         /// </summary>
-        public DeviceContext DeviceContext { get; private set; }
-        
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="red"></param>
-        /// <param name="green"></param>
-        /// <param name="blue"></param>
-        /// <param name="alpha"></param>
-        public void BeginScene(float red, float green, float blue, float alpha)
-        {
-            // clear the back buffer
-            this.DeviceContext.ClearRenderTargetView(this.renderTargetView, new RawColor4(red, green, blue, alpha));
-
-            // clear the depth buffer
-            this.DeviceContext.ClearDepthStencilView(this.depthStencilView, DepthStencilClearFlags.Depth, 1.0f, 0);
-        }
+        public DeviceContext GetDeviceContext { get; private set; }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
-        public void EndScene()
-        {
-            if (this.vsyncEnabled)
-            {
-                // lock to screen
-                this.swapChain.Present(1, PresentFlags.None);
-            }
-            else
-            {
-                // present as fast as possible
-                this.swapChain.Present(0, PresentFlags.None);
-            }
-        }
+        public long VideoCardMemory => this.videoCardMemory;
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
-        /// <param name="enable"></param>
-        public void EnableAlphaBlending(bool enable)
-        {
-            var blendFactor = new RawColor4(0f, 0f, 0f, 0f);
-
-            this.DeviceContext.OutputMerger.SetBlendState(
-                enable ? this.blendStateAlphaEnabled : this.blendStateAlphaDisabled,
-                blendFactor,
-                0xffffffff);
-        }
+        public string VideoCardDescription => this.videoCardDescription;
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
-        /// <param name="enable"></param>
-        public void EnableZBuffer(bool enable)
-        {
-            this.DeviceContext.OutputMerger.SetDepthStencilState(
-                enable ? this.depthStencilState : this.depthDisabledStencilState,
-                1);
-        }
-
         public void Dispose()
         {
+            // before shutting down set to windowed mode or exception will be thrown
             this.swapChain?.SetFullscreenState(false, null);
 
             this.swapChain?.Dispose();
-            this.Device?.Dispose();
-            this.DeviceContext?.Dispose();
+            this.GetDevice?.Dispose();
+            this.GetDeviceContext?.Dispose();
             this.renderTargetView?.Dispose();
             this.depthStencilBuffer?.Dispose();
             this.depthStencilState?.Dispose();
@@ -113,14 +67,25 @@ namespace MY3DEngine
             this.depthDisabledStencilState?.Dispose();
         }
 
-        public bool Initialize(IntPtr windowHandle, int screenWidth, int screenHeight, bool vsync = true, bool fullScreen = false)
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="windowHandle"></param>
+        /// <param name="screenWidth"></param>
+        /// <param name="screenHeight"></param>
+        /// <param name="vsync"></param>
+        /// <param name="fullScreen"></param>
+        /// <returns></returns>
+        public bool Initialize(IntPtr windowHandle, int screenWidth = 720, int screenHeight = 480, bool vsync = true, bool fullScreen = false)
         {
             int numerator = 0, denominator = 0;
 
             this.vsyncEnabled = vsync;
 
-            // create directx graphics interface
-            var factory = new Factory(windowHandle);
+            // create directx graphics interface factory
+            var factory = new Factory4();
+
+            factory.MakeWindowAssociation(windowHandle, WindowAssociationFlags.IgnoreAll);
 
             // user factory above to create an adapter for the primary graphics interface
             var adapter = factory.GetAdapter(0);
@@ -134,11 +99,15 @@ namespace MY3DEngine
 
             foreach (var displayMode in displayModeList)
             {
-                if (displayMode.Width == screenWidth && displayMode.Height == screenHeight)
+                if (displayMode.Width != screenWidth || displayMode.Height != screenHeight)
                 {
-                    numerator = displayMode.RefreshRate.Numerator;
-                    denominator = displayMode.RefreshRate.Denominator;
+                    continue;
                 }
+
+                numerator = displayMode.RefreshRate.Numerator;
+                denominator = displayMode.RefreshRate.Denominator;
+
+                break;
             }
 
             if (numerator == 0 || denominator == 0)
@@ -150,7 +119,7 @@ namespace MY3DEngine
             var adapterDescription = adapter.Description;
 
             // store the video card memory in megabytes
-            this.videoCardMemory = (int)adapterDescription.DedicatedVideoMemory / 1024 / 1024;
+            this.videoCardMemory = (long)adapterDescription.DedicatedVideoMemory / 1024 / 1024;
 
             // store the name of the video card array
             this.videoCardDescription = adapterDescription.Description;
@@ -180,7 +149,7 @@ namespace MY3DEngine
             }
 
             // create render target view
-            this.renderTargetView = new RenderTargetView(this.Device, backBuffer);
+            this.renderTargetView = new RenderTargetView(this.GetDevice, backBuffer);
 
             if (this.renderTargetView == null)
             {
@@ -206,7 +175,7 @@ namespace MY3DEngine
             }
 
             // bind render target view and depth stenchil buffer to the output render pipeline
-            this.DeviceContext.OutputMerger.SetRenderTargets(this.depthStencilView, this.renderTargetView);
+            this.GetDeviceContext.OutputMerger.SetRenderTargets(this.depthStencilView, this.renderTargetView);
 
             if (!this.InitializeRasterizerState())
             {
@@ -228,6 +197,66 @@ namespace MY3DEngine
             return true;
         }
 
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="red"></param>
+        /// <param name="green"></param>
+        /// <param name="blue"></param>
+        /// <param name="alpha"></param>
+        public void BeginScene(float red, float green, float blue, float alpha)
+        {
+            // clear the back buffer
+            this.GetDeviceContext.ClearRenderTargetView(this.renderTargetView, new RawColor4(red, green, blue, alpha));
+
+            // clear the depth buffer
+            this.GetDeviceContext.ClearDepthStencilView(this.depthStencilView, DepthStencilClearFlags.Depth, 1.0f, 0);
+        }
+
+        /// <summary>
+        ///
+        /// </summary>
+        public void EndScene()
+        {
+            if (this.vsyncEnabled)
+            {
+                // lock to screen
+                this.swapChain.Present(1, PresentFlags.None);
+            }
+            else
+            {
+                // present as fast as possible
+                this.swapChain.Present(0, PresentFlags.None);
+            }
+        }
+
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="enable"></param>
+        public void EnableAlphaBlending(bool enable)
+        {
+            var blendFactor = new RawColor4(0f, 0f, 0f, 0f);
+
+            this.GetDeviceContext.OutputMerger.SetBlendState(
+                enable ? this.blendStateAlphaEnabled : this.blendStateAlphaDisabled,
+                blendFactor,
+                0xffffffff);
+        }
+
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="enable"></param>
+        public void EnableZBuffer(bool enable)
+        {
+            this.GetDeviceContext.OutputMerger.SetDepthStencilState(
+                enable ? this.depthStencilState : this.depthDisabledStencilState,
+                1);
+        }
+
+        #region Helper Methods
+
         private bool InitializeSwapChain(
             IntPtr windowHandle,
             bool fullScreen,
@@ -236,40 +265,29 @@ namespace MY3DEngine
             int numerator,
             int denominator)
         {
-            ModeDescription modeDescription;
-
-            if (this.vsyncEnabled)
+            var rational = this.vsyncEnabled ? new Rational(numerator, denominator) : new Rational(0, 1);
+            var modeDescription = new ModeDescription(
+                                                  screenWidth,
+                                                  screenHieght,
+                                                  rational, // refresh rate
+                                                            // set the scan line ordering and scaling to unspecified
+                                                  Format.B8G8R8A8_UNorm)
             {
-                modeDescription = new ModeDescription(
-                    screenWidth,
-                    screenHieght,
-                    new Rational(numerator, denominator), // refresh rate
-                    Format.B8G8R8A8_UNorm);
-            }
-            else
-            {
-                modeDescription = new ModeDescription(
-                    screenWidth,
-                    screenHieght,
-                    new Rational(0, 1), // refresh rate
-                    Format.B8G8R8A8_UNorm);
-            }
-
-            // set the scan line ordering and scaling to unspecified
-            modeDescription.ScanlineOrdering = DisplayModeScanlineOrder.Unspecified;
-            modeDescription.Scaling = DisplayModeScaling.Unspecified;
+                ScanlineOrdering = DisplayModeScanlineOrder.Unspecified,
+                Scaling = DisplayModeScaling.Unspecified
+            };
 
             var swapChainDescription = new SwapChainDescription()
-                                           {
-                                               BufferCount = 1,
-                                               SampleDescription = new SampleDescription(1, 0), // multi-sampling
-                                               IsWindowed = fullScreen,
-                                               OutputHandle = windowHandle,
-                                               ModeDescription = modeDescription,
-                                               Usage = Usage.RenderTargetOutput,
-                                               SwapEffect = SwapEffect.Discard,
-                                               Flags = SwapChainFlags.None
-                                           };
+            {
+                BufferCount = 1,
+                SampleDescription = new SampleDescription(1, 0), // multi-sampling
+                IsWindowed = !fullScreen,
+                OutputHandle = windowHandle,
+                ModeDescription = modeDescription,
+                Usage = Usage.RenderTargetOutput,
+                SwapEffect = SwapEffect.Discard,
+                Flags = SwapChainFlags.None
+            };
 
             // set the feature level to directx 11
             var featureLevel = FeatureLevel.Level_11_0;
@@ -279,14 +297,14 @@ namespace MY3DEngine
             SwapChain sc;
             Device.CreateWithSwapChain(DriverType.Hardware, DeviceCreationFlags.Debug, new[] { featureLevel }, swapChainDescription, out d, out sc);
 
-            if(d == null || sc == null)
+            if (d == null || sc == null)
             {
                 return false;
             }
 
-            this.Device = d;
+            this.GetDevice = d;
             this.swapChain = sc;
-            this.DeviceContext = this.Device.ImmediateContext;
+            this.GetDeviceContext = this.GetDevice.ImmediateContext;
 
             return true;
         }
@@ -295,21 +313,21 @@ namespace MY3DEngine
         {
             // setup depth buffer description
             var depthBufferDescription = new Texture2DDescription
-                                                              {
-                                                                  Width = screenWidth,
-                                                                  Height = screenHeight,
-                                                                  MipLevels = 1,
-                                                                  ArraySize = 1,
-                                                                  Format = Format.D24_UNorm_S8_UInt,
-                                                                  SampleDescription = new SampleDescription(1, 0),
-                                                                  Usage = ResourceUsage.Default,
-                                                                  BindFlags = BindFlags.DepthStencil,
-                                                                  CpuAccessFlags = CpuAccessFlags.None,
-                                                                  OptionFlags = ResourceOptionFlags.None
-                                                              };
+            {
+                Width = screenWidth,
+                Height = screenHeight,
+                MipLevels = 1,
+                ArraySize = 1,
+                Format = Format.D24_UNorm_S8_UInt,
+                SampleDescription = new SampleDescription(1, 0),
+                Usage = ResourceUsage.Default,
+                BindFlags = BindFlags.DepthStencil,
+                CpuAccessFlags = CpuAccessFlags.None,
+                OptionFlags = ResourceOptionFlags.None
+            };
 
             // create the texture for the depth buffer
-            this.depthStencilBuffer = new Texture2D(this.Device, depthBufferDescription);
+            this.depthStencilBuffer = new Texture2D(this.GetDevice, depthBufferDescription);
 
             return this.depthStencilBuffer != null;
         }
@@ -318,32 +336,32 @@ namespace MY3DEngine
         {
             var depthStencilStateDescription =
                 new DepthStencilStateDescription
-                    {
-                        IsDepthEnabled = true,
-                        DepthWriteMask = DepthWriteMask.All,
-                        DepthComparison = Comparison.Less,
-                        IsStencilEnabled = true,
-                        StencilReadMask = 0xFF,
-                        StencilWriteMask = 0xFF,
-                        FrontFace = // stencil operations if pixel is front-facing
+                {
+                    IsDepthEnabled = true,
+                    DepthWriteMask = DepthWriteMask.All,
+                    DepthComparison = Comparison.Less,
+                    IsStencilEnabled = true,
+                    StencilReadMask = 0xFF,
+                    StencilWriteMask = 0xFF,
+                    FrontFace = // stencil operations if pixel is front-facing
                             new DepthStencilOperationDescription
-                                {
-                                    FailOperation = StencilOperation.Keep,
-                                    DepthFailOperation = StencilOperation.Increment,
-                                    PassOperation = StencilOperation.Keep,
-                                    Comparison = Comparison.Always
-                                },
-                        BackFace = // stencil operations if pixel is back-facing
+                            {
+                                FailOperation = StencilOperation.Keep,
+                                DepthFailOperation = StencilOperation.Increment,
+                                PassOperation = StencilOperation.Keep,
+                                Comparison = Comparison.Always
+                            },
+                    BackFace = // stencil operations if pixel is back-facing
                             new DepthStencilOperationDescription
-                                {
-                                    FailOperation = StencilOperation.Keep,
-                                    DepthFailOperation = StencilOperation.Decrement,
-                                    PassOperation = StencilOperation.Keep,
-                                    Comparison = Comparison.Always
-                                }
-                    };
+                            {
+                                FailOperation = StencilOperation.Keep,
+                                DepthFailOperation = StencilOperation.Decrement,
+                                PassOperation = StencilOperation.Keep,
+                                Comparison = Comparison.Always
+                            }
+                };
 
-            this.depthStencilState = new DepthStencilState(this.Device, depthStencilStateDescription);
+            this.depthStencilState = new DepthStencilState(this.GetDevice, depthStencilStateDescription);
 
             if (this.depthStencilState == null)
             {
@@ -351,7 +369,7 @@ namespace MY3DEngine
             }
 
             // set depth stencil state
-            this.DeviceContext.OutputMerger.SetDepthStencilState(this.depthDisabledStencilState, 1);
+            this.GetDeviceContext.OutputMerger.SetDepthStencilState(this.depthDisabledStencilState, 1);
 
             return true;
         }
@@ -360,14 +378,13 @@ namespace MY3DEngine
         {
             var depthStencilViewDescription =
                 new DepthStencilViewDescription
-                    {
-                        Format = Format.D24_UNorm_S8_UInt,
-                        Dimension = DepthStencilViewDimension.Texture2D,
-                        Texture2D = { MipSlice = 0 }
-                    };
+                {
+                    Format = Format.D24_UNorm_S8_UInt,
+                    Dimension = DepthStencilViewDimension.Texture2D,
+                    Texture2D = { MipSlice = 0 }
+                };
 
-
-            this.depthStencilView = new DepthStencilView(this.Device, this.depthStencilBuffer, depthStencilViewDescription);
+            this.depthStencilView = new DepthStencilView(this.GetDevice, this.depthStencilBuffer, depthStencilViewDescription);
 
             return this.depthStencilView != null;
         }
@@ -376,21 +393,20 @@ namespace MY3DEngine
         {
             var rasterizerStateDescription =
                 new RasterizerStateDescription
-                    {
-                        IsAntialiasedLineEnabled = false,
-                        CullMode = CullMode.Back,
-                        DepthBias = 0,
-                        DepthBiasClamp = 0.0f,
-                        IsDepthClipEnabled = true,
-                        FillMode = FillMode.Solid,
-                        IsFrontCounterClockwise = false,
-                        IsMultisampleEnabled = false,
-                        IsScissorEnabled = false,
-                        SlopeScaledDepthBias = 0.0f
-                    };
+                {
+                    IsAntialiasedLineEnabled = false,
+                    CullMode = CullMode.Back,
+                    DepthBias = 0,
+                    DepthBiasClamp = 0.0f,
+                    IsDepthClipEnabled = true,
+                    FillMode = FillMode.Solid,
+                    IsFrontCounterClockwise = false,
+                    IsMultisampleEnabled = false,
+                    IsScissorEnabled = false,
+                    SlopeScaledDepthBias = 0.0f
+                };
 
-
-            this.rasterizerState = new RasterizerState(this.Device, rasterizerStateDescription);
+            this.rasterizerState = new RasterizerState(this.GetDevice, rasterizerStateDescription);
 
             if (this.rasterizerState == null)
             {
@@ -398,17 +414,9 @@ namespace MY3DEngine
             }
 
             // set the rasterizer
-            this.DeviceContext.Rasterizer.State = this.rasterizerState;
+            this.GetDeviceContext.Rasterizer.State = this.rasterizerState;
 
             return true;
-        }
-
-        private void InitializeViewport(int screenWidth, int screenHeight)
-        {
-            var viewport = new Viewport(0,0,screenWidth, screenHeight,0.0f, 1.0f);
-
-            // create viewport
-            this.DeviceContext.Rasterizer.SetViewport(viewport);
         }
 
         private bool InitializeAlphaBlending()
@@ -424,7 +432,7 @@ namespace MY3DEngine
             blendStateDescription.RenderTarget[0].AlphaBlendOperation = BlendOperation.Add;
             blendStateDescription.RenderTarget[0].RenderTargetWriteMask = ColorWriteMaskFlags.All;
 
-            this.blendStateAlphaEnabled = new BlendState(this.Device, blendStateDescription);
+            this.blendStateAlphaEnabled = new BlendState(this.GetDevice, blendStateDescription);
 
             if (this.blendStateAlphaEnabled == null)
             {
@@ -434,7 +442,7 @@ namespace MY3DEngine
             // modify to create the disabled alpha blend state
             blendStateDescription.RenderTarget[0].IsBlendEnabled = false;
 
-            this.blendStateAlphaDisabled = new BlendState(this.Device, blendStateDescription);
+            this.blendStateAlphaDisabled = new BlendState(this.GetDevice, blendStateDescription);
 
             if (this.blendStateAlphaDisabled == null)
             {
@@ -448,34 +456,44 @@ namespace MY3DEngine
         {
             var depthStencilStateDescription =
                 new DepthStencilStateDescription
-                    {
-                        IsDepthEnabled = false,
-                        DepthWriteMask = DepthWriteMask.All,
-                        DepthComparison = Comparison.Less,
-                        IsStencilEnabled = true,
-                        StencilReadMask = 0xFF,
-                        StencilWriteMask = 0xFF,
-                        FrontFace = // stencil operations if pixel is front-facing
+                {
+                    IsDepthEnabled = false,
+                    DepthWriteMask = DepthWriteMask.All,
+                    DepthComparison = Comparison.Less,
+                    IsStencilEnabled = true,
+                    StencilReadMask = 0xFF,
+                    StencilWriteMask = 0xFF,
+                    FrontFace = // stencil operations if pixel is front-facing
                             new DepthStencilOperationDescription
-                                {
-                                    FailOperation = StencilOperation.Keep,
-                                    DepthFailOperation = StencilOperation.Increment,
-                                    PassOperation = StencilOperation.Keep,
-                                    Comparison = Comparison.Always
-                                },
-                        BackFace = // stencil operations if pixel is back-facing
+                            {
+                                FailOperation = StencilOperation.Keep,
+                                DepthFailOperation = StencilOperation.Increment,
+                                PassOperation = StencilOperation.Keep,
+                                Comparison = Comparison.Always
+                            },
+                    BackFace = // stencil operations if pixel is back-facing
                             new DepthStencilOperationDescription
-                                {
-                                    FailOperation = StencilOperation.Keep,
-                                    DepthFailOperation = StencilOperation.Decrement,
-                                    PassOperation = StencilOperation.Keep,
-                                    Comparison = Comparison.Always
-                                }
-                    };
+                            {
+                                FailOperation = StencilOperation.Keep,
+                                DepthFailOperation = StencilOperation.Decrement,
+                                PassOperation = StencilOperation.Keep,
+                                Comparison = Comparison.Always
+                            }
+                };
 
-            this.depthDisabledStencilState = new DepthStencilState(this.Device, depthStencilStateDescription);
+            this.depthDisabledStencilState = new DepthStencilState(this.GetDevice, depthStencilStateDescription);
 
             return this.depthDisabledStencilState != null;
         }
+
+        private void InitializeViewport(int screenWidth, int screenHeight)
+        {
+            var viewport = new Viewport(0, 0, screenWidth, screenHeight, 0.0f, 1.0f);
+
+            // create viewport
+            this.GetDeviceContext.Rasterizer.SetViewport(viewport);
+        }
+
+        #endregion Helper Methods
     }
 }

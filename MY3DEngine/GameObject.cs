@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Xml.Serialization;
 
+using MY3DEngine.Graphics;
+
 namespace MY3DEngine
 {
     [Serializable]
@@ -15,8 +17,8 @@ namespace MY3DEngine
 
         public int ID { get; set; }
 
-        [XmlIgnore]
-        public MeshClass MeshObject { get; protected set; }
+        //[XmlIgnore]
+        //public MeshClass MeshObject { get; protected set; }
 
         public string Name { get; set; }
 
@@ -34,21 +36,21 @@ namespace MY3DEngine
         /// <param name="path">The path of the object</param>
         public GameObject(string fileName = "", string path = "")
         {
-            MeshObject = new MeshClass(path, fileName);
+            //MeshObject = new MeshClass(path, fileName);
             FileName = fileName;
             FilePath = path;
         }
 
         public GameObject(string type = "Cube")
         {
-            if (type.ToLower().Equals("triangle"))
-            {
-                MeshObject = new MeshClass(MeshType.Triangle);
-            }
-            else
-            {
-                MeshObject = new MeshClass(MeshType.Cube);
-            }
+            //if (type.ToLower().Equals("triangle"))
+            //{
+            //    MeshObject = new MeshClass(MeshType.Triangle);
+            //}
+            //else
+            //{
+            //    MeshObject = new MeshClass(MeshType.Cube);
+            //}
 
             Name = type;
         }
@@ -60,15 +62,15 @@ namespace MY3DEngine
         /// </summary>
         public virtual void Dispose()
         {
-            MeshObject.Dispose();
+            //MeshObject.Dispose();
         }
 
         public virtual void Renderer()
         {
-            if (MeshObject != null)
-            {
-                MeshObject.RenderMesh();
-            }
+            //if (MeshObject != null)
+            //{
+            //    MeshObject.RenderMesh();
+            //}
         }
 
         public override string ToString()

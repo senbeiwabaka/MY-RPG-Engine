@@ -23,7 +23,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <PlatformTarget>x86</PlatformTarget>
+    <PlatformTarget>x64</PlatformTarget>
     <DocumentationFile>bin\Debug\MY3DEngine.XML</DocumentationFile>
     <RegisterForComInterop>false</RegisterForComInterop>
     <Prefer32Bit>false</Prefer32Bit>
@@ -78,7 +78,7 @@
     <Compile Include="Graphics\IGraphicManager.cs" />
     <Compile Include="ILevel.cs" />
     <Compile Include="Input.cs" />
-    <Compile Include="MeshClass.cs" />
+    <Content Include="Graphics\MeshClass.cs" />
     <Compile Include="GameObject.cs" />
     <Compile Include="ObjectManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

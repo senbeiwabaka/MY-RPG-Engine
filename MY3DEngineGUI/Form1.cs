@@ -1,6 +1,7 @@
 ﻿using MY3DEngine;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -17,37 +18,52 @@ namespace MY3DEngineGUI
         {
             InitializeComponent();
 
-            Engine.GameEngine = new Engine(rendererPnl.Handle);
-            Engine.GameEngine.Initliaze(rendererPnl.Width, rendererPnl.Height);
-            UpdateCameraLocation();
+            var graphicsException = new ExceptionData("Engine Graphics not setup correctly", "Engine", string.Empty);
+            var exceptions = new BindingList<ExceptionData>();
 
-            var other = Engine.GameEngine.Exception.Exceptions;
-
-            dataGridView1.DataSource = other;
-
-            rendererPnl.MouseWheel += rendererPnl_MouseWheel;
-
-            _mouseLocation = new Point(0, 0);
-            _firstMouse = false;
-            _isObjectSelected = false;
-
-            lock (Engine.GameEngine.Manager)
+            if (Engine.GameEngine.InitliazeGraphics(
+                this.rendererPnl.Handle,
+                this.rendererPnl.Width,
+                this.rendererPnl.Height,
+                true,
+                false))
             {
-                List<GameObject> list = new List<GameObject>(Engine.GameEngine.Manager.GameObjects);
-                list.Insert(0, _none);
-                cmbObjectList.DataSource = list;
+                Engine.GameEngine.Initialize(this.Handle);
+
+                exceptions = Engine.GameEngine.Exception.Exceptions;
+
+                UpdateCameraLocation();
+
+                rendererPnl.MouseWheel += rendererPnl_MouseWheel;
+
+                _mouseLocation = new Point(0, 0);
+                _firstMouse = false;
+                _isObjectSelected = false;
+
+                lock (Engine.GameEngine.Manager)
+                {
+                    List<GameObject> list = new List<GameObject>(Engine.GameEngine.Manager.GameObjects);
+                    list.Insert(0, _none);
+                    cmbObjectList.DataSource = list;
+                }
+
+                Engine.GameEngine.Exception.Information.CollectionChanged += Information_CollectionChanged;
+            }
+            else
+            {
+                exceptions.Add(graphicsException);
             }
 
-            Engine.GameEngine.Exception.Information.CollectionChanged += Information_CollectionChanged;
+            this.dataGridView1.DataSource = exceptions;
         }
 
         #region Shutdown/Exit
 
         private static void ShutDown()
         {
-            Engine.GameEngine.Dispose();
-
             Engine.GameEngine.Shutdown();
+
+            Engine.GameEngine.Dispose();
         }
 
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
@@ -80,7 +96,7 @@ namespace MY3DEngineGUI
             {
                 foreach (GameObject item in Engine.GameEngine.Manager.GameObjects)
                 {
-                    _isObjectSelected = Engine.GameEngine.Camera.RayIntersection(new SlimDX.Vector2(e.X, e.Y), item.MeshObject);
+                    //_isObjectSelected = Engine.GameEngine.Camera.RayIntersection(new SlimDX.Vector2(e.X, e.Y), item.MeshObject);
 
                     if (_isObjectSelected)
                     {
@@ -111,12 +127,12 @@ namespace MY3DEngineGUI
             }
             else if (e.Button == MouseButtons.Left & _isObjectSelected)
             {
-                float DeltaX = e.X - Engine.GameEngine.Manager.GameObjects[objectIndex].MeshObject.ObjectPosition.X;
-                float DeltaY = e.Y - Engine.GameEngine.Manager.GameObjects[objectIndex].MeshObject.ObjectPosition.Y;
+                //float DeltaX = e.X - Engine.GameEngine.Manager.GameObjects[objectIndex].MeshObject.ObjectPosition.X;
+                //float DeltaY = e.Y - Engine.GameEngine.Manager.GameObjects[objectIndex].MeshObject.ObjectPosition.Y;
 
-                Engine.GameEngine.Manager.GameObjects[objectIndex].MeshObject.Translate(x: (DeltaX / 40f), y: (-DeltaY / 40f));
+                //Engine.GameEngine.Manager.GameObjects[objectIndex].MeshObject.Translate(x: (DeltaX / 40f), y: (-DeltaY / 40f));
 
-                lblLocation.Text = Engine.GameEngine.Manager.GameObjects[objectIndex].MeshObject.ObjectPosition.ToString();
+                //lblLocation.Text = Engine.GameEngine.Manager.GameObjects[objectIndex].MeshObject.ObjectPosition.ToString();
 
                 _mouseLocation.X = e.X;
                 _mouseLocation.Y = e.Y;
@@ -188,10 +204,10 @@ namespace MY3DEngineGUI
 
         private void addDirectionalLightToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (Engine.GameEngine.Manager.AddObject(new LightClass("Directional")))
-            {
-                Add_RemoveObject("Directional Light Added");
-            }
+            //if (Engine.GameEngine.Manager.AddObject(new LightClass("Directional")))
+            //{
+            //    Add_RemoveObject("Directional Light Added");
+            //}
         }
 
         private void addObjectToolStripMenuItem_Click(object sender, EventArgs e)
@@ -216,10 +232,10 @@ namespace MY3DEngineGUI
 
         private void addPointLightToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (Engine.GameEngine.Manager.AddObject(new LightClass()))
-            {
-                Add_RemoveObject("Point light added");
-            }
+            //if (Engine.GameEngine.Manager.AddObject(new LightClass()))
+            //{
+            //    Add_RemoveObject("Point light added");
+            //}
         }
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
@@ -233,21 +249,21 @@ namespace MY3DEngineGUI
             if (index >= 0)
             {
                 txtName.Text = Engine.GameEngine.Manager.GameObjects[index].Name;
-                lblLocation.Text = "Location: " + Engine.GameEngine.Manager.GameObjects[index].MeshObject.ObjectPosition.ToString();
-                
-                if (Engine.GameEngine.Manager.GameObjects[index] is LightClass)
-                {
-                    ckbxLightOnOff.Visible = true;
-                    ckbxLightOnOff.Checked = (Engine.GameEngine.Manager.GameObjects[index] as LightClass).IsLightEnabled;
-                    lblColor.Text = string.Empty;
-                    btnColor.Visible = false;
-                }
-                else
-                {
-                    ckbxLightOnOff.Visible = false;
-                    lblColor.Text = "Color: " + Engine.GameEngine.Manager.GameObjects[index].MeshObject.MeshColorasString;
-                    btnColor.Visible = true;
-                }
+                //lblLocation.Text = "Location: " + Engine.GameEngine.Manager.GameObjects[index].MeshObject.ObjectPosition.ToString();
+
+                //if (Engine.GameEngine.Manager.GameObjects[index] is LightClass)
+                //{
+                //    ckbxLightOnOff.Visible = true;
+                //    ckbxLightOnOff.Checked = (Engine.GameEngine.Manager.GameObjects[index] as LightClass).IsLightEnabled;
+                //    lblColor.Text = string.Empty;
+                //    btnColor.Visible = false;
+                //}
+                //else
+                //{
+                //    ckbxLightOnOff.Visible = false;
+                //    lblColor.Text = "Color: " + Engine.GameEngine.Manager.GameObjects[index].MeshObject.MeshColorasString;
+                //    btnColor.Visible = true;
+                //}
             }
             else
             {
@@ -267,7 +283,7 @@ namespace MY3DEngineGUI
             Engine.GameEngine.WireFrame();
         }
 
-        void Information_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        private void Information_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
             if (e.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Add)
             {
@@ -325,10 +341,10 @@ namespace MY3DEngineGUI
 
             if (index >= 0)
             {
-                if (Engine.GameEngine.Manager.GameObjects[index] is LightClass)
-                {
-                    (Engine.GameEngine.Manager.GameObjects[index] as LightClass).LightOnOff();
-                }
+                //if (Engine.GameEngine.Manager.GameObjects[index] is LightClass)
+                //{
+                //    (Engine.GameEngine.Manager.GameObjects[index] as LightClass).LightOnOff();
+                //}
             }
         }
 
@@ -344,7 +360,7 @@ namespace MY3DEngineGUI
             {
                 if (Engine.GameEngine.Manager.GameObjects[index] is GameObject)
                 {
-                    colorDialog1.Color = Engine.GameEngine.Manager.GameObjects[index].MeshObject.MeshColor;
+                    //colorDialog1.Color = Engine.GameEngine.Manager.GameObjects[index].MeshObject.MeshColor;
                 }
             }
 
@@ -354,7 +370,7 @@ namespace MY3DEngineGUI
                 {
                     if (Engine.GameEngine.Manager.GameObjects[index] is GameObject)
                     {
-                        Engine.GameEngine.Manager.GameObjects[index].MeshObject.ApplyColor(colorDialog1.Color);
+                        //Engine.GameEngine.Manager.GameObjects[index].MeshObject.ApplyColor(colorDialog1.Color);
                     }
                 }
             }

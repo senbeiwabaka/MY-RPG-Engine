@@ -62,10 +62,10 @@ namespace MY3DEngine
             {
                 lock (GameObjects)
                 {
-                    if (obj.GetType() == typeof(LightClass))
-                    {
-                        ((LightClass)obj).index = ++_index;
-                    }
+                    //if (obj.GetType() == typeof(LightClass))
+                    //{
+                    //    ((LightClass)obj).index = ++_index;
+                    //}
                     obj.ID = ++_id;
                     GameObjects.Add(obj);
                 }

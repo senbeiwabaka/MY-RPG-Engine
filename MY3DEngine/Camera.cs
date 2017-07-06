@@ -1,5 +1,7 @@
 ﻿using System;
 
+using MY3DEngine.Graphics;
+
 using SharpDX;
 
 namespace MY3DEngine
@@ -9,34 +11,6 @@ namespace MY3DEngine
     /// </summary>
     public class Camera
     {
-        #region Properties
-
-        /// <summary>
-        /// the actual view from eye, lookat, and up
-        /// </summary>
-        public Matrix View { get; set; }
-
-        /// <summary>
-        /// Rotate the camera around the x, y, and z axis
-        /// </summary>
-        public Vector3 CameraRotation
-        {
-            get
-            {
-                return this.cameraRotation;
-            }
-
-            set
-            {
-                this.cameraRotation = new Vector3(this.cameraRotation.X + value.X, this.cameraRotation.Y + value.Y, this.cameraRotation.Z + value.Z);
-                this.View = Matrix.RotationYawPitchRoll(this.cameraRotation.Y, this.cameraRotation.X, this.cameraRotation.Z) * Matrix.Translation(this.Eye);
-
-                //Engine.GameEngine.LocalDevice.ThisDevice.SetTransform(TransformState.View, this.View);
-            }
-        }
-
-        #endregion
-
         #region Fields
 
         // how the screen is displayed such as wide screen
@@ -66,6 +40,34 @@ namespace MY3DEngine
 
         #endregion
 
+        #region Properties
+
+        /// <summary>
+        /// the actual view from eye, lookat, and up
+        /// </summary>
+        public Matrix View { get; set; }
+
+        /// <summary>
+        /// Rotate the camera around the x, y, and z axis
+        /// </summary>
+        public Vector3 CameraRotation
+        {
+            get
+            {
+                return this.cameraRotation;
+            }
+
+            set
+            {
+                this.cameraRotation = new Vector3(this.cameraRotation.X + value.X, this.cameraRotation.Y + value.Y, this.cameraRotation.Z + value.Z);
+                this.View = Matrix.RotationYawPitchRoll(this.cameraRotation.Y, this.cameraRotation.X, this.cameraRotation.Z) * Matrix.Translation(this.Eye);
+
+                //Engine.GameEngine.LocalDevice.ThisDevice.SetTransform(TransformState.View, this.View);
+            }
+        }
+
+        #endregion
+        
         /// <summary>
         /// Constructor that sets basic values for view and projection
         /// </summary>
@@ -138,7 +140,7 @@ namespace MY3DEngine
         /// <param name="mousePosition"></param>
         /// <param name="mesh"></param>
         /// <returns></returns>
-        public bool RayIntersection(Vector2 mousePosition, MeshClass mesh)
+        public bool RayIntersection(Vector2 mousePosition)
         {
             var mouse = new Vector3();
 
@@ -146,7 +148,7 @@ namespace MY3DEngine
             //mouse.Y = -(((2.0f * mousePosition.Y) / Engine.GameEngine.LocalDevice.ThisDevice.Viewport.Height) - 1) / projection.M22;
             //mouse.Z = 1.0f;
 
-            Matrix worldView = this.View * Engine.GameEngine.LocalDevice.Device.ImmediateContext.(TransformState.World);
+            Matrix worldView = new Matrix(); // this.View * Engine.GameEngine.LocalDevice.GetDevice.ImmediateContext.(TransformState.World);
 
             var m = new Matrix();
 
@@ -164,10 +166,10 @@ namespace MY3DEngine
 
             var selectionRay = new Ray(mouse, direction);
 
-            if (mesh != null)
-            {
-                return mesh.ObjectMesh.Intersects(selectionRay);
-            }
+            //if (mesh != null)
+            //{
+            //    return mesh.ObjectMesh.Intersects(selectionRay);
+            //}
 
             return false;
         }
@@ -203,8 +205,7 @@ namespace MY3DEngine
             this.nearClipping = close;
             this.farClipping = far;
             this.projection = Matrix.PerspectiveFovLH(this.fov, this.aspectRatio, nearClipping, this.farClipping);
-            Engine.GameEngine.LocalDevice.Device.SetTransform(TransformState.Projection,
-                projection);
+            //Engine.GameEngine.LocalDevice.GetDevice.SetTransform(TransformState.Projection, projection);
         }
 
         /// <summary>
@@ -219,7 +220,7 @@ namespace MY3DEngine
             this.lookAt = lookat;
             upDirection = up;
             View = Matrix.Translation(eye);
-            Engine.GameEngine.LocalDevice.Device.SetTransform(TransformState.View, View);
+            //Engine.GameEngine.LocalDevice.GetDevice.SetTransform(TransformState.View, View);
         }
     }
 }

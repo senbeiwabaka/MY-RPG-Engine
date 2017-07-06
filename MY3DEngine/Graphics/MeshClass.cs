@@ -1,12 +1,10 @@
-﻿using SlimDX;
-using SlimDX.Direct3D9;
-using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Text;
+﻿using System;
 
-namespace MY3DEngine
+using SharpDX;
+
+using Color = System.Drawing.Color;
+
+namespace MY3DEngine.Graphics
 {
     /// <summary>
     /// 
@@ -26,6 +24,9 @@ namespace MY3DEngine
     /// </summary>
     public sealed class MeshClass : IDisposable
     {
+        private Material[] _material;
+        private Matrix _world;
+
         public Texture[] CurrentTexture { get; set; }
         public Vector3 ObjectPosition { get; set; }
         public Vector3 ObjectRotate { get; set; }
@@ -33,8 +34,7 @@ namespace MY3DEngine
         public Vector3 ObjectScale { get; set; }
         public Mesh ObjectMesh { get; private set; }
 
-        private Material[] _material;
-        private Matrix _world;
+        
 
         /// <summary>
         /// Return the mesh color as a string
@@ -43,9 +43,9 @@ namespace MY3DEngine
         {
             get
             {
-                if (_material != null)
+                if (this._material != null)
                 {
-                    return _material[0].Ambient.ToString();
+                    return this._material[0].Ambient.ToString();
                 }
 
                 return "No Color";
@@ -55,13 +55,7 @@ namespace MY3DEngine
         /// <summary>
         /// Return the actual mesh color
         /// </summary>
-        public Color MeshColor
-        {
-            get
-            {
-                return _material[0].Ambient.ToColor();
-            }
-        }
+        public Color MeshColor => this._material[0].Ambient.ToColor();
 
         /// <summary>
         /// Create a mesh from a .x File
@@ -70,31 +64,31 @@ namespace MY3DEngine
         /// <param name="fileName">The name of the file</param>
         public MeshClass(string filePath, string fileName)
         {
-            ObjectMesh = Mesh.FromFile(Engine.GameEngine.LocalDevice.Device, filePath, MeshFlags.Managed);
-            ExtendedMaterial[] externMaterial = ObjectMesh.GetMaterials();
-            _material = new Material[externMaterial.Length];
-            CurrentTexture = new Texture[externMaterial.Length];
+            this.ObjectMesh = Mesh.FromFile(Engine.GameEngine.LocalDevice.GetDevice, filePath, MeshFlags.Managed);
+            ExtendedMaterial[] externMaterial = this.ObjectMesh.GetMaterials();
+            this._material = new Material[externMaterial.Length];
+            this.CurrentTexture = new Texture[externMaterial.Length];
 
             for (int i = 0; i < externMaterial.Length; i++)
             {
-                _material[i] = externMaterial[i].MaterialD3D;
-                _material[i].Ambient = _material[i].Diffuse;
+                this._material[i] = externMaterial[i].MaterialD3D;
+                this._material[i].Ambient = this._material[i].Diffuse;
 
                 string s = filePath;
                 int index = s.IndexOf(fileName);
                 s = s.Remove(s.IndexOf(fileName));
                 s = s.Insert(index, externMaterial[i].TextureFileName);
 
-                CurrentTexture[i] = Texture.FromFile(Engine.GameEngine.LocalDevice.Device, s);
+                this.CurrentTexture[i] = Texture.FromFile(Engine.GameEngine.LocalDevice.GetDevice, s);
             }
 
             //objectMesh.Optimize(MeshOptimizeFlags.Compact | MeshOptimizeFlags.AttributeSort);
 
-            ObjectPosition = Vector3.Zero;
-            ObjectRotate = Vector3.Zero;
-            ObjectScale = new Vector3(1, 1, 1);
-            _world = Matrix.Identity;
-            IsShapeObject = false;
+            this.ObjectPosition = Vector3.Zero;
+            this.ObjectRotate = Vector3.Zero;
+            this.ObjectScale = new Vector3(1, 1, 1);
+            this._world = Matrix.Identity;
+            this.IsShapeObject = false;
         }
 
         /// <summary>
@@ -105,31 +99,31 @@ namespace MY3DEngine
         {
             if (type == MeshType.Cube)
             {
-                ObjectMesh = Mesh.CreateBox(Engine.GameEngine.LocalDevice.Device, 1f, 1f, 1f);
+                this.ObjectMesh = Mesh.CreateBox(Engine.GameEngine.LocalDevice.GetDevice, 1f, 1f, 1f);
 
-                ObjectMesh.ComputeNormals();
+                this.ObjectMesh.ComputeNormals();
 
-                ObjectMesh.Optimize(MeshOptimizeFlags.Compact);
+                this.ObjectMesh.Optimize(MeshOptimizeFlags.Compact);
 
-                ApplyColor(Color.White);
+                this.ApplyColor(Color.White);
             }
             else if (type == MeshType.Sphere)
             {
-                ObjectMesh = Mesh.CreateSphere(Engine.GameEngine.LocalDevice.Device, .1f, 10, 10);
+                this.ObjectMesh = Mesh.CreateSphere(Engine.GameEngine.LocalDevice.GetDevice, .1f, 10, 10);
 
-                ObjectMesh.ComputeNormals();
-                ObjectMesh.Optimize(MeshOptimizeFlags.Compact);
-                ApplyColor(Color.White);
+                this.ObjectMesh.ComputeNormals();
+                this.ObjectMesh.Optimize(MeshOptimizeFlags.Compact);
+                this.ApplyColor(Color.White);
             }
             else if (type == MeshType.Teapot)
             {
-                ObjectMesh = Mesh.CreateTeapot(Engine.GameEngine.LocalDevice.Device);
+                this.ObjectMesh = Mesh.CreateTeapot(Engine.GameEngine.LocalDevice.GetDevice);
 
-                ObjectMesh.ComputeNormals();
+                this.ObjectMesh.ComputeNormals();
 
-                ObjectMesh.OptimizeInPlace(MeshOptimizeFlags.Compact);
+                this.ObjectMesh.OptimizeInPlace(MeshOptimizeFlags.Compact);
 
-                ApplyColor(Color.White);
+                this.ApplyColor(Color.White);
             }
             else if (type == MeshType.Triangle)
             {
@@ -150,31 +144,31 @@ namespace MY3DEngine
                     2, 0, 4,
                 };
 
-                ObjectMesh = new Mesh(Engine.GameEngine.LocalDevice.Device, ShapeIndices.Length, ShapeVertices.Length, MeshFlags.Managed, VertexPositionColor.Format);
+                this.ObjectMesh = new Mesh(Engine.GameEngine.LocalDevice.GetDevice, ShapeIndices.Length, ShapeVertices.Length, MeshFlags.Managed, VertexPositionColor.Format);
 
-                ObjectMesh.LockVertexBuffer(LockFlags.None).WriteRange<VertexPositionColor>(ShapeVertices);
-                ObjectMesh.UnlockVertexBuffer();
+                this.ObjectMesh.LockVertexBuffer(LockFlags.None).WriteRange<VertexPositionColor>(ShapeVertices);
+                this.ObjectMesh.UnlockVertexBuffer();
 
-                ObjectMesh.LockIndexBuffer(LockFlags.None).WriteRange<short>(ShapeIndices);
-                ObjectMesh.UnlockIndexBuffer();
+                this.ObjectMesh.LockIndexBuffer(LockFlags.None).WriteRange<short>(ShapeIndices);
+                this.ObjectMesh.UnlockIndexBuffer();
 
-                Mesh other = ObjectMesh.Clone(Engine.GameEngine.LocalDevice.Device, MeshFlags.Managed, ObjectMesh.VertexFormat | VertexFormat.Normal | VertexFormat.Texture2);
-                ObjectMesh.Dispose();
-                ObjectMesh = null;
+                Mesh other = this.ObjectMesh.Clone(Engine.GameEngine.LocalDevice.GetDevice, MeshFlags.Managed, this.ObjectMesh.VertexFormat | VertexFormat.Normal | VertexFormat.Texture2);
+                this.ObjectMesh.Dispose();
+                this.ObjectMesh = null;
                 //other.ComputeNormals();
-                ObjectMesh = other.Clone(Engine.GameEngine.LocalDevice.Device, MeshFlags.Managed, other.VertexFormat);
+                this.ObjectMesh = other.Clone(Engine.GameEngine.LocalDevice.GetDevice, MeshFlags.Managed, other.VertexFormat);
                 other.Dispose();
 
-                ObjectMesh.Optimize(MeshOptimizeFlags.Compact);
+                this.ObjectMesh.Optimize(MeshOptimizeFlags.Compact);
 
-                ApplyColor(Color.White);
+                this.ApplyColor(Color.White);
             }
 
-            ObjectPosition = Vector3.Zero;
-            ObjectRotate = Vector3.Zero;
-            ObjectScale = new Vector3(1, 1, 1);
-            _world = Matrix.Translation(ObjectPosition);
-            IsShapeObject = true;
+            this.ObjectPosition = Vector3.Zero;
+            this.ObjectRotate = Vector3.Zero;
+            this.ObjectScale = new Vector3(1, 1, 1);
+            this._world = Matrix.Translation(this.ObjectPosition);
+            this.IsShapeObject = true;
         }
 
         #region releasing resources
@@ -184,26 +178,26 @@ namespace MY3DEngine
         /// </summary>
         public void Dispose()
         {
-            Dispose(true);
+            this.Dispose(true);
         }
 
         public void Dispose(bool disposing)
         {
             if (disposing)
             {
-                if (CurrentTexture != null)
+                if (this.CurrentTexture != null)
                 {
-                    foreach (var ct in CurrentTexture)
+                    foreach (var ct in this.CurrentTexture)
                     {
                         ct.Dispose();
                     }
                 }
 
-                ObjectMesh.Dispose();
+                this.ObjectMesh.Dispose();
             }
 
-            CurrentTexture = null;
-            ObjectMesh = null;
+            this.CurrentTexture = null;
+            this.ObjectMesh = null;
         }
 
         #endregion
@@ -213,29 +207,29 @@ namespace MY3DEngine
         /// </summary>
         public void RenderMesh()
         {
-            _world = Matrix.RotationYawPitchRoll(ObjectRotate.Y, ObjectRotate.X, ObjectRotate.Z) * 
-                Matrix.Scaling(ObjectScale) * Matrix.Translation(ObjectPosition);
-            Engine.GameEngine.LocalDevice.Device.SetTransform(TransformState.World, _world);
+            this._world = Matrix.RotationYawPitchRoll(this.ObjectRotate.Y, this.ObjectRotate.X, this.ObjectRotate.Z) * 
+                Matrix.Scaling(this.ObjectScale) * Matrix.Translation(this.ObjectPosition);
+            Engine.GameEngine.LocalDevice.GetDevice.SetTransform(TransformState.World, this._world);
 
-            if (_material != null)
+            if (this._material != null)
             {
-                foreach (var item in _material)
+                foreach (var item in this._material)
                 {
-                    Engine.GameEngine.LocalDevice.Device.Material = item;
+                    Engine.GameEngine.LocalDevice.GetDevice.Material = item;
                 }
             }
 
-            if (CurrentTexture != null)
+            if (this.CurrentTexture != null)
             {
-                foreach (var item in CurrentTexture)
+                foreach (var item in this.CurrentTexture)
                 {
-                    Engine.GameEngine.LocalDevice.Device.SetTexture(0, item);
+                    Engine.GameEngine.LocalDevice.GetDevice.SetTexture(0, item);
                 }
             }
 
-            if (ObjectMesh != null)
+            if (this.ObjectMesh != null)
             {
-                ObjectMesh.DrawSubset(0);
+                this.ObjectMesh.DrawSubset(0);
             }
         }
 
@@ -246,12 +240,12 @@ namespace MY3DEngine
         /// <param name="diffuseColor">Have to make it nullable because you can't make a compile-time constant color</param>
         public void ApplyColor(Color ambientColor, Color? diffuseColor = null)
         {
-            _material = new Material[1];
-            _material[0].Ambient = ambientColor;
-            _material[0].Diffuse = ambientColor;
-            _material[0].Specular = ambientColor;
-            _material[0].Emissive = Color.Black;
-            _material[0].Power = 50.0f;
+            this._material = new Material[1];
+            this._material[0].Ambient = ambientColor;
+            this._material[0].Diffuse = ambientColor;
+            this._material[0].Specular = ambientColor;
+            this._material[0].Emissive = Color.Black;
+            this._material[0].Power = 50.0f;
         }
 
         /// <summary>
@@ -261,11 +255,11 @@ namespace MY3DEngine
         /// <param name="fileName">The string name of the file</param>
         public void ApplyTextureMesh(string filePath, string fileName)
         {
-            lock (ObjectMesh)
+            lock (this.ObjectMesh)
             {
-                Mesh other = ObjectMesh.Clone(Engine.GameEngine.LocalDevice.Device, MeshFlags.UseHardwareOnly,
+                Mesh other = this.ObjectMesh.Clone(Engine.GameEngine.LocalDevice.GetDevice, MeshFlags.UseHardwareOnly,
                     VertexFormat.Position | VertexFormat.Normal | VertexFormat.Texture0);
-                lock (CurrentTexture)
+                lock (this.CurrentTexture)
                 {
                 }
 
@@ -281,7 +275,7 @@ namespace MY3DEngine
         /// <param name="z">z units to change</param>
         public void Rotate(float x, float y, float z)
         {
-            ObjectRotate = new Vector3(x, y, z);
+            this.ObjectRotate = new Vector3(x, y, z);
         }
 
         /// <summary>
@@ -292,7 +286,7 @@ namespace MY3DEngine
         /// <param name="z">z units to change</param>
         public void Translate(float x = 0, float y = 0, float z = 0)
         {
-            ObjectPosition = new Vector3(x, y, z);
+            this.ObjectPosition = new Vector3(x, y, z);
         }
 
         /// <summary>
@@ -301,7 +295,7 @@ namespace MY3DEngine
         /// <param name="scale">vector 3 to change the scale</param>
         public void Scale(Vector3 scale)
         {
-            ObjectScale = scale;
+            this.ObjectScale = scale;
         }
     }
 
@@ -316,7 +310,7 @@ namespace MY3DEngine
         public static VertexFormat Format = VertexFormat.Position | VertexFormat.Diffuse;
         public static int VertexByteSize = 16;
 
-        public static VertexDeclaration VertexDecl = new VertexDeclaration(Engine.GameEngine.LocalDevice.Device, new VertexElement[]
+        public static VertexDeclaration VertexDecl = new VertexDeclaration(Engine.GameEngine.LocalDevice.GetDevice, new VertexElement[]
             {
                 new VertexElement(0, 0, DeclarationType.Float3, DeclarationMethod.Default, DeclarationUsage.Position, 0),
                 new VertexElement(0, 12, DeclarationType.Color, DeclarationMethod.Default, DeclarationUsage.Color, 0),

@@ -1,11 +1,12 @@
-﻿using System;
-using System.Drawing;
+﻿using MY3DEngine.Graphics;
+using System;
 using System.Threading;
 
 namespace MY3DEngine
 {
     public sealed class Engine : IDisposable
     {
+        private GraphicsManager graphicsManager;
         private Input input;
         private bool lighting;
         private bool loaded;
@@ -13,33 +14,30 @@ namespace MY3DEngine
         private Thread renderThread;
         private bool wireFrame;
 
-        /// <summary>
-        /// 
-        /// </summary>
-        public static Engine GameEngine { get; set; }
+        private static Engine gameEngine;
 
         /// <summary>
-        /// 
+        ///
+        /// </summary>
+        public static Engine GameEngine => gameEngine ?? (gameEngine = new Engine());
+
+        /// <summary>
+        ///
         /// </summary>
         public Camera Camera { get; set; }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         public ExceptionHolder Exception { get; set; }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         public bool IsNotShutDown { get; set; }
 
         /// <summary>
-        /// 
-        /// </summary>
-        public DirectXManager LocalDevice { get; set; }
-
-        /// <summary>
-        /// 
+        ///
         /// </summary>
         public ObjectManager Manager
         {
@@ -60,44 +58,65 @@ namespace MY3DEngine
         }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         public IntPtr Window { get; }
 
         /// <summary>
-        /// 
+        ///
+        /// </summary>
+        public GraphicsManager GraphicsManager => this.graphicsManager;
+
+        /// <summary>
+        ///
         /// </summary>
         public static readonly bool IsDebug;
 
         /// <summary>
-        /// Engine Constructor. Must be called first
+        /// Engine Constructor
         /// </summary>
-        /// <param name="window">The pointer of the window that the engine will be rendered too</param>
-        public Engine(IntPtr window, bool isDebug = true)
+        public Engine()
         {
-            IsNotShutDown = false;
-
-            this.loaded = false;
-
-            Window = new IntPtr();
-
-            Window = window;
-
-            Exception = new ExceptionHolder();
-
-            this.lighting = false;
-            this.wireFrame = true;
+            this.graphicsManager = null;
         }
 
+        // TODO: Update
         public void Dispose()
         {
-            this.input.Dispose();
+            this.graphicsManager?.Dispose();
+            this.input?.Dispose();
+        }
 
-            while (!this.renderThread.IsAlive)
+        public bool InitliazeGraphics(IntPtr windowHandle, int screenWidth = 720, int screenHeight = 480, bool vsyncEnabled = true, bool fullScreen = false)
+        {
+            this.graphicsManager = new GraphicsManager();
+
+            return this.graphicsManager.InitializeDirectXManager(windowHandle, screenWidth, screenHeight, vsyncEnabled, fullScreen);
+        }
+
+        public bool Initialize(IntPtr handle)
+        {
+            this.graphicsManager.Initialize();
+
+            this.Camera = new Camera();
+            this.Exception = new ExceptionHolder();
+            this.Manager = new ObjectManager();
+
+            this.Start();
+
+            return true;
+        }
+
+        public void Run()
+        {
+            while (Engine.GameEngine.IsNotShutDown)
             {
-                LocalDevice.Dispose();
+                this.Update();
+                this.Render();
             }
         }
+
+        #region Old Code
 
         /// <summary>
         /// Toggle all lights
@@ -110,40 +129,11 @@ namespace MY3DEngine
         }
 
         /// <summary>
-        /// Must be called after the constructor. Finishes initalizing the variables
-        /// </summary>
-        /// <param name="width"></param>
-        /// <param name="height"></param>
-        public void Initliaze(int width, int height)
-        {
-            this.input = new Input();
-
-            this.loaded = true;
-
-            this.IsNotShutDown = false;
-
-            this.LocalDevice = new DirectXManager(this.Window, width, height);
-
-            this.Camera = new Camera();
-
-            this.Manager = new ObjectManager();
-
-            this.Start();
-            
-            //LocalDevice.ThisDevice.SetRenderState(RenderState.Lighting, _lighting);
-            //LocalDevice.ThisDevice.SetRenderState(RenderState.CullMode, Cull.Counterclockwise);
-            //LocalDevice.ThisDevice.SetRenderState(RenderState.ZEnable, ZBufferType.UseZBuffer);
-            //LocalDevice.ThisDevice.SetRenderState(RenderState.NormalizeNormals, true);
-
-            //LocalDevice.ThisDevice.SetRenderState(RenderState.SpecularEnable, false);
-        }
-
-        /// <summary>
         /// Shutdown the thread and graphics and dispose of all resources
         /// </summary>
         public void Shutdown()
         {
-            this.IsNotShutDown = true;
+            this.IsNotShutDown = false;
 
             while (this.renderThread.IsAlive)
             {
@@ -152,16 +142,18 @@ namespace MY3DEngine
         }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         public void Start()
         {
-            if (!this.loaded)
-            {
-                return;
-            }
+            //if (!this.loaded)
+            //{
+            //    return;
+            //}
 
-            this.renderThread = new Thread(Renderer.RenderScene) { Name = "RenderingThread" };
+            this.IsNotShutDown = true;
+
+            this.renderThread = new Thread(this.Run) { Name = "RenderingThread" };
             this.renderThread.Start();
         }
 
@@ -181,5 +173,24 @@ namespace MY3DEngine
             //    _wireFrame = true;
             //}
         }
+
+        #endregion Old Code
+
+        #region Helper Methods
+
+        private void Update()
+        {
+        }
+
+        private void Render()
+        {
+            this.graphicsManager.BeginScene(0.0f, 0.0f, 0.0f, 1.0f);
+
+            // render stuff goes here
+
+            this.graphicsManager.EndScene();
+        }
+
+        #endregion Helper Methods
     }
 }

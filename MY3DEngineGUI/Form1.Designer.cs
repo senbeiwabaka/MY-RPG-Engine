@@ -28,14 +28,17 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.rendererPnl = new System.Windows.Forms.Panel();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.tabEditPlay = new System.Windows.Forms.TabControl();
             this.tbEdit = new System.Windows.Forms.TabPage();
             this.tvObjectHirarchy = new System.Windows.Forms.TreeView();
             this.pnlObjectProperties = new System.Windows.Forms.Panel();
+            this.btnColor = new System.Windows.Forms.Button();
+            this.ckbxLightOnOff = new System.Windows.Forms.CheckBox();
+            this.lblColor = new System.Windows.Forms.Label();
             this.lblLocation = new System.Windows.Forms.Label();
             this.txtName = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
@@ -65,9 +68,6 @@
             this.globalLightsOnOffToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.wireframOnOffToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.resetCameraToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.lblColor = new System.Windows.Forms.Label();
-            this.ckbxLightOnOff = new System.Windows.Forms.CheckBox();
-            this.btnColor = new System.Windows.Forms.Button();
             this.colorDialog1 = new System.Windows.Forms.ColorDialog();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.tabEditPlay.SuspendLayout();
@@ -80,7 +80,7 @@
             // 
             this.rendererPnl.Location = new System.Drawing.Point(237, 6);
             this.rendererPnl.Name = "rendererPnl";
-            this.rendererPnl.Size = new System.Drawing.Size(572, 377);
+            this.rendererPnl.Size = new System.Drawing.Size(720, 480);
             this.rendererPnl.TabIndex = 1;
             this.rendererPnl.MouseEnter += new System.EventHandler(this.rendererPnl_MouseEnter);
             this.rendererPnl.MouseMove += new System.Windows.Forms.MouseEventHandler(this.rendererPnl_MouseMove);
@@ -88,23 +88,23 @@
             // 
             // dataGridView1
             // 
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dataGridView1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGridView1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dataGridView1.DefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dataGridView1.DefaultCellStyle = dataGridViewCellStyle2;
             this.dataGridView1.Location = new System.Drawing.Point(8, 507);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.Size = new System.Drawing.Size(369, 75);
@@ -117,7 +117,7 @@
             this.tabEditPlay.Location = new System.Drawing.Point(0, 27);
             this.tabEditPlay.Name = "tabEditPlay";
             this.tabEditPlay.SelectedIndex = 0;
-            this.tabEditPlay.Size = new System.Drawing.Size(823, 611);
+            this.tabEditPlay.Size = new System.Drawing.Size(970, 611);
             this.tabEditPlay.TabIndex = 3;
             // 
             // tbEdit
@@ -134,7 +134,7 @@
             this.tbEdit.Location = new System.Drawing.Point(4, 22);
             this.tbEdit.Name = "tbEdit";
             this.tbEdit.Padding = new System.Windows.Forms.Padding(3);
-            this.tbEdit.Size = new System.Drawing.Size(815, 585);
+            this.tbEdit.Size = new System.Drawing.Size(962, 585);
             this.tbEdit.TabIndex = 0;
             this.tbEdit.Text = "Edit";
             this.tbEdit.UseVisualStyleBackColor = true;
@@ -158,6 +158,37 @@
             this.pnlObjectProperties.Name = "pnlObjectProperties";
             this.pnlObjectProperties.Size = new System.Drawing.Size(220, 258);
             this.pnlObjectProperties.TabIndex = 8;
+            // 
+            // btnColor
+            // 
+            this.btnColor.Location = new System.Drawing.Point(128, 59);
+            this.btnColor.Name = "btnColor";
+            this.btnColor.Size = new System.Drawing.Size(89, 23);
+            this.btnColor.TabIndex = 5;
+            this.btnColor.Text = "Change Color";
+            this.btnColor.UseVisualStyleBackColor = true;
+            this.btnColor.Visible = false;
+            this.btnColor.Click += new System.EventHandler(this.btnColor_Click);
+            // 
+            // ckbxLightOnOff
+            // 
+            this.ckbxLightOnOff.AutoSize = true;
+            this.ckbxLightOnOff.Location = new System.Drawing.Point(6, 90);
+            this.ckbxLightOnOff.Name = "ckbxLightOnOff";
+            this.ckbxLightOnOff.Size = new System.Drawing.Size(85, 17);
+            this.ckbxLightOnOff.TabIndex = 4;
+            this.ckbxLightOnOff.Text = "Light On/Off";
+            this.ckbxLightOnOff.UseVisualStyleBackColor = true;
+            this.ckbxLightOnOff.Visible = false;
+            this.ckbxLightOnOff.CheckedChanged += new System.EventHandler(this.ckbxLightOnOff_CheckedChanged);
+            // 
+            // lblColor
+            // 
+            this.lblColor.AutoSize = true;
+            this.lblColor.Location = new System.Drawing.Point(6, 64);
+            this.lblColor.Name = "lblColor";
+            this.lblColor.Size = new System.Drawing.Size(0, 13);
+            this.lblColor.TabIndex = 3;
             // 
             // lblLocation
             // 
@@ -232,7 +263,7 @@
             this.tbPlay.Location = new System.Drawing.Point(4, 22);
             this.tbPlay.Name = "tbPlay";
             this.tbPlay.Padding = new System.Windows.Forms.Padding(3);
-            this.tbPlay.Size = new System.Drawing.Size(815, 585);
+            this.tbPlay.Size = new System.Drawing.Size(949, 585);
             this.tbPlay.TabIndex = 1;
             this.tbPlay.Text = "Play";
             this.tbPlay.UseVisualStyleBackColor = true;
@@ -248,7 +279,7 @@
             this.propertiesToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(823, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(970, 24);
             this.menuStrip1.TabIndex = 4;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -294,21 +325,21 @@
             // addObjectToolStripMenuItem
             // 
             this.addObjectToolStripMenuItem.Name = "addObjectToolStripMenuItem";
-            this.addObjectToolStripMenuItem.Size = new System.Drawing.Size(142, 22);
+            this.addObjectToolStripMenuItem.Size = new System.Drawing.Size(141, 22);
             this.addObjectToolStripMenuItem.Text = "Add Object";
             this.addObjectToolStripMenuItem.Click += new System.EventHandler(this.addObjectToolStripMenuItem_Click);
             // 
             // addCubeToolStripMenuItem
             // 
             this.addCubeToolStripMenuItem.Name = "addCubeToolStripMenuItem";
-            this.addCubeToolStripMenuItem.Size = new System.Drawing.Size(142, 22);
+            this.addCubeToolStripMenuItem.Size = new System.Drawing.Size(141, 22);
             this.addCubeToolStripMenuItem.Text = "Add Cube";
             this.addCubeToolStripMenuItem.Click += new System.EventHandler(this.addCubeToolStripMenuItem_Click);
             // 
             // addTriangleToolStripMenuItem
             // 
             this.addTriangleToolStripMenuItem.Name = "addTriangleToolStripMenuItem";
-            this.addTriangleToolStripMenuItem.Size = new System.Drawing.Size(142, 22);
+            this.addTriangleToolStripMenuItem.Size = new System.Drawing.Size(141, 22);
             this.addTriangleToolStripMenuItem.Text = "Add Triangle";
             this.addTriangleToolStripMenuItem.Click += new System.EventHandler(this.addTriangleToolStripMenuItem_Click);
             // 
@@ -317,13 +348,13 @@
             this.terrainToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.addRandomTerrainToolStripMenuItem});
             this.terrainToolStripMenuItem.Name = "terrainToolStripMenuItem";
-            this.terrainToolStripMenuItem.Size = new System.Drawing.Size(56, 20);
+            this.terrainToolStripMenuItem.Size = new System.Drawing.Size(55, 20);
             this.terrainToolStripMenuItem.Text = "Terrain";
             // 
             // addRandomTerrainToolStripMenuItem
             // 
             this.addRandomTerrainToolStripMenuItem.Name = "addRandomTerrainToolStripMenuItem";
-            this.addRandomTerrainToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
+            this.addRandomTerrainToolStripMenuItem.Size = new System.Drawing.Size(183, 22);
             this.addRandomTerrainToolStripMenuItem.Text = "Add Random Terrain";
             // 
             // lightsToolStripMenuItem
@@ -394,42 +425,11 @@
             this.resetCameraToolStripMenuItem.Text = "Reset Camera";
             this.resetCameraToolStripMenuItem.Click += new System.EventHandler(this.resetCameraToolStripMenuItem_Click);
             // 
-            // lblColor
-            // 
-            this.lblColor.AutoSize = true;
-            this.lblColor.Location = new System.Drawing.Point(6, 64);
-            this.lblColor.Name = "lblColor";
-            this.lblColor.Size = new System.Drawing.Size(0, 13);
-            this.lblColor.TabIndex = 3;
-            // 
-            // ckbxLightOnOff
-            // 
-            this.ckbxLightOnOff.AutoSize = true;
-            this.ckbxLightOnOff.Location = new System.Drawing.Point(6, 90);
-            this.ckbxLightOnOff.Name = "ckbxLightOnOff";
-            this.ckbxLightOnOff.Size = new System.Drawing.Size(85, 17);
-            this.ckbxLightOnOff.TabIndex = 4;
-            this.ckbxLightOnOff.Text = "Light On/Off";
-            this.ckbxLightOnOff.UseVisualStyleBackColor = true;
-            this.ckbxLightOnOff.Visible = false;
-            this.ckbxLightOnOff.CheckedChanged += new System.EventHandler(this.ckbxLightOnOff_CheckedChanged);
-            // 
-            // btnColor
-            // 
-            this.btnColor.Location = new System.Drawing.Point(128, 59);
-            this.btnColor.Name = "btnColor";
-            this.btnColor.Size = new System.Drawing.Size(89, 23);
-            this.btnColor.TabIndex = 5;
-            this.btnColor.Text = "Change Color";
-            this.btnColor.UseVisualStyleBackColor = true;
-            this.btnColor.Visible = false;
-            this.btnColor.Click += new System.EventHandler(this.btnColor_Click);
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(823, 639);
+            this.ClientSize = new System.Drawing.Size(970, 639);
             this.Controls.Add(this.tabEditPlay);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;

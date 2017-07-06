@@ -1,6 +1,5 @@
-﻿using System;
-
-using SharpDX.Direct3D11;
+﻿using SharpDX.Direct3D11;
+using System;
 
 namespace MY3DEngine.Graphics
 {
@@ -15,25 +14,32 @@ namespace MY3DEngine.Graphics
 
         public IntPtr GetWindowHandle { get; private set; }
 
-        public Device GetDevice => this.GetDirectXManager?.Device;
+        public Device GetDevice => this.GetDirectXManager?.GetDevice;
 
-        public DeviceContext GetDeviceContext => this.GetDirectXManager?.DeviceContext;
+        public DeviceContext GetDeviceContext => this.GetDirectXManager?.GetDeviceContext;
 
         public void Dispose()
         {
             this.GetDirectXManager?.Dispose();
+            this.GetDirectXManager = null;
         }
 
-        public bool InitializeDirectXManager(IntPtr windowHandle)
+        public bool InitializeDirectXManager(IntPtr windowHandle, int screenWidth = 720, int screenHeight = 480, bool vsyncEnabled = true, bool fullScreen = false)
         {
             this.GetDirectXManager = new DirectXManager();
 
-            return this.GetDirectXManager.Initialize(this.GetWindowHandle, 0, 0, true, true);
+            if (!this.GetDirectXManager.Initialize(windowHandle, screenWidth, screenHeight, vsyncEnabled, fullScreen))
+            {
+                return false;
+            }
+
+            this.GetWindowHandle = windowHandle;
+
+            return true;
         }
 
         public void Initialize()
         {
-            throw new NotImplementedException();
         }
 
         public void BeginScene(float red, float green, float blue, float alpha)
@@ -41,7 +47,7 @@ namespace MY3DEngine.Graphics
             this.GetDirectXManager.BeginScene(red, green, blue, alpha);
         }
 
-        public void EndScense()
+        public void EndScene()
         {
             this.GetDirectXManager.EndScene();
         }
