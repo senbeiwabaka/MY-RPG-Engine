@@ -79,8 +79,7 @@ namespace MY3DEngine
         {
             this.graphicsManager = null;
         }
-
-        // TODO: Update
+        
         public void Dispose()
         {
             this.graphicsManager?.Dispose();
@@ -109,7 +108,7 @@ namespace MY3DEngine
 
         public void Run()
         {
-            while (Engine.GameEngine.IsNotShutDown)
+            while (GameEngine.IsNotShutDown)
             {
                 this.Update();
                 this.Render();

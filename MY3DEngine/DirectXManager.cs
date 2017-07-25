@@ -94,9 +94,10 @@ namespace MY3DEngine
             var adapterOutput = adapter.GetOutput(0);
 
             // get number of modes the fit the dxgi_format_r8gab88a8_uniform display format for the adapter output (monitor)
-            // create a list to hold al lof the possible modes for this monitor/video card combination
+            // create a list to hold all of the possible modes for this monitor/video card combination
             var displayModeList = adapterOutput.GetDisplayModeList(Format.R8G8B8A8_UNorm, DisplayModeEnumerationFlags.Interlaced);
 
+            // TODO: update to use custom modes if possible
             foreach (var displayMode in displayModeList)
             {
                 if (displayMode.Width != screenWidth || displayMode.Height != screenHeight)
@@ -257,7 +258,8 @@ namespace MY3DEngine
 
         #region Helper Methods
 
-        private bool InitializeSwapChain(
+        // TODO: update this to figure out what device to use instead of hardcoding it
+        protected bool InitializeSwapChain(
             IntPtr windowHandle,
             bool fullScreen,
             int screenWidth,
@@ -270,9 +272,9 @@ namespace MY3DEngine
                                                   screenWidth,
                                                   screenHieght,
                                                   rational, // refresh rate
-                                                            // set the scan line ordering and scaling to unspecified
                                                   Format.B8G8R8A8_UNorm)
             {
+                // set the scan line ordering and scaling to unspecified
                 ScanlineOrdering = DisplayModeScanlineOrder.Unspecified,
                 Scaling = DisplayModeScaling.Unspecified
             };
@@ -291,11 +293,14 @@ namespace MY3DEngine
 
             // set the feature level to directx 11
             var featureLevel = FeatureLevel.Level_11_0;
+            var creationFlags = DeviceCreationFlags.None;
+
+#if DEBUG
+            creationFlags = DeviceCreationFlags.Debug;
+#endif
 
             // create swapchain, device, and device context
-            Device d;
-            SwapChain sc;
-            Device.CreateWithSwapChain(DriverType.Hardware, DeviceCreationFlags.Debug, new[] { featureLevel }, swapChainDescription, out d, out sc);
+            Device.CreateWithSwapChain(DriverType.Hardware, creationFlags, new[] { featureLevel }, swapChainDescription, out var d, out var sc);
 
             if (d == null || sc == null)
             {
