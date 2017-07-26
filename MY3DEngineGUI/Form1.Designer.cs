@@ -42,7 +42,7 @@
             this.lblLocation = new System.Windows.Forms.Label();
             this.txtName = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
-            this.txtError_Info = new System.Windows.Forms.TextBox();
+            this.tbInformation = new System.Windows.Forms.TextBox();
             this.cmbObjectList = new System.Windows.Forms.ComboBox();
             this.lblAddRemove = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
@@ -82,9 +82,6 @@
             this.rendererPnl.Name = "rendererPnl";
             this.rendererPnl.Size = new System.Drawing.Size(720, 480);
             this.rendererPnl.TabIndex = 1;
-            this.rendererPnl.MouseEnter += new System.EventHandler(this.rendererPnl_MouseEnter);
-            this.rendererPnl.MouseMove += new System.Windows.Forms.MouseEventHandler(this.rendererPnl_MouseMove);
-            this.rendererPnl.MouseUp += new System.Windows.Forms.MouseEventHandler(this.rendererPnl_MouseUp);
             // 
             // dataGridView1
             // 
@@ -124,7 +121,7 @@
             // 
             this.tbEdit.Controls.Add(this.tvObjectHirarchy);
             this.tbEdit.Controls.Add(this.pnlObjectProperties);
-            this.tbEdit.Controls.Add(this.txtError_Info);
+            this.tbEdit.Controls.Add(this.tbInformation);
             this.tbEdit.Controls.Add(this.cmbObjectList);
             this.tbEdit.Controls.Add(this.lblAddRemove);
             this.tbEdit.Controls.Add(this.label1);
@@ -215,14 +212,14 @@
             this.label2.TabIndex = 0;
             this.label2.Text = "Name";
             // 
-            // txtError_Info
+            // tbInformation
             // 
-            this.txtError_Info.Location = new System.Drawing.Point(383, 507);
-            this.txtError_Info.Multiline = true;
-            this.txtError_Info.Name = "txtError_Info";
-            this.txtError_Info.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtError_Info.Size = new System.Drawing.Size(424, 75);
-            this.txtError_Info.TabIndex = 7;
+            this.tbInformation.Location = new System.Drawing.Point(383, 507);
+            this.tbInformation.Multiline = true;
+            this.tbInformation.Name = "tbInformation";
+            this.tbInformation.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.tbInformation.Size = new System.Drawing.Size(424, 75);
+            this.tbInformation.TabIndex = 7;
             // 
             // cmbObjectList
             // 
@@ -263,7 +260,7 @@
             this.tbPlay.Location = new System.Drawing.Point(4, 22);
             this.tbPlay.Name = "tbPlay";
             this.tbPlay.Padding = new System.Windows.Forms.Padding(3);
-            this.tbPlay.Size = new System.Drawing.Size(949, 585);
+            this.tbPlay.Size = new System.Drawing.Size(962, 585);
             this.tbPlay.TabIndex = 1;
             this.tbPlay.Text = "Play";
             this.tbPlay.UseVisualStyleBackColor = true;
@@ -479,7 +476,7 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label lblAddRemove;
         private System.Windows.Forms.ComboBox cmbObjectList;
-        private System.Windows.Forms.TextBox txtError_Info;
+        private System.Windows.Forms.TextBox tbInformation;
         private System.Windows.Forms.Panel pnlObjectProperties;
         private System.Windows.Forms.TreeView tvObjectHirarchy;
         private System.Windows.Forms.Label label2;

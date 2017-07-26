@@ -34,7 +34,7 @@ namespace MY3DEngineGUI
 
                 UpdateCameraLocation();
 
-                rendererPnl.MouseWheel += rendererPnl_MouseWheel;
+                //rendererPnl.MouseWheel += rendererPnl_MouseWheel;
 
                 _mouseLocation = new Point(0, 0);
                 _firstMouse = false;
@@ -55,6 +55,9 @@ namespace MY3DEngineGUI
             }
 
             this.dataGridView1.DataSource = exceptions;
+
+            this.tbInformation.Text = string.Format("Video card memory : {0} MB {1}", Engine.GameEngine.GraphicsManager.GetDirectXManager.VideoCardMemory, Environment.NewLine);
+            this.tbInformation.Text += string.Format("Video card description : {0} {1}", Engine.GameEngine.GraphicsManager.GetDirectXManager.VideoCardDescription, Environment.NewLine);
         }
 
         #region Shutdown/Exit
@@ -87,56 +90,7 @@ namespace MY3DEngineGUI
 
         private void rendererPnl_MouseMove(object sender, MouseEventArgs e)
         {
-            //get previous mouse location
-            int prevX = _mouseLocation.X;
-            int PrevY = _mouseLocation.Y;
-            int objectIndex = -1;
 
-            lock (Engine.GameEngine.Manager)
-            {
-                foreach (GameObject item in Engine.GameEngine.Manager.GameObjects)
-                {
-                    //_isObjectSelected = Engine.GameEngine.Camera.RayIntersection(new SlimDX.Vector2(e.X, e.Y), item.MeshObject);
-
-                    if (_isObjectSelected)
-                    {
-                        objectIndex = Engine.GameEngine.Manager.GameObjects.FindIndex(x => x.ID == item.ID && x.Name == x.Name);
-                    }
-                }
-            }
-
-            if (e.Button == MouseButtons.Left & !_isObjectSelected)
-            {
-                float DeltaX = e.X - prevX;
-                float DeltaY = e.Y - PrevY;
-
-                if (!_firstMouse)
-                {
-                    DeltaX = 0;
-                    DeltaY = 0;
-                    _firstMouse = true;
-                }
-
-                Engine.GameEngine.Camera.MoveEye(x: (DeltaX / 40f), y: (-DeltaY / 40f));
-
-                //save current mouse location
-                _mouseLocation.X = e.X;
-                _mouseLocation.Y = e.Y;
-
-                UpdateCameraLocation();
-            }
-            else if (e.Button == MouseButtons.Left & _isObjectSelected)
-            {
-                //float DeltaX = e.X - Engine.GameEngine.Manager.GameObjects[objectIndex].MeshObject.ObjectPosition.X;
-                //float DeltaY = e.Y - Engine.GameEngine.Manager.GameObjects[objectIndex].MeshObject.ObjectPosition.Y;
-
-                //Engine.GameEngine.Manager.GameObjects[objectIndex].MeshObject.Translate(x: (DeltaX / 40f), y: (-DeltaY / 40f));
-
-                //lblLocation.Text = Engine.GameEngine.Manager.GameObjects[objectIndex].MeshObject.ObjectPosition.ToString();
-
-                _mouseLocation.X = e.X;
-                _mouseLocation.Y = e.Y;
-            }
         }
 
         private void rendererPnl_MouseUp(object sender, MouseEventArgs e)
@@ -289,7 +243,7 @@ namespace MY3DEngineGUI
             {
                 foreach (var item in e.NewItems)
                 {
-                    txtError_Info.AppendText(item.ToString() + Environment.NewLine);
+                    tbInformation.AppendText(item.ToString() + Environment.NewLine);
                 }
             }
         }
