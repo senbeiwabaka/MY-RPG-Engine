@@ -111,10 +111,10 @@ namespace MY3DEngine
                 break;
             }
 
-            //if (numerator == 0 || denominator == 0)
-            //{
-            //    return false;
-            //}
+            if (numerator == 0 || denominator == 0)
+            {
+                return false;
+            }
 
             // get the adapter description
             var adapterDescription = adapter.Description;
