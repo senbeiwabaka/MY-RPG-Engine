@@ -1,4 +1,5 @@
 ﻿using MY3DEngine;
+using MY3DEngine.Primitives;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -11,7 +12,7 @@ namespace MY3DEngineGUI
     {
         private bool _firstMouse;
         private Point _mouseLocation;
-        private GameObject _none = new GameObject { ID = -1, Name = "--NONE--" };
+        //private GameObject _none = new GameObject { ID = -1, Name = "--NONE--" };
         private bool _isObjectSelected;
 
         public Form1()
@@ -43,7 +44,7 @@ namespace MY3DEngineGUI
                 lock (Engine.GameEngine.Manager)
                 {
                     List<GameObject> list = new List<GameObject>(Engine.GameEngine.Manager.GameObjects);
-                    list.Insert(0, _none);
+                    //list.Insert(0, _none);
                     cmbObjectList.DataSource = list;
                 }
 
@@ -64,14 +65,14 @@ namespace MY3DEngineGUI
 
         private static void ShutDown()
         {
-            Engine.GameEngine.Shutdown();
+            Engine.GameEngine?.Shutdown();
 
-            Engine.GameEngine.Dispose();
+            Engine.GameEngine?.Dispose();
         }
 
-        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+        private void ExitToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Close();
+            this.Close();
         }
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
@@ -130,7 +131,7 @@ namespace MY3DEngineGUI
                 tvObjectHirarchy.Nodes.Add(gameObject.Name);
             }
 
-            list.Insert(0, _none);
+            //list.Insert(0, _none);
             cmbObjectList.DataSource = list;
         }
 
@@ -138,19 +139,19 @@ namespace MY3DEngineGUI
 
         private void addCubeToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            GameObject go = new GameObject("Cube");
+            //GameObject go = new GameObject("Cube");
 
-            if (Engine.GameEngine.Manager.AddObject(go))
-            {
-                Add_RemoveObject("Cube Added");
-            }
+            //if (Engine.GameEngine.Manager.AddObject(go))
+            //{
+            //    Add_RemoveObject("Cube Added");
+            //}
         }
 
-        private void addTriangleToolStripMenuItem_Click(object sender, EventArgs e)
+        private void AddTriangleToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            GameObject go = new GameObject("Triangle");
+            var gameObject = new Triangle();
 
-            if (Engine.GameEngine.Manager.AddObject(go))
+            if (Engine.GameEngine.Manager.AddObject(gameObject))
             {
                 Add_RemoveObject("Triangle Added");
             }
@@ -175,11 +176,11 @@ namespace MY3DEngineGUI
             {
                 if (open.SafeFileName.ToLower().EndsWith(".x"))
                 {
-                    GameObject objclass = new GameObject(fileName: open.SafeFileName, path: open.FileName);
-                    if (Engine.GameEngine.Manager.AddObject(objclass))
-                    {
-                        Add_RemoveObject(open.SafeFileName + " added");
-                    }
+                    //GameObject objclass = new GameObject(fileName: open.SafeFileName, path: open.FileName);
+                    //if (Engine.GameEngine.Manager.AddObject(objclass))
+                    //{
+                    //    Add_RemoveObject(open.SafeFileName + " added");
+                    //}
                 }
             }
         }
@@ -271,7 +272,7 @@ namespace MY3DEngineGUI
                     tvObjectHirarchy.Nodes.Add(gameObject.Name);
                 }
 
-                list.Insert(0, _none);
+                //list.Insert(0, _none);
                 cmbObjectList.DataSource = list;
             }
         }

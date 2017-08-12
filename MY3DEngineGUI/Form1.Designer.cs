@@ -307,7 +307,7 @@
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
             this.exitToolStripMenuItem.Size = new System.Drawing.Size(140, 22);
             this.exitToolStripMenuItem.Text = "Exit";
-            this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
+            this.exitToolStripMenuItem.Click += new System.EventHandler(this.ExitToolStripMenuItem_Click);
             // 
             // shapesObjectsToolStripMenuItem
             // 
@@ -338,7 +338,7 @@
             this.addTriangleToolStripMenuItem.Name = "addTriangleToolStripMenuItem";
             this.addTriangleToolStripMenuItem.Size = new System.Drawing.Size(141, 22);
             this.addTriangleToolStripMenuItem.Text = "Add Triangle";
-            this.addTriangleToolStripMenuItem.Click += new System.EventHandler(this.addTriangleToolStripMenuItem_Click);
+            this.addTriangleToolStripMenuItem.Click += new System.EventHandler(this.AddTriangleToolStripMenuItem_Click);
             // 
             // terrainToolStripMenuItem
             // 

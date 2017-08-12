@@ -21,7 +21,8 @@ namespace MY3DEngine.Graphics
         public void Dispose()
         {
             this.GetDirectXManager?.Dispose();
-            this.GetDirectXManager = null;
+
+            GC.SuppressFinalize(true);
         }
 
         public bool InitializeDirectXManager(IntPtr windowHandle, int screenWidth = 720, int screenHeight = 480, bool vsyncEnabled = true, bool fullScreen = false)

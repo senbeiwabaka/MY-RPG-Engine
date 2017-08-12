@@ -66,7 +66,6 @@ namespace MY3DEngine
                     //{
                     //    ((LightClass)obj).index = ++_index;
                     //}
-                    obj.ID = ++_id;
                     GameObjects.Add(obj);
                 }
             }

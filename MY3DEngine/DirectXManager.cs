@@ -4,6 +4,7 @@ using SharpDX.Direct3D11;
 using SharpDX.DXGI;
 using SharpDX.Mathematics.Interop;
 using System;
+using System.Linq;
 using Device = SharpDX.Direct3D11.Device;
 
 namespace MY3DEngine
@@ -65,6 +66,8 @@ namespace MY3DEngine
             this.blendStateAlphaEnabled?.Dispose();
             this.blendStateAlphaDisabled?.Dispose();
             this.depthDisabledStencilState?.Dispose();
+
+            GC.SuppressFinalize(true);
         }
 
         /// <summary>
@@ -83,59 +86,58 @@ namespace MY3DEngine
             this.vsyncEnabled = vsync;
 
             // create directx graphics interface factory
-            var factory = new Factory4();
-
-            factory.MakeWindowAssociation(windowHandle, WindowAssociationFlags.IgnoreAll);
-
-            // user factory above to create an adapter for the primary graphics interface
-            var adapter = factory.GetAdapter(0);
-
-            // enumerate the primary adapter output
-            var adapterOutput = adapter.GetOutput(0);
-
-            // get number of modes the fit the dxgi_format_r8gab88a8_uniform display format for the adapter output (monitor)
-            // create a list to hold all of the possible modes for this monitor/video card combination
-            var displayModeList = adapterOutput.GetDisplayModeList(Format.R8G8B8A8_UNorm, DisplayModeEnumerationFlags.Interlaced);
-
-            // TODO: update to use custom modes if possible
-            foreach (var displayMode in displayModeList)
+            using (var factory = new Factory4())
             {
-                if (displayMode.Width != screenWidth || displayMode.Height != screenHeight)
+                factory.MakeWindowAssociation(windowHandle, WindowAssociationFlags.IgnoreAll);
+
+                foreach (var adapter in factory.Adapters.Where(x => x.GetOutputCount() > 0))
                 {
-                    continue;
+                    // enumerate the primary adapter output
+                    using (var adapterOutput = adapter.GetOutput(0))
+                    {
+                        // get the adapter description
+                        var adapterDescription = adapter.Description;
+
+                        // store the video card memory in megabytes
+                        this.videoCardMemory = (long)adapterDescription.DedicatedVideoMemory / 1024 / 1024;
+
+                        // store the name of the video card array
+                        this.videoCardDescription = adapterDescription.Description;
+
+                        // get number of modes the fit the dxgi_format_r8gab88a8_uniform display format for the adapter output (monitor)
+                        // create a list to hold all of the possible modes for this monitor/video card combination
+                        var displayModeList = adapterOutput.GetDisplayModeList(Format.R8G8B8A8_UNorm, DisplayModeEnumerationFlags.Interlaced);
+
+                        // TODO: update to use custom modes if possible
+                        foreach (var displayMode in displayModeList)
+                        {
+                            if (displayMode.Width != screenWidth || displayMode.Height != screenHeight)
+                            {
+                                continue;
+                            }
+
+                            numerator = displayMode.RefreshRate.Numerator;
+                            denominator = displayMode.RefreshRate.Denominator;
+
+                            break;
+                        }
+
+                        if (numerator == 0 || denominator == 0)
+                        {
+                            continue;
+                        }
+
+                        // release memory
+                        displayModeList = null;
+                    }
                 }
-
-                numerator = displayMode.RefreshRate.Numerator;
-                denominator = displayMode.RefreshRate.Denominator;
-
-                break;
             }
 
             if (numerator == 0 || denominator == 0)
             {
-                return false;
+                numerator = 0;
+                denominator = 1;
             }
-
-            // get the adapter description
-            var adapterDescription = adapter.Description;
-
-            // store the video card memory in megabytes
-            this.videoCardMemory = (long)adapterDescription.DedicatedVideoMemory / 1024 / 1024;
-
-            // store the name of the video card array
-            this.videoCardDescription = adapterDescription.Description;
-
-            // release memory
-            displayModeList = null;
-
-            adapterOutput.Dispose();
-            adapterOutput = null;
-
-            adapter.Dispose();
-            adapter = null;
-
-            factory.Dispose();
-            factory = null;
 
             if (!this.InitializeSwapChain(windowHandle, fullScreen, screenWidth, screenWidth, numerator, denominator))
             {
