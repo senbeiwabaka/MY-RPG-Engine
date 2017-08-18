@@ -9,10 +9,14 @@ namespace MY3DEngine
 
         string FilePath { get; set; }
 
+        string Name { get; set; }
+
         Guid Id { get; set; }
 
         PixelShader PixelShader { get; set; }
 
         VertexShader VertextShader { get; set; }
+
+        bool IsSelected { get; set; }
     }
 }

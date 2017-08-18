@@ -28,19 +28,19 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.rendererPnl = new System.Windows.Forms.Panel();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.tabEditPlay = new System.Windows.Forms.TabControl();
             this.tbEdit = new System.Windows.Forms.TabPage();
-            this.tvObjectHirarchy = new System.Windows.Forms.TreeView();
             this.pnlObjectProperties = new System.Windows.Forms.Panel();
             this.btnColor = new System.Windows.Forms.Button();
             this.ckbxLightOnOff = new System.Windows.Forms.CheckBox();
             this.lblColor = new System.Windows.Forms.Label();
             this.lblLocation = new System.Windows.Forms.Label();
-            this.txtName = new System.Windows.Forms.TextBox();
+            this.tbName = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.tbInformation = new System.Windows.Forms.TextBox();
             this.cmbObjectList = new System.Windows.Forms.ComboBox();
@@ -69,11 +69,15 @@
             this.wireframOnOffToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.resetCameraToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.colorDialog1 = new System.Windows.Forms.ColorDialog();
+            this.GameObjectBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.TreeListViewSceneGraph = new BrightIdeasSoftware.TreeListView();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.tabEditPlay.SuspendLayout();
             this.tbEdit.SuspendLayout();
             this.pnlObjectProperties.SuspendLayout();
             this.menuStrip1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.GameObjectBindingSource)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.TreeListViewSceneGraph)).BeginInit();
             this.SuspendLayout();
             // 
             // rendererPnl
@@ -119,7 +123,7 @@
             // 
             // tbEdit
             // 
-            this.tbEdit.Controls.Add(this.tvObjectHirarchy);
+            this.tbEdit.Controls.Add(this.TreeListViewSceneGraph);
             this.tbEdit.Controls.Add(this.pnlObjectProperties);
             this.tbEdit.Controls.Add(this.tbInformation);
             this.tbEdit.Controls.Add(this.cmbObjectList);
@@ -136,20 +140,13 @@
             this.tbEdit.Text = "Edit";
             this.tbEdit.UseVisualStyleBackColor = true;
             // 
-            // tvObjectHirarchy
-            // 
-            this.tvObjectHirarchy.Location = new System.Drawing.Point(11, 390);
-            this.tvObjectHirarchy.Name = "tvObjectHirarchy";
-            this.tvObjectHirarchy.Size = new System.Drawing.Size(220, 111);
-            this.tvObjectHirarchy.TabIndex = 9;
-            // 
             // pnlObjectProperties
             // 
             this.pnlObjectProperties.Controls.Add(this.btnColor);
             this.pnlObjectProperties.Controls.Add(this.ckbxLightOnOff);
             this.pnlObjectProperties.Controls.Add(this.lblColor);
             this.pnlObjectProperties.Controls.Add(this.lblLocation);
-            this.pnlObjectProperties.Controls.Add(this.txtName);
+            this.pnlObjectProperties.Controls.Add(this.tbName);
             this.pnlObjectProperties.Controls.Add(this.label2);
             this.pnlObjectProperties.Location = new System.Drawing.Point(11, 125);
             this.pnlObjectProperties.Name = "pnlObjectProperties";
@@ -195,13 +192,13 @@
             this.lblLocation.Size = new System.Drawing.Size(0, 13);
             this.lblLocation.TabIndex = 2;
             // 
-            // txtName
+            // tbName
             // 
-            this.txtName.Location = new System.Drawing.Point(45, 10);
-            this.txtName.Name = "txtName";
-            this.txtName.Size = new System.Drawing.Size(100, 20);
-            this.txtName.TabIndex = 1;
-            this.txtName.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtName_KeyPress);
+            this.tbName.Location = new System.Drawing.Point(45, 10);
+            this.tbName.Name = "tbName";
+            this.tbName.Size = new System.Drawing.Size(100, 20);
+            this.tbName.TabIndex = 1;
+            this.tbName.Leave += new System.EventHandler(this.TxtName_Leave);
             // 
             // label2
             // 
@@ -226,7 +223,7 @@
             this.cmbObjectList.FormattingEnabled = true;
             this.cmbObjectList.Location = new System.Drawing.Point(11, 97);
             this.cmbObjectList.Name = "cmbObjectList";
-            this.cmbObjectList.Size = new System.Drawing.Size(121, 21);
+            this.cmbObjectList.Size = new System.Drawing.Size(217, 21);
             this.cmbObjectList.TabIndex = 6;
             this.cmbObjectList.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
             // 
@@ -322,21 +319,21 @@
             // addObjectToolStripMenuItem
             // 
             this.addObjectToolStripMenuItem.Name = "addObjectToolStripMenuItem";
-            this.addObjectToolStripMenuItem.Size = new System.Drawing.Size(141, 22);
+            this.addObjectToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.addObjectToolStripMenuItem.Text = "Add Object";
             this.addObjectToolStripMenuItem.Click += new System.EventHandler(this.addObjectToolStripMenuItem_Click);
             // 
             // addCubeToolStripMenuItem
             // 
             this.addCubeToolStripMenuItem.Name = "addCubeToolStripMenuItem";
-            this.addCubeToolStripMenuItem.Size = new System.Drawing.Size(141, 22);
+            this.addCubeToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.addCubeToolStripMenuItem.Text = "Add Cube";
             this.addCubeToolStripMenuItem.Click += new System.EventHandler(this.addCubeToolStripMenuItem_Click);
             // 
             // addTriangleToolStripMenuItem
             // 
             this.addTriangleToolStripMenuItem.Name = "addTriangleToolStripMenuItem";
-            this.addTriangleToolStripMenuItem.Size = new System.Drawing.Size(141, 22);
+            this.addTriangleToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.addTriangleToolStripMenuItem.Text = "Add Triangle";
             this.addTriangleToolStripMenuItem.Click += new System.EventHandler(this.AddTriangleToolStripMenuItem_Click);
             // 
@@ -422,6 +419,18 @@
             this.resetCameraToolStripMenuItem.Text = "Reset Camera";
             this.resetCameraToolStripMenuItem.Click += new System.EventHandler(this.resetCameraToolStripMenuItem_Click);
             // 
+            // TreeListViewSceneGraph
+            // 
+            this.TreeListViewSceneGraph.CellEditUseWholeCell = false;
+            this.TreeListViewSceneGraph.Location = new System.Drawing.Point(11, 389);
+            this.TreeListViewSceneGraph.Name = "TreeListViewSceneGraph";
+            this.TreeListViewSceneGraph.ShowGroups = false;
+            this.TreeListViewSceneGraph.Size = new System.Drawing.Size(217, 97);
+            this.TreeListViewSceneGraph.TabIndex = 9;
+            this.TreeListViewSceneGraph.UseCompatibleStateImageBehavior = false;
+            this.TreeListViewSceneGraph.View = System.Windows.Forms.View.Details;
+            this.TreeListViewSceneGraph.VirtualMode = true;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -441,6 +450,8 @@
             this.pnlObjectProperties.PerformLayout();
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.GameObjectBindingSource)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.TreeListViewSceneGraph)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -478,15 +489,16 @@
         private System.Windows.Forms.ComboBox cmbObjectList;
         private System.Windows.Forms.TextBox tbInformation;
         private System.Windows.Forms.Panel pnlObjectProperties;
-        private System.Windows.Forms.TreeView tvObjectHirarchy;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.TextBox txtName;
+        private System.Windows.Forms.TextBox tbName;
         private System.Windows.Forms.Label lblLocation;
         private System.Windows.Forms.ToolStripMenuItem resetCameraToolStripMenuItem;
         private System.Windows.Forms.CheckBox ckbxLightOnOff;
         private System.Windows.Forms.Label lblColor;
         private System.Windows.Forms.Button btnColor;
         private System.Windows.Forms.ColorDialog colorDialog1;
+        private System.Windows.Forms.BindingSource GameObjectBindingSource;
+        private BrightIdeasSoftware.TreeListView TreeListViewSceneGraph;
     }
 }
 

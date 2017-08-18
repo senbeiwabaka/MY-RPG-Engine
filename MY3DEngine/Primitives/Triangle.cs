@@ -11,6 +11,7 @@ namespace MY3DEngine.Primitives
         {
             this.Name = "Triangle";
         }
+
         public override void LoadContent()
         {
             // Compile Vertex shaders

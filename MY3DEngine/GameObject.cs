@@ -1,18 +1,35 @@
 ﻿using SharpDX.Direct3D11;
 using System;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 
 namespace MY3DEngine
 {
     [Serializable]
-    public abstract class GameObject : IObject, IDisposable
+    public abstract class GameObject : IObject, IDisposable, INotifyPropertyChanged
     {
+        private string name;
+
         public string FileName { get; set; }
 
         public string FilePath { get; set; }
 
-        public Guid Id { get; set; }
+        public Guid Id { get; set; } = Guid.NewGuid();
 
-        public string Name { get; set; }
+        public string Name
+        {
+            get
+            {
+                return this.name;
+            }
+
+            set
+            {
+                this.name = value;
+
+                this.NotifyPropertyChanged(nameof(this.Name));
+            }
+        }
 
         //[XmlIgnore]
         //public MeshClass MeshObject { get; protected set; }
@@ -25,29 +42,28 @@ namespace MY3DEngine
 
         protected virtual InputLayout inputLayout { get; set; }
 
+        public bool IsSelected { get; set; } = false;
+
         #region Constructors
 
         /// <summary>
         /// blank constructor
         /// </summary>
-        public GameObject()
-        {
-            this.Id = Guid.NewGuid();
-        }
+        public GameObject() { }
 
         /// <summary>
         /// Constructor for building a .x object
         /// </summary>
         /// <param name="fileName">The file name of the object</param>
         /// <param name="path">The path of the object</param>
-        public GameObject(string fileName = "", string path = ""):this()
+        public GameObject(string fileName = "", string path = "")
         {
             //MeshObject = new MeshClass(path, fileName);
             FileName = fileName;
             FilePath = path;
         }
 
-        public GameObject(string type = "Cube"): this()
+        public GameObject(string type = "Cube")
         {
             //if (type.ToLower().Equals("triangle"))
             //{
@@ -60,6 +76,8 @@ namespace MY3DEngine
 
             Name = type;
         }
+
+        public event PropertyChangedEventHandler PropertyChanged;
 
         #endregion Constructors
 
@@ -79,7 +97,7 @@ namespace MY3DEngine
             //}
         }
 
-        public override string ToString() => $"{Id}.{Name}";
+        public override string ToString() => $"{Name}";
 
         /// <summary>
         /// Disposes of the object's mesh
@@ -93,6 +111,11 @@ namespace MY3DEngine
                 this.VertextShader?.Dispose();
                 this.PixelShader?.Dispose();
             }
+        }
+
+        protected void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }
