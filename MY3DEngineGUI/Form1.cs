@@ -1,4 +1,5 @@
 ﻿using MY3DEngine;
+using MY3DEngine.BaseObjects;
 using MY3DEngine.Primitives;
 using System;
 using System.Collections.Generic;
@@ -13,8 +14,7 @@ namespace MY3DEngineGUI
     {
         private bool _firstMouse;
         private Point _mouseLocation;
-        //private GameObject _none = new GameObject { ID = -1, Name = "--NONE--" };
-        private bool _isObjectSelected;
+        private bool isObjectSelected;
 
         public Form1()
         {
@@ -40,12 +40,12 @@ namespace MY3DEngineGUI
 
                 _mouseLocation = new Point(0, 0);
                 _firstMouse = false;
-                _isObjectSelected = false;
+                isObjectSelected = false;
 
                 lock (Engine.GameEngine.Manager)
                 {
                     this.GameObjectBindingSource.DataSource = Engine.GameEngine.Manager.GameObjects;
-                    cmbObjectList.DataSource = this.GameObjectBindingSource.DataSource;
+                    GameObjectListComboBox.DataSource = this.GameObjectBindingSource.DataSource;
                     TreeListViewSceneGraph.SetObjects(Engine.GameEngine.Manager.GameObjects, true);
                 }
             }
@@ -116,7 +116,7 @@ namespace MY3DEngineGUI
         
         #region Events
 
-        private void addCubeToolStripMenuItem_Click(object sender, EventArgs e)
+        private void AddCubeToolStripMenuItem_Click(object sender, EventArgs e)
         {
             //GameObject go = new GameObject("Cube");
 
@@ -132,7 +132,7 @@ namespace MY3DEngineGUI
 
             if (Engine.GameEngine.Manager.AddObject(gameObject))
             {
-                Add_RemoveObject("Triangle Added");
+                AddRemoveObject("Triangle added.");
             }
         }
 
@@ -172,12 +172,12 @@ namespace MY3DEngineGUI
             //}
         }
 
-        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        private void GameObjectListComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             int index = -1;
             lock (Engine.GameEngine.Manager)
             {
-                index = Engine.GameEngine.Manager.GameObjects.IndexOf((GameObject)cmbObjectList.SelectedValue);
+                index = Engine.GameEngine.Manager.GameObjects.IndexOf((GameObject)GameObjectListComboBox.SelectedValue);
 
                 Engine.GameEngine.Manager.GameObjects.ToList().ForEach(x => x.IsSelected = false);
             }
@@ -185,29 +185,16 @@ namespace MY3DEngineGUI
             if (index >= 0)
             {
                 tbName.Text = Engine.GameEngine.Manager.GameObjects[index].Name;
-                Engine.GameEngine.Manager.GameObjects[index].IsSelected = true;
 
-                //lblLocation.Text = "Location: " + Engine.GameEngine.Manager.GameObjects[index].MeshObject.ObjectPosition.ToString();
-
-                //if (Engine.GameEngine.Manager.GameObjects[index] is LightClass)
-                //{
-                //    ckbxLightOnOff.Visible = true;
-                //    ckbxLightOnOff.Checked = (Engine.GameEngine.Manager.GameObjects[index] as LightClass).IsLightEnabled;
-                //    lblColor.Text = string.Empty;
-                //    btnColor.Visible = false;
-                //}
-                //else
-                //{
-                //    ckbxLightOnOff.Visible = false;
-                //    lblColor.Text = "Color: " + Engine.GameEngine.Manager.GameObjects[index].MeshObject.MeshColorasString;
-                //    btnColor.Visible = true;
-                //}
+                lock (Engine.GameEngine.Manager)
+                {
+                    Engine.GameEngine.Manager.GameObjects[index].IsSelected = true;
+                }
             }
             else
             {
-                lblLocation.Text = string.Empty;
+                this.lblLocation.Text = string.Empty;
                 lblColor.Text = string.Empty;
-                btnColor.Visible = false;
             }
         }
 
@@ -244,7 +231,7 @@ namespace MY3DEngineGUI
             int index = -1;
             lock (Engine.GameEngine.Manager)
             {
-                index = Engine.GameEngine.Manager.GameObjects.IndexOf((GameObject)cmbObjectList.SelectedValue);
+                index = Engine.GameEngine.Manager.GameObjects.IndexOf((GameObject)GameObjectListComboBox.SelectedValue);
             }
 
             if (index >= 0)
@@ -261,7 +248,7 @@ namespace MY3DEngineGUI
             int index = -1;
             lock (Engine.GameEngine.Manager)
             {
-                index = Engine.GameEngine.Manager.GameObjects.IndexOf((GameObject)cmbObjectList.SelectedValue);
+                index = Engine.GameEngine.Manager.GameObjects.IndexOf((GameObject)GameObjectListComboBox.SelectedValue);
             }
 
             if (index >= 0)
@@ -294,8 +281,33 @@ namespace MY3DEngineGUI
                 {
                     gameObject.Name = this.tbName.Text;
 
-                    this.AddToInformationDisplay(string.Format("Object {0} has had its name changed to {1}.", gameObject.GetType().ToString(), this.tbName.Text));
+                    this.AddToInformationDisplay(string.Format("Object {0} has had its name changed to '{1}'.", gameObject.GetType().ToString(), this.tbName.Text));
                 }
+            }
+        }
+
+        private void RemoveGameObjectButton_Click(object sender, EventArgs e)
+        {
+            lock (Engine.GameEngine.Manager)
+            {
+                var gameObject = (GameObject)GameObjectListComboBox.SelectedValue;
+                var index = Engine.GameEngine.Manager.GameObjects.IndexOf(gameObject);
+
+                Engine.GameEngine.Manager.GameObjects.ToList().ForEach(x => x.IsSelected = false);
+
+                Engine.GameEngine.Manager.GameObjects.RemoveAt(index);
+
+                this.AddRemoveObject(string.Format("Game Object '{0}' was removed.", gameObject.Name));
+            }
+        }
+
+        private void AddTriangleWithTextureToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var gameObject = new TriangleWithTexture();
+
+            if (Engine.GameEngine.Manager.AddObject(gameObject))
+            {
+                AddRemoveObject("Triangle with texture added.");
             }
         }
 
@@ -303,18 +315,25 @@ namespace MY3DEngineGUI
 
         #region Helper Methods
 
-        private void Add_RemoveObject(string message)
+        private void AddRemoveObject(string message)
         {
-            lblAddRemove.Text = message;
-
             this.AddToInformationDisplay(message);
+
+            if(Engine.GameEngine.Manager.GameObjects.Count > 0)
+            {
+                this.ChangeGameObjectColorButton.Enabled = this.RemoveGameObjectButton.Enabled = true;
+            }
+            else
+            {
+                this.ChangeGameObjectColorButton.Enabled = this.RemoveGameObjectButton.Enabled = false;
+            }
         }
 
         private void AddToInformationDisplay(string message)
         {
             tbInformation.AppendText($"{message} {Environment.NewLine}");
         }
-
+        
         #endregion
     }
 }

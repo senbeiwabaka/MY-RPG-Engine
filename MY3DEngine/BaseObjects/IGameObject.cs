@@ -1,9 +1,9 @@
 ﻿using SharpDX.Direct3D11;
 using System;
 
-namespace MY3DEngine
+namespace MY3DEngine.BaseObjects
 {
-    public interface IObject
+    public interface IGameObject
     {
         string FileName { get; set; }
 

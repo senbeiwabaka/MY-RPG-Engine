@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MY3DEngine.BaseObjects;
+using System;
 using System.ComponentModel;
 
 namespace MY3DEngine
@@ -55,7 +56,7 @@ namespace MY3DEngine
         {
             try
             {
-                lock (GameObjects)
+                lock (this.GameObjects)
                 {
                     gameObject.LoadContent();
 

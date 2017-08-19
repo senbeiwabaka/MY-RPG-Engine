@@ -52,20 +52,7 @@ namespace MY3DEngine
         /// </summary>
         public void Dispose()
         {
-            // before shutting down set to windowed mode or exception will be thrown
-            this.swapChain?.SetFullscreenState(false, null);
-
-            this.swapChain?.Dispose();
-            this.GetDevice?.Dispose();
-            this.GetDeviceContext?.Dispose();
-            this.renderTargetView?.Dispose();
-            this.depthStencilBuffer?.Dispose();
-            this.depthStencilState?.Dispose();
-            this.depthStencilView?.Dispose();
-            this.rasterizerState?.Dispose();
-            this.blendStateAlphaEnabled?.Dispose();
-            this.blendStateAlphaDisabled?.Dispose();
-            this.depthDisabledStencilState?.Dispose();
+            this.Dispose(true);
 
             GC.SuppressFinalize(true);
         }
@@ -257,11 +244,11 @@ namespace MY3DEngine
                 enable ? this.depthStencilState : this.depthDisabledStencilState,
                 1);
         }
-
+        
         #region Helper Methods
 
         // TODO: update this to figure out what device to use instead of hardcoding it
-        protected bool InitializeSwapChain(
+        private bool InitializeSwapChain(
             IntPtr windowHandle,
             bool fullScreen,
             int screenWidth,
@@ -499,6 +486,27 @@ namespace MY3DEngine
 
             // create viewport
             this.GetDeviceContext.Rasterizer.SetViewport(viewport);
+        }
+
+        private void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                // before shutting down set to windowed mode or exception will be thrown
+                this.swapChain?.SetFullscreenState(false, null);
+
+                this.swapChain?.Dispose();
+                this.GetDevice?.Dispose();
+                this.GetDeviceContext?.Dispose();
+                this.renderTargetView?.Dispose();
+                this.depthStencilBuffer?.Dispose();
+                this.depthStencilState?.Dispose();
+                this.depthStencilView?.Dispose();
+                this.rasterizerState?.Dispose();
+                this.blendStateAlphaEnabled?.Dispose();
+                this.blendStateAlphaDisabled?.Dispose();
+                this.depthDisabledStencilState?.Dispose();
+            }
         }
 
         #endregion Helper Methods

@@ -82,8 +82,9 @@ namespace MY3DEngine
         
         public void Dispose()
         {
-            this.graphicsManager?.Dispose();
-            this.input?.Dispose();
+            this.Dispose(true);
+
+            GC.SuppressFinalize(true);
         }
 
         public bool InitliazeGraphics(IntPtr windowHandle, int screenWidth = 720, int screenHeight = 480, bool vsyncEnabled = true, bool fullScreen = false)
@@ -192,6 +193,15 @@ namespace MY3DEngine
             }
 
             this.graphicsManager.EndScene();
+        }
+
+        private void Dispose(bool disposing)
+        {
+            if(disposing)
+            {
+                this.graphicsManager?.Dispose();
+                this.input?.Dispose();
+            }
         }
 
         #endregion Helper Methods

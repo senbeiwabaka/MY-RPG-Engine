@@ -3,7 +3,7 @@ using System;
 
 namespace MY3DEngine.Graphics
 {
-    public class GraphicsManager : IGraphicManager, IDisposable
+    public sealed class GraphicsManager : IGraphicManager, IDisposable
     {
         public GraphicsManager()
         {
@@ -20,7 +20,7 @@ namespace MY3DEngine.Graphics
 
         public void Dispose()
         {
-            this.GetDirectXManager?.Dispose();
+            this.Dispose(true);
 
             GC.SuppressFinalize(true);
         }
@@ -61,6 +61,14 @@ namespace MY3DEngine.Graphics
         public void EnableZBuffer(bool enable = false)
         {
             this.GetDirectXManager.EnableZBuffer(enable);
+        }
+
+        private void Dispose(bool disposing)
+        {
+            if(disposing)
+            {
+                this.GetDirectXManager?.Dispose();
+            }
         }
     }
 }

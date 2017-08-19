@@ -3,10 +3,10 @@ using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
-namespace MY3DEngine
+namespace MY3DEngine.BaseObjects
 {
     [Serializable]
-    public abstract class GameObject : IObject, IDisposable, INotifyPropertyChanged
+    public abstract class GameObject : IGameObject, IDisposable, INotifyPropertyChanged
     {
         private string name;
 

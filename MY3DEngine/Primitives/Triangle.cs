@@ -1,4 +1,5 @@
-﻿using SharpDX;
+﻿using MY3DEngine.BaseObjects;
+using SharpDX;
 using SharpDX.D3DCompiler;
 using SharpDX.Direct3D11;
 using SharpDX.DXGI;
@@ -14,8 +15,10 @@ namespace MY3DEngine.Primitives
 
         public override void LoadContent()
         {
+            var path = System.IO.Path.GetFullPath("Shaders");
+
             // Compile Vertex shaders
-            using (var vertexShaderByteCode = ShaderBytecode.CompileFromFile("MiniTri.fx", "VS", "vs_4_0", ShaderFlags.EnableStrictness | ShaderFlags.Debug, EffectFlags.None))
+            using (var vertexShaderByteCode = ShaderBytecode.CompileFromFile(string.Format("{0}\\Triangle.fx", path), "VS", "vs_4_0", ShaderFlags.EnableStrictness | ShaderFlags.Debug, EffectFlags.None))
             {
                 this.VertextShader = new VertexShader(Engine.GameEngine.GraphicsManager.GetDevice, vertexShaderByteCode);
 
@@ -30,7 +33,7 @@ namespace MY3DEngine.Primitives
             }
 
             // Compile Pixel shaders
-            using (var pixelShaderByteCode = ShaderBytecode.CompileFromFile("MiniTri.fx", "PS", "ps_4_0", ShaderFlags.EnableStrictness | ShaderFlags.Debug, EffectFlags.None))
+            using (var pixelShaderByteCode = ShaderBytecode.CompileFromFile(string.Format("{0}\\Triangle.fx", path), "PS", "ps_4_0", ShaderFlags.EnableStrictness | ShaderFlags.Debug, EffectFlags.None))
             {
                 this.PixelShader = new PixelShader(Engine.GameEngine.GraphicsManager.GetDevice, pixelShaderByteCode);
             }
@@ -41,9 +44,9 @@ namespace MY3DEngine.Primitives
                 BindFlags.VertexBuffer,
                 new[]
                 {
-                        new Vector4(0.0f, 0.5f, 0.5f, 1.0f), new Vector4(1.0f, 0.0f, 0.0f, 1.0f),
-                                      new Vector4(0.5f, -0.5f, 0.5f, 1.0f), new Vector4(0.0f, 1.0f, 0.0f, 1.0f),
-                                      new Vector4(-0.5f, -0.5f, 0.5f, 1.0f), new Vector4(0.0f, 0.0f, 1.0f, 1.0f)
+                        new Vector4(0.0f, 0.5f, 0.5f, 1.0f), new Vector4(1.0f, 1.0f, 1.0f, 1.0f),
+                        new Vector4(0.5f, -0.5f, 0.5f, 1.0f), new Vector4(1.0f, 1.0f, 1.0f, 1.0f),
+                        new Vector4(-0.5f, -0.5f, 0.5f, 1.0f), new Vector4(1.0f, 1.0f, 1.0f, 1.0f)
                 });
         }
 

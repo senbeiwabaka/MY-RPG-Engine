@@ -29,22 +29,23 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             this.rendererPnl = new System.Windows.Forms.Panel();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.tabEditPlay = new System.Windows.Forms.TabControl();
             this.tbEdit = new System.Windows.Forms.TabPage();
+            this.TreeListViewSceneGraph = new BrightIdeasSoftware.TreeListView();
             this.pnlObjectProperties = new System.Windows.Forms.Panel();
-            this.btnColor = new System.Windows.Forms.Button();
+            this.RemoveGameObjectButton = new System.Windows.Forms.Button();
+            this.ChangeGameObjectColorButton = new System.Windows.Forms.Button();
             this.ckbxLightOnOff = new System.Windows.Forms.CheckBox();
             this.lblColor = new System.Windows.Forms.Label();
             this.lblLocation = new System.Windows.Forms.Label();
             this.tbName = new System.Windows.Forms.TextBox();
-            this.label2 = new System.Windows.Forms.Label();
+            this.GameObjectNameLabel = new System.Windows.Forms.Label();
             this.tbInformation = new System.Windows.Forms.TextBox();
-            this.cmbObjectList = new System.Windows.Forms.ComboBox();
-            this.lblAddRemove = new System.Windows.Forms.Label();
+            this.GameObjectListComboBox = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
             this.lblCameraPosition = new System.Windows.Forms.Label();
             this.tbPlay = new System.Windows.Forms.TabPage();
@@ -57,6 +58,7 @@
             this.addObjectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.addCubeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.addTriangleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.addTriangleWithTextureToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.terrainToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.addRandomTerrainToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.lightsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -70,14 +72,13 @@
             this.resetCameraToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.colorDialog1 = new System.Windows.Forms.ColorDialog();
             this.GameObjectBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.TreeListViewSceneGraph = new BrightIdeasSoftware.TreeListView();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.tabEditPlay.SuspendLayout();
             this.tbEdit.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.TreeListViewSceneGraph)).BeginInit();
             this.pnlObjectProperties.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.GameObjectBindingSource)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.TreeListViewSceneGraph)).BeginInit();
             this.SuspendLayout();
             // 
             // rendererPnl
@@ -89,23 +90,23 @@
             // 
             // dataGridView1
             // 
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dataGridView1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGridView1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dataGridView1.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dataGridView1.DefaultCellStyle = dataGridViewCellStyle4;
             this.dataGridView1.Location = new System.Drawing.Point(8, 507);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.Size = new System.Drawing.Size(369, 75);
@@ -126,8 +127,7 @@
             this.tbEdit.Controls.Add(this.TreeListViewSceneGraph);
             this.tbEdit.Controls.Add(this.pnlObjectProperties);
             this.tbEdit.Controls.Add(this.tbInformation);
-            this.tbEdit.Controls.Add(this.cmbObjectList);
-            this.tbEdit.Controls.Add(this.lblAddRemove);
+            this.tbEdit.Controls.Add(this.GameObjectListComboBox);
             this.tbEdit.Controls.Add(this.label1);
             this.tbEdit.Controls.Add(this.lblCameraPosition);
             this.tbEdit.Controls.Add(this.rendererPnl);
@@ -140,34 +140,58 @@
             this.tbEdit.Text = "Edit";
             this.tbEdit.UseVisualStyleBackColor = true;
             // 
+            // TreeListViewSceneGraph
+            // 
+            this.TreeListViewSceneGraph.CellEditUseWholeCell = false;
+            this.TreeListViewSceneGraph.Location = new System.Drawing.Point(11, 389);
+            this.TreeListViewSceneGraph.Name = "TreeListViewSceneGraph";
+            this.TreeListViewSceneGraph.ShowGroups = false;
+            this.TreeListViewSceneGraph.Size = new System.Drawing.Size(217, 97);
+            this.TreeListViewSceneGraph.TabIndex = 9;
+            this.TreeListViewSceneGraph.UseCompatibleStateImageBehavior = false;
+            this.TreeListViewSceneGraph.View = System.Windows.Forms.View.Details;
+            this.TreeListViewSceneGraph.VirtualMode = true;
+            // 
             // pnlObjectProperties
             // 
-            this.pnlObjectProperties.Controls.Add(this.btnColor);
+            this.pnlObjectProperties.Controls.Add(this.RemoveGameObjectButton);
+            this.pnlObjectProperties.Controls.Add(this.ChangeGameObjectColorButton);
             this.pnlObjectProperties.Controls.Add(this.ckbxLightOnOff);
             this.pnlObjectProperties.Controls.Add(this.lblColor);
             this.pnlObjectProperties.Controls.Add(this.lblLocation);
             this.pnlObjectProperties.Controls.Add(this.tbName);
-            this.pnlObjectProperties.Controls.Add(this.label2);
+            this.pnlObjectProperties.Controls.Add(this.GameObjectNameLabel);
             this.pnlObjectProperties.Location = new System.Drawing.Point(11, 125);
             this.pnlObjectProperties.Name = "pnlObjectProperties";
             this.pnlObjectProperties.Size = new System.Drawing.Size(220, 258);
             this.pnlObjectProperties.TabIndex = 8;
             // 
-            // btnColor
+            // RemoveGameObjectButton
             // 
-            this.btnColor.Location = new System.Drawing.Point(128, 59);
-            this.btnColor.Name = "btnColor";
-            this.btnColor.Size = new System.Drawing.Size(89, 23);
-            this.btnColor.TabIndex = 5;
-            this.btnColor.Text = "Change Color";
-            this.btnColor.UseVisualStyleBackColor = true;
-            this.btnColor.Visible = false;
-            this.btnColor.Click += new System.EventHandler(this.btnColor_Click);
+            this.RemoveGameObjectButton.Enabled = false;
+            this.RemoveGameObjectButton.Location = new System.Drawing.Point(12, 65);
+            this.RemoveGameObjectButton.Name = "RemoveGameObjectButton";
+            this.RemoveGameObjectButton.Size = new System.Drawing.Size(89, 23);
+            this.RemoveGameObjectButton.TabIndex = 6;
+            this.RemoveGameObjectButton.Text = "Remove";
+            this.RemoveGameObjectButton.UseVisualStyleBackColor = true;
+            this.RemoveGameObjectButton.Click += new System.EventHandler(this.RemoveGameObjectButton_Click);
+            // 
+            // ChangeGameObjectColorButton
+            // 
+            this.ChangeGameObjectColorButton.Enabled = false;
+            this.ChangeGameObjectColorButton.Location = new System.Drawing.Point(12, 36);
+            this.ChangeGameObjectColorButton.Name = "ChangeGameObjectColorButton";
+            this.ChangeGameObjectColorButton.Size = new System.Drawing.Size(89, 23);
+            this.ChangeGameObjectColorButton.TabIndex = 5;
+            this.ChangeGameObjectColorButton.Text = "Change Color";
+            this.ChangeGameObjectColorButton.UseVisualStyleBackColor = true;
+            this.ChangeGameObjectColorButton.Click += new System.EventHandler(this.btnColor_Click);
             // 
             // ckbxLightOnOff
             // 
             this.ckbxLightOnOff.AutoSize = true;
-            this.ckbxLightOnOff.Location = new System.Drawing.Point(6, 90);
+            this.ckbxLightOnOff.Location = new System.Drawing.Point(12, 94);
             this.ckbxLightOnOff.Name = "ckbxLightOnOff";
             this.ckbxLightOnOff.Size = new System.Drawing.Size(85, 17);
             this.ckbxLightOnOff.TabIndex = 4;
@@ -196,18 +220,18 @@
             // 
             this.tbName.Location = new System.Drawing.Point(45, 10);
             this.tbName.Name = "tbName";
-            this.tbName.Size = new System.Drawing.Size(100, 20);
+            this.tbName.Size = new System.Drawing.Size(163, 20);
             this.tbName.TabIndex = 1;
             this.tbName.Leave += new System.EventHandler(this.TxtName_Leave);
             // 
-            // label2
+            // GameObjectNameLabel
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(3, 10);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(35, 13);
-            this.label2.TabIndex = 0;
-            this.label2.Text = "Name";
+            this.GameObjectNameLabel.AutoSize = true;
+            this.GameObjectNameLabel.Location = new System.Drawing.Point(3, 13);
+            this.GameObjectNameLabel.Name = "GameObjectNameLabel";
+            this.GameObjectNameLabel.Size = new System.Drawing.Size(35, 13);
+            this.GameObjectNameLabel.TabIndex = 0;
+            this.GameObjectNameLabel.Text = "Name";
             // 
             // tbInformation
             // 
@@ -218,27 +242,19 @@
             this.tbInformation.Size = new System.Drawing.Size(424, 75);
             this.tbInformation.TabIndex = 7;
             // 
-            // cmbObjectList
+            // GameObjectListComboBox
             // 
-            this.cmbObjectList.FormattingEnabled = true;
-            this.cmbObjectList.Location = new System.Drawing.Point(11, 97);
-            this.cmbObjectList.Name = "cmbObjectList";
-            this.cmbObjectList.Size = new System.Drawing.Size(217, 21);
-            this.cmbObjectList.TabIndex = 6;
-            this.cmbObjectList.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
-            // 
-            // lblAddRemove
-            // 
-            this.lblAddRemove.AutoSize = true;
-            this.lblAddRemove.Location = new System.Drawing.Point(4, 71);
-            this.lblAddRemove.Name = "lblAddRemove";
-            this.lblAddRemove.Size = new System.Drawing.Size(0, 13);
-            this.lblAddRemove.TabIndex = 5;
+            this.GameObjectListComboBox.FormattingEnabled = true;
+            this.GameObjectListComboBox.Location = new System.Drawing.Point(11, 97);
+            this.GameObjectListComboBox.Name = "GameObjectListComboBox";
+            this.GameObjectListComboBox.Size = new System.Drawing.Size(217, 21);
+            this.GameObjectListComboBox.TabIndex = 6;
+            this.GameObjectListComboBox.SelectedIndexChanged += new System.EventHandler(this.GameObjectListComboBox_SelectedIndexChanged);
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(4, 54);
+            this.label1.Location = new System.Drawing.Point(8, 81);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(93, 13);
             this.label1.TabIndex = 4;
@@ -311,31 +327,41 @@
             this.shapesObjectsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.addObjectToolStripMenuItem,
             this.addCubeToolStripMenuItem,
-            this.addTriangleToolStripMenuItem});
+            this.addTriangleToolStripMenuItem,
+            this.addTriangleWithTextureToolStripMenuItem});
             this.shapesObjectsToolStripMenuItem.Name = "shapesObjectsToolStripMenuItem";
             this.shapesObjectsToolStripMenuItem.Size = new System.Drawing.Size(101, 20);
             this.shapesObjectsToolStripMenuItem.Text = "Shapes/Objects";
             // 
             // addObjectToolStripMenuItem
             // 
+            this.addObjectToolStripMenuItem.Enabled = false;
             this.addObjectToolStripMenuItem.Name = "addObjectToolStripMenuItem";
-            this.addObjectToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.addObjectToolStripMenuItem.Size = new System.Drawing.Size(208, 22);
             this.addObjectToolStripMenuItem.Text = "Add Object";
             this.addObjectToolStripMenuItem.Click += new System.EventHandler(this.addObjectToolStripMenuItem_Click);
             // 
             // addCubeToolStripMenuItem
             // 
+            this.addCubeToolStripMenuItem.Enabled = false;
             this.addCubeToolStripMenuItem.Name = "addCubeToolStripMenuItem";
-            this.addCubeToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.addCubeToolStripMenuItem.Size = new System.Drawing.Size(208, 22);
             this.addCubeToolStripMenuItem.Text = "Add Cube";
-            this.addCubeToolStripMenuItem.Click += new System.EventHandler(this.addCubeToolStripMenuItem_Click);
+            this.addCubeToolStripMenuItem.Click += new System.EventHandler(this.AddCubeToolStripMenuItem_Click);
             // 
             // addTriangleToolStripMenuItem
             // 
             this.addTriangleToolStripMenuItem.Name = "addTriangleToolStripMenuItem";
-            this.addTriangleToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.addTriangleToolStripMenuItem.Size = new System.Drawing.Size(208, 22);
             this.addTriangleToolStripMenuItem.Text = "Add Triangle";
             this.addTriangleToolStripMenuItem.Click += new System.EventHandler(this.AddTriangleToolStripMenuItem_Click);
+            // 
+            // addTriangleWithTextureToolStripMenuItem
+            // 
+            this.addTriangleWithTextureToolStripMenuItem.Name = "addTriangleWithTextureToolStripMenuItem";
+            this.addTriangleWithTextureToolStripMenuItem.Size = new System.Drawing.Size(208, 22);
+            this.addTriangleWithTextureToolStripMenuItem.Text = "Add Triangle with Texture";
+            this.addTriangleWithTextureToolStripMenuItem.Click += new System.EventHandler(this.AddTriangleWithTextureToolStripMenuItem_Click);
             // 
             // terrainToolStripMenuItem
             // 
@@ -356,12 +382,15 @@
             this.lightsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.addPointLightToolStripMenuItem,
             this.addDirectionalLightToolStripMenuItem});
+            this.lightsToolStripMenuItem.Enabled = false;
             this.lightsToolStripMenuItem.Name = "lightsToolStripMenuItem";
             this.lightsToolStripMenuItem.Size = new System.Drawing.Size(51, 20);
             this.lightsToolStripMenuItem.Text = "Lights";
+            this.lightsToolStripMenuItem.Visible = false;
             // 
             // addPointLightToolStripMenuItem
             // 
+            this.addPointLightToolStripMenuItem.Enabled = false;
             this.addPointLightToolStripMenuItem.Name = "addPointLightToolStripMenuItem";
             this.addPointLightToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
             this.addPointLightToolStripMenuItem.Text = "Add Point Light";
@@ -369,6 +398,7 @@
             // 
             // addDirectionalLightToolStripMenuItem
             // 
+            this.addDirectionalLightToolStripMenuItem.Enabled = false;
             this.addDirectionalLightToolStripMenuItem.Name = "addDirectionalLightToolStripMenuItem";
             this.addDirectionalLightToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
             this.addDirectionalLightToolStripMenuItem.Text = "Add Directional Light";
@@ -378,14 +408,17 @@
             // 
             this.soundToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.addSoundToolStripMenuItem});
+            this.soundToolStripMenuItem.Enabled = false;
             this.soundToolStripMenuItem.Name = "soundToolStripMenuItem";
             this.soundToolStripMenuItem.Size = new System.Drawing.Size(53, 20);
             this.soundToolStripMenuItem.Text = "Sound";
+            this.soundToolStripMenuItem.Visible = false;
             // 
             // addSoundToolStripMenuItem
             // 
+            this.addSoundToolStripMenuItem.Enabled = false;
             this.addSoundToolStripMenuItem.Name = "addSoundToolStripMenuItem";
-            this.addSoundToolStripMenuItem.Size = new System.Drawing.Size(133, 22);
+            this.addSoundToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.addSoundToolStripMenuItem.Text = "Add Sound";
             // 
             // propertiesToolStripMenuItem
@@ -394,12 +427,15 @@
             this.globalLightsOnOffToolStripMenuItem,
             this.wireframOnOffToolStripMenuItem,
             this.resetCameraToolStripMenuItem});
+            this.propertiesToolStripMenuItem.Enabled = false;
             this.propertiesToolStripMenuItem.Name = "propertiesToolStripMenuItem";
             this.propertiesToolStripMenuItem.Size = new System.Drawing.Size(72, 20);
             this.propertiesToolStripMenuItem.Text = "Properties";
+            this.propertiesToolStripMenuItem.Visible = false;
             // 
             // globalLightsOnOffToolStripMenuItem
             // 
+            this.globalLightsOnOffToolStripMenuItem.Enabled = false;
             this.globalLightsOnOffToolStripMenuItem.Name = "globalLightsOnOffToolStripMenuItem";
             this.globalLightsOnOffToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
             this.globalLightsOnOffToolStripMenuItem.Text = "Global Lights On/Off";
@@ -407,6 +443,7 @@
             // 
             // wireframOnOffToolStripMenuItem
             // 
+            this.wireframOnOffToolStripMenuItem.Enabled = false;
             this.wireframOnOffToolStripMenuItem.Name = "wireframOnOffToolStripMenuItem";
             this.wireframOnOffToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
             this.wireframOnOffToolStripMenuItem.Text = "Wirefram On/Off";
@@ -414,22 +451,11 @@
             // 
             // resetCameraToolStripMenuItem
             // 
+            this.resetCameraToolStripMenuItem.Enabled = false;
             this.resetCameraToolStripMenuItem.Name = "resetCameraToolStripMenuItem";
             this.resetCameraToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
             this.resetCameraToolStripMenuItem.Text = "Reset Camera";
             this.resetCameraToolStripMenuItem.Click += new System.EventHandler(this.resetCameraToolStripMenuItem_Click);
-            // 
-            // TreeListViewSceneGraph
-            // 
-            this.TreeListViewSceneGraph.CellEditUseWholeCell = false;
-            this.TreeListViewSceneGraph.Location = new System.Drawing.Point(11, 389);
-            this.TreeListViewSceneGraph.Name = "TreeListViewSceneGraph";
-            this.TreeListViewSceneGraph.ShowGroups = false;
-            this.TreeListViewSceneGraph.Size = new System.Drawing.Size(217, 97);
-            this.TreeListViewSceneGraph.TabIndex = 9;
-            this.TreeListViewSceneGraph.UseCompatibleStateImageBehavior = false;
-            this.TreeListViewSceneGraph.View = System.Windows.Forms.View.Details;
-            this.TreeListViewSceneGraph.VirtualMode = true;
             // 
             // Form1
             // 
@@ -446,12 +472,12 @@
             this.tabEditPlay.ResumeLayout(false);
             this.tbEdit.ResumeLayout(false);
             this.tbEdit.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.TreeListViewSceneGraph)).EndInit();
             this.pnlObjectProperties.ResumeLayout(false);
             this.pnlObjectProperties.PerformLayout();
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.GameObjectBindingSource)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.TreeListViewSceneGraph)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -485,20 +511,21 @@
         private System.Windows.Forms.ToolStripMenuItem globalLightsOnOffToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem wireframOnOffToolStripMenuItem;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label lblAddRemove;
-        private System.Windows.Forms.ComboBox cmbObjectList;
+        private System.Windows.Forms.ComboBox GameObjectListComboBox;
         private System.Windows.Forms.TextBox tbInformation;
         private System.Windows.Forms.Panel pnlObjectProperties;
-        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label GameObjectNameLabel;
         private System.Windows.Forms.TextBox tbName;
         private System.Windows.Forms.Label lblLocation;
         private System.Windows.Forms.ToolStripMenuItem resetCameraToolStripMenuItem;
         private System.Windows.Forms.CheckBox ckbxLightOnOff;
         private System.Windows.Forms.Label lblColor;
-        private System.Windows.Forms.Button btnColor;
+        private System.Windows.Forms.Button ChangeGameObjectColorButton;
         private System.Windows.Forms.ColorDialog colorDialog1;
         private System.Windows.Forms.BindingSource GameObjectBindingSource;
         private BrightIdeasSoftware.TreeListView TreeListViewSceneGraph;
+        private System.Windows.Forms.Button RemoveGameObjectButton;
+        private System.Windows.Forms.ToolStripMenuItem addTriangleWithTextureToolStripMenuItem;
     }
 }
 

@@ -72,6 +72,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BaseObjects\GameObjectWithTexture.cs" />
+    <Compile Include="BaseObjects\IGameObjectWithTexture.cs" />
     <Compile Include="Camera.cs" />
     <Compile Include="DirectXManager.cs" />
     <Compile Include="Engine.cs" />
@@ -82,13 +84,14 @@
     <Compile Include="ILevel.cs" />
     <Compile Include="Input.cs" />
     <Content Include="Graphics\MeshClass.cs" />
-    <Compile Include="GameObject.cs" />
-    <Compile Include="IObject.cs" />
+    <Compile Include="BaseObjects\GameObject.cs" />
+    <Compile Include="BaseObjects\IGameObject.cs" />
     <Compile Include="ObjectManager.cs" />
     <Compile Include="Primitives\Triangle.cs" />
+    <Compile Include="Primitives\TriangleWithTexture.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Scripting.cs" />
-    <None Include="MiniTri.fx">
+    <None Include="Shaders\Triangle.fx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="SolidGreenColor.fx">
@@ -98,9 +101,7 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Shaders\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
