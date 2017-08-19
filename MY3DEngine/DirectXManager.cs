@@ -162,20 +162,20 @@ namespace MY3DEngine
             backBuffer.Dispose();
             backBuffer = null;
 
-            if (!this.InitializeDepthBuffer(screenWidth, screenHeight))
-            {
-                return false;
-            }
+            //if (!this.InitializeDepthBuffer(screenWidth, screenHeight))
+            //{
+            //    return false;
+            //}
 
-            if (!this.IntializeDepthStencilBuffer())
-            {
-                return false;
-            }
+            //if (!this.IntializeDepthStencilBuffer())
+            //{
+            //    return false;
+            //}
 
-            if (!this.InitializeStencilView())
-            {
-                return false;
-            }
+            //if (!this.InitializeStencilView())
+            //{
+            //    return false;
+            //}
 
             // bind render target view and depth stenchil buffer to the output render pipeline
             this.GetDeviceContext.OutputMerger.SetRenderTargets(this.depthStencilView, this.renderTargetView);
@@ -213,7 +213,7 @@ namespace MY3DEngine
             this.GetDeviceContext.ClearRenderTargetView(this.renderTargetView, new RawColor4(red, green, blue, alpha));
 
             // clear the depth buffer
-            this.GetDeviceContext.ClearDepthStencilView(this.depthStencilView, DepthStencilClearFlags.Depth, 1.0f, 0);
+            //this.GetDeviceContext.ClearDepthStencilView(this.depthStencilView, DepthStencilClearFlags.Depth, 1.0f, 0);
         }
 
         /// <summary>

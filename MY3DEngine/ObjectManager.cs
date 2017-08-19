@@ -57,6 +57,8 @@ namespace MY3DEngine
             {
                 lock (GameObjects)
                 {
+                    gameObject.LoadContent();
+
                     this.GameObjects.Add(gameObject);
                 }
             }

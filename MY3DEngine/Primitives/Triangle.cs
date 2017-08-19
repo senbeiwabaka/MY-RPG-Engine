@@ -7,7 +7,7 @@ namespace MY3DEngine.Primitives
 {
     public class Triangle : GameObject
     {
-        public Triangle():base()
+        public Triangle() : base()
         {
             this.Name = "Triangle";
         }
@@ -15,7 +15,7 @@ namespace MY3DEngine.Primitives
         public override void LoadContent()
         {
             // Compile Vertex shaders
-            using (var vertexShaderByteCode = ShaderBytecode.CompileFromFile("SolidGreenColor.fx", "VS", "vs_4_0", ShaderFlags.None, EffectFlags.None))
+            using (var vertexShaderByteCode = ShaderBytecode.CompileFromFile("MiniTri.fx", "VS", "vs_4_0", ShaderFlags.EnableStrictness | ShaderFlags.Debug, EffectFlags.None))
             {
                 this.VertextShader = new VertexShader(Engine.GameEngine.GraphicsManager.GetDevice, vertexShaderByteCode);
 
@@ -30,21 +30,32 @@ namespace MY3DEngine.Primitives
             }
 
             // Compile Pixel shaders
-            using (var pixelShaderByteCode = ShaderBytecode.CompileFromFile("SolidGreenColor.fx", "PS", "ps_4_0", ShaderFlags.None, EffectFlags.None))
+            using (var pixelShaderByteCode = ShaderBytecode.CompileFromFile("MiniTri.fx", "PS", "ps_4_0", ShaderFlags.EnableStrictness | ShaderFlags.Debug, EffectFlags.None))
             {
                 this.PixelShader = new PixelShader(Engine.GameEngine.GraphicsManager.GetDevice, pixelShaderByteCode);
-
-                // Instantiate Vertex buiffer from vertex data
-                var vertices = Buffer.Create(
-                    Engine.GameEngine.GraphicsManager.GetDevice,
-                    BindFlags.VertexBuffer,
-                    new[]
-                    {
-                        new Vector4(0.0f, 0.5f, 0.5f, 1.0f), new Vector4(1.0f, 0.0f, 0.0f, 1.0f),
-                        new Vector4(0.5f, -0.5f, 0.5f, 1.0f), new Vector4(0.0f, 1.0f, 0.0f, 1.0f),
-                        new Vector4(-0.5f, -0.5f, 0.5f, 1.0f), new Vector4(0.0f, 0.0f, 1.0f, 1.0f)
-                    });
             }
+
+            // Instantiate Vertex buffer from vertex data
+            this.buffer = Buffer.Create(
+                Engine.GameEngine.GraphicsManager.GetDevice,
+                BindFlags.VertexBuffer,
+                new[]
+                {
+                        new Vector4(0.0f, 0.5f, 0.5f, 1.0f), new Vector4(1.0f, 0.0f, 0.0f, 1.0f),
+                                      new Vector4(0.5f, -0.5f, 0.5f, 1.0f), new Vector4(0.0f, 1.0f, 0.0f, 1.0f),
+                                      new Vector4(-0.5f, -0.5f, 0.5f, 1.0f), new Vector4(0.0f, 0.0f, 1.0f, 1.0f)
+                });
+        }
+
+        public override void Render()
+        {
+            Engine.GameEngine.GraphicsManager.GetDeviceContext.InputAssembler.InputLayout = this.inputLayout;
+            Engine.GameEngine.GraphicsManager.GetDeviceContext.InputAssembler.PrimitiveTopology = SharpDX.Direct3D.PrimitiveTopology.TriangleList;
+            Engine.GameEngine.GraphicsManager.GetDeviceContext.InputAssembler.SetVertexBuffers(0, new VertexBufferBinding(this.buffer, 32, 0));
+            
+            Engine.GameEngine.GraphicsManager.GetDeviceContext.VertexShader.Set(this.VertextShader);
+            Engine.GameEngine.GraphicsManager.GetDeviceContext.PixelShader.Set(this.PixelShader);
+            Engine.GameEngine.GraphicsManager.GetDeviceContext.Draw(3, 0);
         }
     }
 }

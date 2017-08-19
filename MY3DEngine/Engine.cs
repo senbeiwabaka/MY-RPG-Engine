@@ -186,6 +186,10 @@ namespace MY3DEngine
             this.graphicsManager.BeginScene(0.0f, 0.0f, 0.0f, 1.0f);
 
             // render stuff goes here
+            foreach (var gameObject in this.manager.GameObjects)
+            {
+                gameObject.Render();
+            }
 
             this.graphicsManager.EndScene();
         }

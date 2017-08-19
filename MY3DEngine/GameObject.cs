@@ -34,16 +34,16 @@ namespace MY3DEngine
         //[XmlIgnore]
         //public MeshClass MeshObject { get; protected set; }
 
-        public PixelShader PixelShader { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public PixelShader PixelShader { get; set; }
 
-        public VertexShader VertextShader { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public VertexShader VertextShader { get; set; }
+
+        public bool IsSelected { get; set; } = false;
 
         protected virtual SharpDX.Direct3D11.Buffer buffer { get; set; }
 
         protected virtual InputLayout inputLayout { get; set; }
-
-        public bool IsSelected { get; set; } = false;
-
+        
         #region Constructors
 
         /// <summary>
@@ -89,7 +89,7 @@ namespace MY3DEngine
             GC.SuppressFinalize(this);
         }
 
-        public virtual void Renderer()
+        public virtual void Render()
         {
             //if (MeshObject != null)
             //{

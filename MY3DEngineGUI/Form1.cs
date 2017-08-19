@@ -27,7 +27,7 @@ namespace MY3DEngineGUI
                 this.rendererPnl.Handle,
                 this.rendererPnl.Width,
                 this.rendererPnl.Height,
-                true,
+                false,
                 false))
             {
                 Engine.GameEngine.Initialize(this.Handle);
