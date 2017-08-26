@@ -45,6 +45,9 @@
     <Reference Include="SharpDX.D3DCompiler, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
       <HintPath>..\packages\SharpDX.D3DCompiler.4.0.1\lib\net45\SharpDX.D3DCompiler.dll</HintPath>
     </Reference>
+    <Reference Include="SharpDX.Direct2D1, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpDX.Direct2D1.4.0.1\lib\net45\SharpDX.Direct2D1.dll</HintPath>
+    </Reference>
     <Reference Include="SharpDX.Direct3D11, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
       <HintPath>..\packages\SharpDX.Direct3D11.4.0.1\lib\net45\SharpDX.Direct3D11.dll</HintPath>
       <Private>True</Private>
@@ -75,6 +78,7 @@
     <Compile Include="BaseObjects\GameObjectWithTexture.cs" />
     <Compile Include="BaseObjects\IGameObjectWithTexture.cs" />
     <Compile Include="Camera.cs" />
+    <Compile Include="Common\TextureLoader.cs" />
     <Compile Include="DirectXManager.cs" />
     <Compile Include="Engine.cs" />
     <Compile Include="ExceptionHolder.cs" />
@@ -83,6 +87,18 @@
     <Compile Include="Graphics\IGraphicManager.cs" />
     <Compile Include="ILevel.cs" />
     <Compile Include="Input.cs" />
+    <None Include="Shaders\TriangleWithTexture.fx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\decal.dds">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\decal.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Untitled.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <Content Include="Graphics\MeshClass.cs" />
     <Compile Include="BaseObjects\GameObject.cs" />
     <Compile Include="BaseObjects\IGameObject.cs" />
