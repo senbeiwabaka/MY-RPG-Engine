@@ -1,7 +1,9 @@
 ﻿using MY3DEngine.BaseObjects;
+using MY3DEngine.Cameras;
 using MY3DEngine.Graphics;
 using MY3DEngine.Primitives;
 using Newtonsoft.Json;
+using SharpDX;
 using System;
 using System.Collections;
 using System.Threading;
@@ -23,6 +25,7 @@ namespace MY3DEngine
         private ObjectManager manager;
         private Thread renderThread;
         private bool wireFrame;
+        private Camera camera;
 
         /// <summary>
         /// Engine Constructor
@@ -78,6 +81,8 @@ namespace MY3DEngine
         /// </summary>
         public IntPtr Window { get; }
 
+        public Camera Camera => this.camera;
+
         public void AddException(Exception e)
         {
             if (IsDebugginTurnedOn)
@@ -106,6 +111,7 @@ namespace MY3DEngine
         {
             this.graphicsManager.Initialize();
 
+            this.camera = new Camera();
             this.Exception = new ExceptionHolder();
             this.Manager = new ObjectManager();
 
@@ -269,7 +275,17 @@ namespace MY3DEngine
 
         private void Render()
         {
+            Matrix worldMatrix, viewMatrix, projectionMatrix;
+
             this.graphicsManager.BeginScene(0.0f, 0.0f, 0.0f, 1.0f);
+
+            // Generate the view matrix based on the camera's position.
+            this.Camera.Render();
+
+            // Get the world, view, and projection matrices from the camera and d3d objects.
+            //this.GraphicsManager.GetDevice.GetWorldMatrix(worldMatrix);
+            //m_Camera->GetViewMatrix(viewMatrix);
+            //m_Direct3D->GetProjectionMatrix(projectionMatrix);
 
             // render stuff goes here
             foreach (var gameObject in this.manager.GameObjects)

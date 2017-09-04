@@ -32,7 +32,11 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.rendererPnl = new System.Windows.Forms.Panel();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.ExceptionGridView = new System.Windows.Forms.DataGridView();
+            this.Message = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.StackTrace = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Source = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ExceptionBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.tabEditPlay = new System.Windows.Forms.TabControl();
             this.tbEdit = new System.Windows.Forms.TabPage();
             this.TreeListViewSceneGraph = new BrightIdeasSoftware.TreeListView();
@@ -52,6 +56,7 @@
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveLevelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.loadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.playGameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.shapesObjectsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -73,8 +78,8 @@
             this.turnDebuggerOnOffToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.colorDialog1 = new System.Windows.Forms.ColorDialog();
             this.GameObjectBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.loadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ExceptionGridView)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ExceptionBindingSource)).BeginInit();
             this.tabEditPlay.SuspendLayout();
             this.tbEdit.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.TreeListViewSceneGraph)).BeginInit();
@@ -90,8 +95,11 @@
             this.rendererPnl.Size = new System.Drawing.Size(720, 480);
             this.rendererPnl.TabIndex = 1;
             // 
-            // dataGridView1
+            // ExceptionGridView
             // 
+            this.ExceptionGridView.AllowUserToDeleteRows = false;
+            this.ExceptionGridView.AllowUserToOrderColumns = true;
+            this.ExceptionGridView.AutoGenerateColumns = false;
             dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
             dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -99,8 +107,13 @@
             dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
             dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dataGridView1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.ExceptionGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            this.ExceptionGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.ExceptionGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.Message,
+            this.StackTrace,
+            this.Source});
+            this.ExceptionGridView.DataSource = this.ExceptionBindingSource;
             dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
             dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -108,11 +121,34 @@
             dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
             dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dataGridView1.DefaultCellStyle = dataGridViewCellStyle2;
-            this.dataGridView1.Location = new System.Drawing.Point(8, 492);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(463, 90);
-            this.dataGridView1.TabIndex = 2;
+            this.ExceptionGridView.DefaultCellStyle = dataGridViewCellStyle2;
+            this.ExceptionGridView.Location = new System.Drawing.Point(8, 492);
+            this.ExceptionGridView.Name = "ExceptionGridView";
+            this.ExceptionGridView.ReadOnly = true;
+            this.ExceptionGridView.Size = new System.Drawing.Size(463, 90);
+            this.ExceptionGridView.TabIndex = 2;
+            this.ExceptionGridView.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.ExceptionGridView_CellContentClick);
+            // 
+            // Message
+            // 
+            this.Message.DataPropertyName = "Message";
+            this.Message.HeaderText = "Message";
+            this.Message.Name = "Message";
+            this.Message.ReadOnly = true;
+            // 
+            // StackTrace
+            // 
+            this.StackTrace.DataPropertyName = "StackTrace";
+            this.StackTrace.HeaderText = "Stack Trace";
+            this.StackTrace.Name = "StackTrace";
+            this.StackTrace.ReadOnly = true;
+            // 
+            // Source
+            // 
+            this.Source.DataPropertyName = "Source";
+            this.Source.HeaderText = "Source";
+            this.Source.Name = "Source";
+            this.Source.ReadOnly = true;
             // 
             // tabEditPlay
             // 
@@ -133,7 +169,7 @@
             this.tbEdit.Controls.Add(this.label1);
             this.tbEdit.Controls.Add(this.lblCameraPosition);
             this.tbEdit.Controls.Add(this.rendererPnl);
-            this.tbEdit.Controls.Add(this.dataGridView1);
+            this.tbEdit.Controls.Add(this.ExceptionGridView);
             this.tbEdit.Location = new System.Drawing.Point(4, 22);
             this.tbEdit.Name = "tbEdit";
             this.tbEdit.Padding = new System.Windows.Forms.Padding(3);
@@ -309,21 +345,28 @@
             // saveLevelToolStripMenuItem
             // 
             this.saveLevelToolStripMenuItem.Name = "saveLevelToolStripMenuItem";
-            this.saveLevelToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.saveLevelToolStripMenuItem.Size = new System.Drawing.Size(140, 22);
             this.saveLevelToolStripMenuItem.Text = "Save";
             this.saveLevelToolStripMenuItem.Click += new System.EventHandler(this.SaveLevelToolStripMenuItem_Click);
+            // 
+            // loadToolStripMenuItem
+            // 
+            this.loadToolStripMenuItem.Name = "loadToolStripMenuItem";
+            this.loadToolStripMenuItem.Size = new System.Drawing.Size(140, 22);
+            this.loadToolStripMenuItem.Text = "Load";
+            this.loadToolStripMenuItem.Click += new System.EventHandler(this.LoadToolStripMenuItem_Click);
             // 
             // playGameToolStripMenuItem
             // 
             this.playGameToolStripMenuItem.Enabled = false;
             this.playGameToolStripMenuItem.Name = "playGameToolStripMenuItem";
-            this.playGameToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.playGameToolStripMenuItem.Size = new System.Drawing.Size(140, 22);
             this.playGameToolStripMenuItem.Text = "Play \"Game\"";
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(140, 22);
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.ExitToolStripMenuItem_Click);
             // 
@@ -472,13 +515,6 @@
             this.turnDebuggerOnOffToolStripMenuItem.Text = "Turn Debugger On/Off";
             this.turnDebuggerOnOffToolStripMenuItem.Click += new System.EventHandler(this.TurnDebuggerOnOffToolStripMenuItem_Click);
             // 
-            // loadToolStripMenuItem
-            // 
-            this.loadToolStripMenuItem.Name = "loadToolStripMenuItem";
-            this.loadToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.loadToolStripMenuItem.Text = "Load";
-            this.loadToolStripMenuItem.Click += new System.EventHandler(this.LoadToolStripMenuItem_Click);
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -491,7 +527,8 @@
             this.Name = "Form1";
             this.Text = "Form1";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ExceptionGridView)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ExceptionBindingSource)).EndInit();
             this.tabEditPlay.ResumeLayout(false);
             this.tbEdit.ResumeLayout(false);
             this.tbEdit.PerformLayout();
@@ -509,7 +546,7 @@
         #endregion
 
         private System.Windows.Forms.Panel rendererPnl;
-        private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.DataGridView ExceptionGridView;
         private System.Windows.Forms.TabControl tabEditPlay;
         private System.Windows.Forms.TabPage tbEdit;
         private System.Windows.Forms.TabPage tbPlay;
@@ -551,6 +588,10 @@
         private System.Windows.Forms.ToolStripMenuItem addTriangleWithTextureToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem turnDebuggerOnOffToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem loadToolStripMenuItem;
+        private System.Windows.Forms.BindingSource ExceptionBindingSource;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Message;
+        private System.Windows.Forms.DataGridViewTextBoxColumn StackTrace;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Source;
     }
 }
 

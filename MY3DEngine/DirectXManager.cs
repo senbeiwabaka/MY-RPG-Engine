@@ -149,15 +149,15 @@ namespace MY3DEngine
             backBuffer.Dispose();
             backBuffer = null;
 
-            //if (!this.InitializeDepthBuffer(screenWidth, screenHeight))
-            //{
-            //    return false;
-            //}
+            if (!this.InitializeDepthBuffer(screenWidth, screenHeight))
+            {
+                return false;
+            }
 
-            //if (!this.IntializeDepthStencilBuffer())
-            //{
-            //    return false;
-            //}
+            if (!this.IntializeDepthStencilBuffer())
+            {
+                return false;
+            }
 
             //if (!this.InitializeStencilView())
             //{
@@ -370,8 +370,7 @@ namespace MY3DEngine
 
         private bool InitializeStencilView()
         {
-            var depthStencilViewDescription =
-                new DepthStencilViewDescription
+            var depthStencilViewDescription = new DepthStencilViewDescription
                 {
                     Format = Format.D24_UNorm_S8_UInt,
                     Dimension = DepthStencilViewDimension.Texture2D,

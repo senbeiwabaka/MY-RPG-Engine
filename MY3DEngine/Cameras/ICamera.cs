@@ -7,5 +7,9 @@ namespace MY3DEngine.Cameras
         Vector3 Position { get; set; }
 
         Vector3 Rotation { get; set; }
+
+        Matrix ViewMatrix { get; set; }
+
+        void Render();
     }
 }

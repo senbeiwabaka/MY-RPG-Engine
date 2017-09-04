@@ -4,22 +4,7 @@
     public struct ExceptionData
     {
         /// <summary>
-        /// 
-        /// </summary>
-        public string Message { get; private set; }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public string Source { get; private set; }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public string StackTrace { get; private set; }
-
-        /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="message"></param>
         /// <param name="source"></param>
@@ -30,5 +15,20 @@
             Source = source;
             StackTrace = stacktrace;
         }
+
+        /// <summary>
+        ///
+        /// </summary>
+        public string Message { get; }
+
+        /// <summary>
+        ///
+        /// </summary>
+        public string Source { get; }
+
+        /// <summary>
+        ///
+        /// </summary>
+        public string StackTrace { get; }
     }
 }

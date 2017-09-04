@@ -1,0 +1,65 @@
+﻿namespace MY3DEngineGUI
+{
+    partial class ExceptionValueDisplayForm
+    {
+        /// <summary>
+        /// Required designer variable.
+        /// </summary>
+        private System.ComponentModel.IContainer components = null;
+
+        /// <summary>
+        /// Clean up any resources being used.
+        /// </summary>
+        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing && (components != null))
+            {
+                components.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+
+        #region Windows Form Designer generated code
+
+        /// <summary>
+        /// Required method for Designer support - do not modify
+        /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
+            this.CellMessageContent = new System.Windows.Forms.RichTextBox();
+            this.SuspendLayout();
+            // 
+            // CellMessageContent
+            // 
+            this.CellMessageContent.Enabled = false;
+            this.CellMessageContent.Location = new System.Drawing.Point(12, 12);
+            this.CellMessageContent.Name = "CellMessageContent";
+            this.CellMessageContent.Size = new System.Drawing.Size(260, 237);
+            this.CellMessageContent.TabIndex = 0;
+            this.CellMessageContent.Text = "";
+            // 
+            // ExceptionValueDisplayForm
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.ClientSize = new System.Drawing.Size(284, 261);
+            this.Controls.Add(this.CellMessageContent);
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
+            this.Name = "ExceptionValueDisplayForm";
+            this.ShowIcon = false;
+            this.ShowInTaskbar = false;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.Text = "Exception Cell Value Content";
+            this.TopMost = true;
+            this.ResumeLayout(false);
+
+        }
+
+        #endregion
+
+        private System.Windows.Forms.RichTextBox CellMessageContent;
+    }
+}

@@ -53,7 +53,7 @@ namespace MY3DEngineGUI
 
             Engine.GameEngine.Exception.Information.CollectionChanged += Information_CollectionChanged;
 
-            this.dataGridView1.DataSource = exceptions;
+            this.ExceptionBindingSource.DataSource = exceptions;
 
             this.AddToInformationDisplay(string.Format("Video card memory : {0} MB", Engine.GameEngine.GraphicsManager.GetDirectXManager.VideoCardMemory));
             this.AddToInformationDisplay(string.Format("Video card description : {0}", Engine.GameEngine.GraphicsManager.GetDirectXManager.VideoCardDescription, Environment.NewLine));
@@ -284,6 +284,14 @@ namespace MY3DEngineGUI
         private void wireframOnOffToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Engine.GameEngine.WireFrame();
+        }
+
+        private void ExceptionGridView_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            var clickedOnCellContents = this.ExceptionGridView.Rows[e.RowIndex].Cells[e.ColumnIndex].Value;
+            var exceptionValueDisplayForm = new ExceptionValueDisplayForm(clickedOnCellContents);
+
+            exceptionValueDisplayForm.Show(this);
         }
 
         #endregion Events

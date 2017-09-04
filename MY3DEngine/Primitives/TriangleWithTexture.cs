@@ -77,7 +77,7 @@ namespace MY3DEngine.Primitives
                 });
 
             path = Path.GetFullPath("Assets");
-            //path = string.Format("{0}\\decal.png", path);
+            path = string.Format("{0}\\decal.png", path);
 
             // initialize the WIC factory
             using (var imagingFactory = new wic.ImagingFactory2())

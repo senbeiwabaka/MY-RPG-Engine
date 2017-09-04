@@ -9,8 +9,9 @@ namespace MY3DEngine.Cameras
         {
         }
 
-        public Vector3 Position { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public Vector3 Rotation { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public Vector3 Position { get; set; }
+        public Vector3 Rotation { get; set; }
+        public Matrix ViewMatrix { get; set; }
 
         public void Dispose()
         {
@@ -55,6 +56,50 @@ namespace MY3DEngine.Cameras
             //}
 
             return false;
+        }
+
+        public void Render()
+        {
+            Vector3 up, position, lookAt;
+            Vector3 upVector, positionVector, lookAtVector;
+            float yaw, pitch, roll;
+            Matrix rotationMatrix;
+
+            // Setup the vector that points upwards.
+            up = new Vector3(0.0f, 1.0f, 0.0f);
+
+            // Load it into a XMVECTOR structure.
+            upVector = up;
+
+            // Setup the position of the camera in the world.
+            position = new Vector3(this.Position.X, this.Position.Y, this.Position.Z);
+
+            // Load it into a XMVECTOR structure.
+            positionVector = position;
+
+            // Setup where the camera is looking by default.
+            lookAt = new Vector3(0.0f, 0.0f, 1.0f);
+
+            // Load it into a XMVECTOR structure.
+            lookAtVector = lookAt;
+
+            // Set the yaw (Y axis), pitch (X axis), and roll (Z axis) rotations in radians.
+            pitch = this.Rotation.X * 0.0174532925f;
+            yaw = this.Rotation.Y * 0.0174532925f;
+            roll = this.Rotation.Z * 0.0174532925f;
+
+            // Create the rotation matrix from the yaw, pitch, and roll values.
+            rotationMatrix = Matrix.RotationYawPitchRoll(yaw, pitch, roll);
+
+            // Transform the lookAt and up vector by the rotation matrix so the view is correctly rotated at the origin.
+            lookAtVector = Vector3.TransformCoordinate(lookAtVector, rotationMatrix);
+            upVector = Vector3.TransformCoordinate(upVector, rotationMatrix);
+
+            // Translate the rotated camera position to the location of the viewer.
+            lookAtVector = Vector3.Add(positionVector, lookAtVector);
+
+            // Finally create the view matrix from the three updated vectors.
+            this.ViewMatrix = Matrix.LookAtLH(positionVector, lookAtVector, upVector);
         }
 
         public void ResetEye()
