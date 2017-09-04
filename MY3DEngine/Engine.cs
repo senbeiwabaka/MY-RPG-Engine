@@ -1,11 +1,21 @@
-﻿using MY3DEngine.Graphics;
+﻿using MY3DEngine.BaseObjects;
+using MY3DEngine.Graphics;
+using MY3DEngine.Primitives;
+using Newtonsoft.Json;
 using System;
+using System.Collections;
 using System.Threading;
 
 namespace MY3DEngine
 {
     public sealed class Engine : IDisposable
     {
+        /// <summary>
+        ///
+        /// </summary>
+        public static bool IsDebugginTurnedOn = false;
+
+        private static Engine gameEngine;
         private GraphicsManager graphicsManager;
         private Input input;
         private bool lighting;
@@ -14,7 +24,13 @@ namespace MY3DEngine
         private Thread renderThread;
         private bool wireFrame;
 
-        private static Engine gameEngine;
+        /// <summary>
+        /// Engine Constructor
+        /// </summary>
+        public Engine()
+        {
+            this.graphicsManager = null;
+        }
 
         /// <summary>
         ///
@@ -30,6 +46,11 @@ namespace MY3DEngine
         ///
         /// </summary>
         public ExceptionHolder Exception { get; set; }
+
+        /// <summary>
+        ///
+        /// </summary>
+        public GraphicsManager GraphicsManager => this.graphicsManager;
 
         /// <summary>
         ///
@@ -62,36 +83,28 @@ namespace MY3DEngine
         /// </summary>
         public IntPtr Window { get; }
 
-        /// <summary>
-        ///
-        /// </summary>
-        public GraphicsManager GraphicsManager => this.graphicsManager;
-
-        /// <summary>
-        ///
-        /// </summary>
-        public static readonly bool IsDebug;
-
-        /// <summary>
-        /// Engine Constructor
-        /// </summary>
-        public Engine()
+        public void AddException(Exception e)
         {
-            this.graphicsManager = null;
+            if (IsDebugginTurnedOn)
+            {
+                var exception = e;
+
+                GameEngine.Exception.Exceptions.Add(new ExceptionData(exception.Message, exception.Source, exception.StackTrace));
+
+                while (exception.InnerException != null)
+                {
+                    exception = exception.InnerException;
+
+                    GameEngine.Exception.Exceptions.Add(new ExceptionData(exception.Message, exception.Source, exception.StackTrace));
+                }
+            }
         }
-        
+
         public void Dispose()
         {
             this.Dispose(true);
 
             GC.SuppressFinalize(true);
-        }
-
-        public bool InitliazeGraphics(IntPtr windowHandle, int screenWidth = 720, int screenHeight = 480, bool vsyncEnabled = true, bool fullScreen = false)
-        {
-            this.graphicsManager = new GraphicsManager();
-
-            return this.graphicsManager.InitializeDirectXManager(windowHandle, screenWidth, screenHeight, vsyncEnabled, fullScreen);
         }
 
         public bool Initialize(IntPtr handle)
@@ -107,6 +120,51 @@ namespace MY3DEngine
             return true;
         }
 
+        public bool InitliazeGraphics(IntPtr windowHandle, int screenWidth = 720, int screenHeight = 480, bool vsyncEnabled = true, bool fullScreen = false)
+        {
+            this.graphicsManager = new GraphicsManager();
+
+            return this.graphicsManager.InitializeDirectXManager(windowHandle, screenWidth, screenHeight, vsyncEnabled, fullScreen);
+        }
+
+        public bool Load(string path)
+        {
+            try
+            {
+                var contentsofFile = System.IO.File.ReadAllText(path);
+                var jsonDeserializedData = JsonConvert.DeserializeObject(contentsofFile) as IEnumerable;
+
+                foreach (var item in jsonDeserializedData)
+                {
+                    var gameObject = JsonConvert.DeserializeObject<GameObject>(
+                        item.ToString(),
+                        new JsonSerializerSettings()
+                        {
+                            TypeNameHandling = TypeNameHandling.Auto
+                        });
+
+                    if (gameObject != null)
+                    {
+                        if (gameObject.IsPrimitive)
+                        {
+                            if (gameObject.IsTriangle)
+                            {
+                                this.Manager.AddObject(new Triangle() { Id = gameObject.Id, IsCube = false, IsPrimitive = true, IsTriangle = true, Name = gameObject.Name });
+                            }
+                        }
+                    }
+                }
+
+                return true;
+            }
+            catch (Exception e)
+            {
+                this.AddException(e);
+            }
+
+            return false;
+        }
+
         public void Run()
         {
             while (GameEngine.IsNotShutDown)
@@ -114,6 +172,34 @@ namespace MY3DEngine
                 this.Update();
                 this.Render();
             }
+        }
+
+        /// <summary>
+        /// Save the game to a folder
+        /// </summary>
+        /// <param name="filePath"></param>
+        /// <returns></returns>
+        public bool Save(string filePath)
+        {
+            try
+            {
+                var jsonSerializedData = JsonConvert.SerializeObject(
+                    this.Manager.GetGameObjects(),
+                    new JsonSerializerSettings()
+                    {
+                        TypeNameHandling = TypeNameHandling.Auto
+                    });
+
+                System.IO.File.WriteAllText(string.Format("{0}\\GameObjects.go", filePath), jsonSerializedData);
+
+                return true;
+            }
+            catch (Exception e)
+            {
+                this.AddException(e);
+            }
+
+            return false;
         }
 
         #region Old Code
@@ -178,8 +264,13 @@ namespace MY3DEngine
 
         #region Helper Methods
 
-        private void Update()
+        private void Dispose(bool disposing)
         {
+            if (disposing)
+            {
+                this.graphicsManager?.Dispose();
+                this.input?.Dispose();
+            }
         }
 
         private void Render()
@@ -195,13 +286,8 @@ namespace MY3DEngine
             this.graphicsManager.EndScene();
         }
 
-        private void Dispose(bool disposing)
+        private void Update()
         {
-            if(disposing)
-            {
-                this.graphicsManager?.Dispose();
-                this.input?.Dispose();
-            }
         }
 
         #endregion Helper Methods

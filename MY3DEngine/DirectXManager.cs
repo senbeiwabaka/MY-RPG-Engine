@@ -244,7 +244,7 @@ namespace MY3DEngine
                 enable ? this.depthStencilState : this.depthDisabledStencilState,
                 1);
         }
-        
+
         #region Helper Methods
 
         // TODO: update this to figure out what device to use instead of hardcoding it

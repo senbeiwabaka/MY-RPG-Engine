@@ -29,8 +29,8 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.rendererPnl = new System.Windows.Forms.Panel();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.tabEditPlay = new System.Windows.Forms.TabControl();
@@ -70,8 +70,10 @@
             this.globalLightsOnOffToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.wireframOnOffToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.resetCameraToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.turnDebuggerOnOffToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.colorDialog1 = new System.Windows.Forms.ColorDialog();
             this.GameObjectBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.loadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.tabEditPlay.SuspendLayout();
             this.tbEdit.SuspendLayout();
@@ -90,26 +92,26 @@
             // 
             // dataGridView1
             // 
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dataGridView1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGridView1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dataGridView1.DefaultCellStyle = dataGridViewCellStyle4;
-            this.dataGridView1.Location = new System.Drawing.Point(8, 507);
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dataGridView1.DefaultCellStyle = dataGridViewCellStyle2;
+            this.dataGridView1.Location = new System.Drawing.Point(8, 492);
             this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(369, 75);
+            this.dataGridView1.Size = new System.Drawing.Size(463, 90);
             this.dataGridView1.TabIndex = 2;
             // 
             // tabEditPlay
@@ -235,11 +237,11 @@
             // 
             // tbInformation
             // 
-            this.tbInformation.Location = new System.Drawing.Point(383, 507);
+            this.tbInformation.Location = new System.Drawing.Point(477, 492);
             this.tbInformation.Multiline = true;
             this.tbInformation.Name = "tbInformation";
             this.tbInformation.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.tbInformation.Size = new System.Drawing.Size(424, 75);
+            this.tbInformation.Size = new System.Drawing.Size(477, 90);
             this.tbInformation.TabIndex = 7;
             // 
             // GameObjectListComboBox
@@ -297,6 +299,7 @@
             // 
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.saveLevelToolStripMenuItem,
+            this.loadToolStripMenuItem,
             this.playGameToolStripMenuItem,
             this.exitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
@@ -306,19 +309,21 @@
             // saveLevelToolStripMenuItem
             // 
             this.saveLevelToolStripMenuItem.Name = "saveLevelToolStripMenuItem";
-            this.saveLevelToolStripMenuItem.Size = new System.Drawing.Size(140, 22);
-            this.saveLevelToolStripMenuItem.Text = "Save Level";
+            this.saveLevelToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.saveLevelToolStripMenuItem.Text = "Save";
+            this.saveLevelToolStripMenuItem.Click += new System.EventHandler(this.SaveLevelToolStripMenuItem_Click);
             // 
             // playGameToolStripMenuItem
             // 
+            this.playGameToolStripMenuItem.Enabled = false;
             this.playGameToolStripMenuItem.Name = "playGameToolStripMenuItem";
-            this.playGameToolStripMenuItem.Size = new System.Drawing.Size(140, 22);
+            this.playGameToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.playGameToolStripMenuItem.Text = "Play \"Game\"";
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(140, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.ExitToolStripMenuItem_Click);
             // 
@@ -367,12 +372,15 @@
             // 
             this.terrainToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.addRandomTerrainToolStripMenuItem});
+            this.terrainToolStripMenuItem.Enabled = false;
             this.terrainToolStripMenuItem.Name = "terrainToolStripMenuItem";
             this.terrainToolStripMenuItem.Size = new System.Drawing.Size(55, 20);
             this.terrainToolStripMenuItem.Text = "Terrain";
+            this.terrainToolStripMenuItem.Visible = false;
             // 
             // addRandomTerrainToolStripMenuItem
             // 
+            this.addRandomTerrainToolStripMenuItem.Enabled = false;
             this.addRandomTerrainToolStripMenuItem.Name = "addRandomTerrainToolStripMenuItem";
             this.addRandomTerrainToolStripMenuItem.Size = new System.Drawing.Size(183, 22);
             this.addRandomTerrainToolStripMenuItem.Text = "Add Random Terrain";
@@ -418,7 +426,7 @@
             // 
             this.addSoundToolStripMenuItem.Enabled = false;
             this.addSoundToolStripMenuItem.Name = "addSoundToolStripMenuItem";
-            this.addSoundToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.addSoundToolStripMenuItem.Size = new System.Drawing.Size(133, 22);
             this.addSoundToolStripMenuItem.Text = "Add Sound";
             // 
             // propertiesToolStripMenuItem
@@ -426,18 +434,17 @@
             this.propertiesToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.globalLightsOnOffToolStripMenuItem,
             this.wireframOnOffToolStripMenuItem,
-            this.resetCameraToolStripMenuItem});
-            this.propertiesToolStripMenuItem.Enabled = false;
+            this.resetCameraToolStripMenuItem,
+            this.turnDebuggerOnOffToolStripMenuItem});
             this.propertiesToolStripMenuItem.Name = "propertiesToolStripMenuItem";
             this.propertiesToolStripMenuItem.Size = new System.Drawing.Size(72, 20);
             this.propertiesToolStripMenuItem.Text = "Properties";
-            this.propertiesToolStripMenuItem.Visible = false;
             // 
             // globalLightsOnOffToolStripMenuItem
             // 
             this.globalLightsOnOffToolStripMenuItem.Enabled = false;
             this.globalLightsOnOffToolStripMenuItem.Name = "globalLightsOnOffToolStripMenuItem";
-            this.globalLightsOnOffToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
+            this.globalLightsOnOffToolStripMenuItem.Size = new System.Drawing.Size(195, 22);
             this.globalLightsOnOffToolStripMenuItem.Text = "Global Lights On/Off";
             this.globalLightsOnOffToolStripMenuItem.Click += new System.EventHandler(this.globalLightsOnOffToolStripMenuItem_Click);
             // 
@@ -445,7 +452,7 @@
             // 
             this.wireframOnOffToolStripMenuItem.Enabled = false;
             this.wireframOnOffToolStripMenuItem.Name = "wireframOnOffToolStripMenuItem";
-            this.wireframOnOffToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
+            this.wireframOnOffToolStripMenuItem.Size = new System.Drawing.Size(195, 22);
             this.wireframOnOffToolStripMenuItem.Text = "Wirefram On/Off";
             this.wireframOnOffToolStripMenuItem.Click += new System.EventHandler(this.wireframOnOffToolStripMenuItem_Click);
             // 
@@ -453,9 +460,24 @@
             // 
             this.resetCameraToolStripMenuItem.Enabled = false;
             this.resetCameraToolStripMenuItem.Name = "resetCameraToolStripMenuItem";
-            this.resetCameraToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
+            this.resetCameraToolStripMenuItem.Size = new System.Drawing.Size(195, 22);
             this.resetCameraToolStripMenuItem.Text = "Reset Camera";
             this.resetCameraToolStripMenuItem.Click += new System.EventHandler(this.resetCameraToolStripMenuItem_Click);
+            // 
+            // turnDebuggerOnOffToolStripMenuItem
+            // 
+            this.turnDebuggerOnOffToolStripMenuItem.CheckOnClick = true;
+            this.turnDebuggerOnOffToolStripMenuItem.Name = "turnDebuggerOnOffToolStripMenuItem";
+            this.turnDebuggerOnOffToolStripMenuItem.Size = new System.Drawing.Size(195, 22);
+            this.turnDebuggerOnOffToolStripMenuItem.Text = "Turn Debugger On/Off";
+            this.turnDebuggerOnOffToolStripMenuItem.Click += new System.EventHandler(this.TurnDebuggerOnOffToolStripMenuItem_Click);
+            // 
+            // loadToolStripMenuItem
+            // 
+            this.loadToolStripMenuItem.Name = "loadToolStripMenuItem";
+            this.loadToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.loadToolStripMenuItem.Text = "Load";
+            this.loadToolStripMenuItem.Click += new System.EventHandler(this.LoadToolStripMenuItem_Click);
             // 
             // Form1
             // 
@@ -465,6 +487,7 @@
             this.Controls.Add(this.tabEditPlay);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
+            this.MaximizeBox = false;
             this.Name = "Form1";
             this.Text = "Form1";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
@@ -526,6 +549,8 @@
         private BrightIdeasSoftware.TreeListView TreeListViewSceneGraph;
         private System.Windows.Forms.Button RemoveGameObjectButton;
         private System.Windows.Forms.ToolStripMenuItem addTriangleWithTextureToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem turnDebuggerOnOffToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem loadToolStripMenuItem;
     }
 }
 

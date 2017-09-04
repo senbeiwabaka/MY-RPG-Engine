@@ -1,6 +1,8 @@
 ﻿using MY3DEngine.BaseObjects;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 
 namespace MY3DEngine
 {
@@ -65,7 +67,8 @@ namespace MY3DEngine
             }
             catch (Exception e)
             {
-                Engine.GameEngine.Exception.Exceptions.Add(new ExceptionData(e.Message, e.Source, e.StackTrace));
+                Engine.GameEngine.AddException(e);
+                
                 return false;
             }
 
@@ -87,8 +90,22 @@ namespace MY3DEngine
             }
             catch (Exception e)
             {
-                Engine.GameEngine.Exception.Exceptions.Add(new ExceptionData(e.Message, e.Source, e.StackTrace));
+                Engine.GameEngine.AddException(e);
+
                 return false;
+            }
+        }
+
+        /// <summary>
+        /// Get the list of game objects
+        /// </summary>
+        /// <returns></returns>
+        internal IEnumerable<GameObject> GetGameObjects()
+        {
+            lock (this.GameObjects)
+            {
+                var objects = this.GameObjects.ToList();
+                return objects;
             }
         }
     }

@@ -2,7 +2,6 @@
 using MY3DEngine.BaseObjects;
 using MY3DEngine.Primitives;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.Linq;
@@ -92,7 +91,6 @@ namespace MY3DEngineGUI
 
         private void rendererPnl_MouseMove(object sender, MouseEventArgs e)
         {
-
         }
 
         private void rendererPnl_MouseUp(object sender, MouseEventArgs e)
@@ -113,7 +111,7 @@ namespace MY3DEngineGUI
         }
 
         #endregion Camera
-        
+
         #region Events
 
         private void AddCubeToolStripMenuItem_Click(object sender, EventArgs e)
@@ -301,6 +299,10 @@ namespace MY3DEngineGUI
             }
         }
 
+        #endregion Events
+
+        #region Menu Events
+
         private void AddTriangleWithTextureToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var gameObject = new TriangleWithTexture();
@@ -311,15 +313,76 @@ namespace MY3DEngineGUI
             }
         }
 
-        #endregion Events
+        private void TurnDebuggerOnOffToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Engine.IsDebugginTurnedOn = !Engine.IsDebugginTurnedOn;
+
+            this.AddToInformationDisplay(string.Format("Engine debugging is set to {0}", Engine.IsDebugginTurnedOn));
+        }
+
+        private void SaveLevelToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var dialog = new FolderBrowserDialog();
+
+            if (dialog.ShowDialog() == DialogResult.OK)
+            {
+                var path = dialog.SelectedPath;
+
+                if(Engine.GameEngine.Save(path))
+                {
+                    this.AddToInformationDisplay("Game saved successfully.");
+
+                    MessageBox.Show("Game saved successfully.", "Information");
+                }
+                else
+                {
+                    this.AddToInformationDisplay("Game not saved successfully. Please see error log.");
+
+                    MessageBox.Show("Game not saved successfully. Please see error log.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+
+        private void LoadToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var dialog = new OpenFileDialog
+            {
+                Multiselect = false
+            };
+
+            if (dialog.ShowDialog() == DialogResult.OK)
+            {
+                var path = dialog.FileName;
+
+                if (Engine.GameEngine.Load(path))
+                {
+                    this.UpdateButtonsUseability();
+                    this.AddToInformationDisplay("Game loaded successfully.");
+
+                    MessageBox.Show("Game loaded successfully.", "Information");
+                }
+                else
+                {
+                    this.AddToInformationDisplay("Game not loaded successfully. Please see error log.");
+
+                    MessageBox.Show("Game not loaded successfully. Please see error log.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+
+        #endregion Menu Events
 
         #region Helper Methods
 
         private void AddRemoveObject(string message)
         {
             this.AddToInformationDisplay(message);
+            this.UpdateButtonsUseability();
+        }
 
-            if(Engine.GameEngine.Manager.GameObjects.Count > 0)
+        private void UpdateButtonsUseability()
+        {
+            if (Engine.GameEngine.Manager.GameObjects.Count > 0)
             {
                 this.ChangeGameObjectColorButton.Enabled = this.RemoveGameObjectButton.Enabled = true;
             }
@@ -333,7 +396,9 @@ namespace MY3DEngineGUI
         {
             tbInformation.AppendText($"{message} {Environment.NewLine}");
         }
+
+        #endregion Helper Methods
+
         
-        #endregion
     }
 }

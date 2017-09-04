@@ -28,6 +28,7 @@ namespace MY3DEngine.Primitives
             this.Name = "Triangle with Texture";
         }
 
+        /// <inheritdoc/>
         public override void LoadContent()
         {
             var path = Path.GetFullPath("Shaders");
@@ -69,7 +70,7 @@ namespace MY3DEngine.Primitives
                 });
 
             path = Path.GetFullPath("Assets");
-            path = string.Format("{0}\\decal.png", path);
+            //path = string.Format("{0}\\decal.png", path);
 
             // initialize the WIC factory
             using (var imagingFactory = new wic.ImagingFactory2())
@@ -116,6 +117,7 @@ namespace MY3DEngine.Primitives
             this.ColorMapSampler = new SamplerState(Engine.GameEngine.GraphicsManager.GetDevice, samplerStateDescription);
         }
 
+        /// <inheritdoc/>
         public override void Render()
         {
             Engine.GameEngine.GraphicsManager.GetDeviceContext.InputAssembler.InputLayout = this.inputLayout;

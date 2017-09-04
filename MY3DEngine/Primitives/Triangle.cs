@@ -11,8 +11,12 @@ namespace MY3DEngine.Primitives
         public Triangle() : base()
         {
             this.Name = "Triangle";
+            this.IsPrimitive = true;
+            this.IsTriangle = true;
+            this.IsCube = false;
         }
 
+        /// <inheritdoc/>
         public override void LoadContent()
         {
             var path = System.IO.Path.GetFullPath("Shaders");
@@ -50,12 +54,13 @@ namespace MY3DEngine.Primitives
                 });
         }
 
+        /// <inheritdoc/>
         public override void Render()
         {
             Engine.GameEngine.GraphicsManager.GetDeviceContext.InputAssembler.InputLayout = this.inputLayout;
             Engine.GameEngine.GraphicsManager.GetDeviceContext.InputAssembler.PrimitiveTopology = SharpDX.Direct3D.PrimitiveTopology.TriangleList;
             Engine.GameEngine.GraphicsManager.GetDeviceContext.InputAssembler.SetVertexBuffers(0, new VertexBufferBinding(this.buffer, 32, 0));
-            
+
             Engine.GameEngine.GraphicsManager.GetDeviceContext.VertexShader.Set(this.VertextShader);
             Engine.GameEngine.GraphicsManager.GetDeviceContext.PixelShader.Set(this.PixelShader);
             Engine.GameEngine.GraphicsManager.GetDeviceContext.Draw(3, 0);

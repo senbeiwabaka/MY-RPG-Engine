@@ -9,14 +9,20 @@ namespace MY3DEngine.BaseObjects
 
         string FilePath { get; set; }
 
-        string Name { get; set; }
-
         Guid Id { get; set; }
+
+        bool IsCube { get; set; }
+
+        bool IsPrimitive { get; set; }
+
+        bool IsSelected { get; set; }
+
+        bool IsTriangle { get; set; }
+
+        string Name { get; set; }
 
         PixelShader PixelShader { get; set; }
 
         VertexShader VertextShader { get; set; }
-
-        bool IsSelected { get; set; }
     }
 }

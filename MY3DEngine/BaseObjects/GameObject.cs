@@ -1,11 +1,11 @@
-﻿using SharpDX.Direct3D11;
+﻿using Newtonsoft.Json;
+using SharpDX.Direct3D11;
 using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
 namespace MY3DEngine.BaseObjects
 {
-    [Serializable]
     public abstract class GameObject : IGameObject, IDisposable, INotifyPropertyChanged
     {
         private string name;
@@ -15,6 +15,14 @@ namespace MY3DEngine.BaseObjects
         public string FilePath { get; set; }
 
         public Guid Id { get; set; } = Guid.NewGuid();
+
+        public bool IsCube { get; set; } = false;
+
+        public bool IsPrimitive { get; set; } = false;
+
+        public bool IsSelected { get; set; } = false;
+
+        public bool IsTriangle { get; set; } = false;
 
         public string Name
         {
@@ -34,16 +42,18 @@ namespace MY3DEngine.BaseObjects
         //[XmlIgnore]
         //public MeshClass MeshObject { get; protected set; }
 
+        [JsonIgnore]
         public PixelShader PixelShader { get; set; }
 
+        [JsonIgnore]
         public VertexShader VertextShader { get; set; }
 
-        public bool IsSelected { get; set; } = false;
-
+        [JsonIgnore]
         protected virtual SharpDX.Direct3D11.Buffer buffer { get; set; }
 
+        [JsonIgnore]
         protected virtual InputLayout inputLayout { get; set; }
-        
+
         #region Constructors
 
         /// <summary>
@@ -81,22 +91,29 @@ namespace MY3DEngine.BaseObjects
 
         #endregion Constructors
 
-        public virtual void LoadContent() { }
-
+        /// <summary>
+        ///
+        /// </summary>
         public void Dispose()
         {
             this.Dispose(true);
             GC.SuppressFinalize(this);
         }
 
-        public virtual void Render()
-        {
-            //if (MeshObject != null)
-            //{
-            //    MeshObject.RenderMesh();
-            //}
-        }
+        /// <summary>
+        /// Load the content of the object
+        /// </summary>
+        public virtual void LoadContent() { }
 
+        /// <summary>
+        /// Render the objects content to the screen
+        /// </summary>
+        public virtual void Render() { }
+
+        /// <summary>
+        ///
+        /// </summary>
+        /// <returns></returns>
         public override string ToString() => $"{Name}";
 
         /// <summary>
@@ -113,6 +130,10 @@ namespace MY3DEngine.BaseObjects
             }
         }
 
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="propertyName"></param>
         protected void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
