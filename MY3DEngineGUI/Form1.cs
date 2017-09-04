@@ -33,8 +33,6 @@ namespace MY3DEngineGUI
 
                 exceptions = Engine.GameEngine.Exception.Exceptions;
 
-                UpdateCameraLocation();
-
                 //rendererPnl.MouseWheel += rendererPnl_MouseWheel;
 
                 _mouseLocation = new Point(0, 0);
@@ -100,14 +98,6 @@ namespace MY3DEngineGUI
 
         private void rendererPnl_MouseWheel(object sender, MouseEventArgs e)
         {
-            Engine.GameEngine.Camera.MoveEye(z: (e.Delta / 120 * -1));
-
-            UpdateCameraLocation();
-        }
-
-        private void UpdateCameraLocation()
-        {
-            lblCameraPosition.Text = Engine.GameEngine.Camera.CameraLocation();
         }
 
         #endregion Camera
@@ -122,16 +112,6 @@ namespace MY3DEngineGUI
             //{
             //    Add_RemoveObject("Cube Added");
             //}
-        }
-
-        private void AddTriangleToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            var gameObject = new Triangle();
-
-            if (Engine.GameEngine.Manager.AddObject(gameObject))
-            {
-                AddRemoveObject("Triangle added.");
-            }
         }
 
         private void addDirectionalLightToolStripMenuItem_Click(object sender, EventArgs e)
@@ -170,74 +150,13 @@ namespace MY3DEngineGUI
             //}
         }
 
-        private void GameObjectListComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        private void AddTriangleToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            int index = -1;
-            lock (Engine.GameEngine.Manager)
+            var gameObject = new Triangle();
+
+            if (Engine.GameEngine.Manager.AddObject(gameObject))
             {
-                index = Engine.GameEngine.Manager.GameObjects.IndexOf((GameObject)GameObjectListComboBox.SelectedValue);
-
-                Engine.GameEngine.Manager.GameObjects.ToList().ForEach(x => x.IsSelected = false);
-            }
-
-            if (index >= 0)
-            {
-                tbName.Text = Engine.GameEngine.Manager.GameObjects[index].Name;
-
-                lock (Engine.GameEngine.Manager)
-                {
-                    Engine.GameEngine.Manager.GameObjects[index].IsSelected = true;
-                }
-            }
-            else
-            {
-                this.lblLocation.Text = string.Empty;
-                lblColor.Text = string.Empty;
-            }
-        }
-
-        private void globalLightsOnOffToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            Engine.GameEngine.GlobalLights();
-        }
-
-        private void wireframOnOffToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            Engine.GameEngine.WireFrame();
-        }
-
-        private void Information_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
-        {
-            if (e.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Add)
-            {
-                foreach (var item in e.NewItems)
-                {
-                    this.AddToInformationDisplay(item.ToString());
-                }
-            }
-        }
-
-        private void resetCameraToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            Engine.GameEngine.Camera.ResetEye();
-
-            UpdateCameraLocation();
-        }
-
-        private void ckbxLightOnOff_CheckedChanged(object sender, EventArgs e)
-        {
-            int index = -1;
-            lock (Engine.GameEngine.Manager)
-            {
-                index = Engine.GameEngine.Manager.GameObjects.IndexOf((GameObject)GameObjectListComboBox.SelectedValue);
-            }
-
-            if (index >= 0)
-            {
-                //if (Engine.GameEngine.Manager.GameObjects[index] is LightClass)
-                //{
-                //    (Engine.GameEngine.Manager.GameObjects[index] as LightClass).LightOnOff();
-                //}
+                AddRemoveObject("Triangle added.");
             }
         }
 
@@ -269,17 +188,61 @@ namespace MY3DEngineGUI
             }
         }
 
-        private void TxtName_Leave(object sender, EventArgs e)
+        private void ckbxLightOnOff_CheckedChanged(object sender, EventArgs e)
         {
-            if (!string.IsNullOrWhiteSpace(this.tbName.Text))
+            int index = -1;
+            lock (Engine.GameEngine.Manager)
             {
-                var gameObject = Engine.GameEngine.Manager.GameObjects.FirstOrDefault(x => x.IsSelected);
+                index = Engine.GameEngine.Manager.GameObjects.IndexOf((GameObject)GameObjectListComboBox.SelectedValue);
+            }
 
-                if (gameObject != null)
+            if (index >= 0)
+            {
+                //if (Engine.GameEngine.Manager.GameObjects[index] is LightClass)
+                //{
+                //    (Engine.GameEngine.Manager.GameObjects[index] as LightClass).LightOnOff();
+                //}
+            }
+        }
+
+        private void GameObjectListComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            int index = -1;
+            lock (Engine.GameEngine.Manager)
+            {
+                index = Engine.GameEngine.Manager.GameObjects.IndexOf((GameObject)GameObjectListComboBox.SelectedValue);
+
+                Engine.GameEngine.Manager.GameObjects.ToList().ForEach(x => x.IsSelected = false);
+            }
+
+            if (index >= 0)
+            {
+                tbName.Text = Engine.GameEngine.Manager.GameObjects[index].Name;
+
+                lock (Engine.GameEngine.Manager)
                 {
-                    gameObject.Name = this.tbName.Text;
+                    Engine.GameEngine.Manager.GameObjects[index].IsSelected = true;
+                }
+            }
+            else
+            {
+                this.lblLocation.Text = string.Empty;
+                lblColor.Text = string.Empty;
+            }
+        }
 
-                    this.AddToInformationDisplay(string.Format("Object {0} has had its name changed to '{1}'.", gameObject.GetType().ToString(), this.tbName.Text));
+        private void globalLightsOnOffToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Engine.GameEngine.GlobalLights();
+        }
+
+        private void Information_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            if (e.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Add)
+            {
+                foreach (var item in e.NewItems)
+                {
+                    this.AddToInformationDisplay(item.ToString());
                 }
             }
         }
@@ -299,6 +262,30 @@ namespace MY3DEngineGUI
             }
         }
 
+        private void resetCameraToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+        }
+
+        private void TxtName_Leave(object sender, EventArgs e)
+        {
+            if (!string.IsNullOrWhiteSpace(this.tbName.Text))
+            {
+                var gameObject = Engine.GameEngine.Manager.GameObjects.FirstOrDefault(x => x.IsSelected);
+
+                if (gameObject != null)
+                {
+                    gameObject.Name = this.tbName.Text;
+
+                    this.AddToInformationDisplay(string.Format("Object {0} has had its name changed to '{1}'.", gameObject.GetType().ToString(), this.tbName.Text));
+                }
+            }
+        }
+
+        private void wireframOnOffToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Engine.GameEngine.WireFrame();
+        }
+
         #endregion Events
 
         #region Menu Events
@@ -310,36 +297,6 @@ namespace MY3DEngineGUI
             if (Engine.GameEngine.Manager.AddObject(gameObject))
             {
                 AddRemoveObject("Triangle with texture added.");
-            }
-        }
-
-        private void TurnDebuggerOnOffToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            Engine.IsDebugginTurnedOn = !Engine.IsDebugginTurnedOn;
-
-            this.AddToInformationDisplay(string.Format("Engine debugging is set to {0}", Engine.IsDebugginTurnedOn));
-        }
-
-        private void SaveLevelToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            var dialog = new FolderBrowserDialog();
-
-            if (dialog.ShowDialog() == DialogResult.OK)
-            {
-                var path = dialog.SelectedPath;
-
-                if(Engine.GameEngine.Save(path))
-                {
-                    this.AddToInformationDisplay("Game saved successfully.");
-
-                    MessageBox.Show("Game saved successfully.", "Information");
-                }
-                else
-                {
-                    this.AddToInformationDisplay("Game not saved successfully. Please see error log.");
-
-                    MessageBox.Show("Game not saved successfully. Please see error log.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
             }
         }
 
@@ -370,6 +327,36 @@ namespace MY3DEngineGUI
             }
         }
 
+        private void SaveLevelToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var dialog = new FolderBrowserDialog();
+
+            if (dialog.ShowDialog() == DialogResult.OK)
+            {
+                var path = dialog.SelectedPath;
+
+                if (Engine.GameEngine.Save(path))
+                {
+                    this.AddToInformationDisplay("Game saved successfully.");
+
+                    MessageBox.Show("Game saved successfully.", "Information");
+                }
+                else
+                {
+                    this.AddToInformationDisplay("Game not saved successfully. Please see error log.");
+
+                    MessageBox.Show("Game not saved successfully. Please see error log.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+
+        private void TurnDebuggerOnOffToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Engine.IsDebugginTurnedOn = !Engine.IsDebugginTurnedOn;
+
+            this.AddToInformationDisplay(string.Format("Engine debugging is set to {0}", Engine.IsDebugginTurnedOn));
+        }
+
         #endregion Menu Events
 
         #region Helper Methods
@@ -378,6 +365,11 @@ namespace MY3DEngineGUI
         {
             this.AddToInformationDisplay(message);
             this.UpdateButtonsUseability();
+        }
+
+        private void AddToInformationDisplay(string message)
+        {
+            tbInformation.AppendText($"{message} {Environment.NewLine}");
         }
 
         private void UpdateButtonsUseability()
@@ -392,13 +384,6 @@ namespace MY3DEngineGUI
             }
         }
 
-        private void AddToInformationDisplay(string message)
-        {
-            tbInformation.AppendText($"{message} {Environment.NewLine}");
-        }
-
         #endregion Helper Methods
-
-        
     }
 }

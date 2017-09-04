@@ -40,11 +40,6 @@ namespace MY3DEngine
         /// <summary>
         ///
         /// </summary>
-        public Camera Camera { get; set; }
-
-        /// <summary>
-        ///
-        /// </summary>
         public ExceptionHolder Exception { get; set; }
 
         /// <summary>
@@ -111,7 +106,6 @@ namespace MY3DEngine
         {
             this.graphicsManager.Initialize();
 
-            this.Camera = new Camera();
             this.Exception = new ExceptionHolder();
             this.Manager = new ObjectManager();
 

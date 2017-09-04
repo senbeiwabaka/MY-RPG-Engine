@@ -80,7 +80,8 @@
   <ItemGroup>
     <Compile Include="BaseObjects\GameObjectWithTexture.cs" />
     <Compile Include="BaseObjects\IGameObjectWithTexture.cs" />
-    <Compile Include="Camera.cs" />
+    <Compile Include="Cameras\Camera.cs" />
+    <Compile Include="Cameras\ICamera.cs" />
     <Compile Include="Common\TextureLoader.cs" />
     <Compile Include="DirectXManager.cs" />
     <Compile Include="Engine.cs" />

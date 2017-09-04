@@ -9,6 +9,13 @@ using wic = SharpDX.WIC;
 
 namespace MY3DEngine.Primitives
 {
+    internal struct MatrixBufferType
+    {
+        Matrix world;
+        Matrix view;
+        Matrix projection;
+    };
+
     internal struct VertexPos
     {
         public Vector3 pos;
