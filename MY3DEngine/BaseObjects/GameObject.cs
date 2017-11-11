@@ -1,5 +1,7 @@
 ﻿using Newtonsoft.Json;
+using SharpDX.D3DCompiler;
 using SharpDX.Direct3D11;
+using SharpDX.DXGI;
 using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
@@ -9,6 +11,43 @@ namespace MY3DEngine.BaseObjects
     public abstract class GameObject : IGameObject, IDisposable, INotifyPropertyChanged
     {
         private string name;
+
+        #region Constructors
+
+        /// <summary>
+        /// blank constructor
+        /// </summary>
+        public GameObject() { }
+
+        /// <summary>
+        /// Constructor for building a .x object
+        /// </summary>
+        /// <param name="fileName">The file name of the object</param>
+        /// <param name="path">The path of the object</param>
+        public GameObject(string fileName = "", string path = "")
+        {
+            //MeshObject = new MeshClass(path, fileName);
+            FileName = fileName;
+            FilePath = path;
+        }
+
+        public GameObject(string type = "Cube")
+        {
+            //if (type.ToLower().Equals("triangle"))
+            //{
+            //    MeshObject = new MeshClass(MeshType.Triangle);
+            //}
+            //else
+            //{
+            //    MeshObject = new MeshClass(MeshType.Cube);
+            //}
+
+            Name = type;
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        #endregion Constructors
 
         public string FileName { get; set; }
 
@@ -49,47 +88,13 @@ namespace MY3DEngine.BaseObjects
         public VertexShader VertextShader { get; set; }
 
         [JsonIgnore]
-        protected virtual SharpDX.Direct3D11.Buffer buffer { get; set; }
+        protected virtual SharpDX.Direct3D11.Buffer Buffer { get; set; }
 
         [JsonIgnore]
-        protected virtual InputLayout inputLayout { get; set; }
+        protected virtual InputLayout InputLayout { get; set; }
 
-        #region Constructors
-
-        /// <summary>
-        /// blank constructor
-        /// </summary>
-        public GameObject() { }
-
-        /// <summary>
-        /// Constructor for building a .x object
-        /// </summary>
-        /// <param name="fileName">The file name of the object</param>
-        /// <param name="path">The path of the object</param>
-        public GameObject(string fileName = "", string path = "")
-        {
-            //MeshObject = new MeshClass(path, fileName);
-            FileName = fileName;
-            FilePath = path;
-        }
-
-        public GameObject(string type = "Cube")
-        {
-            //if (type.ToLower().Equals("triangle"))
-            //{
-            //    MeshObject = new MeshClass(MeshType.Triangle);
-            //}
-            //else
-            //{
-            //    MeshObject = new MeshClass(MeshType.Cube);
-            //}
-
-            Name = type;
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        #endregion Constructors
+        //[JsonIgnore]
+        public Vertex[] Vertex { get; set; }
 
         /// <summary>
         ///
@@ -100,14 +105,34 @@ namespace MY3DEngine.BaseObjects
             GC.SuppressFinalize(this);
         }
 
-        /// <summary>
-        /// Load the content of the object
-        /// </summary>
-        public virtual void LoadContent() { }
+        /// <inheritdoc/>
+        public virtual void LoadContent(bool isNewObject = true)
+        {
+            var path = System.IO.Path.GetFullPath("Shaders");
 
-        /// <summary>
-        /// Render the objects content to the screen
-        /// </summary>
+            // Compile Vertex shaders
+            using (var vertexShaderByteCode = ShaderBytecode.CompileFromFile(string.Format("{0}\\Triangle.fx", path), "VS", "vs_4_0", ShaderFlags.EnableStrictness | ShaderFlags.Debug, EffectFlags.None))
+            {
+                this.VertextShader = new VertexShader(Engine.GameEngine.GraphicsManager.GetDevice, vertexShaderByteCode);
+
+                this.InputLayout = new InputLayout(
+                    Engine.GameEngine.GraphicsManager.GetDevice,
+                    ShaderSignature.GetInputSignature(vertexShaderByteCode),
+                    new[]
+                    {
+                        new InputElement("POSITION", 0, Format.R32G32B32A32_Float, 0, 0),
+                        new InputElement("COLOR", 0, Format.R32G32B32A32_Float, 16, 0)
+                    });
+            }
+
+            // Compile Pixel shaders
+            using (var pixelShaderByteCode = ShaderBytecode.CompileFromFile(string.Format("{0}\\Triangle.fx", path), "PS", "ps_4_0", ShaderFlags.EnableStrictness | ShaderFlags.Debug, EffectFlags.None))
+            {
+                this.PixelShader = new PixelShader(Engine.GameEngine.GraphicsManager.GetDevice, pixelShaderByteCode);
+            }
+        }
+
+        /// <inheritdoc/>
         public virtual void Render() { }
 
         /// <summary>
@@ -123,8 +148,8 @@ namespace MY3DEngine.BaseObjects
         {
             if (disposing)
             {
-                this.buffer?.Dispose();
-                this.inputLayout?.Dispose();
+                this.Buffer?.Dispose();
+                this.InputLayout?.Dispose();
                 this.VertextShader?.Dispose();
                 this.PixelShader?.Dispose();
             }
@@ -137,6 +162,18 @@ namespace MY3DEngine.BaseObjects
         protected void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        /// <inheritdoc/>
+        public void ApplyColor()
+        {
+            if (this.IsPrimitive)
+            {
+                this.Buffer = SharpDX.Direct3D11.Buffer.Create(
+                    Engine.GameEngine.GraphicsManager.GetDevice,
+                    BindFlags.VertexBuffer,
+                    this.Vertex);
+            }
         }
     }
 }

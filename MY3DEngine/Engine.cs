@@ -149,7 +149,12 @@ namespace MY3DEngine
                         {
                             if (gameObject.IsTriangle)
                             {
-                                this.Manager.AddObject(new Triangle() { Id = gameObject.Id, IsCube = false, IsPrimitive = true, IsTriangle = true, Name = gameObject.Name });
+                                this.Manager.AddObject(gameObject as Triangle, false);
+                            }
+
+                            if(gameObject.IsCube)
+                            {
+                                this.Manager.AddObject(gameObject as Cube, false);
                             }
                         }
                     }
@@ -284,7 +289,7 @@ namespace MY3DEngine
 
             // Get the world, view, and projection matrices from the camera and d3d objects.
             //this.GraphicsManager.GetDevice.GetWorldMatrix(worldMatrix);
-            //m_Camera->GetViewMatrix(viewMatrix);
+            //this.Camera.
             //m_Direct3D->GetProjectionMatrix(projectionMatrix);
 
             // render stuff goes here

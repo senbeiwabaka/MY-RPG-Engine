@@ -104,16 +104,6 @@ namespace MY3DEngineGUI
 
         #region Events
 
-        private void AddCubeToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            //GameObject go = new GameObject("Cube");
-
-            //if (Engine.GameEngine.Manager.AddObject(go))
-            //{
-            //    Add_RemoveObject("Cube Added");
-            //}
-        }
-
         private void addDirectionalLightToolStripMenuItem_Click(object sender, EventArgs e)
         {
             //if (Engine.GameEngine.Manager.AddObject(new LightClass("Directional")))
@@ -150,39 +140,48 @@ namespace MY3DEngineGUI
             //}
         }
 
-        private void AddTriangleToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            var gameObject = new Triangle();
-
-            if (Engine.GameEngine.Manager.AddObject(gameObject))
-            {
-                AddRemoveObject("Triangle added.");
-            }
-        }
-
-        private void btnColor_Click(object sender, EventArgs e)
+        private void BtnColor_Click(object sender, EventArgs e)
         {
             int index = -1;
             lock (Engine.GameEngine.Manager)
             {
                 index = Engine.GameEngine.Manager.GameObjects.IndexOf((GameObject)GameObjectListComboBox.SelectedValue);
-            }
 
-            if (index >= 0)
-            {
-                if (Engine.GameEngine.Manager.GameObjects[index] is GameObject)
-                {
-                    //colorDialog1.Color = Engine.GameEngine.Manager.GameObjects[index].MeshObject.MeshColor;
-                }
-            }
-
-            if (colorDialog1.ShowDialog() == DialogResult.OK)
-            {
                 if (index >= 0)
                 {
-                    if (Engine.GameEngine.Manager.GameObjects[index] is GameObject)
+                    if (Engine.GameEngine.Manager.GameObjects[index].IsPrimitive)
                     {
-                        //Engine.GameEngine.Manager.GameObjects[index].MeshObject.ApplyColor(colorDialog1.Color);
+                        var argb = new[] { 0, 0, 0, 0 };
+                        if (Engine.GameEngine.Manager.GameObjects[index].IsPrimitive)
+                        {
+                            var gameObject = Engine.GameEngine.Manager.GameObjects[index];
+
+                            argb[0] = (int)gameObject.Vertex[0].Color.W;
+                            argb[1] = (int)gameObject.Vertex[0].Color.X;
+                            argb[2] = (int)gameObject.Vertex[0].Color.Y;
+                            argb[3] = (int)gameObject.Vertex[0].Color.Z;
+                        }
+
+                        colorDialog1.Color = Color.FromArgb(argb[0] * 255, argb[1] * 255, argb[2] * 255, argb[3] * 255);
+                    }
+
+                    if (colorDialog1.ShowDialog() == DialogResult.OK)
+                    {
+                        if (Engine.GameEngine.Manager.GameObjects[index].IsPrimitive)
+                        {
+                            var gameObject = Engine.GameEngine.Manager.GameObjects[index];
+                            var red = colorDialog1.Color.R / 255.0f;
+                            var green = colorDialog1.Color.G / 255.0f;
+                            var blue = colorDialog1.Color.B / 255.0f;
+                            var alpha = colorDialog1.Color.A / 255.0f;
+
+                            for (var i = 0; i < gameObject.Vertex.Length; ++i)
+                            {
+                                gameObject.Vertex[i].Color = new SharpDX.Vector4(red, green, blue, alpha);
+                            }
+
+                            gameObject.ApplyColor();
+                        }
                     }
                 }
             }
@@ -298,13 +297,33 @@ namespace MY3DEngineGUI
 
         #region Menu Events
 
+        private void AddTriangleToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var gameObject = new Triangle();
+
+            if (Engine.GameEngine.Manager.AddObject(gameObject))
+            {
+                this.AddRemoveObject("Triangle added.");
+            }
+        }
+
         private void AddTriangleWithTextureToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var gameObject = new TriangleWithTexture();
 
             if (Engine.GameEngine.Manager.AddObject(gameObject))
             {
-                AddRemoveObject("Triangle with texture added.");
+                this.AddRemoveObject("Triangle with texture added.");
+            }
+        }
+
+        private void AddCubeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var gameObject = new Cube();
+
+            if (Engine.GameEngine.Manager.AddObject(gameObject))
+            {
+                this.AddRemoveObject("Cube added.");
             }
         }
 

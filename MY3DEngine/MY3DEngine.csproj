@@ -80,6 +80,7 @@
   <ItemGroup>
     <Compile Include="BaseObjects\GameObjectWithTexture.cs" />
     <Compile Include="BaseObjects\IGameObjectWithTexture.cs" />
+    <Compile Include="BaseObjects\Vertex.cs" />
     <Compile Include="Cameras\Camera.cs" />
     <Compile Include="Cameras\ICamera.cs" />
     <Compile Include="Common\TextureLoader.cs" />
@@ -107,6 +108,7 @@
     <Compile Include="BaseObjects\GameObject.cs" />
     <Compile Include="BaseObjects\IGameObject.cs" />
     <Compile Include="ObjectManager.cs" />
+    <Compile Include="Primitives\Cube.cs" />
     <Compile Include="Primitives\Triangle.cs" />
     <Compile Include="Primitives\TriangleWithTexture.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

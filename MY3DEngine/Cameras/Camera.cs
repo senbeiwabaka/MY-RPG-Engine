@@ -61,28 +61,18 @@ namespace MY3DEngine.Cameras
         public void Render()
         {
             Vector3 up, position, lookAt;
-            Vector3 upVector, positionVector, lookAtVector;
             float yaw, pitch, roll;
             Matrix rotationMatrix;
 
             // Setup the vector that points upwards.
             up = new Vector3(0.0f, 1.0f, 0.0f);
-
-            // Load it into a XMVECTOR structure.
-            upVector = up;
-
+            
             // Setup the position of the camera in the world.
             position = new Vector3(this.Position.X, this.Position.Y, this.Position.Z);
-
-            // Load it into a XMVECTOR structure.
-            positionVector = position;
-
+            
             // Setup where the camera is looking by default.
             lookAt = new Vector3(0.0f, 0.0f, 1.0f);
-
-            // Load it into a XMVECTOR structure.
-            lookAtVector = lookAt;
-
+            
             // Set the yaw (Y axis), pitch (X axis), and roll (Z axis) rotations in radians.
             pitch = this.Rotation.X * 0.0174532925f;
             yaw = this.Rotation.Y * 0.0174532925f;
@@ -92,14 +82,14 @@ namespace MY3DEngine.Cameras
             rotationMatrix = Matrix.RotationYawPitchRoll(yaw, pitch, roll);
 
             // Transform the lookAt and up vector by the rotation matrix so the view is correctly rotated at the origin.
-            lookAtVector = Vector3.TransformCoordinate(lookAtVector, rotationMatrix);
-            upVector = Vector3.TransformCoordinate(upVector, rotationMatrix);
+            lookAt = Vector3.TransformCoordinate(lookAt, rotationMatrix);
+            up = Vector3.TransformCoordinate(up, rotationMatrix);
 
             // Translate the rotated camera position to the location of the viewer.
-            lookAtVector = Vector3.Add(positionVector, lookAtVector);
+            lookAt = Vector3.Add(position, lookAt);
 
             // Finally create the view matrix from the three updated vectors.
-            this.ViewMatrix = Matrix.LookAtLH(positionVector, lookAtVector, upVector);
+            this.ViewMatrix = Matrix.LookAtLH(position, lookAt, up);
         }
 
         public void ResetEye()

@@ -224,7 +224,7 @@
             this.ChangeGameObjectColorButton.TabIndex = 5;
             this.ChangeGameObjectColorButton.Text = "Change Color";
             this.ChangeGameObjectColorButton.UseVisualStyleBackColor = true;
-            this.ChangeGameObjectColorButton.Click += new System.EventHandler(this.btnColor_Click);
+            this.ChangeGameObjectColorButton.Click += new System.EventHandler(this.BtnColor_Click);
             // 
             // ckbxLightOnOff
             // 
@@ -391,7 +391,6 @@
             // 
             // addCubeToolStripMenuItem
             // 
-            this.addCubeToolStripMenuItem.Enabled = false;
             this.addCubeToolStripMenuItem.Name = "addCubeToolStripMenuItem";
             this.addCubeToolStripMenuItem.Size = new System.Drawing.Size(208, 22);
             this.addCubeToolStripMenuItem.Text = "Add Cube";

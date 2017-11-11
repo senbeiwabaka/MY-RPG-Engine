@@ -26,6 +26,8 @@ namespace MY3DEngine
         private BlendState blendStateAlphaEnabled;
         private BlendState blendStateAlphaDisabled;
         private DepthStencilState depthDisabledStencilState;
+        private Matrix m_projectionMatrix;
+        private Matrix m_worldMatrix;
 
         /// <summary>
         /// Load content in the background
@@ -46,6 +48,10 @@ namespace MY3DEngine
         ///
         /// </summary>
         public string VideoCardDescription => this.videoCardDescription;
+
+        public Matrix GetProjectMatrix => this.m_projectionMatrix;
+
+        public Matrix GetWorldMatrix => this.m_worldMatrix;
 
         /// <summary>
         ///
@@ -183,6 +189,16 @@ namespace MY3DEngine
             {
                 return false;
             }
+
+            // Setup the projection matrix.
+            var fieldOfView = 3.141592654f / 4.0f;
+            var screenAspect = (float)screenWidth / (float)screenHeight;
+
+            // Create the projection matrix for 3D rendering.
+            m_projectionMatrix = Matrix.PerspectiveFovLH(fieldOfView, screenAspect, 0.0f, 1.0f);
+
+            // Initialize the world matrix to the identity matrix.
+            m_worldMatrix = Matrix.Identity;
 
             return true;
         }

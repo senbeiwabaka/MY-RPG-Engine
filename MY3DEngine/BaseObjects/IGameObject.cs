@@ -11,8 +11,14 @@ namespace MY3DEngine.BaseObjects
 
         Guid Id { get; set; }
 
+        /// <summary>
+        /// Designate whether the object is a primitive type of Cube
+        /// </summary>
         bool IsCube { get; set; }
 
+        /// <summary>
+        /// Designate whether the object is a primitive type
+        /// </summary>
         bool IsPrimitive { get; set; }
 
         bool IsSelected { get; set; }
@@ -24,5 +30,20 @@ namespace MY3DEngine.BaseObjects
         PixelShader PixelShader { get; set; }
 
         VertexShader VertextShader { get; set; }
+
+        /// <summary>
+        /// Change the color of the object
+        /// </summary>
+        void ApplyColor();
+
+        /// <summary>
+        /// Load the content of the object
+        /// </summary>
+        void LoadContent(bool isNewObject = true);
+
+        /// <summary>
+        /// Render the object(s) content(s) to the screen
+        /// </summary>
+        void Render();
     }
 }

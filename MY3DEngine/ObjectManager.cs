@@ -53,14 +53,15 @@ namespace MY3DEngine
         /// Add an object to the list
         /// </summary>
         /// <param name="gameObject">The object to be added</param>
+        /// <param name="isNewObject"></param>
         /// <returns>True when successful, false otherwise</returns>
-        public bool AddObject(GameObject gameObject)
+        public bool AddObject(GameObject gameObject, bool isNewObject = true)
         {
             try
             {
                 lock (this.GameObjects)
                 {
-                    gameObject.LoadContent();
+                    gameObject.LoadContent(isNewObject);
 
                     this.GameObjects.Add(gameObject);
                 }

@@ -36,33 +36,12 @@ namespace MY3DEngine.Primitives
         }
 
         /// <inheritdoc/>
-        public override void LoadContent()
+        public override void LoadContent(bool isNewObject = true)
         {
-            var path = Path.GetFullPath("Shaders");
-
-            // Compile Vertex shaders
-            using (var vertexShaderByteCode = ShaderBytecode.CompileFromFile(string.Format("{0}\\TriangleWithTexture.fx", path), "VS_Main", "vs_4_0", ShaderFlags.EnableStrictness | ShaderFlags.Debug, EffectFlags.None))
-            {
-                this.VertextShader = new VertexShader(Engine.GameEngine.GraphicsManager.GetDevice, vertexShaderByteCode);
-
-                this.inputLayout = new InputLayout(
-                    Engine.GameEngine.GraphicsManager.GetDevice,
-                    ShaderSignature.GetInputSignature(vertexShaderByteCode),
-                    new[]
-                    {
-                        new InputElement("POSITION", 0, Format.R32G32B32A32_Float, 0, 0, InputClassification.PerVertexData, 0),
-                        new InputElement("TEXCOORD", 0, Format.R32G32_Float, 12, 0, InputClassification.PerVertexData, 0)
-                    });
-            }
-
-            // Compile Pixel shaders
-            using (var pixelShaderByteCode = ShaderBytecode.CompileFromFile(string.Format("{0}\\TriangleWithTexture.fx", path), "PS_Main", "ps_4_0", ShaderFlags.EnableStrictness | ShaderFlags.Debug, EffectFlags.None))
-            {
-                this.PixelShader = new PixelShader(Engine.GameEngine.GraphicsManager.GetDevice, pixelShaderByteCode);
-            }
+            base.LoadContent(isNewObject);
 
             // Instantiate Vertex buffer from vertex data
-            this.buffer = Buffer.Create(
+            this.Buffer = Buffer.Create(
                 Engine.GameEngine.GraphicsManager.GetDevice,
                 BindFlags.VertexBuffer,
                 new[]
@@ -76,7 +55,7 @@ namespace MY3DEngine.Primitives
                         new VertexPos(new Vector3(0.5f, 0.5f, 0.5f), new Vector2(1.0f, 1.0f))
                 });
 
-            path = Path.GetFullPath("Assets");
+            var path = Path.GetFullPath("Assets");
             path = string.Format("{0}\\decal.png", path);
 
             // initialize the WIC factory
@@ -127,9 +106,9 @@ namespace MY3DEngine.Primitives
         /// <inheritdoc/>
         public override void Render()
         {
-            Engine.GameEngine.GraphicsManager.GetDeviceContext.InputAssembler.InputLayout = this.inputLayout;
+            Engine.GameEngine.GraphicsManager.GetDeviceContext.InputAssembler.InputLayout = this.InputLayout;
             Engine.GameEngine.GraphicsManager.GetDeviceContext.InputAssembler.PrimitiveTopology = SharpDX.Direct3D.PrimitiveTopology.TriangleList;
-            Engine.GameEngine.GraphicsManager.GetDeviceContext.InputAssembler.SetVertexBuffers(0, new VertexBufferBinding(this.buffer, 32, 0));
+            Engine.GameEngine.GraphicsManager.GetDeviceContext.InputAssembler.SetVertexBuffers(0, new VertexBufferBinding(this.Buffer, 32, 0));
 
             Engine.GameEngine.GraphicsManager.GetDeviceContext.VertexShader.Set(this.VertextShader);
 
