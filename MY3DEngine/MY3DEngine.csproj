@@ -84,7 +84,7 @@
     <Compile Include="Cameras\Camera.cs" />
     <Compile Include="Cameras\ICamera.cs" />
     <Compile Include="Common\TextureLoader.cs" />
-    <Compile Include="DirectXManager.cs" />
+    <Compile Include="GeneralManagers\DirectXManager.cs" />
     <Compile Include="Engine.cs" />
     <Compile Include="ExceptionHolder.cs" />
     <Compile Include="ExceptionData.cs" />
@@ -107,7 +107,7 @@
     <Content Include="Graphics\MeshClass.cs" />
     <Compile Include="BaseObjects\GameObject.cs" />
     <Compile Include="BaseObjects\IGameObject.cs" />
-    <Compile Include="ObjectManager.cs" />
+    <Compile Include="GeneralManagers\ObjectManager.cs" />
     <Compile Include="Primitives\Cube.cs" />
     <Compile Include="Primitives\Triangle.cs" />
     <Compile Include="Primitives\TriangleWithTexture.cs" />
@@ -116,7 +116,7 @@
     <None Include="Shaders\Triangle.fx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="SolidGreenColor.fx">
+    <None Include="Shaders\SolidGreenColor.fx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>

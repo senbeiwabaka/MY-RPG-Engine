@@ -63,7 +63,7 @@ namespace MY3DEngine.Primitives
         /// <inheritdoc/>
         public override void Render()
         {
-            Engine.GameEngine.GraphicsManager.GetDeviceContext.InputAssembler.SetVertexBuffers(0, new VertexBufferBinding(this.Buffer, 32, 0));
+            Engine.GameEngine.GraphicsManager.GetDeviceContext.InputAssembler.SetVertexBuffers(0, new VertexBufferBinding(this.Buffer, BaseObjects.Vertex.Size, 0));
 
             Engine.GameEngine.GraphicsManager.GetDeviceContext.DrawIndexed(6, 0, 0);
         }

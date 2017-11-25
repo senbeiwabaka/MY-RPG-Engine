@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 
-namespace MY3DEngine
+namespace MY3DEngine.GeneralManagers
 {
     /// <summary>
     /// Manages the list of objects
@@ -13,6 +13,9 @@ namespace MY3DEngine
     {
         private BindingList<GameObject> _gameObjects = null;
 
+        /// <summary>
+        /// List of game objects
+        /// </summary>
         public BindingList<GameObject> GameObjects
         {
             get

@@ -7,7 +7,7 @@ using System;
 using System.Linq;
 using Device = SharpDX.Direct3D11.Device;
 
-namespace MY3DEngine
+namespace MY3DEngine.GeneralManagers
 {
     /// <summary>
     /// The device manager.
@@ -387,11 +387,11 @@ namespace MY3DEngine
         private bool InitializeStencilView()
         {
             var depthStencilViewDescription = new DepthStencilViewDescription
-                {
-                    Format = Format.D24_UNorm_S8_UInt,
-                    Dimension = DepthStencilViewDimension.Texture2D,
-                    Texture2D = { MipSlice = 0 }
-                };
+            {
+                Format = Format.D24_UNorm_S8_UInt,
+                Dimension = DepthStencilViewDimension.Texture2D,
+                Texture2D = { MipSlice = 0 }
+            };
 
             this.depthStencilView = new DepthStencilView(this.GetDevice, this.depthStencilBuffer, depthStencilViewDescription);
 
