@@ -245,11 +245,10 @@ namespace MY3DEngineGUI
             lock (Engine.GameEngine.Manager)
             {
                 var gameObject = (GameObject)GameObjectListComboBox.SelectedValue;
-                var index = Engine.GameEngine.Manager.GameObjects.IndexOf(gameObject);
 
                 Engine.GameEngine.Manager.GameObjects.ToList().ForEach(x => x.IsSelected = false);
 
-                Engine.GameEngine.Manager.GameObjects.RemoveAt(index);
+                Engine.GameEngine.Manager.RemoveObject(gameObject);
 
                 this.AddRemoveObject(string.Format("Game Object '{0}' was removed.", gameObject.Name));
             }
