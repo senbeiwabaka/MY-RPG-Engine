@@ -15,7 +15,7 @@ namespace MY3DEngine
         /// <summary>
         ///
         /// </summary>
-        public static bool IsDebugginTurnedOn = false;
+        public static bool IsDebugginTurnedOn;
 
         private static Engine gameEngine;
         private GraphicsManager graphicsManager;
@@ -83,6 +83,10 @@ namespace MY3DEngine
 
         public Camera Camera => this.camera;
 
+        /// <summary>
+        /// Add exceptions to the list if debugging is enabled.
+        /// </summary>
+        /// <param name="e"></param>
         public void AddException(Exception e)
         {
             if (IsDebugginTurnedOn)
@@ -97,6 +101,14 @@ namespace MY3DEngine
 
                     GameEngine.Exception.Exceptions.Add(new ExceptionData(exception.Message, exception.Source, exception.StackTrace));
                 }
+            }
+        }
+
+        public void AddCompilerErrors(string fileName, int line, int column, string errorNumber, string errorText)
+        {
+            if (IsDebugginTurnedOn)
+            {
+                GameEngine.Exception.Exceptions.Add(new ExceptionData($"{fileName} has had an error compiling.", $"On line {line} in column {column}. The error code is {errorNumber}.", errorText));
             }
         }
 
@@ -293,9 +305,12 @@ namespace MY3DEngine
             //m_Direct3D->GetProjectionMatrix(projectionMatrix);
 
             // render stuff goes here
-            foreach (var gameObject in this.manager.GameObjects)
+            lock (this.manager.GameObjects)
             {
-                gameObject.Render();
+                foreach (var gameObject in this.manager.GameObjects)
+                {
+                    gameObject.Render();
+                }
             }
 
             this.graphicsManager.EndScene();

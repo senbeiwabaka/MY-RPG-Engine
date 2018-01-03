@@ -9,13 +9,14 @@ using System.Windows.Forms;
 
 namespace MY3DEngineGUI
 {
-    public partial class Form1 : Form
+    public partial class MainWindow : Form
     {
         private bool _firstMouse;
         private Point _mouseLocation;
         private bool isObjectSelected;
+        private string gamePath;
 
-        public Form1()
+        public MainWindow()
         {
             InitializeComponent();
 
@@ -55,19 +56,12 @@ namespace MY3DEngineGUI
 
             this.ExceptionBindingSource.DataSource = exceptions;
 
-            this.AddToInformationDisplay(string.Format("Video card memory : {0} MB", Engine.GameEngine.GraphicsManager.GetDirectXManager.VideoCardMemory));
-            this.AddToInformationDisplay(string.Format("Video card description : {0}", Engine.GameEngine.GraphicsManager.GetDirectXManager.VideoCardDescription, Environment.NewLine));
+            this.AddToInformationDisplay($"Video card memory : {Engine.GameEngine.GraphicsManager.GetDirectXManager.VideoCardMemory} MB");
+            this.AddToInformationDisplay($"Video card description : {Engine.GameEngine.GraphicsManager.GetDirectXManager.VideoCardDescription}");
         }
 
-        #region Shutdown/Exit
-
-        private static void ShutDown()
-        {
-            Engine.GameEngine?.Shutdown();
-
-            Engine.GameEngine?.Dispose();
-        }
-
+        #region Shutdown/Exit Events
+        
         private void ExitToolStripMenuItem_Click(object sender, EventArgs e)
         {
             this.Close();
@@ -80,7 +74,7 @@ namespace MY3DEngineGUI
 
         #endregion Shutdown/Exit
 
-        #region Camera
+        #region Old Camera -- FIX
 
         private void rendererPnl_MouseEnter(object sender, EventArgs e)
         {
@@ -100,9 +94,9 @@ namespace MY3DEngineGUI
         {
         }
 
-        #endregion Camera
+        #endregion Old Camera -- FIX
 
-        #region Events
+        #region Old Event -- FIX
 
         private void addDirectionalLightToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -293,7 +287,7 @@ namespace MY3DEngineGUI
             exceptionValueDisplayForm.Show(this);
         }
 
-        #endregion Events
+        #endregion Old Event -- FIX
 
         #region Menu Events
 
@@ -336,9 +330,10 @@ namespace MY3DEngineGUI
 
             if (dialog.ShowDialog() == DialogResult.OK)
             {
-                var path = dialog.FileName;
+                var fileInfo = new System.IO.FileInfo(dialog.FileName);
+                gamePath = fileInfo.DirectoryName;
 
-                if (Engine.GameEngine.Load(path))
+                if (Engine.GameEngine.Load(dialog.FileName))
                 {
                     this.UpdateButtonsUseability();
                     this.AddToInformationDisplay("Game loaded successfully.");
@@ -360,9 +355,9 @@ namespace MY3DEngineGUI
 
             if (dialog.ShowDialog() == DialogResult.OK)
             {
-                var path = dialog.SelectedPath;
+                gamePath = dialog.SelectedPath;
 
-                if (Engine.GameEngine.Save(path))
+                if (Engine.GameEngine.Save(gamePath))
                 {
                     this.AddToInformationDisplay("Game saved successfully.");
 
@@ -382,6 +377,22 @@ namespace MY3DEngineGUI
             Engine.IsDebugginTurnedOn = !Engine.IsDebugginTurnedOn;
 
             this.AddToInformationDisplay(string.Format("Engine debugging is set to {0}", Engine.IsDebugginTurnedOn));
+        }
+
+        private void generateGameToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if(MY3DEngine.Build.Build.GenerateCSharpFile(gamePath))
+            {
+                this.AddToInformationDisplay("Game generated successfully.");
+
+                MessageBox.Show("Game generated successfully.", "Information");
+            }
+            else
+            {
+                this.AddToInformationDisplay("Game not generated successfully. Please see error log.");
+
+                MessageBox.Show("Game not generated successfully. Please see error log.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         #endregion Menu Events
@@ -409,6 +420,13 @@ namespace MY3DEngineGUI
             {
                 this.ChangeGameObjectColorButton.Enabled = this.RemoveGameObjectButton.Enabled = false;
             }
+        }
+
+        private static void ShutDown()
+        {
+            Engine.GameEngine?.Shutdown();
+
+            Engine.GameEngine?.Dispose();
         }
 
         #endregion Helper Methods

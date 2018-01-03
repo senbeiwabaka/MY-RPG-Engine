@@ -1,10 +1,9 @@
-﻿using System.ComponentModel;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
+using System.ComponentModel;
 
 namespace MY3DEngine
 {
-    public class ExceptionHolder
+    public sealed class ExceptionHolder
     {
         public BindingList<ExceptionData> Exceptions { get; set; }
 

@@ -1,4 +1,6 @@
-﻿namespace MY3DEngine
+﻿using System;
+
+namespace MY3DEngine
 {
     /// <summary>Provides the base class for value types.</summary>
     public struct ExceptionData
@@ -30,5 +32,11 @@
         ///
         /// </summary>
         public string StackTrace { get; }
+
+        /// <inheritdoc/>
+        public override string ToString()
+        {
+            return $"{nameof(this.Message)}: {this.Message} {Environment.NewLine} Source: {Environment.NewLine} \t {this.Source} {Environment.NewLine} {nameof(this.StackTrace)}: {Environment.NewLine} {this.StackTrace}";
+        }
     }
 }
