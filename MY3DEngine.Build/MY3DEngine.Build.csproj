@@ -143,6 +143,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Build.cs" />
+    <Compile Include="FileIO.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

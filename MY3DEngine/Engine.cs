@@ -88,6 +88,16 @@ namespace MY3DEngine
         public Camera Camera => this.camera;
 
         /// <summary>
+        /// Root location of where the game files are stored
+        /// </summary>
+        public string FolderLocation { get; set; }
+
+        /// <summary>
+        /// The name of the game. This will be used when the exe is created as well.
+        /// </summary>
+        public string GameName { get; set; }
+
+        /// <summary>
         /// Add exceptions to the list if debugging is enabled.
         /// </summary>
         /// <param name="e"></param>

@@ -149,6 +149,13 @@ namespace Game
 
                 File.AppendAllText(fullPath, fileContents);
 
+                if(!Directory.Exists($"{folderLocation}\\Shaders"))
+                {
+                    Directory.CreateDirectory($"{folderLocation}\\Shaders");
+                }
+
+                File.Copy("Shaders\\Triangle.fx", $"{folderLocation}\\Shaders\\Triangle.fx", true);
+
                 File.Copy(engine.Location, $"{folderLocation}\\{engine.ManifestModule.Name}", true);
                 File.Copy(newtonsoft.Location, $"{folderLocation}\\{newtonsoft.ManifestModule.Name}", true);
                 File.Copy(sharpDx.Location, $"{folderLocation}\\{sharpDx.ManifestModule.Name}", true);

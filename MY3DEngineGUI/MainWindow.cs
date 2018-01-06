@@ -1,6 +1,7 @@
 ﻿using MY3DEngine;
 using MY3DEngine.BaseObjects;
 using MY3DEngine.Primitives;
+using MY3DEngineGUI.HelperForms;
 using System;
 using System.ComponentModel;
 using System.Drawing;
@@ -19,6 +20,41 @@ namespace MY3DEngineGUI
         public MainWindow()
         {
             InitializeComponent();
+
+            var form = new Form
+            {
+                TopLevel = false,
+                TopMost = true,
+                FormBorderStyle = FormBorderStyle.None,
+                Dock = DockStyle.None,
+                Visible = true,
+                Width = this.ClientSize.Width,
+                Height = this.ClientSize.Height
+            };
+            var loadExistingProject = new Button
+            {
+                Text = "Load Project",
+                AutoSize = true
+            };
+            var createNewProject = new Button
+            {
+                Text = "Create Project",
+                AutoSize = true
+            };
+
+            loadExistingProject.Left = (this.ClientSize.Width - loadExistingProject.Width) / 2;
+            loadExistingProject.Top = ((this.ClientSize.Height - 50) - loadExistingProject.Height) / 2;
+            loadExistingProject.Click += this.LoadExistingProject_Click;
+
+            createNewProject.Left = (this.ClientSize.Width - createNewProject.Width) / 2;
+            createNewProject.Top = ((this.ClientSize.Height + 50) - createNewProject.Height) / 2;
+            createNewProject.Click += this.CreateNewProject_Click;
+
+            form.Controls.Add(loadExistingProject);
+            form.Controls.Add(createNewProject);
+
+            this.Controls.Add(form);
+            this.Controls.SetChildIndex(form, 0);
 
             var graphicsException = new ExceptionData("Engine Graphics not setup correctly", "Engine", string.Empty);
             var exceptions = new BindingList<ExceptionData>();
@@ -59,6 +95,8 @@ namespace MY3DEngineGUI
             this.AddToInformationDisplay($"Video card memory : {Engine.GameEngine.GraphicsManager.GetDirectXManager.VideoCardMemory} MB");
             this.AddToInformationDisplay($"Video card description : {Engine.GameEngine.GraphicsManager.GetDirectXManager.VideoCardDescription}");
         }
+
+        
 
         #region Shutdown/Exit Events
 
@@ -408,6 +446,27 @@ namespace MY3DEngineGUI
 
         #endregion Menu Events
 
+        #region New/Load Project
+
+        private void CreateNewProject_Click(object sender, EventArgs e)
+        {
+            var createNewProjectForm = new CreateNewProjectForm();
+
+            DialogResult result = createNewProjectForm.ShowDialog();
+
+            if (result == DialogResult.OK || result == DialogResult.Yes)
+            {
+                this.Controls.RemoveAt(0);
+            }
+        }
+
+        private void LoadExistingProject_Click(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion
+
         #region Helper Methods
 
         private static void ShutDown()
@@ -441,15 +500,7 @@ namespace MY3DEngineGUI
         }
 
         #endregion Helper Methods
-
-        //private void tlvGameFiles_MouseClick(object sender, MouseEventArgs e)
-        //{
-        //    if(e.Button == MouseButtons.Right)
-        //    {
-        //        cmsGameFilesRightClickMenu.
-        //    }
-        //}
-
+        
         private void tsmiAddClass_Click(object sender, EventArgs e)
         {
             ClassFileBuilderForm form = new ClassFileBuilderForm();

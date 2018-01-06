@@ -103,6 +103,12 @@
     <Compile Include="ExceptionValueDisplayForm.Designer.cs">
       <DependentUpon>ExceptionValueDisplayForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="HelperForms\CreateNewProjectForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="HelperForms\CreateNewProjectForm.Designer.cs">
+      <DependentUpon>CreateNewProjectForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="MainWindow.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -116,6 +122,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ExceptionValueDisplayForm.resx">
       <DependentUpon>ExceptionValueDisplayForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="HelperForms\CreateNewProjectForm.resx">
+      <DependentUpon>CreateNewProjectForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MainWindow.resx">
       <DependentUpon>MainWindow.cs</DependentUpon>
