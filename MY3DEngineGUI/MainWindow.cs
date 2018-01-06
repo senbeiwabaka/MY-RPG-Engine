@@ -452,7 +452,9 @@ namespace MY3DEngineGUI
 
         private void tsmiAddClass_Click(object sender, EventArgs e)
         {
+            ClassFileBuilderForm form = new ClassFileBuilderForm();
 
+            form.Show();
         }
     }
 }
