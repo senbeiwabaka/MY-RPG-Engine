@@ -33,9 +33,9 @@
             // 
             // CellMessageContent
             // 
-            this.CellMessageContent.Enabled = false;
             this.CellMessageContent.Location = new System.Drawing.Point(12, 12);
             this.CellMessageContent.Name = "CellMessageContent";
+            this.CellMessageContent.ReadOnly = true;
             this.CellMessageContent.Size = new System.Drawing.Size(260, 237);
             this.CellMessageContent.TabIndex = 0;
             this.CellMessageContent.Text = "";

@@ -11,10 +11,13 @@ using System.Threading;
 
 namespace MY3DEngine
 {
+    /// <summary>
+    /// The main entry point for the engine
+    /// </summary>
     public sealed class Engine : IDisposable
     {
         /// <summary>
-        ///
+        /// If set to true then debugging information is added to a collection
         /// </summary>
         public static bool IsDebugginTurnedOn;
 

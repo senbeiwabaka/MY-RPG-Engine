@@ -13,8 +13,8 @@ namespace MY3DEngineGUI
     {
         private bool _firstMouse;
         private Point _mouseLocation;
-        private bool isObjectSelected;
         private string gamePath;
+        private bool isObjectSelected;
 
         public MainWindow()
         {
@@ -52,7 +52,7 @@ namespace MY3DEngineGUI
                 exceptions.Add(graphicsException);
             }
 
-            Engine.GameEngine.Exception.Information.CollectionChanged += Information_CollectionChanged;
+            //Engine.GameEngine.Exception.Information.CollectionChanged += Information_CollectionChanged;
 
             this.ExceptionBindingSource.DataSource = exceptions;
 
@@ -61,7 +61,7 @@ namespace MY3DEngineGUI
         }
 
         #region Shutdown/Exit Events
-        
+
         private void ExitToolStripMenuItem_Click(object sender, EventArgs e)
         {
             this.Close();
@@ -72,7 +72,7 @@ namespace MY3DEngineGUI
             ShutDown();
         }
 
-        #endregion Shutdown/Exit
+        #endregion Shutdown/Exit Events
 
         #region Old Camera -- FIX
 
@@ -198,6 +198,14 @@ namespace MY3DEngineGUI
             }
         }
 
+        private void ExceptionGridView_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            var clickedOnCellContents = this.ExceptionGridView.Rows[e.RowIndex].Cells[e.ColumnIndex].Value;
+            var exceptionValueDisplayForm = new ExceptionValueDisplayForm(clickedOnCellContents);
+
+            exceptionValueDisplayForm.Show(this);
+        }
+
         private void GameObjectListComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             int index = -1;
@@ -278,17 +286,19 @@ namespace MY3DEngineGUI
             Engine.GameEngine.WireFrame();
         }
 
-        private void ExceptionGridView_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-            var clickedOnCellContents = this.ExceptionGridView.Rows[e.RowIndex].Cells[e.ColumnIndex].Value;
-            var exceptionValueDisplayForm = new ExceptionValueDisplayForm(clickedOnCellContents);
-
-            exceptionValueDisplayForm.Show(this);
-        }
-
         #endregion Old Event -- FIX
 
         #region Menu Events
+
+        private void AddCubeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var gameObject = new Cube();
+
+            if (Engine.GameEngine.Manager.AddObject(gameObject))
+            {
+                this.AddRemoveObject("Cube added.");
+            }
+        }
 
         private void AddTriangleToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -310,13 +320,29 @@ namespace MY3DEngineGUI
             }
         }
 
-        private void AddCubeToolStripMenuItem_Click(object sender, EventArgs e)
+        private void ClearErrorsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var gameObject = new Cube();
+            Engine.GameEngine.Exception.Exceptions.Clear();
+        }
 
-            if (Engine.GameEngine.Manager.AddObject(gameObject))
+        private void ClearInformationToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.tbInformation.Clear();
+        }
+
+        private void GenerateGameToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (MY3DEngine.Build.Build.GenerateCSharpFile(gamePath))
             {
-                this.AddRemoveObject("Cube added.");
+                this.AddToInformationDisplay("Game generated successfully.");
+
+                MessageBox.Show("Game generated successfully.", "Information");
+            }
+            else
+            {
+                this.AddToInformationDisplay("Game not generated successfully. Please see error log.");
+
+                MessageBox.Show("Game not generated successfully. Please see error log.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -338,6 +364,8 @@ namespace MY3DEngineGUI
                     this.AddToInformationDisplay("Game loaded successfully.");
 
                     MessageBox.Show("Game loaded successfully.", "Information");
+
+                    generateGameToolStripMenuItem.Enabled = true;
                 }
                 else
                 {
@@ -378,25 +406,16 @@ namespace MY3DEngineGUI
             this.AddToInformationDisplay(string.Format("Engine debugging is set to {0}", Engine.IsDebugginTurnedOn));
         }
 
-        private void generateGameToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if(MY3DEngine.Build.Build.GenerateCSharpFile(gamePath))
-            {
-                this.AddToInformationDisplay("Game generated successfully.");
-
-                MessageBox.Show("Game generated successfully.", "Information");
-            }
-            else
-            {
-                this.AddToInformationDisplay("Game not generated successfully. Please see error log.");
-
-                MessageBox.Show("Game not generated successfully. Please see error log.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
         #endregion Menu Events
 
         #region Helper Methods
+
+        private static void ShutDown()
+        {
+            Engine.GameEngine?.Shutdown();
+
+            Engine.GameEngine?.Dispose();
+        }
 
         private void AddRemoveObject(string message)
         {
@@ -406,7 +425,7 @@ namespace MY3DEngineGUI
 
         private void AddToInformationDisplay(string message)
         {
-            tbInformation.AppendText($"{message} {Environment.NewLine}");
+            this.tbInformation.AppendText($"{message} {Environment.NewLine}");
         }
 
         private void UpdateButtonsUseability()
@@ -421,13 +440,19 @@ namespace MY3DEngineGUI
             }
         }
 
-        private static void ShutDown()
-        {
-            Engine.GameEngine?.Shutdown();
-
-            Engine.GameEngine?.Dispose();
-        }
-
         #endregion Helper Methods
+
+        //private void tlvGameFiles_MouseClick(object sender, MouseEventArgs e)
+        //{
+        //    if(e.Button == MouseButtons.Right)
+        //    {
+        //        cmsGameFilesRightClickMenu.
+        //    }
+        //}
+
+        private void tsmiAddClass_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
