@@ -109,6 +109,12 @@
     <Compile Include="HelperForms\CreateNewProjectForm.Designer.cs">
       <DependentUpon>CreateNewProjectForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="HelperForms\SetNameForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="HelperForms\SetNameForm.Designer.cs">
+      <DependentUpon>SetNameForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="MainWindow.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -125,6 +131,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="HelperForms\CreateNewProjectForm.resx">
       <DependentUpon>CreateNewProjectForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="HelperForms\SetNameForm.resx">
+      <DependentUpon>SetNameForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MainWindow.resx">
       <DependentUpon>MainWindow.cs</DependentUpon>

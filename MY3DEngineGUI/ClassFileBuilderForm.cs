@@ -1,4 +1,5 @@
-﻿using ScintillaNET;
+﻿using MY3DEngine;
+using ScintillaNET;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -17,9 +18,15 @@ namespace MY3DEngineGUI
         const int padding = 2;
 
         private int baseMaxLineNumberCharLength;
-        private string folderLocation;
+        private readonly string fileName;
 
-        public ClassFileBuilderForm()
+        public ClassFileBuilderForm(string fileName)
+            : this()
+        {
+            this.fileName = fileName;
+        }
+
+        private ClassFileBuilderForm()
         {
             InitializeComponent();
 
@@ -103,12 +110,12 @@ namespace MY3DEngineGUI
 
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(this.folderLocation))
+            if (string.IsNullOrWhiteSpace(this.fileName))
             {
                 this.AddToInformationDisplay("Must have save location selected in order to add class files");
             }
 
-            File.AppendAllText($"{folderLocation}\\", this.scintilla1.Text);
+            File.AppendAllText($"{Engine.GameEngine.FolderLocation}\\{this.fileName}.cs", this.scintilla1.Text);
         }
 
         

@@ -89,6 +89,7 @@
             this.clearErrorsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.colorDialog1 = new System.Windows.Forms.ColorDialog();
             this.GameObjectBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.olvColumn1 = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             ((System.ComponentModel.ISupportInitialize)(this.ExceptionGridView)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ExceptionBindingSource)).BeginInit();
             this.tabEditPlay.SuspendLayout();
@@ -203,7 +204,10 @@
             // 
             // tlvGameFiles
             // 
+            this.tlvGameFiles.AllColumns.Add(this.olvColumn1);
             this.tlvGameFiles.CellEditUseWholeCell = false;
+            this.tlvGameFiles.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.olvColumn1});
             this.tlvGameFiles.ContextMenuStrip = this.cmsGameFilesRightClickMenu;
             this.tlvGameFiles.Location = new System.Drawing.Point(11, 280);
             this.tlvGameFiles.Name = "tlvGameFiles";
@@ -226,7 +230,7 @@
             this.tsmiAddClass.Name = "tsmiAddClass";
             this.tsmiAddClass.Size = new System.Drawing.Size(126, 22);
             this.tsmiAddClass.Text = "Add Class";
-            this.tsmiAddClass.Click += new System.EventHandler(this.tsmiAddClass_Click);
+            this.tsmiAddClass.Click += new System.EventHandler(this.TsmiAddClass_Click);
             // 
             // label2
             // 
@@ -623,6 +627,13 @@
             this.clearErrorsToolStripMenuItem.Text = "Clear Errors";
             this.clearErrorsToolStripMenuItem.Click += new System.EventHandler(this.ClearErrorsToolStripMenuItem_Click);
             // 
+            // olvColumn1
+            // 
+            this.olvColumn1.AspectName = "Path";
+            this.olvColumn1.FillsFreeSpace = true;
+            this.olvColumn1.Groupable = false;
+            this.olvColumn1.Text = "Path";
+            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -714,6 +725,7 @@
         private System.Windows.Forms.ToolStripMenuItem clearErrorsToolStripMenuItem;
         private System.Windows.Forms.ContextMenuStrip cmsGameFilesRightClickMenu;
         private System.Windows.Forms.ToolStripMenuItem tsmiAddClass;
+        private BrightIdeasSoftware.OLVColumn olvColumn1;
     }
 }
 

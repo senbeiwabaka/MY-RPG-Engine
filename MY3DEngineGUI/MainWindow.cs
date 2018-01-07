@@ -5,6 +5,7 @@ using MY3DEngineGUI.HelperForms;
 using System;
 using System.ComponentModel;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 
@@ -16,6 +17,7 @@ namespace MY3DEngineGUI
         private Point _mouseLocation;
         private string gamePath;
         private bool isObjectSelected;
+        private string className;
 
         public MainWindow()
         {
@@ -95,8 +97,6 @@ namespace MY3DEngineGUI
             this.AddToInformationDisplay($"Video card memory : {Engine.GameEngine.GraphicsManager.GetDirectXManager.VideoCardMemory} MB");
             this.AddToInformationDisplay($"Video card description : {Engine.GameEngine.GraphicsManager.GetDirectXManager.VideoCardDescription}");
         }
-
-        
 
         #region Shutdown/Exit Events
 
@@ -457,6 +457,19 @@ namespace MY3DEngineGUI
             if (result == DialogResult.OK || result == DialogResult.Yes)
             {
                 this.Controls.RemoveAt(0);
+
+                //this.tlvGameFiles.CanExpandGetter = delegate (object x) {
+                //    return (x is DirectoryInfo);
+                //};
+
+                //this.tlvGameFiles.ChildrenGetter = delegate (object x) {
+                //    return (x is DirectoryInfo);
+                //};
+
+                var files = Directory.EnumerateFiles(Engine.GameEngine.FolderLocation, "*.cs").Select(x => new { Path = x }).ToList();
+                //this.tlvGameFiles.SetObjects(files);
+                //tlvGameFiles.RefreshObjects(files);
+                this.tlvGameFiles.Roots = files;
             }
         }
 
@@ -465,7 +478,7 @@ namespace MY3DEngineGUI
             throw new NotImplementedException();
         }
 
-        #endregion
+        #endregion New/Load Project
 
         #region Helper Methods
 
@@ -500,12 +513,33 @@ namespace MY3DEngineGUI
         }
 
         #endregion Helper Methods
-        
-        private void tsmiAddClass_Click(object sender, EventArgs e)
-        {
-            ClassFileBuilderForm form = new ClassFileBuilderForm();
 
-            form.Show();
+        #region Content Menu Items
+
+        private void TsmiAddClass_Click(object sender, EventArgs e)
+        {
+            var setNameForm = new SetNameForm();
+
+            setNameForm.ClosingSetNameForm += this.SetNameForm_ClosingSetNameForm;
+
+            var dialogResult = setNameForm.ShowDialog();
+
+            if (dialogResult == DialogResult.OK)
+            {
+                ClassFileBuilderForm form = new ClassFileBuilderForm(className);
+
+                form.Show();
+            }
         }
+
+        private void SetNameForm_ClosingSetNameForm(object sender, ClosingSetNameEventArg args)
+        {
+            if(args != null)
+            {
+                className = args.ClassName;
+            }
+        }
+
+        #endregion Content Menu Items
     }
 }
