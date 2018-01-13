@@ -7,6 +7,16 @@ namespace MY3DEngineGUI.HelperForms
 {
     public delegate void ClosingSetNameForm(object sender, ClosingSetNameEventArg args);
 
+    public class ClosingSetNameEventArg : EventArgs
+    {
+        public readonly string ClassName;
+
+        public ClosingSetNameEventArg(string className)
+        {
+            this.ClassName = className;
+        }
+    }
+
     public partial class SetNameForm : Form
     {
         public SetNameForm()
@@ -42,16 +52,6 @@ namespace MY3DEngineGUI.HelperForms
             {
                 this.bCreate.Enabled = true;
             }
-        }
-    }
-
-    public class ClosingSetNameEventArg : EventArgs
-    {
-        public readonly string ClassName;
-
-        public ClosingSetNameEventArg(string className)
-        {
-            this.ClassName = className;
         }
     }
 }

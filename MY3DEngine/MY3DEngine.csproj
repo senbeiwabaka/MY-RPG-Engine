@@ -27,6 +27,7 @@
     <DocumentationFile>bin\Debug\MY3DEngine.XML</DocumentationFile>
     <RegisterForComInterop>false</RegisterForComInterop>
     <Prefer32Bit>false</Prefer32Bit>
+    <UseVSHostingProcess>true</UseVSHostingProcess>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -84,9 +85,10 @@
     <Compile Include="Cameras\Camera.cs" />
     <Compile Include="Cameras\ICamera.cs" />
     <Compile Include="Common\TextureLoader.cs" />
-    <Compile Include="GeneralManagers\DirectXManager.cs" />
+    <Compile Include="Enums\LevelType.cs" />
+    <Compile Include="Managers\DirectXManager.cs" />
     <Compile Include="Engine.cs" />
-    <Compile Include="ExceptionHolder.cs" />
+    <Compile Include="Managers\ExceptionManager.cs" />
     <Compile Include="ExceptionData.cs" />
     <Compile Include="Graphics\GraphicsManager.cs" />
     <Compile Include="Graphics\IGraphicManager.cs" />
@@ -107,7 +109,7 @@
     <Content Include="Graphics\MeshClass.cs" />
     <Compile Include="BaseObjects\GameObject.cs" />
     <Compile Include="BaseObjects\IGameObject.cs" />
-    <Compile Include="GeneralManagers\ObjectManager.cs" />
+    <Compile Include="Managers\ObjectManager.cs" />
     <Compile Include="Primitives\Cube.cs" />
     <Compile Include="Primitives\Triangle.cs" />
     <Compile Include="Primitives\TriangleWithTexture.cs" />

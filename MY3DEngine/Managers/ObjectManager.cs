@@ -11,7 +11,7 @@ namespace MY3DEngine.GeneralManagers
     /// </summary>
     public class ObjectManager
     {
-        private BindingList<GameObject> _gameObjects = null;
+        private readonly BindingList<GameObject> _gameObjects = new BindingList<GameObject>();
 
         /// <summary>
         /// List of game objects
@@ -20,36 +20,11 @@ namespace MY3DEngine.GeneralManagers
         {
             get
             {
-                if (_gameObjects == null)
+                lock (this._gameObjects)
                 {
-                    _gameObjects = new BindingList<GameObject>();
-                }
-
-                lock (_gameObjects)
-                {
-                    return _gameObjects;
+                    return this._gameObjects;
                 }
             }
-            set
-            {
-                if (_gameObjects == null)
-                {
-                    _gameObjects = new BindingList<GameObject>();
-                }
-
-                lock (_gameObjects)
-                {
-                    _gameObjects = value;
-                }
-            }
-        }
-
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        public ObjectManager()
-        {
-            this.GameObjects = new BindingList<GameObject>();
         }
 
         /// <summary>
@@ -72,7 +47,7 @@ namespace MY3DEngine.GeneralManagers
             catch (Exception e)
             {
                 Engine.GameEngine.AddException(e);
-                
+
                 return false;
             }
 
@@ -108,8 +83,7 @@ namespace MY3DEngine.GeneralManagers
         {
             lock (this.GameObjects)
             {
-                var objects = this.GameObjects.ToList();
-                return objects;
+                return this.GameObjects.ToList();
             }
         }
     }

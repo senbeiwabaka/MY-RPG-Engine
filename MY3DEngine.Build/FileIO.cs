@@ -4,6 +4,10 @@ namespace MY3DEngine.Build
 {
     public static class FileIO
     {
+        /// <summary>
+        /// Create a new game folder setup
+        /// </summary>
+        /// <returns></returns>
         public static bool CreateNewProjectFiles()
         {
             try
@@ -12,6 +16,8 @@ namespace MY3DEngine.Build
                 {
                     Directory.CreateDirectory(Engine.GameEngine.FolderLocation);
                 }
+
+
             }
             catch
             {
@@ -20,5 +26,7 @@ namespace MY3DEngine.Build
 
             return true;
         }
+
+
     }
 }

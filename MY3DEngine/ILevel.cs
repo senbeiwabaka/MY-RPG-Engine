@@ -1,24 +1,14 @@
 ﻿using MY3DEngine.BaseObjects;
+using MY3DEngine.Enums;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace MY3DEngine
 {
-    public enum LevelType
+    internal interface ILevel : IDisposable
     {
-        LoadingScreen,
-        MainMenu,
-        Credits,
-        Level
-    }
-
-    interface ILevel : IDisposable
-    {
-        string Name { get; set; }
+        IObservable<GameObject> LevelObjects { get; set; }
         LevelType LevelType { get; set; }
-        List<GameObject> GameObjects { get; set; }
+        string Name { get; set; }
 
         bool LoadLevel(string path);
 

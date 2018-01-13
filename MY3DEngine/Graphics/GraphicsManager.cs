@@ -4,20 +4,26 @@ using System;
 
 namespace MY3DEngine.Graphics
 {
-    public sealed class GraphicsManager : IGraphicManager, IDisposable
+    sealed class GraphicsManager : IGraphicManager
     {
-        public GraphicsManager()
-        {
-            this.GetDirectXManager = null;
-        }
-
-        public DirectXManager GetDirectXManager { get; private set; }
+        public Device GetDevice => this.GetDirectXManager?.GetDevice;
+        public DeviceContext GetDeviceContext => this.GetDirectXManager?.GetDeviceContext;
+        public DirectXManager GetDirectXManager { get; private set; } = new DirectXManager();
 
         public IntPtr GetWindowHandle { get; private set; }
+        
 
-        public Device GetDevice => this.GetDirectXManager?.GetDevice;
+        /// <inheritdoc/>
+        public void BeginScene(float red, float green, float blue, float alpha)
+        {
+            this.GetDirectXManager.BeginScene(red, green, blue, alpha);
+        }
 
-        public DeviceContext GetDeviceContext => this.GetDirectXManager?.GetDeviceContext;
+        /// <inheritdoc/>
+        public void ChangeVSyncState(bool vSync = false)
+        {
+            this.GetDirectXManager.VSync = vSync;
+        }
 
         public void Dispose()
         {
@@ -26,10 +32,32 @@ namespace MY3DEngine.Graphics
             GC.SuppressFinalize(true);
         }
 
+        /// <inheritdoc/>
+        public void EnableAlphaBlending(bool enable = false)
+        {
+            this.GetDirectXManager.EnableAlphaBlending(enable);
+        }
+
+        /// <inheritdoc/>
+        public void EnableZBuffer(bool enable = false)
+        {
+            this.GetDirectXManager.EnableZBuffer(enable);
+        }
+
+        /// <inheritdoc/>
+        public void EndScene()
+        {
+            this.GetDirectXManager.EndScene();
+        }
+
+        /// <inheritdoc/>
+        public void Initialize()
+        {
+        }
+
+        /// <inheritdoc/>
         public bool InitializeDirectXManager(IntPtr windowHandle, int screenWidth = 720, int screenHeight = 480, bool vsyncEnabled = true, bool fullScreen = false)
         {
-            this.GetDirectXManager = new DirectXManager();
-
             if (!this.GetDirectXManager.Initialize(windowHandle, screenWidth, screenHeight, vsyncEnabled, fullScreen))
             {
                 return false;
@@ -40,33 +68,9 @@ namespace MY3DEngine.Graphics
             return true;
         }
 
-        public void Initialize()
-        {
-        }
-
-        public void BeginScene(float red, float green, float blue, float alpha)
-        {
-            this.GetDirectXManager.BeginScene(red, green, blue, alpha);
-        }
-
-        public void EndScene()
-        {
-            this.GetDirectXManager.EndScene();
-        }
-
-        public void EnableAlphaBlending(bool enable = false)
-        {
-            this.GetDirectXManager.EnableAlphaBlending(enable);
-        }
-
-        public void EnableZBuffer(bool enable = false)
-        {
-            this.GetDirectXManager.EnableZBuffer(enable);
-        }
-
         private void Dispose(bool disposing)
         {
-            if(disposing)
+            if (disposing)
             {
                 this.GetDirectXManager?.Dispose();
             }

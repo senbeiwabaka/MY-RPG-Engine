@@ -38,11 +38,12 @@ namespace MY3DEngine.Cameras
 
             m = Matrix.Invert(worldView);
 
-            var direction = new Vector3();
-
-            direction.X = mouse.X * m.M11 + mouse.Y * m.M21 + mouse.Z * m.M31;
-            direction.Y = mouse.X * m.M12 + mouse.Y * m.M22 + mouse.Z * m.M32;
-            direction.Z = mouse.X * m.M13 + mouse.Y * m.M23 + mouse.Z * m.M33;
+            var direction = new Vector3
+            {
+                X = mouse.X * m.M11 + mouse.Y * m.M21 + mouse.Z * m.M31,
+                Y = mouse.X * m.M12 + mouse.Y * m.M22 + mouse.Z * m.M32,
+                Z = mouse.X * m.M13 + mouse.Y * m.M23 + mouse.Z * m.M33
+            };
 
             mouse.X = m.M41;
             mouse.Y = m.M42;

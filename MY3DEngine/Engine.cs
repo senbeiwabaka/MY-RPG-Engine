@@ -22,14 +22,15 @@ namespace MY3DEngine
         public static bool IsDebugginTurnedOn;
 
         private static Engine gameEngine;
-        private GraphicsManager graphicsManager;
+
+        private Camera camera;
+        private IGraphicManager graphicsManager;
         private Input input;
         private bool lighting;
         private bool loaded;
         private ObjectManager manager;
         private Thread renderThread;
         private bool wireFrame;
-        private Camera camera;
 
         /// <summary>
         /// Engine Constructor
@@ -44,15 +45,27 @@ namespace MY3DEngine
         /// </summary>
         public static Engine GameEngine => gameEngine ?? (gameEngine = new Engine());
 
-        /// <summary>
-        ///
-        /// </summary>
-        public ExceptionHolder Exception { get; set; }
+        public Camera Camera => this.camera;
 
         /// <summary>
         ///
         /// </summary>
-        public GraphicsManager GraphicsManager => this.graphicsManager;
+        public ExceptionManager Exception { get; set; }
+
+        /// <summary>
+        /// Root location of where the game files are stored
+        /// </summary>
+        public string FolderLocation { get; set; }
+
+        /// <summary>
+        /// The name of the game. This will be used when the exe is created as well.
+        /// </summary>
+        public string GameName { get; set; }
+
+        /// <summary>
+        ///
+        /// </summary>
+        public IGraphicManager GraphicsManager => this.graphicsManager;
 
         /// <summary>
         ///
@@ -85,17 +98,13 @@ namespace MY3DEngine
         /// </summary>
         public IntPtr Window { get; }
 
-        public Camera Camera => this.camera;
-
-        /// <summary>
-        /// Root location of where the game files are stored
-        /// </summary>
-        public string FolderLocation { get; set; }
-
-        /// <summary>
-        /// The name of the game. This will be used when the exe is created as well.
-        /// </summary>
-        public string GameName { get; set; }
+        public void AddCompilerErrors(string fileName, int line, int column, string errorNumber, string errorText)
+        {
+            if (IsDebugginTurnedOn)
+            {
+                GameEngine.Exception.Exceptions.Add(new ExceptionData($"{fileName} has had an error compiling.", $"On line {line} in column {column}. The error code is {errorNumber}.", errorText));
+            }
+        }
 
         /// <summary>
         /// Add exceptions to the list if debugging is enabled.
@@ -118,14 +127,6 @@ namespace MY3DEngine
             }
         }
 
-        public void AddCompilerErrors(string fileName, int line, int column, string errorNumber, string errorText)
-        {
-            if (IsDebugginTurnedOn)
-            {
-                GameEngine.Exception.Exceptions.Add(new ExceptionData($"{fileName} has had an error compiling.", $"On line {line} in column {column}. The error code is {errorNumber}.", errorText));
-            }
-        }
-
         public void Dispose()
         {
             this.Dispose(true);
@@ -133,12 +134,12 @@ namespace MY3DEngine
             GC.SuppressFinalize(true);
         }
 
-        public bool Initialize(IntPtr handle)
+        public bool Initialize()
         {
             this.graphicsManager.Initialize();
 
             this.camera = new Camera();
-            this.Exception = new ExceptionHolder();
+            this.Exception = new ExceptionManager();
             this.Manager = new ObjectManager();
 
             this.Start();
@@ -178,7 +179,7 @@ namespace MY3DEngine
                                 this.Manager.AddObject(gameObject as Triangle, false);
                             }
 
-                            if(gameObject.IsCube)
+                            if (gameObject.IsCube)
                             {
                                 this.Manager.AddObject(gameObject as Cube, false);
                             }
@@ -232,7 +233,7 @@ namespace MY3DEngine
 
             return false;
         }
-
+        
         #region Old Code
 
         /// <summary>
@@ -256,22 +257,6 @@ namespace MY3DEngine
             {
                 this.renderThread.Abort();
             }
-        }
-
-        /// <summary>
-        ///
-        /// </summary>
-        public void Start()
-        {
-            //if (!this.loaded)
-            //{
-            //    return;
-            //}
-
-            this.IsNotShutDown = true;
-
-            this.renderThread = new Thread(this.Run) { Name = "RenderingThread" };
-            this.renderThread.Start();
         }
 
         /// <summary>
@@ -311,7 +296,7 @@ namespace MY3DEngine
             this.graphicsManager.BeginScene(0.0f, 0.0f, 0.0f, 1.0f);
 
             // Generate the view matrix based on the camera's position.
-            this.Camera.Render();
+            //this.Camera.Render();
 
             // Get the world, view, and projection matrices from the camera and d3d objects.
             //this.GraphicsManager.GetDevice.GetWorldMatrix(worldMatrix);
@@ -328,6 +313,17 @@ namespace MY3DEngine
             }
 
             this.graphicsManager.EndScene();
+        }
+
+        /// <summary>
+        ///
+        /// </summary>
+        private void Start()
+        {
+            this.IsNotShutDown = true;
+
+            this.renderThread = new Thread(this.Run) { Name = "RenderingThread" };
+            this.renderThread.Start();
         }
 
         private void Update()

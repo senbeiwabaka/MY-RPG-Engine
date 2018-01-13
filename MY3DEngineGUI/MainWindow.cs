@@ -61,14 +61,16 @@ namespace MY3DEngineGUI
             var graphicsException = new ExceptionData("Engine Graphics not setup correctly", "Engine", string.Empty);
             var exceptions = new BindingList<ExceptionData>();
 
+            this.useVsyncToolStripMenuItem.Checked = true;
+
             if (Engine.GameEngine.InitliazeGraphics(
                 this.rendererPnl.Handle,
                 this.rendererPnl.Width,
                 this.rendererPnl.Height,
-                false,
-                false))
+                vsyncEnabled: this.useVsyncToolStripMenuItem.Checked,
+                fullScreen: false))
             {
-                Engine.GameEngine.Initialize(this.Handle);
+                Engine.GameEngine.Initialize();
 
                 exceptions = Engine.GameEngine.Exception.Exceptions;
 
@@ -89,9 +91,7 @@ namespace MY3DEngineGUI
             {
                 exceptions.Add(graphicsException);
             }
-
-            //Engine.GameEngine.Exception.Information.CollectionChanged += Information_CollectionChanged;
-
+            
             this.ExceptionBindingSource.DataSource = exceptions;
 
             this.AddToInformationDisplay($"Video card memory : {Engine.GameEngine.GraphicsManager.GetDirectXManager.VideoCardMemory} MB");
@@ -146,14 +146,15 @@ namespace MY3DEngineGUI
 
         private void addObjectToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            OpenFileDialog open = new OpenFileDialog();
-            open.Multiselect = false;
-
-            DialogResult result = open.ShowDialog();
+            var open = new OpenFileDialog
+            {
+                Multiselect = false
+            };
+            var result = open.ShowDialog();
 
             if (result == DialogResult.OK)
             {
-                if (open.SafeFileName.ToLower().EndsWith(".x"))
+                if (open.SafeFileName.ToLower().EndsWith(".x", StringComparison.CurrentCulture))
                 {
                     //GameObject objclass = new GameObject(fileName: open.SafeFileName, path: open.FileName);
                     //if (Engine.GameEngine.Manager.AddObject(objclass))
@@ -451,8 +452,7 @@ namespace MY3DEngineGUI
         private void CreateNewProject_Click(object sender, EventArgs e)
         {
             var createNewProjectForm = new CreateNewProjectForm();
-
-            DialogResult result = createNewProjectForm.ShowDialog();
+            var result = createNewProjectForm.ShowDialog();
 
             if (result == DialogResult.OK || result == DialogResult.Yes)
             {
@@ -466,7 +466,8 @@ namespace MY3DEngineGUI
                 //    return (x is DirectoryInfo);
                 //};
 
-                var files = Directory.EnumerateFiles(Engine.GameEngine.FolderLocation, "*.cs").Select(x => new { Path = x }).ToList();
+                var directory = new DirectoryInfo(Engine.GameEngine.FolderLocation);
+                var files = directory.EnumerateFiles("*.cs").Select(x => new { Path = x }).ToList();
                 //this.tlvGameFiles.SetObjects(files);
                 //tlvGameFiles.RefreshObjects(files);
                 this.tlvGameFiles.Roots = files;
@@ -526,7 +527,7 @@ namespace MY3DEngineGUI
 
             if (dialogResult == DialogResult.OK)
             {
-                ClassFileBuilderForm form = new ClassFileBuilderForm(className);
+                var form = new ClassFileBuilderForm(className);
 
                 form.Show();
             }
@@ -541,5 +542,12 @@ namespace MY3DEngineGUI
         }
 
         #endregion Content Menu Items
+
+        private void UseVsyncToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Engine.GameEngine.GraphicsManager.ChangeVSyncState(useVsyncToolStripMenuItem.Checked);
+
+            this.AddToInformationDisplay($"VSync is {useVsyncToolStripMenuItem.Checked}");
+        }
     }
 }

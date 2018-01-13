@@ -108,14 +108,16 @@ namespace MY3DEngineGUI
             }
         }
 
-        private void saveToolStripMenuItem_Click(object sender, EventArgs e)
+        private void SaveToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrWhiteSpace(this.fileName))
             {
                 this.AddToInformationDisplay("Must have save location selected in order to add class files");
+
+                return;
             }
 
-            File.AppendAllText($"{Engine.GameEngine.FolderLocation}\\{this.fileName}.cs", this.scintilla1.Text);
+            File.WriteAllText($"{Engine.GameEngine.FolderLocation}\\{this.fileName}.cs", this.scintilla1.Text);
         }
 
         

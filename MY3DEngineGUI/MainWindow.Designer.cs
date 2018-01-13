@@ -41,6 +41,7 @@
             this.tbEdit = new System.Windows.Forms.TabPage();
             this.label3 = new System.Windows.Forms.Label();
             this.tlvGameFiles = new BrightIdeasSoftware.TreeListView();
+            this.olvColumn1 = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.cmsGameFilesRightClickMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.tsmiAddClass = new System.Windows.Forms.ToolStripMenuItem();
             this.label2 = new System.Windows.Forms.Label();
@@ -89,7 +90,7 @@
             this.clearErrorsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.colorDialog1 = new System.Windows.Forms.ColorDialog();
             this.GameObjectBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.olvColumn1 = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.useVsyncToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.ExceptionGridView)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ExceptionBindingSource)).BeginInit();
             this.tabEditPlay.SuspendLayout();
@@ -217,6 +218,13 @@
             this.tlvGameFiles.UseCompatibleStateImageBehavior = false;
             this.tlvGameFiles.View = System.Windows.Forms.View.Details;
             this.tlvGameFiles.VirtualMode = true;
+            // 
+            // olvColumn1
+            // 
+            this.olvColumn1.AspectName = "Path";
+            this.olvColumn1.FillsFreeSpace = true;
+            this.olvColumn1.Groupable = false;
+            this.olvColumn1.Text = "Path";
             // 
             // cmsGameFilesRightClickMenu
             // 
@@ -567,7 +575,8 @@
             this.globalLightsOnOffToolStripMenuItem,
             this.wireframOnOffToolStripMenuItem,
             this.resetCameraToolStripMenuItem,
-            this.turnDebuggerOnOffToolStripMenuItem});
+            this.turnDebuggerOnOffToolStripMenuItem,
+            this.useVsyncToolStripMenuItem});
             this.propertiesToolStripMenuItem.Name = "propertiesToolStripMenuItem";
             this.propertiesToolStripMenuItem.Size = new System.Drawing.Size(72, 20);
             this.propertiesToolStripMenuItem.Text = "Properties";
@@ -627,12 +636,13 @@
             this.clearErrorsToolStripMenuItem.Text = "Clear Errors";
             this.clearErrorsToolStripMenuItem.Click += new System.EventHandler(this.ClearErrorsToolStripMenuItem_Click);
             // 
-            // olvColumn1
+            // useVsyncToolStripMenuItem
             // 
-            this.olvColumn1.AspectName = "Path";
-            this.olvColumn1.FillsFreeSpace = true;
-            this.olvColumn1.Groupable = false;
-            this.olvColumn1.Text = "Path";
+            this.useVsyncToolStripMenuItem.CheckOnClick = true;
+            this.useVsyncToolStripMenuItem.Name = "useVsyncToolStripMenuItem";
+            this.useVsyncToolStripMenuItem.Size = new System.Drawing.Size(195, 22);
+            this.useVsyncToolStripMenuItem.Text = "Use Vsync";
+            this.useVsyncToolStripMenuItem.Click += new System.EventHandler(this.UseVsyncToolStripMenuItem_Click);
             // 
             // MainWindow
             // 
@@ -726,6 +736,7 @@
         private System.Windows.Forms.ContextMenuStrip cmsGameFilesRightClickMenu;
         private System.Windows.Forms.ToolStripMenuItem tsmiAddClass;
         private BrightIdeasSoftware.OLVColumn olvColumn1;
+        private System.Windows.Forms.ToolStripMenuItem useVsyncToolStripMenuItem;
     }
 }
 

@@ -15,8 +15,8 @@ namespace MY3DEngine.GeneralManagers
     public sealed class DirectXManager : IDisposable
     {
         private bool vsyncEnabled;
-        private long videoCardMemory = default(long);
-        private string videoCardDescription = default(string);
+        private long videoCardMemory;
+        private string videoCardDescription;
         private SwapChain swapChain;
         private RenderTargetView renderTargetView;
         private Texture2D depthStencilBuffer;
@@ -52,6 +52,18 @@ namespace MY3DEngine.GeneralManagers
         public Matrix GetProjectMatrix => this.m_projectionMatrix;
 
         public Matrix GetWorldMatrix => this.m_worldMatrix;
+
+        internal bool VSync
+        {
+            get
+            {
+                return this.vsyncEnabled;
+            }
+            set
+            {
+                this.vsyncEnabled = value;
+            }
+        }
 
         /// <summary>
         ///
@@ -224,7 +236,7 @@ namespace MY3DEngine.GeneralManagers
         /// </summary>
         public void EndScene()
         {
-            if (this.vsyncEnabled)
+            if (this.VSync)
             {
                 // lock to screen
                 this.swapChain.Present(1, PresentFlags.None);
