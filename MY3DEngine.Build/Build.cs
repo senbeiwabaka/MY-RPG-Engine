@@ -1,5 +1,6 @@
 ﻿using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
+using MY3DEngine.Build.Properties;
 using System;
 using System.Diagnostics.Contracts;
 using System.IO;
@@ -14,120 +15,7 @@ namespace MY3DEngine.Build
             Contract.Requires(string.IsNullOrEmpty(folderLocation) == false);
 
             var fileName = "main.cs";
-            var contents = @"using MY3DEngine;
-using System;
-using System.Windows.Forms;
-using System.Collections.Generic;
-using System.Linq;
-
-namespace Game
-{
-	public class MainWindow : Form
-	{
-		public MainWindow()
-		{
-			this.ClientSize = new System.Drawing.Size(970, 639);
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
-
-            var graphicsException = new ExceptionData(" + "\"Engine Graphics not setup correctly\", \"Engine\", string.Empty);" + @"
-
-            Engine.IsDebugginTurnedOn = true;
-
-            try
-			{
-				if (Engine.GameEngine.InitliazeGraphics(
-					this.Handle,
-					this.ClientSize.Width,
-					this.ClientSize.Height,
-					false,
-					false))
-				{
-					Engine.GameEngine.Initialize(this.Handle);
-
-					Engine.GameEngine.Load({0});
-
-                    this.ListExceptions(Engine.GameEngine.Exception.Exceptions.ToList());
-                }
-                else
-                {
-                    System.IO.File.AppendAllText({1}, DateTime.Now + Environment.NewLine);
-					System.IO.File.AppendAllText({1}, graphicsException.ToString() + Environment.NewLine + Environment.NewLine);
-                }
-            }
-			catch(Exception e)
-			{
-                System.IO.File.AppendAllText({1}, DateTime.Now + Environment.NewLine);
-				System.IO.File.AppendAllText({1}, e.Message + Environment.NewLine);
-				System.IO.File.AppendAllText({1}, e.StackTrace + Environment.NewLine + Environment.NewLine);
-			}
-		}
-
-        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            ShutDown();
-        }
-
-        private void ListExceptions(IEnumerable<ExceptionData> exceptions)
-        {
-			if(exceptions.Count() > 0)
-			{
-				System.IO.File.AppendAllText({1}, DateTime.Now + Environment.NewLine);
-            }
-
-            foreach (var exception in exceptions)
-            {
-				System.IO.File.AppendAllText({1}, exception.ToString() + Environment.NewLine);
-            }
-
-			if(exceptions.Count() > 0)
-			{
-				System.IO.File.AppendAllText({1}, Environment.NewLine + Environment.NewLine);
-			}
-        }
-
-        private static void ShutDown()
-        {
-            MY3DEngine.Engine.GameEngine?.Shutdown();
-
-            MY3DEngine.Engine.GameEngine?.Dispose();
-        }
-
-		/// <summary>
-		/// The main entry point for the application.
-		/// </summary>
-		[STAThread]
-		static void Main()
-		{
-			// Set the unhandled exception mode to force all Windows Forms errors
-			// to go through our handler.
-			//Application.SetUnhandledExceptionMode(UnhandledExceptionMode.CatchException);
-
-			//AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
-
-			// Add the event handler for handling UI thread exceptions to the event.
-			//Application.ThreadException += Application_ThreadException;
-
-			Application.EnableVisualStyles();
-			Application.SetCompatibleTextRenderingDefault(false);
-			Application.Run(new MainWindow());
-		}
-
-		private static void Application_ThreadException(object sender, System.Threading.ThreadExceptionEventArgs e)
-		{
-			var exception = e.Exception;
-
-			MY3DEngine.Engine.GameEngine.AddException(exception);
-		}
-
-		private static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
-		{
-			var exception = e.ExceptionObject as Exception;
-
-			MY3DEngine.Engine.GameEngine.AddException(exception);
-		}
-	}
-}";
-            var fileContents = contents
+            var fileContents = Resources.MainFile
                 .Replace("{0}", $"@\"{folderLocation}\\GameObjects.go\"")
                 .Replace("{1}", $"@\"{folderLocation}\\ErrorLog.txt\"")
                 .Replace("{2}", $"@\"{folderLocation}\\InformationLog.txt\"");
@@ -189,7 +77,7 @@ namespace Game
                     $"{folderLocation}\\Game.exe",
                     pdbPath: $"{folderLocation}\\Game.pdb");
 
-                DeleteMainFileIfExists(fullPath);
+                //DeleteMainFileIfExists(fullPath);
 
                 if (!emitResult.Success)
                 {

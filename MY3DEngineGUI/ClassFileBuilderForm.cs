@@ -1,29 +1,30 @@
 ﻿using MY3DEngine;
 using ScintillaNET;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace MY3DEngineGUI
 {
     public partial class ClassFileBuilderForm : Form
     {
-        const int padding = 2;
+        private const int padding = 2;
 
-        private int baseMaxLineNumberCharLength;
         private readonly string fileName;
+        private readonly string folder;
+        private int baseMaxLineNumberCharLength;
 
-        public ClassFileBuilderForm(string fileName)
+        public ClassFileBuilderForm(string fileName, string folder = default(string))
             : this()
         {
             this.fileName = fileName;
+            this.folder = folder;
+
+            if (!string.IsNullOrWhiteSpace(folder))
+            {
+                this.scintilla1.Text = File.ReadAllText($"{folder}\\{fileName}");
+            }
         }
 
         private ClassFileBuilderForm()
@@ -56,39 +57,15 @@ namespace MY3DEngineGUI
 
             this.scintilla1.SetKeywords(0, "abstract as base break case catch checked continue default delegate do else event explicit extern false finally fixed for foreach goto if implicit in interface internal is lock namespace new null object operator out override params private protected public readonly ref return sealed sizeof stackalloc switch this throw true try typeof unchecked unsafe using virtual while");
             this.scintilla1.SetKeywords(1, "bool byte char class const decimal double enum float int long sbyte short static string struct uint ulong ushort void");
+
+            //this.scintilla1.AssignCmdKey(Keys.Control | Keys.S, Command.s)
         }
 
-        private void Scintilla1_TextChanged(object sender, EventArgs e)
-        {
-            // Did the number of characters in the line number display change?
-            // i.e. nnn VS nn, or nnnn VS nn, etc...
-            var maxLineNumberCharLength = this.scintilla1.Lines.Count.ToString().Length;
-            if (maxLineNumberCharLength == this.baseMaxLineNumberCharLength)
-            {
-                return;
-            }
+        #region Events
 
-            // Calculate the width required to display the last line number and include some padding for good measure.
-            this.scintilla1.Margins[0].Width = this.scintilla1.TextWidth(Style.LineNumber, new string('9', maxLineNumberCharLength + 1)) + padding;
-            this.baseMaxLineNumberCharLength = maxLineNumberCharLength;
-        }
-
-        private void Scintilla1_Insert(object sender, ModificationEventArgs e)
+        private void ClassFileBuilderForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            // Only update line numbers if the number of lines changed
-            if (e.LinesAdded != 0)
-            {
-                this.UpdateLineNumbers(this.scintilla1.LineFromPosition(e.Position));
-            }
-        }
-
-        private void Scintilla1_Delete(object sender, ModificationEventArgs e)
-        {
-            // Only update line numbers if the number of lines changed
-            if (e.LinesAdded != 0)
-            {
-                this.UpdateLineNumbers(this.scintilla1.LineFromPosition(e.Position));
-            }
+            this.SaveFile();
         }
 
         private void Scintilla1_CharAdded(object sender, CharAddedEventArgs e)
@@ -108,7 +85,70 @@ namespace MY3DEngineGUI
             }
         }
 
+        private void Scintilla1_Delete(object sender, ModificationEventArgs e)
+        {
+            // Only update line numbers if the number of lines changed
+            if (e.LinesAdded != 0)
+            {
+                this.UpdateLineNumbers(this.scintilla1.LineFromPosition(e.Position));
+            }
+        }
+
+        private void Scintilla1_Insert(object sender, ModificationEventArgs e)
+        {
+            // Only update line numbers if the number of lines changed
+            if (e.LinesAdded != 0)
+            {
+                this.UpdateLineNumbers(this.scintilla1.LineFromPosition(e.Position));
+            }
+        }
+
+        private void Scintilla1_TextChanged(object sender, EventArgs e)
+        {
+            // Did the number of characters in the line number display change?
+            // i.e. nnn VS nn, or nnnn VS nn, etc...
+            var maxLineNumberCharLength = this.scintilla1.Lines.Count.ToString().Length;
+            if (maxLineNumberCharLength == this.baseMaxLineNumberCharLength)
+            {
+                return;
+            }
+
+            // Calculate the width required to display the last line number and include some padding for good measure.
+            this.scintilla1.Margins[0].Width = this.scintilla1.TextWidth(Style.LineNumber, new string('9', maxLineNumberCharLength + 1)) + padding;
+            this.baseMaxLineNumberCharLength = maxLineNumberCharLength;
+        }
+
+        #endregion Events
+
+        #region Menu Events
+
+        private void ClearLogToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.tbInformation.Text = string.Empty;
+        }
+
+        private void CloseToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.SaveFile();
+
+            this.Close();
+        }
+
         private void SaveToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.SaveFile();
+        }
+
+        #endregion Menu Events
+
+        #region Helpers
+
+        private void AddToInformationDisplay(string message)
+        {
+            this.tbInformation.AppendText($"{message} {Environment.NewLine}");
+        }
+
+        private void SaveFile()
         {
             if (string.IsNullOrWhiteSpace(this.fileName))
             {
@@ -117,12 +157,22 @@ namespace MY3DEngineGUI
                 return;
             }
 
-            File.WriteAllText($"{Engine.GameEngine.FolderLocation}\\{this.fileName}.cs", this.scintilla1.Text);
+            try
+            {
+                if (string.IsNullOrWhiteSpace(this.folder))
+                {
+                    File.WriteAllText($"{Engine.GameEngine.FolderLocation}\\{this.fileName}.cs", this.scintilla1.Text);
+                }
+                else
+                {
+                    File.WriteAllText($"{folder}\\{this.fileName}", this.scintilla1.Text);
+                }
+            }
+            catch (Exception exception)
+            {
+                this.AddToInformationDisplay($"Message: {exception.Message} {Environment.NewLine}StackTrace: {exception.StackTrace}");
+            }
         }
-
-        
-
-        #region Helpers
 
         private void UpdateLineNumbers(int startingAtLine)
         {
@@ -135,12 +185,21 @@ namespace MY3DEngineGUI
             }
         }
 
-        private void AddToInformationDisplay(string message)
+        #endregion Helpers
+
+        private void ClassFileBuilderForm_KeyPress(object sender, KeyPressEventArgs e)
         {
-            this.tbInformation.AppendText($"{message} {Environment.NewLine}");
+            this.AddToInformationDisplay($"Key Pressed: {e.KeyChar}");
         }
 
-        #endregion
+        private void scintilla1_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            this.AddToInformationDisplay($"Key Pressed: {e.KeyChar}");
+        }
 
+        private void scintilla1_SavePointLeft(object sender, EventArgs e)
+        {
+
+        }
     }
 }

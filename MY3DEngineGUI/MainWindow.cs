@@ -15,48 +15,14 @@ namespace MY3DEngineGUI
     {
         private bool _firstMouse;
         private Point _mouseLocation;
+        private string className;
         private string gamePath;
         private bool isObjectSelected;
-        private string className;
 
         public MainWindow()
         {
-            InitializeComponent();
-
-            var form = new Form
-            {
-                TopLevel = false,
-                TopMost = true,
-                FormBorderStyle = FormBorderStyle.None,
-                Dock = DockStyle.None,
-                Visible = true,
-                Width = this.ClientSize.Width,
-                Height = this.ClientSize.Height
-            };
-            var loadExistingProject = new Button
-            {
-                Text = "Load Project",
-                AutoSize = true
-            };
-            var createNewProject = new Button
-            {
-                Text = "Create Project",
-                AutoSize = true
-            };
-
-            loadExistingProject.Left = (this.ClientSize.Width - loadExistingProject.Width) / 2;
-            loadExistingProject.Top = ((this.ClientSize.Height - 50) - loadExistingProject.Height) / 2;
-            loadExistingProject.Click += this.LoadExistingProject_Click;
-
-            createNewProject.Left = (this.ClientSize.Width - createNewProject.Width) / 2;
-            createNewProject.Top = ((this.ClientSize.Height + 50) - createNewProject.Height) / 2;
-            createNewProject.Click += this.CreateNewProject_Click;
-
-            form.Controls.Add(loadExistingProject);
-            form.Controls.Add(createNewProject);
-
-            this.Controls.Add(form);
-            this.Controls.SetChildIndex(form, 0);
+            this.InitializeComponent();
+            this.LoadOrCreateProject();
 
             var graphicsException = new ExceptionData("Engine Graphics not setup correctly", "Engine", string.Empty);
             var exceptions = new BindingList<ExceptionData>();
@@ -73,9 +39,7 @@ namespace MY3DEngineGUI
                 Engine.GameEngine.Initialize();
 
                 exceptions = Engine.GameEngine.Exception.Exceptions;
-
-                //rendererPnl.MouseWheel += rendererPnl_MouseWheel;
-
+                
                 _mouseLocation = new Point(0, 0);
                 _firstMouse = false;
                 isObjectSelected = false;
@@ -91,7 +55,7 @@ namespace MY3DEngineGUI
             {
                 exceptions.Add(graphicsException);
             }
-            
+
             this.ExceptionBindingSource.DataSource = exceptions;
 
             this.AddToInformationDisplay($"Video card memory : {Engine.GameEngine.GraphicsManager.GetDirectXManager.VideoCardMemory} MB");
@@ -173,6 +137,7 @@ namespace MY3DEngineGUI
             //}
         }
 
+        // TODO: Remove
         private void BtnColor_Click(object sender, EventArgs e)
         {
             int index = -1;
@@ -445,6 +410,13 @@ namespace MY3DEngineGUI
             this.AddToInformationDisplay(string.Format("Engine debugging is set to {0}", Engine.IsDebugginTurnedOn));
         }
 
+        private void UseVsyncToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Engine.GameEngine.GraphicsManager.ChangeVSyncState(useVsyncToolStripMenuItem.Checked);
+
+            this.AddToInformationDisplay($"VSync is {useVsyncToolStripMenuItem.Checked}");
+        }
+
         #endregion Menu Events
 
         #region New/Load Project
@@ -467,16 +439,40 @@ namespace MY3DEngineGUI
                 //};
 
                 var directory = new DirectoryInfo(Engine.GameEngine.FolderLocation);
-                var files = directory.EnumerateFiles("*.cs").Select(x => new { Path = x }).ToList();
+                var files = directory.EnumerateFiles("*.cs").ToList();
                 //this.tlvGameFiles.SetObjects(files);
                 //tlvGameFiles.RefreshObjects(files);
                 this.tlvGameFiles.Roots = files;
+
+                this.fswClassFileWatcher.Path = Engine.GameEngine.FolderLocation;
             }
         }
 
         private void LoadExistingProject_Click(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
+            var selectFolderForm = new SelectFolderForm();
+            var result = selectFolderForm.ShowDialog();
+
+            if (result == DialogResult.OK || result == DialogResult.Yes)
+            {
+                this.Controls.RemoveAt(0);
+
+                //this.tlvGameFiles.CanExpandGetter = delegate (object x) {
+                //    return (x is DirectoryInfo);
+                //};
+
+                //this.tlvGameFiles.ChildrenGetter = delegate (object x) {
+                //    return (x is DirectoryInfo);
+                //};
+
+                var directory = new DirectoryInfo(Engine.GameEngine.FolderLocation);
+                var files = directory.EnumerateFiles("*.cs").ToList();
+                //this.tlvGameFiles.SetObjects(files);
+                //tlvGameFiles.RefreshObjects(files);
+                this.tlvGameFiles.Roots = files;
+
+                this.fswClassFileWatcher.Path = Engine.GameEngine.FolderLocation;
+            }
         }
 
         #endregion New/Load Project
@@ -501,6 +497,44 @@ namespace MY3DEngineGUI
             this.tbInformation.AppendText($"{message} {Environment.NewLine}");
         }
 
+        private void LoadOrCreateProject()
+        {
+            var form = new Form
+            {
+                TopLevel = false,
+                TopMost = true,
+                FormBorderStyle = FormBorderStyle.None,
+                Dock = DockStyle.None,
+                Visible = true,
+                Width = this.ClientSize.Width,
+                Height = this.ClientSize.Height
+            };
+            var loadExistingProject = new Button
+            {
+                Text = "Load Project",
+                AutoSize = true
+            };
+            var createNewProject = new Button
+            {
+                Text = "Create Project",
+                AutoSize = true
+            };
+
+            loadExistingProject.Left = (this.ClientSize.Width - loadExistingProject.Width) / 2;
+            loadExistingProject.Top = ((this.ClientSize.Height - 50) - loadExistingProject.Height) / 2;
+            loadExistingProject.Click += this.LoadExistingProject_Click;
+
+            createNewProject.Left = (this.ClientSize.Width - createNewProject.Width) / 2;
+            createNewProject.Top = ((this.ClientSize.Height + 50) - createNewProject.Height) / 2;
+            createNewProject.Click += this.CreateNewProject_Click;
+
+            form.Controls.Add(loadExistingProject);
+            form.Controls.Add(createNewProject);
+
+            this.Controls.Add(form);
+            this.Controls.SetChildIndex(form, 0);
+        }
+
         private void UpdateButtonsUseability()
         {
             if (Engine.GameEngine.Manager.GameObjects.Count > 0)
@@ -513,9 +547,24 @@ namespace MY3DEngineGUI
             }
         }
 
+        private void OpenClassBuilder(string fileName, string folderPath = default(string))
+        {
+            var form = new ClassFileBuilderForm(fileName, folderPath);
+
+            form.Show();
+        }
+
         #endregion Helper Methods
 
-        #region Content Menu Items
+        #region Context Menu Items
+
+        private void SetNameForm_ClosingSetNameForm(object sender, ClosingSetNameEventArg args)
+        {
+            if (args != null)
+            {
+                className = args.ClassName;
+            }
+        }
 
         private void TsmiAddClass_Click(object sender, EventArgs e)
         {
@@ -527,27 +576,36 @@ namespace MY3DEngineGUI
 
             if (dialogResult == DialogResult.OK)
             {
-                var form = new ClassFileBuilderForm(className);
-
-                form.Show();
+                this.OpenClassBuilder(this.className);
             }
         }
 
-        private void SetNameForm_ClosingSetNameForm(object sender, ClosingSetNameEventArg args)
+        #endregion Context Menu Items
+
+        #region File(s) Event(s)
+
+        private void TlvGameFiles_CellRightClick(object sender, BrightIdeasSoftware.CellRightClickEventArgs e)
         {
-            if(args != null)
+
+            if (e.Item != null)
             {
-                className = args.ClassName;
+                if (e.Item.RowObject is FileInfo file)
+                {
+                    this.OpenClassBuilder(file.Name, file.DirectoryName);
+                }
             }
         }
 
-        #endregion Content Menu Items
+        #endregion File(s) Event(s)
 
-        private void UseVsyncToolStripMenuItem_Click(object sender, EventArgs e)
+        private void fswClassFileWatcher_Created(object sender, FileSystemEventArgs e)
         {
-            Engine.GameEngine.GraphicsManager.ChangeVSyncState(useVsyncToolStripMenuItem.Checked);
+            if (e.ChangeType == WatcherChangeTypes.Created)
+            {
+                var fileInfo = new FileInfo(e.FullPath);
 
-            this.AddToInformationDisplay($"VSync is {useVsyncToolStripMenuItem.Checked}");
+                this.tlvGameFiles.AddObject(fileInfo);
+            }
         }
     }
 }

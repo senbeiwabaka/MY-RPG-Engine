@@ -29,8 +29,8 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             this.rendererPnl = new System.Windows.Forms.Panel();
             this.ExceptionGridView = new System.Windows.Forms.DataGridView();
             this.Message = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -85,12 +85,13 @@
             this.wireframOnOffToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.resetCameraToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.turnDebuggerOnOffToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.useVsyncToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.otherToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.clearInformationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.clearErrorsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.colorDialog1 = new System.Windows.Forms.ColorDialog();
             this.GameObjectBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.useVsyncToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.fswClassFileWatcher = new System.IO.FileSystemWatcher();
             ((System.ComponentModel.ISupportInitialize)(this.ExceptionGridView)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ExceptionBindingSource)).BeginInit();
             this.tabEditPlay.SuspendLayout();
@@ -101,6 +102,7 @@
             this.pnlObjectProperties.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.GameObjectBindingSource)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.fswClassFileWatcher)).BeginInit();
             this.SuspendLayout();
             // 
             // rendererPnl
@@ -115,28 +117,28 @@
             this.ExceptionGridView.AllowUserToDeleteRows = false;
             this.ExceptionGridView.AllowUserToOrderColumns = true;
             this.ExceptionGridView.AutoGenerateColumns = false;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.ExceptionGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.ExceptionGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
             this.ExceptionGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.ExceptionGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Message,
             this.StackTrace,
             this.Source});
             this.ExceptionGridView.DataSource = this.ExceptionBindingSource;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.ExceptionGridView.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.ExceptionGridView.DefaultCellStyle = dataGridViewCellStyle4;
             this.ExceptionGridView.Location = new System.Drawing.Point(8, 492);
             this.ExceptionGridView.Name = "ExceptionGridView";
             this.ExceptionGridView.ReadOnly = true;
@@ -218,13 +220,14 @@
             this.tlvGameFiles.UseCompatibleStateImageBehavior = false;
             this.tlvGameFiles.View = System.Windows.Forms.View.Details;
             this.tlvGameFiles.VirtualMode = true;
+            this.tlvGameFiles.CellRightClick += new System.EventHandler<BrightIdeasSoftware.CellRightClickEventArgs>(this.TlvGameFiles_CellRightClick);
             // 
             // olvColumn1
             // 
-            this.olvColumn1.AspectName = "Path";
+            this.olvColumn1.AspectName = "Name";
             this.olvColumn1.FillsFreeSpace = true;
             this.olvColumn1.Groupable = false;
-            this.olvColumn1.Text = "Path";
+            this.olvColumn1.Text = "Name";
             // 
             // cmsGameFilesRightClickMenu
             // 
@@ -613,6 +616,14 @@
             this.turnDebuggerOnOffToolStripMenuItem.Text = "Turn Debugger On/Off";
             this.turnDebuggerOnOffToolStripMenuItem.Click += new System.EventHandler(this.TurnDebuggerOnOffToolStripMenuItem_Click);
             // 
+            // useVsyncToolStripMenuItem
+            // 
+            this.useVsyncToolStripMenuItem.CheckOnClick = true;
+            this.useVsyncToolStripMenuItem.Name = "useVsyncToolStripMenuItem";
+            this.useVsyncToolStripMenuItem.Size = new System.Drawing.Size(195, 22);
+            this.useVsyncToolStripMenuItem.Text = "Use Vsync";
+            this.useVsyncToolStripMenuItem.Click += new System.EventHandler(this.UseVsyncToolStripMenuItem_Click);
+            // 
             // otherToolStripMenuItem
             // 
             this.otherToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -636,13 +647,12 @@
             this.clearErrorsToolStripMenuItem.Text = "Clear Errors";
             this.clearErrorsToolStripMenuItem.Click += new System.EventHandler(this.ClearErrorsToolStripMenuItem_Click);
             // 
-            // useVsyncToolStripMenuItem
+            // fswClassFileWatcher
             // 
-            this.useVsyncToolStripMenuItem.CheckOnClick = true;
-            this.useVsyncToolStripMenuItem.Name = "useVsyncToolStripMenuItem";
-            this.useVsyncToolStripMenuItem.Size = new System.Drawing.Size(195, 22);
-            this.useVsyncToolStripMenuItem.Text = "Use Vsync";
-            this.useVsyncToolStripMenuItem.Click += new System.EventHandler(this.UseVsyncToolStripMenuItem_Click);
+            this.fswClassFileWatcher.EnableRaisingEvents = true;
+            this.fswClassFileWatcher.Filter = "*.cs";
+            this.fswClassFileWatcher.SynchronizingObject = this;
+            this.fswClassFileWatcher.Created += new System.IO.FileSystemEventHandler(this.fswClassFileWatcher_Created);
             // 
             // MainWindow
             // 
@@ -670,6 +680,7 @@
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.GameObjectBindingSource)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.fswClassFileWatcher)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -737,6 +748,7 @@
         private System.Windows.Forms.ToolStripMenuItem tsmiAddClass;
         private BrightIdeasSoftware.OLVColumn olvColumn1;
         private System.Windows.Forms.ToolStripMenuItem useVsyncToolStripMenuItem;
+        private System.IO.FileSystemWatcher fswClassFileWatcher;
     }
 }
 

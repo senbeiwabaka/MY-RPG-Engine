@@ -51,7 +51,9 @@
             this.scintilla1.CharAdded += new System.EventHandler<ScintillaNET.CharAddedEventArgs>(this.Scintilla1_CharAdded);
             this.scintilla1.Delete += new System.EventHandler<ScintillaNET.ModificationEventArgs>(this.Scintilla1_Delete);
             this.scintilla1.Insert += new System.EventHandler<ScintillaNET.ModificationEventArgs>(this.Scintilla1_Insert);
+            this.scintilla1.SavePointLeft += new System.EventHandler<System.EventArgs>(this.scintilla1_SavePointLeft);
             this.scintilla1.TextChanged += new System.EventHandler(this.Scintilla1_TextChanged);
+            this.scintilla1.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.scintilla1_KeyPress);
             // 
             // ssTextEditorInformation
             // 
@@ -84,21 +86,23 @@
             // saveToolStripMenuItem
             // 
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
             this.saveToolStripMenuItem.Text = "Save";
             this.saveToolStripMenuItem.Click += new System.EventHandler(this.SaveToolStripMenuItem_Click);
             // 
             // clearLogToolStripMenuItem
             // 
             this.clearLogToolStripMenuItem.Name = "clearLogToolStripMenuItem";
-            this.clearLogToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.clearLogToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
             this.clearLogToolStripMenuItem.Text = "Clear Log";
+            this.clearLogToolStripMenuItem.Click += new System.EventHandler(this.ClearLogToolStripMenuItem_Click);
             // 
             // closeToolStripMenuItem
             // 
             this.closeToolStripMenuItem.Name = "closeToolStripMenuItem";
-            this.closeToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.closeToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
             this.closeToolStripMenuItem.Text = "Close";
+            this.closeToolStripMenuItem.Click += new System.EventHandler(this.CloseToolStripMenuItem_Click);
             // 
             // tbInformation
             // 
@@ -123,6 +127,8 @@
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "ClassFileBuilderForm";
             this.Text = "ClassFileBuilderForm";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ClassFileBuilderForm_FormClosing);
+            this.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.ClassFileBuilderForm_KeyPress);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);

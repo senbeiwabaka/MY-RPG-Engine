@@ -10,7 +10,7 @@ namespace MY3DEngineGUI.HelperForms
 
         public CreateNewProjectForm()
         {
-            InitializeComponent();
+            this.InitializeComponent();
         }
 
         private void BCancel_Click(object sender, EventArgs e)
