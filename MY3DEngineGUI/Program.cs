@@ -29,14 +29,14 @@ namespace MY3DEngineGUI
         {
             var exception = e.Exception;
 
-            MY3DEngine.Engine.GameEngine.Exception.Exceptions.Add(new MY3DEngine.ExceptionData(exception?.Message, exception?.Source, exception?.StackTrace));
+            MY3DEngine.Engine.GameEngine.AddException(exception);
         }
 
         private static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
             var exception = e.ExceptionObject as Exception;
 
-            MY3DEngine.Engine.GameEngine.Exception.Exceptions.Add(new MY3DEngine.ExceptionData(exception?.Message, exception?.Source, exception?.StackTrace));
+            MY3DEngine.Engine.GameEngine.AddException(exception);
         }
     }
 }
