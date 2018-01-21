@@ -11,7 +11,7 @@ namespace MY3DEngine.GeneralManagers
     /// </summary>
     public class ObjectManager
     {
-        private readonly BindingList<GameObject> _gameObjects = new BindingList<GameObject>();
+        private readonly BindingList<GameObject> gameObjects = new BindingList<GameObject>();
 
         /// <summary>
         /// List of game objects
@@ -20,9 +20,9 @@ namespace MY3DEngine.GeneralManagers
         {
             get
             {
-                lock (this._gameObjects)
+                lock (this.gameObjects)
                 {
-                    return this._gameObjects;
+                    return this.gameObjects;
                 }
             }
         }
@@ -37,10 +37,10 @@ namespace MY3DEngine.GeneralManagers
         {
             try
             {
+                gameObject.LoadContent(isNewObject);
+
                 lock (this.GameObjects)
                 {
-                    gameObject.LoadContent(isNewObject);
-
                     this.GameObjects.Add(gameObject);
                 }
             }

@@ -18,17 +18,17 @@ namespace MY3DEngine.Graphics
         /// <param name="vSync"></param>
         void ChangeVSyncState(bool vSync = false);
 
-        void EnableAlphaBlending(bool enable = false);
-
-        void EnableZBuffer(bool enable = false);
+        /// <summary>
+        /// Set this to true to view all of the objects in their wireframe mode
+        /// </summary>
+        /// <param name="enableWireFrame"></param>
+        void EnableWireFrameMode(bool enableWireFrame = false);
 
         /// <summary>
         /// End the game scene
         /// </summary>
         void EndScene();
-
-        void Initialize();
-
+        
         bool InitializeDirectXManager(IntPtr windowHandle, int screenWidth = 720, int screenHeight = 480, bool vsyncEnabled = true, bool fullScreen = false);
     }
 }

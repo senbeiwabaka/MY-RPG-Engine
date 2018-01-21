@@ -1,7 +1,5 @@
 ﻿using Newtonsoft.Json;
-using SharpDX.D3DCompiler;
 using SharpDX.Direct3D11;
-using SharpDX.DXGI;
 using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
@@ -78,23 +76,19 @@ namespace MY3DEngine.BaseObjects
             }
         }
 
+        public int IndexCount { get; set; } = 3;
+
         //[XmlIgnore]
         //public MeshClass MeshObject { get; protected set; }
 
         [JsonIgnore]
-        public PixelShader PixelShader { get; set; }
+        protected SharpDX.Direct3D11.Buffer VertexBuffer { get; set; }
 
         [JsonIgnore]
-        public VertexShader VertextShader { get; set; }
-
-        [JsonIgnore]
-        protected virtual SharpDX.Direct3D11.Buffer Buffer { get; set; }
-
-        [JsonIgnore]
-        protected virtual InputLayout InputLayout { get; set; }
+        protected SharpDX.Direct3D11.Buffer IndexBuffer { get; set; }
 
         //[JsonIgnore]
-        public Vertex[] Vertex { get; set; }
+        public Vertex[] Vertexies { get; set; }
 
         /// <summary>
         ///
@@ -102,38 +96,19 @@ namespace MY3DEngine.BaseObjects
         public void Dispose()
         {
             this.Dispose(true);
+
             GC.SuppressFinalize(this);
         }
 
         /// <inheritdoc/>
         public virtual void LoadContent(bool isNewObject = true)
         {
-            var path = System.IO.Path.GetFullPath("Shaders");
-
-            // Compile Vertex shaders
-            using (var vertexShaderByteCode = ShaderBytecode.CompileFromFile(string.Format("{0}\\Triangle.fx", path), "VS", "vs_4_0", ShaderFlags.EnableStrictness | ShaderFlags.Debug, EffectFlags.None))
-            {
-                this.VertextShader = new VertexShader(Engine.GameEngine.GraphicsManager.GetDevice, vertexShaderByteCode);
-
-                this.InputLayout = new InputLayout(
-                    Engine.GameEngine.GraphicsManager.GetDevice,
-                    ShaderSignature.GetInputSignature(vertexShaderByteCode),
-                    new[]
-                    {
-                        new InputElement("POSITION", 0, Format.R32G32B32A32_Float, 0, 0),
-                        new InputElement("COLOR", 0, Format.R32G32B32A32_Float, 16, 0)
-                    });
-            }
-
-            // Compile Pixel shaders
-            using (var pixelShaderByteCode = ShaderBytecode.CompileFromFile(string.Format("{0}\\Triangle.fx", path), "PS", "ps_4_0", ShaderFlags.EnableStrictness | ShaderFlags.Debug, EffectFlags.None))
-            {
-                this.PixelShader = new PixelShader(Engine.GameEngine.GraphicsManager.GetDevice, pixelShaderByteCode);
-            }
         }
 
         /// <inheritdoc/>
         public virtual void Render() { }
+
+        public virtual void Draw() { }
 
         /// <summary>
         ///
@@ -148,10 +123,7 @@ namespace MY3DEngine.BaseObjects
         {
             if (disposing)
             {
-                this.Buffer?.Dispose();
-                this.InputLayout?.Dispose();
-                this.VertextShader?.Dispose();
-                this.PixelShader?.Dispose();
+                this.VertexBuffer?.Dispose();
             }
         }
 
@@ -169,10 +141,7 @@ namespace MY3DEngine.BaseObjects
         {
             if (this.IsPrimitive)
             {
-                this.Buffer = SharpDX.Direct3D11.Buffer.Create(
-                    Engine.GameEngine.GraphicsManager.GetDevice,
-                    BindFlags.VertexBuffer,
-                    this.Vertex);
+                this.VertexBuffer = SharpDX.Direct3D11.Buffer.Create(Engine.GameEngine.GraphicsManager.GetDevice, BindFlags.VertexBuffer, this.Vertexies);
             }
         }
     }

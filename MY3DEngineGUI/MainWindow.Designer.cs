@@ -29,8 +29,8 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.rendererPnl = new System.Windows.Forms.Panel();
             this.ExceptionGridView = new System.Windows.Forms.DataGridView();
             this.Message = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -39,6 +39,10 @@
             this.ExceptionBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.tabEditPlay = new System.Windows.Forms.TabControl();
             this.tbEdit = new System.Windows.Forms.TabPage();
+            this.tbLeftRight = new System.Windows.Forms.TextBox();
+            this.tbUpDown = new System.Windows.Forms.TextBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.tlvGameFiles = new BrightIdeasSoftware.TreeListView();
             this.olvColumn1 = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
@@ -92,6 +96,7 @@
             this.colorDialog1 = new System.Windows.Forms.ColorDialog();
             this.GameObjectBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.fswClassFileWatcher = new System.IO.FileSystemWatcher();
+            this.olvSceneName = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             ((System.ComponentModel.ISupportInitialize)(this.ExceptionGridView)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ExceptionBindingSource)).BeginInit();
             this.tabEditPlay.SuspendLayout();
@@ -107,42 +112,44 @@
             // 
             // rendererPnl
             // 
+            this.rendererPnl.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.rendererPnl.Location = new System.Drawing.Point(237, 6);
             this.rendererPnl.Name = "rendererPnl";
-            this.rendererPnl.Size = new System.Drawing.Size(720, 480);
+            this.rendererPnl.Size = new System.Drawing.Size(804, 600);
             this.rendererPnl.TabIndex = 1;
             // 
             // ExceptionGridView
             // 
             this.ExceptionGridView.AllowUserToDeleteRows = false;
             this.ExceptionGridView.AllowUserToOrderColumns = true;
+            this.ExceptionGridView.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.ExceptionGridView.AutoGenerateColumns = false;
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.ExceptionGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.ExceptionGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.ExceptionGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.ExceptionGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Message,
             this.StackTrace,
             this.Source});
             this.ExceptionGridView.DataSource = this.ExceptionBindingSource;
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.ExceptionGridView.DefaultCellStyle = dataGridViewCellStyle4;
-            this.ExceptionGridView.Location = new System.Drawing.Point(8, 492);
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.ExceptionGridView.DefaultCellStyle = dataGridViewCellStyle2;
+            this.ExceptionGridView.Location = new System.Drawing.Point(6, 611);
             this.ExceptionGridView.Name = "ExceptionGridView";
             this.ExceptionGridView.ReadOnly = true;
-            this.ExceptionGridView.Size = new System.Drawing.Size(463, 90);
+            this.ExceptionGridView.Size = new System.Drawing.Size(424, 90);
             this.ExceptionGridView.TabIndex = 2;
             this.ExceptionGridView.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.ExceptionGridView_CellContentClick);
             // 
@@ -169,16 +176,23 @@
             // 
             // tabEditPlay
             // 
+            this.tabEditPlay.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.tabEditPlay.Controls.Add(this.tbEdit);
             this.tabEditPlay.Controls.Add(this.tbPlay);
             this.tabEditPlay.Location = new System.Drawing.Point(0, 27);
             this.tabEditPlay.Name = "tabEditPlay";
             this.tabEditPlay.SelectedIndex = 0;
-            this.tabEditPlay.Size = new System.Drawing.Size(970, 611);
+            this.tabEditPlay.Size = new System.Drawing.Size(1055, 733);
             this.tabEditPlay.TabIndex = 3;
             // 
             // tbEdit
             // 
+            this.tbEdit.Controls.Add(this.tbLeftRight);
+            this.tbEdit.Controls.Add(this.tbUpDown);
+            this.tbEdit.Controls.Add(this.label5);
+            this.tbEdit.Controls.Add(this.label4);
             this.tbEdit.Controls.Add(this.label3);
             this.tbEdit.Controls.Add(this.tlvGameFiles);
             this.tbEdit.Controls.Add(this.label2);
@@ -191,10 +205,46 @@
             this.tbEdit.Location = new System.Drawing.Point(4, 22);
             this.tbEdit.Name = "tbEdit";
             this.tbEdit.Padding = new System.Windows.Forms.Padding(3);
-            this.tbEdit.Size = new System.Drawing.Size(962, 585);
+            this.tbEdit.Size = new System.Drawing.Size(1047, 707);
             this.tbEdit.TabIndex = 0;
             this.tbEdit.Text = "Edit";
             this.tbEdit.UseVisualStyleBackColor = true;
+            // 
+            // tbLeftRight
+            // 
+            this.tbLeftRight.Location = new System.Drawing.Point(71, 409);
+            this.tbLeftRight.Name = "tbLeftRight";
+            this.tbLeftRight.Size = new System.Drawing.Size(40, 20);
+            this.tbLeftRight.TabIndex = 15;
+            this.tbLeftRight.TextChanged += new System.EventHandler(this.TbLeftRight_TextChanged);
+            // 
+            // tbUpDown
+            // 
+            this.tbUpDown.Location = new System.Drawing.Point(71, 383);
+            this.tbUpDown.Name = "tbUpDown";
+            this.tbUpDown.Size = new System.Drawing.Size(40, 20);
+            this.tbUpDown.TabIndex = 14;
+            this.tbUpDown.TextChanged += new System.EventHandler(this.TbUp_TextChanged);
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(11, 413);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(55, 13);
+            this.label5.TabIndex = 13;
+            this.label5.Text = "Left/Right";
+            this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(11, 387);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(54, 13);
+            this.label4.TabIndex = 12;
+            this.label4.Text = "Up/Down";
+            this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // label3
             // 
@@ -212,6 +262,7 @@
             this.tlvGameFiles.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.olvColumn1});
             this.tlvGameFiles.ContextMenuStrip = this.cmsGameFilesRightClickMenu;
+            this.tlvGameFiles.Cursor = System.Windows.Forms.Cursors.Default;
             this.tlvGameFiles.Location = new System.Drawing.Point(11, 280);
             this.tlvGameFiles.Name = "tlvGameFiles";
             this.tlvGameFiles.ShowGroups = false;
@@ -254,7 +305,10 @@
             // 
             // TreeListViewSceneGraph
             // 
+            this.TreeListViewSceneGraph.AllColumns.Add(this.olvSceneName);
             this.TreeListViewSceneGraph.CellEditUseWholeCell = false;
+            this.TreeListViewSceneGraph.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.olvSceneName});
             this.TreeListViewSceneGraph.Location = new System.Drawing.Point(11, 164);
             this.TreeListViewSceneGraph.Name = "TreeListViewSceneGraph";
             this.TreeListViewSceneGraph.ShowGroups = false;
@@ -368,11 +422,12 @@
             // 
             // tbInformation
             // 
-            this.tbInformation.Location = new System.Drawing.Point(477, 492);
+            this.tbInformation.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.tbInformation.Location = new System.Drawing.Point(436, 611);
             this.tbInformation.Multiline = true;
             this.tbInformation.Name = "tbInformation";
             this.tbInformation.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.tbInformation.Size = new System.Drawing.Size(477, 90);
+            this.tbInformation.Size = new System.Drawing.Size(605, 90);
             this.tbInformation.TabIndex = 7;
             // 
             // lblCameraPosition
@@ -388,7 +443,7 @@
             this.tbPlay.Location = new System.Drawing.Point(4, 22);
             this.tbPlay.Name = "tbPlay";
             this.tbPlay.Padding = new System.Windows.Forms.Padding(3);
-            this.tbPlay.Size = new System.Drawing.Size(962, 585);
+            this.tbPlay.Size = new System.Drawing.Size(1047, 707);
             this.tbPlay.TabIndex = 1;
             this.tbPlay.Text = "Play";
             this.tbPlay.UseVisualStyleBackColor = true;
@@ -405,7 +460,7 @@
             this.otherToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(970, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(1055, 24);
             this.menuStrip1.TabIndex = 4;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -588,23 +643,23 @@
             // 
             this.globalLightsOnOffToolStripMenuItem.Enabled = false;
             this.globalLightsOnOffToolStripMenuItem.Name = "globalLightsOnOffToolStripMenuItem";
-            this.globalLightsOnOffToolStripMenuItem.Size = new System.Drawing.Size(195, 22);
+            this.globalLightsOnOffToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
             this.globalLightsOnOffToolStripMenuItem.Text = "Global Lights On/Off";
             this.globalLightsOnOffToolStripMenuItem.Click += new System.EventHandler(this.globalLightsOnOffToolStripMenuItem_Click);
             // 
             // wireframOnOffToolStripMenuItem
             // 
-            this.wireframOnOffToolStripMenuItem.Enabled = false;
+            this.wireframOnOffToolStripMenuItem.CheckOnClick = true;
             this.wireframOnOffToolStripMenuItem.Name = "wireframOnOffToolStripMenuItem";
-            this.wireframOnOffToolStripMenuItem.Size = new System.Drawing.Size(195, 22);
+            this.wireframOnOffToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
             this.wireframOnOffToolStripMenuItem.Text = "Wirefram On/Off";
-            this.wireframOnOffToolStripMenuItem.Click += new System.EventHandler(this.wireframOnOffToolStripMenuItem_Click);
+            this.wireframOnOffToolStripMenuItem.Click += new System.EventHandler(this.WireframOnOffToolStripMenuItem_Click);
             // 
             // resetCameraToolStripMenuItem
             // 
             this.resetCameraToolStripMenuItem.Enabled = false;
             this.resetCameraToolStripMenuItem.Name = "resetCameraToolStripMenuItem";
-            this.resetCameraToolStripMenuItem.Size = new System.Drawing.Size(195, 22);
+            this.resetCameraToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
             this.resetCameraToolStripMenuItem.Text = "Reset Camera";
             this.resetCameraToolStripMenuItem.Click += new System.EventHandler(this.resetCameraToolStripMenuItem_Click);
             // 
@@ -612,16 +667,16 @@
             // 
             this.turnDebuggerOnOffToolStripMenuItem.CheckOnClick = true;
             this.turnDebuggerOnOffToolStripMenuItem.Name = "turnDebuggerOnOffToolStripMenuItem";
-            this.turnDebuggerOnOffToolStripMenuItem.Size = new System.Drawing.Size(195, 22);
-            this.turnDebuggerOnOffToolStripMenuItem.Text = "Turn Debugger On/Off";
+            this.turnDebuggerOnOffToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
+            this.turnDebuggerOnOffToolStripMenuItem.Text = "Debugger On/Off";
             this.turnDebuggerOnOffToolStripMenuItem.Click += new System.EventHandler(this.TurnDebuggerOnOffToolStripMenuItem_Click);
             // 
             // useVsyncToolStripMenuItem
             // 
             this.useVsyncToolStripMenuItem.CheckOnClick = true;
             this.useVsyncToolStripMenuItem.Name = "useVsyncToolStripMenuItem";
-            this.useVsyncToolStripMenuItem.Size = new System.Drawing.Size(195, 22);
-            this.useVsyncToolStripMenuItem.Text = "Use Vsync";
+            this.useVsyncToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
+            this.useVsyncToolStripMenuItem.Text = "VSync On/Off";
             this.useVsyncToolStripMenuItem.Click += new System.EventHandler(this.UseVsyncToolStripMenuItem_Click);
             // 
             // otherToolStripMenuItem
@@ -652,13 +707,18 @@
             this.fswClassFileWatcher.EnableRaisingEvents = true;
             this.fswClassFileWatcher.Filter = "*.cs";
             this.fswClassFileWatcher.SynchronizingObject = this;
-            this.fswClassFileWatcher.Created += new System.IO.FileSystemEventHandler(this.fswClassFileWatcher_Created);
+            this.fswClassFileWatcher.Created += new System.IO.FileSystemEventHandler(this.FswClassFileWatcher_Created);
+            // 
+            // olvSceneName
+            // 
+            this.olvSceneName.AspectName = "Name";
+            this.olvSceneName.Text = "Name";
             // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(970, 639);
+            this.ClientSize = new System.Drawing.Size(1055, 761);
             this.Controls.Add(this.tabEditPlay);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
@@ -749,6 +809,11 @@
         private BrightIdeasSoftware.OLVColumn olvColumn1;
         private System.Windows.Forms.ToolStripMenuItem useVsyncToolStripMenuItem;
         private System.IO.FileSystemWatcher fswClassFileWatcher;
+        private System.Windows.Forms.TextBox tbLeftRight;
+        private System.Windows.Forms.TextBox tbUpDown;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label label4;
+        private BrightIdeasSoftware.OLVColumn olvSceneName;
     }
 }
 

@@ -3,6 +3,7 @@ using MY3DEngine.Cameras;
 using MY3DEngine.GeneralManagers;
 using MY3DEngine.Graphics;
 using MY3DEngine.Primitives;
+using MY3DEngine.Shaders;
 using Newtonsoft.Json;
 using SharpDX;
 using System;
@@ -23,15 +24,13 @@ namespace MY3DEngine
 
         private static Engine gameEngine;
 
-        private Camera camera;
+        private IShader shader;
+        private ICamera camera;
         private IGraphicManager graphicsManager;
-        private Input input;
         private bool lighting;
-        private bool loaded;
         private ObjectManager manager;
         private Thread renderThread;
-        private bool wireFrame;
-
+        
         /// <summary>
         /// Engine Constructor
         /// </summary>
@@ -45,7 +44,7 @@ namespace MY3DEngine
         /// </summary>
         public static Engine GameEngine => gameEngine ?? (gameEngine = new Engine());
 
-        public Camera Camera => this.camera;
+        public ICamera Camera => this.camera;
 
         /// <summary>
         ///
@@ -97,7 +96,7 @@ namespace MY3DEngine
         ///
         /// </summary>
         public IntPtr Window { get; }
-
+        
         public void AddCompilerErrors(string fileName, int line, int column, string errorNumber, string errorText)
         {
             if (IsDebugginTurnedOn)
@@ -134,24 +133,49 @@ namespace MY3DEngine
             GC.SuppressFinalize(true);
         }
 
-        public bool Initialize()
+        public bool Initialize(int screenWidth = 720, int screenHeight = 480)
         {
-            this.graphicsManager.Initialize();
+            try
+            {
+                this.shader = new Shader();
+                this.camera = new Camera();
+                this.Exception = new ExceptionManager();
+                this.Manager = new ObjectManager();
 
-            this.camera = new Camera();
-            this.Exception = new ExceptionManager();
-            this.Manager = new ObjectManager();
+                //this.Camera.Initialize(screenWidth, screenHeight);
+                this.Camera.SetPosition(0.0f, 0.0f, -10.0f);
 
-            this.Start();
+                if(!this.shader.Initialize())
+                {
+                    return false;
+                }
+
+                this.Start();
+            }
+            catch(Exception e)
+            {
+                this.AddException(e);
+
+                return false;
+            }
 
             return true;
         }
 
+        /// <summary>
+        /// Initialize the game engines graphics
+        /// </summary>
+        /// <param name="windowHandle"></param>
+        /// <param name="screenWidth"></param>
+        /// <param name="screenHeight"></param>
+        /// <param name="vsyncEnabled"></param>
+        /// <param name="fullScreen"></param>
+        /// <returns></returns>
         public bool InitliazeGraphics(IntPtr windowHandle, int screenWidth = 720, int screenHeight = 480, bool vsyncEnabled = true, bool fullScreen = false)
         {
             this.graphicsManager = new GraphicsManager();
 
-            return this.graphicsManager.InitializeDirectXManager(windowHandle, screenWidth, screenHeight, vsyncEnabled, fullScreen);
+            return this.GraphicsManager.InitializeDirectXManager(windowHandle, screenWidth, screenHeight, vsyncEnabled, fullScreen);
         }
 
         public bool Load(string path)
@@ -262,18 +286,9 @@ namespace MY3DEngine
         /// <summary>
         /// Toggle the wireframe of all displayed objects
         /// </summary>
-        public void WireFrame()
+        public void WireFrame(bool enableWireFrameMode = false)
         {
-            //if (_wireFrame)
-            //{
-            //    LocalDevice.ThisDevice.SetRenderState(RenderState.FillMode, FillMode.Wireframe);
-            //    _wireFrame = false;
-            //}
-            //else
-            //{
-            //    LocalDevice.ThisDevice.SetRenderState(RenderState.FillMode, FillMode.Solid);
-            //    _wireFrame = true;
-            //}
+            this.GraphicsManager.EnableWireFrameMode(enableWireFrameMode);
         }
 
         #endregion Old Code
@@ -285,34 +300,28 @@ namespace MY3DEngine
             if (disposing)
             {
                 this.graphicsManager?.Dispose();
-                this.input?.Dispose();
+                this.shader?.Dispose();
             }
         }
 
         private void Render()
         {
-            Matrix worldMatrix, viewMatrix, projectionMatrix;
-
-            this.graphicsManager.BeginScene(0.0f, 0.0f, 0.0f, 1.0f);
+            this.GraphicsManager.BeginScene(0.0f, 0.0f, 0.0f, 1.0f);
 
             // Generate the view matrix based on the camera's position.
-            //this.Camera.Render();
+            this.Camera.Render();
 
-            // Get the world, view, and projection matrices from the camera and d3d objects.
-            //this.GraphicsManager.GetDevice.GetWorldMatrix(worldMatrix);
-            //this.Camera.
-            //m_Direct3D->GetProjectionMatrix(projectionMatrix);
+            // Get the world, view, and projection matrices from camera and d3d objects.
+            Matrix viewMatrix = this.Camera.ViewMatrix;
+            Matrix worldMatrix = this.GraphicsManager.GetDirectXManager.WorldMatrix;
+            Matrix projectionMatrix = this.GraphicsManager.GetDirectXManager.ProjectionMatrix;
 
-            // render stuff goes here
-            lock (this.manager.GameObjects)
-            {
-                foreach (var gameObject in this.manager.GameObjects)
-                {
-                    gameObject.Render();
-                }
-            }
+            // Rotate the world matrix by the rotation value so that the triangle will spin.
+            //Matrix.RotationY(1.0f, out worldMatrix);
 
-            this.graphicsManager.EndScene();
+            this.shader.Render(this.manager.GameObjects, worldMatrix, viewMatrix, projectionMatrix);
+
+            this.GraphicsManager.EndScene();
         }
 
         /// <summary>
@@ -321,13 +330,14 @@ namespace MY3DEngine
         private void Start()
         {
             this.IsNotShutDown = true;
-
+            
             this.renderThread = new Thread(this.Run) { Name = "RenderingThread" };
             this.renderThread.Start();
         }
 
         private void Update()
         {
+            //this.CalculateFrameRateStats();
         }
 
         #endregion Helper Methods

@@ -1,8 +1,6 @@
 ﻿using MY3DEngine.BaseObjects;
 using SharpDX;
-using SharpDX.D3DCompiler;
 using SharpDX.Direct3D11;
-using SharpDX.DXGI;
 
 namespace MY3DEngine.Primitives
 {
@@ -21,41 +19,71 @@ namespace MY3DEngine.Primitives
             this.IsTriangle = true;
             this.IsCube = false;
         }
-        
+
         /// <inheritdoc/>
         public override void LoadContent(bool isNewObject = true)
         {
             base.LoadContent(isNewObject);
+            this.Vertexies = new Vertex[3];
+            int[] indicies = new int[3];
 
             if (isNewObject)
             {
-                this.Vertex = new Vertex[]
+                this.Vertexies = new Vertex[]
+                {
+                    // Bottom left.
+					new Vertex()
                     {
-                        new Vertex(new Vector4(0.0f, 0.5f, 0.5f, 1.0f), new Vector4(1.0f, 1.0f, 1.0f, 1.0f)),
-                        new Vertex(new Vector4(0.5f, -0.5f, 0.5f, 1.0f), new Vector4(1.0f, 1.0f, 1.0f, 1.0f)),
-                        new Vertex(new Vector4(-0.5f, -0.5f, 0.5f, 1.0f), new Vector4(1.0f, 1.0f, 1.0f, 1.0f))
-                    };
+                        Postion = new Vector3(-1, -1, 0),
+                        Color = new Vector4(1.0f, 1.0f, 1.0f, 1.0f)
+                    },
+					// Top middle. TO DO 3:  Top Left.
+					new Vertex()
+                    {
+                        Postion = new Vector3(0, 1, 0),
+                        Color = new Vector4(1.0f, 1.0f, 1.0f, 1.0f)
+                    },
+					// Bottom right.
+					new Vertex()
+                    {
+                        Postion = new Vector3(1, -1, 0),
+                        Color = new Vector4(1.0f, 1.0f, 1.0f, 1.0f)
+                    }
+                };
+
+                indicies = new int[]
+                {
+                    0,
+                    1,
+                    2
+                };
             }
 
             // Instantiate Vertex buffer from vertex data
-            this.Buffer = Buffer.Create(
-                Engine.GameEngine.GraphicsManager.GetDevice,
-                BindFlags.VertexBuffer,
-                this.Vertex);
+            this.VertexBuffer = Buffer.Create(Engine.GameEngine.GraphicsManager.GetDevice, BindFlags.VertexBuffer, this.Vertexies);
+            this.IndexBuffer = Buffer.Create(Engine.GameEngine.GraphicsManager.GetDevice, BindFlags.IndexBuffer, indicies);
 
-            Engine.GameEngine.GraphicsManager.GetDeviceContext.InputAssembler.InputLayout = this.InputLayout;
-            Engine.GameEngine.GraphicsManager.GetDeviceContext.InputAssembler.PrimitiveTopology = SharpDX.Direct3D.PrimitiveTopology.TriangleList;
-            
-            Engine.GameEngine.GraphicsManager.GetDeviceContext.VertexShader.Set(this.VertextShader);
-            Engine.GameEngine.GraphicsManager.GetDeviceContext.PixelShader.Set(this.PixelShader);
+            this.IndexCount = 3;
         }
 
         /// <inheritdoc/>
         public override void Render()
         {
-            Engine.GameEngine.GraphicsManager.GetDeviceContext.InputAssembler.SetVertexBuffers(0, new VertexBufferBinding(this.Buffer, BaseObjects.Vertex.Size, 0));
+            //int size = Utilities.SizeOf<ColorVertex>();
+            // Set the vertex buffer to active in the input assembler so it can be rendered.
+            Engine.GameEngine.GraphicsManager.GetDeviceContext.InputAssembler.SetVertexBuffers(0, new VertexBufferBinding(this.VertexBuffer, Vertex.Size, 0));
 
-            Engine.GameEngine.GraphicsManager.GetDeviceContext.Draw(3, 0);
+            // Set the index buffer to active in the input assembler so it can be rendered.
+            Engine.GameEngine.GraphicsManager.GetDeviceContext.InputAssembler.SetIndexBuffer(this.IndexBuffer, SharpDX.DXGI.Format.R32_UInt, 0);
+
+            // Set the type of the primitive that should be rendered from this vertex buffer, in this case triangles.
+            Engine.GameEngine.GraphicsManager.GetDeviceContext.InputAssembler.PrimitiveTopology = SharpDX.Direct3D.PrimitiveTopology.TriangleList;
+        }
+
+        /// <inheritdoc/>
+        public override void Draw()
+        {
+            Engine.GameEngine.GraphicsManager.GetDeviceContext.DrawIndexed(this.IndexCount, 0, 0);
         }
     }
 }

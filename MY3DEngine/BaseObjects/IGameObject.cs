@@ -26,11 +26,7 @@ namespace MY3DEngine.BaseObjects
         bool IsTriangle { get; set; }
 
         string Name { get; set; }
-
-        PixelShader PixelShader { get; set; }
-
-        VertexShader VertextShader { get; set; }
-
+        
         /// <summary>
         /// Change the color of the object
         /// </summary>

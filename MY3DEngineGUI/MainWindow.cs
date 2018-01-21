@@ -36,10 +36,10 @@ namespace MY3DEngineGUI
                 vsyncEnabled: this.useVsyncToolStripMenuItem.Checked,
                 fullScreen: false))
             {
-                Engine.GameEngine.Initialize();
+                Engine.GameEngine.Initialize(this.rendererPnl.Width, this.rendererPnl.Height);
 
                 exceptions = Engine.GameEngine.Exception.Exceptions;
-                
+
                 _mouseLocation = new Point(0, 0);
                 _firstMouse = false;
                 isObjectSelected = false;
@@ -48,7 +48,7 @@ namespace MY3DEngineGUI
                 {
                     this.GameObjectBindingSource.DataSource = Engine.GameEngine.Manager.GameObjects;
                     GameObjectListComboBox.DataSource = this.GameObjectBindingSource.DataSource;
-                    TreeListViewSceneGraph.SetObjects(Engine.GameEngine.Manager.GameObjects, true);
+                    this.TreeListViewSceneGraph.SetObjects(Engine.GameEngine.Manager.GameObjects, true);
                 }
             }
             else
@@ -76,7 +76,7 @@ namespace MY3DEngineGUI
 
         #endregion Shutdown/Exit Events
 
-        #region Old Camera -- FIX
+        #region Camera -- FIX
 
         private void rendererPnl_MouseEnter(object sender, EventArgs e)
         {
@@ -96,7 +96,23 @@ namespace MY3DEngineGUI
         {
         }
 
-        #endregion Old Camera -- FIX
+        private void TbUp_TextChanged(object sender, EventArgs e)
+        {
+            if (!string.IsNullOrWhiteSpace(tbUpDown.Text))
+            {
+                Engine.GameEngine.Camera.SetPosition(new SharpDX.Vector3(Engine.GameEngine.Camera.Position.X, float.Parse(tbUpDown.Text), Engine.GameEngine.Camera.Position.Z));
+            }
+        }
+
+        private void TbLeftRight_TextChanged(object sender, EventArgs e)
+        {
+            if (!string.IsNullOrWhiteSpace(tbLeftRight.Text))
+            {
+                Engine.GameEngine.Camera.SetPosition(new SharpDX.Vector3(float.Parse(tbLeftRight.Text), Engine.GameEngine.Camera.Position.Y, Engine.GameEngine.Camera.Position.Z));
+            }
+        }
+
+        #endregion Camera -- FIX
 
         #region Old Event -- FIX
 
@@ -135,54 +151,6 @@ namespace MY3DEngineGUI
             //{
             //    Add_RemoveObject("Point light added");
             //}
-        }
-
-        // TODO: Remove
-        private void BtnColor_Click(object sender, EventArgs e)
-        {
-            int index = -1;
-            lock (Engine.GameEngine.Manager)
-            {
-                index = Engine.GameEngine.Manager.GameObjects.IndexOf((GameObject)GameObjectListComboBox.SelectedValue);
-
-                if (index >= 0)
-                {
-                    if (Engine.GameEngine.Manager.GameObjects[index].IsPrimitive)
-                    {
-                        var argb = new[] { 0, 0, 0, 0 };
-                        if (Engine.GameEngine.Manager.GameObjects[index].IsPrimitive)
-                        {
-                            var gameObject = Engine.GameEngine.Manager.GameObjects[index];
-
-                            argb[0] = (int)gameObject.Vertex[0].Color.W;
-                            argb[1] = (int)gameObject.Vertex[0].Color.X;
-                            argb[2] = (int)gameObject.Vertex[0].Color.Y;
-                            argb[3] = (int)gameObject.Vertex[0].Color.Z;
-                        }
-
-                        colorDialog1.Color = Color.FromArgb(argb[0] * 255, argb[1] * 255, argb[2] * 255, argb[3] * 255);
-                    }
-
-                    if (colorDialog1.ShowDialog() == DialogResult.OK)
-                    {
-                        if (Engine.GameEngine.Manager.GameObjects[index].IsPrimitive)
-                        {
-                            var gameObject = Engine.GameEngine.Manager.GameObjects[index];
-                            var red = colorDialog1.Color.R / 255.0f;
-                            var green = colorDialog1.Color.G / 255.0f;
-                            var blue = colorDialog1.Color.B / 255.0f;
-                            var alpha = colorDialog1.Color.A / 255.0f;
-
-                            for (var i = 0; i < gameObject.Vertex.Length; ++i)
-                            {
-                                gameObject.Vertex[i].Color = new SharpDX.Vector4(red, green, blue, alpha);
-                            }
-
-                            gameObject.ApplyColor();
-                        }
-                    }
-                }
-            }
         }
 
         private void ckbxLightOnOff_CheckedChanged(object sender, EventArgs e)
@@ -285,14 +253,65 @@ namespace MY3DEngineGUI
             }
         }
 
-        private void wireframOnOffToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            Engine.GameEngine.WireFrame();
-        }
-
         #endregion Old Event -- FIX
 
+        #region Events
+
+        private void BtnColor_Click(object sender, EventArgs e)
+        {
+            int index = -1;
+            lock (Engine.GameEngine.Manager)
+            {
+                index = Engine.GameEngine.Manager.GameObjects.IndexOf((GameObject)GameObjectListComboBox.SelectedValue);
+
+                if (index >= 0)
+                {
+                    if (Engine.GameEngine.Manager.GameObjects[index].IsPrimitive)
+                    {
+                        var argb = new[] { 0, 0, 0, 0 };
+                        if (Engine.GameEngine.Manager.GameObjects[index].IsPrimitive)
+                        {
+                            var gameObject = Engine.GameEngine.Manager.GameObjects[index];
+
+                            argb[0] = (int)gameObject.Vertexies[0].Color.W;
+                            argb[1] = (int)gameObject.Vertexies[0].Color.X;
+                            argb[2] = (int)gameObject.Vertexies[0].Color.Y;
+                            argb[3] = (int)gameObject.Vertexies[0].Color.Z;
+                        }
+
+                        colorDialog1.Color = Color.FromArgb(argb[0] * 255, argb[1] * 255, argb[2] * 255, argb[3] * 255);
+                    }
+
+                    if (colorDialog1.ShowDialog() == DialogResult.OK)
+                    {
+                        if (Engine.GameEngine.Manager.GameObjects[index].IsPrimitive)
+                        {
+                            var gameObject = Engine.GameEngine.Manager.GameObjects[index];
+                            var red = colorDialog1.Color.R / 255.0f;
+                            var green = colorDialog1.Color.G / 255.0f;
+                            var blue = colorDialog1.Color.B / 255.0f;
+                            var alpha = colorDialog1.Color.A / 255.0f;
+
+                            for (var i = 0; i < gameObject.Vertexies.Length; ++i)
+                            {
+                                gameObject.Vertexies[i].Color = new SharpDX.Vector4(red, green, blue, alpha);
+                            }
+
+                            gameObject.ApplyColor();
+                        }
+                    }
+                }
+            }
+        }
+
+        #endregion Events
+
         #region Menu Events
+
+        private void WireframOnOffToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Engine.GameEngine.WireFrame(this.wireframOnOffToolStripMenuItem.Checked);
+        }
 
         private void AddCubeToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -490,6 +509,11 @@ namespace MY3DEngineGUI
         {
             this.AddToInformationDisplay(message);
             this.UpdateButtonsUseability();
+
+            lock (Engine.GameEngine.Manager)
+            {
+                this.TreeListViewSceneGraph.SetObjects(Engine.GameEngine.Manager.GameObjects);
+            }
         }
 
         private void AddToInformationDisplay(string message)
@@ -586,7 +610,6 @@ namespace MY3DEngineGUI
 
         private void TlvGameFiles_CellRightClick(object sender, BrightIdeasSoftware.CellRightClickEventArgs e)
         {
-
             if (e.Item != null)
             {
                 if (e.Item.RowObject is FileInfo file)
@@ -596,9 +619,7 @@ namespace MY3DEngineGUI
             }
         }
 
-        #endregion File(s) Event(s)
-
-        private void fswClassFileWatcher_Created(object sender, FileSystemEventArgs e)
+        private void FswClassFileWatcher_Created(object sender, FileSystemEventArgs e)
         {
             if (e.ChangeType == WatcherChangeTypes.Created)
             {
@@ -607,5 +628,7 @@ namespace MY3DEngineGUI
                 this.tlvGameFiles.AddObject(fileInfo);
             }
         }
+
+        #endregion File(s) Event(s)
     }
 }

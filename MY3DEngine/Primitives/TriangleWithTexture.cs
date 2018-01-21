@@ -1,9 +1,7 @@
 ﻿using MY3DEngine.BaseObjects;
 using MY3DEngine.Common;
 using SharpDX;
-using SharpDX.D3DCompiler;
 using SharpDX.Direct3D11;
-using SharpDX.DXGI;
 using System.IO;
 using wic = SharpDX.WIC;
 
@@ -11,9 +9,9 @@ namespace MY3DEngine.Primitives
 {
     internal struct MatrixBufferType
     {
-        Matrix world;
-        Matrix view;
-        Matrix projection;
+        private Matrix world;
+        private Matrix view;
+        private Matrix projection;
     };
 
     internal struct VertexPos
@@ -27,7 +25,7 @@ namespace MY3DEngine.Primitives
             this.tex0 = tex0;
         }
     };
-    
+
     public class TriangleWithTexture : GameObjectWithTexture
     {
         public TriangleWithTexture()
@@ -41,7 +39,7 @@ namespace MY3DEngine.Primitives
             base.LoadContent(isNewObject);
 
             // Instantiate Vertex buffer from vertex data
-            this.Buffer = Buffer.Create(
+            this.VertexBuffer = Buffer.Create(
                 Engine.GameEngine.GraphicsManager.GetDevice,
                 BindFlags.VertexBuffer,
                 new[]
@@ -77,12 +75,10 @@ namespace MY3DEngine.Primitives
                 //    }
                 //}
 
-
                 //var inputStream = new wic.WICStream(imagingFactory, path, NativeFileAccess.All); // open the image file for reading
                 // var decoder = new wic.BitmapDecoder(imagingFactory, inputStream, wic.DecodeOptions.CacheOnDemand);
 
                 //var t =  decoder.QueryInterface<Texture2D>();
-
 
                 using (var texture = TextureLoader.CreateTexture2DFromBitmap(Engine.GameEngine.GraphicsManager.GetDevice, TextureLoader.LoadBitmap(new wic.ImagingFactory2(), path)))
                 {
@@ -101,21 +97,16 @@ namespace MY3DEngine.Primitives
             };
 
             this.ColorMapSampler = new SamplerState(Engine.GameEngine.GraphicsManager.GetDevice, samplerStateDescription);
+
+            Engine.GameEngine.GraphicsManager.GetDeviceContext.InputAssembler.PrimitiveTopology = SharpDX.Direct3D.PrimitiveTopology.TriangleList;
+            Engine.GameEngine.GraphicsManager.GetDeviceContext.InputAssembler.SetVertexBuffers(0, new VertexBufferBinding(this.VertexBuffer, 32, 0));
+            Engine.GameEngine.GraphicsManager.GetDeviceContext.PixelShader.SetShaderResource(0, this.ColorMap);
+            Engine.GameEngine.GraphicsManager.GetDeviceContext.PixelShader.SetSampler(0, this.ColorMapSampler);
         }
 
         /// <inheritdoc/>
         public override void Render()
         {
-            Engine.GameEngine.GraphicsManager.GetDeviceContext.InputAssembler.InputLayout = this.InputLayout;
-            Engine.GameEngine.GraphicsManager.GetDeviceContext.InputAssembler.PrimitiveTopology = SharpDX.Direct3D.PrimitiveTopology.TriangleList;
-            Engine.GameEngine.GraphicsManager.GetDeviceContext.InputAssembler.SetVertexBuffers(0, new VertexBufferBinding(this.Buffer, 32, 0));
-
-            Engine.GameEngine.GraphicsManager.GetDeviceContext.VertexShader.Set(this.VertextShader);
-
-            Engine.GameEngine.GraphicsManager.GetDeviceContext.PixelShader.Set(this.PixelShader);
-            Engine.GameEngine.GraphicsManager.GetDeviceContext.PixelShader.SetShaderResource(0, this.ColorMap);
-            Engine.GameEngine.GraphicsManager.GetDeviceContext.PixelShader.SetSampler(0, this.ColorMapSampler);
-
             Engine.GameEngine.GraphicsManager.GetDeviceContext.Draw(6, 0);
         }
     }

@@ -4,7 +4,6 @@ using SharpDX.Direct3D11;
 using SharpDX.DXGI;
 using SharpDX.Mathematics.Interop;
 using System;
-using System.Linq;
 using Device = SharpDX.Direct3D11.Device;
 
 namespace MY3DEngine.GeneralManagers
@@ -23,11 +22,6 @@ namespace MY3DEngine.GeneralManagers
         private DepthStencilState depthStencilState;
         private DepthStencilView depthStencilView;
         private RasterizerState rasterizerState;
-        private BlendState blendStateAlphaEnabled;
-        private BlendState blendStateAlphaDisabled;
-        private DepthStencilState depthDisabledStencilState;
-        private Matrix m_projectionMatrix;
-        private Matrix m_worldMatrix;
 
         /// <summary>
         /// Load content in the background
@@ -49,10 +43,6 @@ namespace MY3DEngine.GeneralManagers
         /// </summary>
         public string VideoCardDescription => this.videoCardDescription;
 
-        public Matrix GetProjectMatrix => this.m_projectionMatrix;
-
-        public Matrix GetWorldMatrix => this.m_worldMatrix;
-
         internal bool VSync
         {
             get
@@ -64,6 +54,9 @@ namespace MY3DEngine.GeneralManagers
                 this.vsyncEnabled = value;
             }
         }
+
+        internal Matrix WorldMatrix { get; set; }
+        internal Matrix ProjectionMatrix { get; set; }
 
         /// <summary>
         ///
@@ -91,23 +84,22 @@ namespace MY3DEngine.GeneralManagers
             this.vsyncEnabled = vsync;
 
             // create directx graphics interface factory
-            using (var factory = new Factory4())
+            using (var factory = new Factory1())
             {
-                factory.MakeWindowAssociation(windowHandle, WindowAssociationFlags.IgnoreAll);
+                //factory.MakeWindowAssociation(windowHandle, WindowAssociationFlags.IgnoreAll);
 
-                foreach (var adapter in factory.Adapters.Where(x => x.GetOutputCount() > 0))
+                using (var adapter = factory.GetAdapter1(0))
                 {
-                    // enumerate the primary adapter output
                     using (var adapterOutput = adapter.GetOutput(0))
                     {
                         // get the adapter description
                         var adapterDescription = adapter.Description;
 
                         // store the video card memory in megabytes
-                        this.videoCardMemory = (long)adapterDescription.DedicatedVideoMemory / 1024 / 1024;
+                        this.videoCardMemory = (long)adapterDescription.DedicatedVideoMemory >> 10 >> 10;
 
                         // store the name of the video card array
-                        this.videoCardDescription = adapterDescription.Description;
+                        this.videoCardDescription = adapterDescription.Description.Trim('\0');
 
                         // get number of modes the fit the dxgi_format_r8gab88a8_uniform display format for the adapter output (monitor)
                         // create a list to hold all of the possible modes for this monitor/video card combination
@@ -127,11 +119,6 @@ namespace MY3DEngine.GeneralManagers
                             break;
                         }
 
-                        if (numerator == 0 || denominator == 0)
-                        {
-                            continue;
-                        }
-
                         // release memory
                         displayModeList = null;
                     }
@@ -144,13 +131,51 @@ namespace MY3DEngine.GeneralManagers
                 denominator = 1;
             }
 
-            if (!this.InitializeSwapChain(windowHandle, fullScreen, screenWidth, screenWidth, numerator, denominator))
+            var rational = this.vsyncEnabled ? new Rational(numerator, denominator) : new Rational(0, 1);
+            var modeDescription = new ModeDescription(screenWidth, screenHeight, rational, Format.R8G8B8A8_UNorm);
+
+            var swapChainDescription = new SwapChainDescription
+            {
+                // Set to a single back buffer.
+                BufferCount = 1,
+                // Set the width and height of the back buffer.
+                ModeDescription = modeDescription,
+                // Set the usage of the back buffer.
+                Usage = Usage.RenderTargetOutput,
+                // Set the handle for the window to render to.
+                OutputHandle = windowHandle,
+                // Turn multisampling off.
+                SampleDescription = new SampleDescription(1, 0),
+                // Set to full screen or windowed mode.
+                IsWindowed = fullScreen,
+                // Don't set the advanced flags.
+                Flags = SwapChainFlags.None,
+                // Discard the back buffer content after presenting.
+                SwapEffect = SwapEffect.Discard
+            };
+
+            // set the feature level to directx 11
+            var featureLevel = FeatureLevel.Level_11_0;
+            var creationFlags = DeviceCreationFlags.None;
+
+#if DEBUG
+            creationFlags = DeviceCreationFlags.Debug;
+#endif
+
+            // create swapchain, device, and device context
+            Device.CreateWithSwapChain(DriverType.Hardware, creationFlags, swapChainDescription, out var d, out var sc);
+
+            if (d == null || sc == null)
             {
                 return false;
             }
 
+            this.GetDevice = d;
+            this.swapChain = sc;
+            this.GetDeviceContext = this.GetDevice.ImmediateContext;
+
             // initialize back buffer
-            var backBuffer = this.swapChain.GetBackBuffer<Texture2D>(0);
+            var backBuffer = Texture2D.FromSwapChain<Texture2D>(this.swapChain, 0);
             if (backBuffer == null)
             {
                 return false;
@@ -159,58 +184,125 @@ namespace MY3DEngine.GeneralManagers
             // create render target view
             this.renderTargetView = new RenderTargetView(this.GetDevice, backBuffer);
 
+            backBuffer.Dispose();
+            backBuffer = null;
+
             if (this.renderTargetView == null)
             {
                 return false;
             }
 
-            backBuffer.Dispose();
-            backBuffer = null;
+            // setup depth buffer description
+            var depthBufferDescription = new Texture2DDescription
+            {
+                Width = screenWidth,
+                Height = screenHeight,
+                MipLevels = 1,
+                ArraySize = 1,
+                Format = Format.D24_UNorm_S8_UInt,
+                SampleDescription = new SampleDescription(1, 0),
+                Usage = ResourceUsage.Default,
+                BindFlags = BindFlags.DepthStencil,
+                CpuAccessFlags = CpuAccessFlags.None,
+                OptionFlags = ResourceOptionFlags.None
+            };
 
-            if (!this.InitializeDepthBuffer(screenWidth, screenHeight))
+            // create the texture for the depth buffer
+            this.depthStencilBuffer = new Texture2D(this.GetDevice, depthBufferDescription);
+
+            // Now we need to setup the depth stencil description. This allows us to control what type of depth test Direct3D will do for each pixel.
+            // Initialize and set up the description of the stencil state.
+            var depthStencilDesc = new DepthStencilStateDescription
+            {
+                IsDepthEnabled = true,
+                DepthWriteMask = DepthWriteMask.All,
+                DepthComparison = Comparison.Less,
+                IsStencilEnabled = true,
+                StencilReadMask = 0xFF,
+                StencilWriteMask = 0xFF,
+                // Stencil operation if pixel front-facing.
+                FrontFace = new DepthStencilOperationDescription()
+                {
+                    FailOperation = StencilOperation.Keep,
+                    DepthFailOperation = StencilOperation.Increment,
+                    PassOperation = StencilOperation.Keep,
+                    Comparison = Comparison.Always
+                },
+                // Stencil operation if pixel is back-facing.
+                BackFace = new DepthStencilOperationDescription()
+                {
+                    FailOperation = StencilOperation.Keep,
+                    DepthFailOperation = StencilOperation.Decrement,
+                    PassOperation = StencilOperation.Keep,
+                    Comparison = Comparison.Always
+                }
+            };
+
+            this.depthStencilState = new DepthStencilState(this.GetDevice, depthStencilDesc);
+
+            if (this.depthStencilState == null)
             {
                 return false;
             }
 
-            if (!this.IntializeDepthStencilBuffer())
-            {
-                return false;
-            }
+            // set depth stencil state
+            this.GetDeviceContext.OutputMerger.SetDepthStencilState(this.depthStencilState, 1);
 
-            //if (!this.InitializeStencilView())
-            //{
-            //    return false;
-            //}
+            // The next thing we need to create is the description of the view of the depth stencil buffer. We do this so that Direct3D knows to use the depth buffer as a depth stencil texture.
+            // After filling out the description we then call the function CreateDepthStencilView to create it.
+            var depthStencilViewDescription = new DepthStencilViewDescription
+            {
+                Format = Format.D24_UNorm_S8_UInt,
+                Dimension = DepthStencilViewDimension.Texture2D,
+                Texture2D = new DepthStencilViewDescription.Texture2DResource
+                {
+                    MipSlice = 0
+                }
+            };
+
+            this.depthStencilView = new DepthStencilView(this.GetDevice, this.depthStencilBuffer, depthStencilViewDescription);
 
             // bind render target view and depth stenchil buffer to the output render pipeline
             this.GetDeviceContext.OutputMerger.SetRenderTargets(this.depthStencilView, this.renderTargetView);
 
-            if (!this.InitializeRasterizerState())
+            /*
+             * Now that the render targets are setup we can continue on to some extra functions that will give us more control over our scenes for future tutorials.
+             * First thing is we'll create is a rasterizer state.
+             * This will give us control over how polygons are rendered.
+             * We can do things like make our scenes render in wireframe mode or have DirectX draw both the front and back faces of polygons.
+             * By default DirectX already has a rasterizer state set up and working the exact same as the one below but you have no control to change it unless you set up one yourself.
+            */
+            var rasterizerStateDescription = new RasterizerStateDescription
+            {
+                IsAntialiasedLineEnabled = false,
+                CullMode = CullMode.Back,
+                DepthBias = 0,
+                DepthBiasClamp = .0f,
+                IsDepthClipEnabled = true,
+                FillMode = FillMode.Solid,
+                IsFrontCounterClockwise = false,
+                IsMultisampleEnabled = false,
+                IsScissorEnabled = false,
+                SlopeScaledDepthBias = .0f
+            };
+
+            this.rasterizerState = new RasterizerState(this.GetDevice, rasterizerStateDescription);
+
+            if (this.rasterizerState == null)
             {
                 return false;
             }
+
+            // set the rasterizer
+            this.GetDeviceContext.Rasterizer.State = this.rasterizerState;
 
             this.InitializeViewport(screenWidth, screenHeight);
 
-            if (!this.InitializeAlphaBlending())
-            {
-                return false;
-            }
-
-            if (!this.InitializeZBuffer())
-            {
-                return false;
-            }
-
-            // Setup the projection matrix.
-            var fieldOfView = 3.141592654f / 4.0f;
-            var screenAspect = (float)screenWidth / (float)screenHeight;
-
-            // Create the projection matrix for 3D rendering.
-            m_projectionMatrix = Matrix.PerspectiveFovLH(fieldOfView, screenAspect, 0.0f, 1.0f);
+            // Setup and create the projection matrix.
+            this.ProjectionMatrix = Matrix.PerspectiveFovLH((float)(Math.PI / 4), ((float)screenWidth / (float)screenHeight), 0.1f, 1000.0f);
 
             // Initialize the world matrix to the identity matrix.
-            m_worldMatrix = Matrix.Identity;
+            WorldMatrix = Matrix.Identity;
 
             return true;
         }
@@ -224,11 +316,11 @@ namespace MY3DEngine.GeneralManagers
         /// <param name="alpha"></param>
         public void BeginScene(float red, float green, float blue, float alpha)
         {
+            // clear the depth buffer
+            this.GetDeviceContext.ClearDepthStencilView(this.depthStencilView, DepthStencilClearFlags.Depth, 1.0f, 0);
+
             // clear the back buffer
             this.GetDeviceContext.ClearRenderTargetView(this.renderTargetView, new RawColor4(red, green, blue, alpha));
-
-            // clear the depth buffer
-            //this.GetDeviceContext.ClearDepthStencilView(this.depthStencilView, DepthStencilClearFlags.Depth, 1.0f, 0);
         }
 
         /// <summary>
@@ -248,264 +340,33 @@ namespace MY3DEngine.GeneralManagers
             }
         }
 
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="enable"></param>
-        public void EnableAlphaBlending(bool enable)
+        public void EnableWireFrameMode(bool enable = false)
         {
-            var blendFactor = new RawColor4(0f, 0f, 0f, 0f);
-
-            this.GetDeviceContext.OutputMerger.SetBlendState(
-                enable ? this.blendStateAlphaEnabled : this.blendStateAlphaDisabled,
-                blendFactor,
-                0xffffffff);
-        }
-
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="enable"></param>
-        public void EnableZBuffer(bool enable)
-        {
-            this.GetDeviceContext.OutputMerger.SetDepthStencilState(
-                enable ? this.depthStencilState : this.depthDisabledStencilState,
-                1);
-        }
-
-        #region Helper Methods
-
-        // TODO: update this to figure out what device to use instead of hardcoding it
-        private bool InitializeSwapChain(
-            IntPtr windowHandle,
-            bool fullScreen,
-            int screenWidth,
-            int screenHieght,
-            int numerator,
-            int denominator)
-        {
-            var rational = this.vsyncEnabled ? new Rational(numerator, denominator) : new Rational(0, 1);
-            var modeDescription = new ModeDescription(
-                                                  screenWidth,
-                                                  screenHieght,
-                                                  rational, // refresh rate
-                                                  Format.B8G8R8A8_UNorm)
+            var rasterizerStateDescription = new RasterizerStateDescription
             {
-                // set the scan line ordering and scaling to unspecified
-                ScanlineOrdering = DisplayModeScanlineOrder.Unspecified,
-                Scaling = DisplayModeScaling.Unspecified
+                IsAntialiasedLineEnabled = false,
+                CullMode = CullMode.Back,
+                DepthBias = 0,
+                DepthBiasClamp = 0.0f,
+                IsDepthClipEnabled = true,
+                FillMode = FillMode.Solid,
+                IsFrontCounterClockwise = false,
+                IsMultisampleEnabled = false,
+                IsScissorEnabled = false,
+                SlopeScaledDepthBias = 0.0f
             };
 
-            var swapChainDescription = new SwapChainDescription()
+            if (enable)
             {
-                BufferCount = 1,
-                SampleDescription = new SampleDescription(1, 0), // multi-sampling
-                IsWindowed = !fullScreen,
-                OutputHandle = windowHandle,
-                ModeDescription = modeDescription,
-                Usage = Usage.RenderTargetOutput,
-                SwapEffect = SwapEffect.Discard,
-                Flags = SwapChainFlags.None
-            };
-
-            // set the feature level to directx 11
-            var featureLevel = FeatureLevel.Level_11_0;
-            var creationFlags = DeviceCreationFlags.None;
-
-#if DEBUG
-            creationFlags = DeviceCreationFlags.Debug;
-#endif
-
-            // create swapchain, device, and device context
-            Device.CreateWithSwapChain(DriverType.Hardware, creationFlags, new[] { featureLevel }, swapChainDescription, out var d, out var sc);
-
-            if (d == null || sc == null)
-            {
-                return false;
+                rasterizerStateDescription.FillMode = FillMode.Wireframe;
             }
-
-            this.GetDevice = d;
-            this.swapChain = sc;
-            this.GetDeviceContext = this.GetDevice.ImmediateContext;
-
-            return true;
-        }
-
-        private bool InitializeDepthBuffer(int screenWidth, int screenHeight)
-        {
-            // setup depth buffer description
-            var depthBufferDescription = new Texture2DDescription
-            {
-                Width = screenWidth,
-                Height = screenHeight,
-                MipLevels = 1,
-                ArraySize = 1,
-                Format = Format.D24_UNorm_S8_UInt,
-                SampleDescription = new SampleDescription(1, 0),
-                Usage = ResourceUsage.Default,
-                BindFlags = BindFlags.DepthStencil,
-                CpuAccessFlags = CpuAccessFlags.None,
-                OptionFlags = ResourceOptionFlags.None
-            };
-
-            // create the texture for the depth buffer
-            this.depthStencilBuffer = new Texture2D(this.GetDevice, depthBufferDescription);
-
-            return this.depthStencilBuffer != null;
-        }
-
-        private bool IntializeDepthStencilBuffer()
-        {
-            var depthStencilStateDescription =
-                new DepthStencilStateDescription
-                {
-                    IsDepthEnabled = true,
-                    DepthWriteMask = DepthWriteMask.All,
-                    DepthComparison = Comparison.Less,
-                    IsStencilEnabled = true,
-                    StencilReadMask = 0xFF,
-                    StencilWriteMask = 0xFF,
-                    FrontFace = // stencil operations if pixel is front-facing
-                            new DepthStencilOperationDescription
-                            {
-                                FailOperation = StencilOperation.Keep,
-                                DepthFailOperation = StencilOperation.Increment,
-                                PassOperation = StencilOperation.Keep,
-                                Comparison = Comparison.Always
-                            },
-                    BackFace = // stencil operations if pixel is back-facing
-                            new DepthStencilOperationDescription
-                            {
-                                FailOperation = StencilOperation.Keep,
-                                DepthFailOperation = StencilOperation.Decrement,
-                                PassOperation = StencilOperation.Keep,
-                                Comparison = Comparison.Always
-                            }
-                };
-
-            this.depthStencilState = new DepthStencilState(this.GetDevice, depthStencilStateDescription);
-
-            if (this.depthStencilState == null)
-            {
-                return false;
-            }
-
-            // set depth stencil state
-            this.GetDeviceContext.OutputMerger.SetDepthStencilState(this.depthDisabledStencilState, 1);
-
-            return true;
-        }
-
-        private bool InitializeStencilView()
-        {
-            var depthStencilViewDescription = new DepthStencilViewDescription
-            {
-                Format = Format.D24_UNorm_S8_UInt,
-                Dimension = DepthStencilViewDimension.Texture2D,
-                Texture2D = { MipSlice = 0 }
-            };
-
-            this.depthStencilView = new DepthStencilView(this.GetDevice, this.depthStencilBuffer, depthStencilViewDescription);
-
-            return this.depthStencilView != null;
-        }
-
-        private bool InitializeRasterizerState()
-        {
-            var rasterizerStateDescription =
-                new RasterizerStateDescription
-                {
-                    IsAntialiasedLineEnabled = false,
-                    CullMode = CullMode.Back,
-                    DepthBias = 0,
-                    DepthBiasClamp = 0.0f,
-                    IsDepthClipEnabled = true,
-                    FillMode = FillMode.Solid,
-                    IsFrontCounterClockwise = false,
-                    IsMultisampleEnabled = false,
-                    IsScissorEnabled = false,
-                    SlopeScaledDepthBias = 0.0f
-                };
 
             this.rasterizerState = new RasterizerState(this.GetDevice, rasterizerStateDescription);
 
-            if (this.rasterizerState == null)
-            {
-                return false;
-            }
-
-            // set the rasterizer
             this.GetDeviceContext.Rasterizer.State = this.rasterizerState;
-
-            return true;
         }
 
-        private bool InitializeAlphaBlending()
-        {
-            var blendStateDescription = new BlendStateDescription();
-
-            blendStateDescription.RenderTarget[0].IsBlendEnabled = true;
-            blendStateDescription.RenderTarget[0].SourceBlend = BlendOption.InverseSourceAlpha;
-            blendStateDescription.RenderTarget[0].DestinationBlend = BlendOption.InverseSourceAlpha;
-            blendStateDescription.RenderTarget[0].BlendOperation = BlendOperation.Add;
-            blendStateDescription.RenderTarget[0].SourceAlphaBlend = BlendOption.One;
-            blendStateDescription.RenderTarget[0].DestinationAlphaBlend = BlendOption.Zero;
-            blendStateDescription.RenderTarget[0].AlphaBlendOperation = BlendOperation.Add;
-            blendStateDescription.RenderTarget[0].RenderTargetWriteMask = ColorWriteMaskFlags.All;
-
-            this.blendStateAlphaEnabled = new BlendState(this.GetDevice, blendStateDescription);
-
-            if (this.blendStateAlphaEnabled == null)
-            {
-                return false;
-            }
-
-            // modify to create the disabled alpha blend state
-            blendStateDescription.RenderTarget[0].IsBlendEnabled = false;
-
-            this.blendStateAlphaDisabled = new BlendState(this.GetDevice, blendStateDescription);
-
-            if (this.blendStateAlphaDisabled == null)
-            {
-                return false;
-            }
-
-            return true;
-        }
-
-        private bool InitializeZBuffer()
-        {
-            var depthStencilStateDescription =
-                new DepthStencilStateDescription
-                {
-                    IsDepthEnabled = false,
-                    DepthWriteMask = DepthWriteMask.All,
-                    DepthComparison = Comparison.Less,
-                    IsStencilEnabled = true,
-                    StencilReadMask = 0xFF,
-                    StencilWriteMask = 0xFF,
-                    FrontFace = // stencil operations if pixel is front-facing
-                            new DepthStencilOperationDescription
-                            {
-                                FailOperation = StencilOperation.Keep,
-                                DepthFailOperation = StencilOperation.Increment,
-                                PassOperation = StencilOperation.Keep,
-                                Comparison = Comparison.Always
-                            },
-                    BackFace = // stencil operations if pixel is back-facing
-                            new DepthStencilOperationDescription
-                            {
-                                FailOperation = StencilOperation.Keep,
-                                DepthFailOperation = StencilOperation.Decrement,
-                                PassOperation = StencilOperation.Keep,
-                                Comparison = Comparison.Always
-                            }
-                };
-
-            this.depthDisabledStencilState = new DepthStencilState(this.GetDevice, depthStencilStateDescription);
-
-            return this.depthDisabledStencilState != null;
-        }
+        #region Helper Methods
 
         private void InitializeViewport(int screenWidth, int screenHeight)
         {
@@ -530,9 +391,6 @@ namespace MY3DEngine.GeneralManagers
                 this.depthStencilState?.Dispose();
                 this.depthStencilView?.Dispose();
                 this.rasterizerState?.Dispose();
-                this.blendStateAlphaEnabled?.Dispose();
-                this.blendStateAlphaDisabled?.Dispose();
-                this.depthDisabledStencilState?.Dispose();
             }
         }
 
