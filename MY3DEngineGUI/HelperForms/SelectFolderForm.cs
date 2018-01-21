@@ -2,7 +2,7 @@
 using System;
 using System.Windows.Forms;
 
-namespace MY3DEngineGUI.HelperForms
+namespace MY3DEngine.GUI.HelperForms
 {
     public partial class SelectFolderForm : Form
     {

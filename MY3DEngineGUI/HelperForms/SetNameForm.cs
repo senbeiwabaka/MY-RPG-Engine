@@ -1,9 +1,8 @@
-﻿using MY3DEngine;
-using System;
+﻿using System;
 using System.IO;
 using System.Windows.Forms;
 
-namespace MY3DEngineGUI.HelperForms
+namespace MY3DEngine.GUI.HelperForms
 {
     public delegate void ClosingSetNameForm(object sender, ClosingSetNameEventArg args);
 

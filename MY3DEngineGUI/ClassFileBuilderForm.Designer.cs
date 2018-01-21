@@ -1,4 +1,4 @@
-﻿namespace MY3DEngineGUI
+﻿namespace MY3DEngine.GUI
 {
     partial class ClassFileBuilderForm
     {

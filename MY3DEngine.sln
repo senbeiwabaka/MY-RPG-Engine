@@ -1,11 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27130.2020
+VisualStudioVersion = 15.0.27130.2024
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MY3DEngine", "MY3DEngine\MY3DEngine.csproj", "{03537171-7E7B-41BE-AF46-CF5B85C1EB65}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MY3DEngineGUI", "MY3DEngineGUI\MY3DEngineGUI.csproj", "{7925BAF7-9C72-4A0C-A9B9-E4A7E93416C9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MY3DEngine.GUI", "MY3DEngineGUI\MY3DEngine.GUI.csproj", "{7925BAF7-9C72-4A0C-A9B9-E4A7E93416C9}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MY3DEngine.Build", "MY3DEngine.Build\MY3DEngine.Build.csproj", "{7165C534-42AC-4DEE-AD66-68C73690B5D0}"
 EndProject

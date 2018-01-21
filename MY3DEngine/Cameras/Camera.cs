@@ -4,19 +4,28 @@ using System.Diagnostics;
 
 namespace MY3DEngine.Cameras
 {
+    /// <inherietdoc/>
     public class Camera : ICamera
     {
+        private Vector3 position;
+
+        private Vector3 rotation;
+
+        /// <inherietdoc/>
         public Vector3 Position => this.position;
+
+        /// <inherietdoc/>
+        public Vector3 Rotation => this.rotation;
+
+        /// <inherietdoc/>
         public Matrix ViewMatrix { get; set; }
 
-        private Stopwatch clock { get; } = new Stopwatch();
-        private Vector3 position { get; set; }
-        private Vector3 rotation { get; set; }
+        private Stopwatch Clock { get; } = new Stopwatch();
 
         /// <inherietdoc/>
         public void Initialize(int width = default(int), int height = default(int))
         {
-            clock.Start();
+            Clock.Start();
         }
 
         public void OnResize(float new_width, float new_height)
@@ -86,18 +95,35 @@ namespace MY3DEngine.Cameras
             this.ViewMatrix = Matrix.LookAtLH(position, lookAt, up);
         }
 
-        public void ResetEye()
+        /// <inherietdoc/>
+        public void ResetCamera()
         {
+            this.SetPosition(Vector3.Zero);
+            this.SetRotation(Vector3.Zero);
         }
 
+        /// <inherietdoc/>
         public void SetPosition(Vector3 newPosition)
         {
             this.SetPosition(newPosition.X, newPosition.Y, newPosition.Z);
         }
 
+        /// <inherietdoc/>
         public void SetPosition(float x, float y, float z)
         {
             this.position = new Vector3(x, y, z);
+        }
+
+        /// <inherietdoc/>
+        public void SetRotation(Vector3 rotation)
+        {
+            this.SetRotation(rotation.X, rotation.Y, rotation.Z);
+        }
+
+        /// <inherietdoc/>
+        public void SetRotation(float x, float y, float z)
+        {
+            this.rotation = new Vector3(x, y, z);
         }
 
         private float AngleBetween(Vector3 u, Vector3 v, bool returndegrees)

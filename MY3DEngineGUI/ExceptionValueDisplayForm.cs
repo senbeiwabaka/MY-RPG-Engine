@@ -1,6 +1,6 @@
 ﻿using System.Windows.Forms;
 
-namespace MY3DEngineGUI
+namespace MY3DEngine.GUI
 {
     public partial class ExceptionValueDisplayForm : Form
     {

@@ -1,11 +1,10 @@
-﻿using MY3DEngine;
-using ScintillaNET;
+﻿using ScintillaNET;
 using System;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 
-namespace MY3DEngineGUI
+namespace MY3DEngine.GUI
 {
     public partial class ClassFileBuilderForm : Form
     {
@@ -199,7 +198,6 @@ namespace MY3DEngineGUI
 
         private void scintilla1_SavePointLeft(object sender, EventArgs e)
         {
-
         }
     }
 }

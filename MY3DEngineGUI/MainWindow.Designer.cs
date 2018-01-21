@@ -1,4 +1,4 @@
-﻿namespace MY3DEngineGUI
+﻿namespace MY3DEngine.GUI
 {
     partial class MainWindow
     {
@@ -39,6 +39,15 @@
             this.ExceptionBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.tabEditPlay = new System.Windows.Forms.TabControl();
             this.tbEdit = new System.Windows.Forms.TabPage();
+            this.tbZoomInOut = new System.Windows.Forms.TextBox();
+            this.label10 = new System.Windows.Forms.Label();
+            this.label9 = new System.Windows.Forms.Label();
+            this.tbRotateZ = new System.Windows.Forms.TextBox();
+            this.label8 = new System.Windows.Forms.Label();
+            this.tbRotateY = new System.Windows.Forms.TextBox();
+            this.label7 = new System.Windows.Forms.Label();
+            this.tbRotateX = new System.Windows.Forms.TextBox();
+            this.label6 = new System.Windows.Forms.Label();
             this.tbLeftRight = new System.Windows.Forms.TextBox();
             this.tbUpDown = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
@@ -50,6 +59,7 @@
             this.tsmiAddClass = new System.Windows.Forms.ToolStripMenuItem();
             this.label2 = new System.Windows.Forms.Label();
             this.TreeListViewSceneGraph = new BrightIdeasSoftware.TreeListView();
+            this.olvSceneName = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.pnlObjectProperties = new System.Windows.Forms.Panel();
             this.RemoveGameObjectButton = new System.Windows.Forms.Button();
             this.ChangeGameObjectColorButton = new System.Windows.Forms.Button();
@@ -96,7 +106,6 @@
             this.colorDialog1 = new System.Windows.Forms.ColorDialog();
             this.GameObjectBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.fswClassFileWatcher = new System.IO.FileSystemWatcher();
-            this.olvSceneName = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             ((System.ComponentModel.ISupportInitialize)(this.ExceptionGridView)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ExceptionBindingSource)).BeginInit();
             this.tabEditPlay.SuspendLayout();
@@ -189,6 +198,15 @@
             // 
             // tbEdit
             // 
+            this.tbEdit.Controls.Add(this.tbZoomInOut);
+            this.tbEdit.Controls.Add(this.label10);
+            this.tbEdit.Controls.Add(this.label9);
+            this.tbEdit.Controls.Add(this.tbRotateZ);
+            this.tbEdit.Controls.Add(this.label8);
+            this.tbEdit.Controls.Add(this.tbRotateY);
+            this.tbEdit.Controls.Add(this.label7);
+            this.tbEdit.Controls.Add(this.tbRotateX);
+            this.tbEdit.Controls.Add(this.label6);
             this.tbEdit.Controls.Add(this.tbLeftRight);
             this.tbEdit.Controls.Add(this.tbUpDown);
             this.tbEdit.Controls.Add(this.label5);
@@ -210,9 +228,91 @@
             this.tbEdit.Text = "Edit";
             this.tbEdit.UseVisualStyleBackColor = true;
             // 
+            // tbZoomInOut
+            // 
+            this.tbZoomInOut.Location = new System.Drawing.Point(85, 479);
+            this.tbZoomInOut.Name = "tbZoomInOut";
+            this.tbZoomInOut.Size = new System.Drawing.Size(40, 20);
+            this.tbZoomInOut.TabIndex = 24;
+            this.tbZoomInOut.TextChanged += new System.EventHandler(this.TbZoomInOut_TextChanged);
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(11, 482);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(68, 13);
+            this.label10.TabIndex = 23;
+            this.label10.Text = "Zoom In/Out";
+            this.label10.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(11, 414);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(42, 13);
+            this.label9.TabIndex = 22;
+            this.label9.Text = "Rotate:";
+            this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // tbRotateZ
+            // 
+            this.tbRotateZ.Location = new System.Drawing.Point(155, 440);
+            this.tbRotateZ.Name = "tbRotateZ";
+            this.tbRotateZ.Size = new System.Drawing.Size(35, 20);
+            this.tbRotateZ.TabIndex = 21;
+            this.tbRotateZ.TextChanged += new System.EventHandler(this.TbRotateZ_TextChanged);
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(135, 443);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(14, 13);
+            this.label8.TabIndex = 20;
+            this.label8.Text = "Z";
+            this.label8.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // tbRotateY
+            // 
+            this.tbRotateY.Location = new System.Drawing.Point(93, 440);
+            this.tbRotateY.Name = "tbRotateY";
+            this.tbRotateY.Size = new System.Drawing.Size(35, 20);
+            this.tbRotateY.TabIndex = 19;
+            this.tbRotateY.TextChanged += new System.EventHandler(this.TbRotateY_TextChanged);
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(73, 443);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(14, 13);
+            this.label7.TabIndex = 18;
+            this.label7.Text = "Y";
+            this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // tbRotateX
+            // 
+            this.tbRotateX.Location = new System.Drawing.Point(31, 440);
+            this.tbRotateX.Name = "tbRotateX";
+            this.tbRotateX.Size = new System.Drawing.Size(35, 20);
+            this.tbRotateX.TabIndex = 17;
+            this.tbRotateX.TextChanged += new System.EventHandler(this.TbRotateX_TextChanged);
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(11, 443);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(14, 13);
+            this.label6.TabIndex = 16;
+            this.label6.Text = "X";
+            this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // tbLeftRight
             // 
-            this.tbLeftRight.Location = new System.Drawing.Point(71, 409);
+            this.tbLeftRight.Location = new System.Drawing.Point(177, 383);
             this.tbLeftRight.Name = "tbLeftRight";
             this.tbLeftRight.Size = new System.Drawing.Size(40, 20);
             this.tbLeftRight.TabIndex = 15;
@@ -229,7 +329,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(11, 413);
+            this.label5.Location = new System.Drawing.Point(117, 387);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(55, 13);
             this.label5.TabIndex = 13;
@@ -317,6 +417,11 @@
             this.TreeListViewSceneGraph.UseCompatibleStateImageBehavior = false;
             this.TreeListViewSceneGraph.View = System.Windows.Forms.View.Details;
             this.TreeListViewSceneGraph.VirtualMode = true;
+            // 
+            // olvSceneName
+            // 
+            this.olvSceneName.AspectName = "Name";
+            this.olvSceneName.Text = "Name";
             // 
             // pnlObjectProperties
             // 
@@ -657,11 +762,10 @@
             // 
             // resetCameraToolStripMenuItem
             // 
-            this.resetCameraToolStripMenuItem.Enabled = false;
             this.resetCameraToolStripMenuItem.Name = "resetCameraToolStripMenuItem";
             this.resetCameraToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
             this.resetCameraToolStripMenuItem.Text = "Reset Camera";
-            this.resetCameraToolStripMenuItem.Click += new System.EventHandler(this.resetCameraToolStripMenuItem_Click);
+            this.resetCameraToolStripMenuItem.Click += new System.EventHandler(this.ResetCameraToolStripMenuItem_Click);
             // 
             // turnDebuggerOnOffToolStripMenuItem
             // 
@@ -709,11 +813,6 @@
             this.fswClassFileWatcher.SynchronizingObject = this;
             this.fswClassFileWatcher.Created += new System.IO.FileSystemEventHandler(this.FswClassFileWatcher_Created);
             // 
-            // olvSceneName
-            // 
-            this.olvSceneName.AspectName = "Name";
-            this.olvSceneName.Text = "Name";
-            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -725,7 +824,7 @@
             this.MaximizeBox = false;
             this.Name = "MainWindow";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "MY Engine Builder";
+            this.Text = "MY 3D Engine Builder";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             ((System.ComponentModel.ISupportInitialize)(this.ExceptionGridView)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.ExceptionBindingSource)).EndInit();
@@ -814,6 +913,15 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label4;
         private BrightIdeasSoftware.OLVColumn olvSceneName;
+        private System.Windows.Forms.TextBox tbRotateZ;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.TextBox tbRotateY;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.TextBox tbRotateX;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.TextBox tbZoomInOut;
+        private System.Windows.Forms.Label label10;
     }
 }
 

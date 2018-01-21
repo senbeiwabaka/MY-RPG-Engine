@@ -1,4 +1,4 @@
-﻿namespace MY3DEngineGUI.HelperForms
+﻿namespace MY3DEngine.GUI.HelperForms
 {
     partial class SelectFolderForm
     {

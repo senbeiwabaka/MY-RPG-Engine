@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 
-namespace MY3DEngineGUI
+namespace MY3DEngine.GUI
 {
     static class Program
     {

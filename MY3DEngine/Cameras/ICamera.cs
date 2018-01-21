@@ -2,9 +2,24 @@
 
 namespace MY3DEngine.Cameras
 {
+    /// <summary>
+    /// Interface to build camera to see the world
+    /// </summary>
     public interface ICamera
     {
+        /// <summary>
+        /// The position of the camera
+        /// </summary>
         Vector3 Position { get; }
+
+        /// <summary>
+        /// The rotation of the camera
+        /// </summary>
+        Vector3 Rotation { get; }
+
+        /// <summary>
+        /// The view of the camera in the world
+        /// </summary>
         Matrix ViewMatrix { get; set; }
 
         /// <summary>
@@ -18,8 +33,27 @@ namespace MY3DEngine.Cameras
 
         void Render();
 
+        /// <summary>
+        /// Reset the camera to look at the inital position of the world (0, 0, 0)
+        /// </summary>
+        void ResetCamera();
+
+        /// <summary>
+        /// Set the postion of the camera
+        /// </summary>
+        /// <param name="newPosition">Use a Directx Vector3</param>
         void SetPosition(Vector3 newPosition);
 
+        /// <summary>
+        /// Set the postion of the camera
+        /// </summary>
+        /// <param name="x">The x-axis</param>
+        /// <param name="y">the y-axis</param>
+        /// <param name="z">the z-axis</param>
         void SetPosition(float x, float y, float z);
+
+        void SetRotation(Vector3 rotation);
+
+        void SetRotation(float x, float y, float z);
     }
 }
