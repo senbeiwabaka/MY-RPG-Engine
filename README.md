@@ -4,8 +4,22 @@ The engine can be removed from the project and modified in anyway you see fit. T
 
 The engine will be using just a list for all the objects until I, or someone joins the project, learn how to implement a scene graph. The choice, when scene graph is there, between a list of objects or scene graph will be yours.
 
-The engine is currently using DirectX 11. The engine will as well be using SharpDX which is included with the download.
+The engine is currently using DirectX 11. The engine will as well be using SharpDX (4.0.1) which is included with the download via nuget.
 
-The engine will have sound (object) using DirectX sound. It will be able to load .x meshes and create some objects. Terrian (object) creation. Move, rotate, scale, and color objects.*
+The engine currently has:
+  1. A basic camera that can move position (no rotation yet)
+  2. 2D Cube and Triangle
+  3. Build component that will generate a exe
+    3.a. This includes the saved game file (json)
+    3.b. The debug and logging
+  4. Add class files
+  5. Partial load and create projects
+    
+The enginge will have (soon TM):
+  1. Textured objects
+  2. Moveable objects
+  3. Compiled/checked class files
+  4. Bin folder for debug and release modes
+  5. Fully wokring load and create projects
 
-* Subject to change
+Note: All is subject to change
