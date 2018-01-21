@@ -1,5 +1,4 @@
-﻿using MY3DEngine;
-using MY3DEngine.BaseObjects;
+﻿using MY3DEngine.BaseObjects;
 using MY3DEngine.GUI.HelperForms;
 using MY3DEngine.Primitives;
 using System;
@@ -311,6 +310,14 @@ namespace MY3DEngine.GUI
             }
         }
 
+        private void TbName_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == (char)Keys.Enter)
+            {
+                GameObjectNameLabel.Focus();
+            }
+        }
+
         private void TxtName_Leave(object sender, EventArgs e)
         {
             if (!string.IsNullOrWhiteSpace(this.tbName.Text))
@@ -537,6 +544,11 @@ namespace MY3DEngine.GUI
             lock (Engine.GameEngine.Manager)
             {
                 this.TreeListViewSceneGraph.SetObjects(Engine.GameEngine.Manager.GameObjects);
+
+                if (Engine.GameEngine.Manager.GameObjects.Count == 1)
+                {
+                    Engine.GameEngine.Manager.GameObjects.First().IsSelected = true;
+                }
 
                 if (Engine.GameEngine.Manager.GameObjects.Count == 1 && Engine.GameEngine.Manager.GameObjects.First().IsSelected)
                 {
