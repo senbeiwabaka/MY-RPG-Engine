@@ -7,25 +7,6 @@ using wic = SharpDX.WIC;
 
 namespace MY3DEngine.Primitives
 {
-    internal struct MatrixBufferType
-    {
-        private Matrix world;
-        private Matrix view;
-        private Matrix projection;
-    };
-
-    internal struct VertexPos
-    {
-        public Vector3 pos;
-        public Vector2 tex0;
-
-        public VertexPos(Vector3 pos, Vector2 tex0)
-        {
-            this.pos = pos;
-            this.tex0 = tex0;
-        }
-    };
-
     public class TriangleWithTexture : GameObjectWithTexture
     {
         public TriangleWithTexture()
@@ -39,19 +20,19 @@ namespace MY3DEngine.Primitives
             base.LoadContent(isNewObject);
 
             // Instantiate Vertex buffer from vertex data
-            this.VertexBuffer = Buffer.Create(
-                Engine.GameEngine.GraphicsManager.GetDevice,
-                BindFlags.VertexBuffer,
-                new[]
-                {
-                        new VertexPos(new Vector3(0.5f, 0.5f, 0.5f), new Vector2(1.0f, 1.0f)),
-                        new VertexPos(new Vector3(0.5f, -0.5f, 0.5f), new Vector2(1.0f, 0.0f)),
-                        new VertexPos(new Vector3(-0.5f, -0.5f, 0.5f), new Vector2(0.0f, 0.0f)),
+            //this.VertexBuffer = Buffer.Create(
+            //    Engine.GameEngine.GraphicsManager.GetDevice,
+            //    BindFlags.VertexBuffer,
+            //    new[]
+            //    {
+            //            new VertexPos(new Vector3(0.5f, 0.5f, 0.5f), new Vector2(1.0f, 1.0f)),
+            //            new VertexPos(new Vector3(0.5f, -0.5f, 0.5f), new Vector2(1.0f, 0.0f)),
+            //            new VertexPos(new Vector3(-0.5f, -0.5f, 0.5f), new Vector2(0.0f, 0.0f)),
 
-                        new VertexPos(new Vector3(-0.5f, -0.5f, 0.5f), new Vector2(0.0f, 0.0f)),
-                        new VertexPos(new Vector3(-0.5f, 0.5f, 0.5f), new Vector2(0.0f, 1.0f)),
-                        new VertexPos(new Vector3(0.5f, 0.5f, 0.5f), new Vector2(1.0f, 1.0f))
-                });
+            //            new VertexPos(new Vector3(-0.5f, -0.5f, 0.5f), new Vector2(0.0f, 0.0f)),
+            //            new VertexPos(new Vector3(-0.5f, 0.5f, 0.5f), new Vector2(0.0f, 1.0f)),
+            //            new VertexPos(new Vector3(0.5f, 0.5f, 0.5f), new Vector2(1.0f, 1.0f))
+            //    });
 
             var path = Path.GetFullPath("Assets");
             path = string.Format("{0}\\decal.png", path);

@@ -13,11 +13,11 @@ namespace MY3DEngine.Primitives
             this.IsCube = true;
         }
 
-        public int[] Indices { get; set; } = new int[6]
-            {
-                0, 1, 2,
-                0, 2, 3
-            };
+        /// <inheritdoc/>
+        public override void Draw()
+        {
+            Engine.GameEngine.GraphicsManager.GetDeviceContext.DrawIndexed(this.IndexCount, 0, 0);
+        }
 
         /// <inheritdoc/>
         public override void LoadContent(bool isNewObject = true)
@@ -35,11 +35,16 @@ namespace MY3DEngine.Primitives
                         new Vertex(new Vector3(1f, 1f, 0f), new Vector4(1.0f, 1.0f, 1.0f, 1.0f)), // Top Right
                         new Vertex(new Vector3(1f, -1f, 0f), new Vector4(1.0f, 1.0f, 1.0f, 1.0f)) // Bottom Right
                 };
+
+                this.Indices = new int[]
+                {
+                    0, 1, 2,
+                    0, 2, 3
+                };
             }
 
             // Instantiate Index Buffer from index data
             this.IndexBuffer = Buffer.Create(Engine.GameEngine.GraphicsManager.GetDevice, BindFlags.IndexBuffer, this.Indices);
-
             // Instantiate Vertex buffer from vertex data
             this.VertexBuffer = Buffer.Create(Engine.GameEngine.GraphicsManager.GetDevice, BindFlags.VertexBuffer, this.Vertexies);
 
@@ -58,12 +63,6 @@ namespace MY3DEngine.Primitives
 
             // Set the type of the primitive that should be rendered from this vertex buffer, in this case triangles.
             Engine.GameEngine.GraphicsManager.GetDeviceContext.InputAssembler.PrimitiveTopology = SharpDX.Direct3D.PrimitiveTopology.TriangleList;
-        }
-
-        /// <inheritdoc/>
-        public override void Draw()
-        {
-            Engine.GameEngine.GraphicsManager.GetDeviceContext.DrawIndexed(this.IndexCount, 0, 0);
         }
     }
 }

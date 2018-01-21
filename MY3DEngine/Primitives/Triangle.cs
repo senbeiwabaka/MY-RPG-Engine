@@ -12,20 +12,25 @@ namespace MY3DEngine.Primitives
         /// <summary>
         /// Basic game triangle object
         /// </summary>
-        public Triangle() : base()
+        public Triangle() : base("Triangle")
         {
-            this.Name = "Triangle";
             this.IsPrimitive = true;
             this.IsTriangle = true;
             this.IsCube = false;
         }
 
         /// <inheritdoc/>
+        public override void Draw()
+        {
+            Engine.GameEngine.GraphicsManager.GetDeviceContext.DrawIndexed(this.IndexCount, 0, 0);
+        }
+
+        /// <inheritdoc/>
         public override void LoadContent(bool isNewObject = true)
         {
             base.LoadContent(isNewObject);
+
             this.Vertexies = new Vertex[3];
-            int[] indicies = new int[3];
 
             if (isNewObject)
             {
@@ -51,7 +56,7 @@ namespace MY3DEngine.Primitives
                     }
                 };
 
-                indicies = new int[]
+                this.Indices = new int[]
                 {
                     0,
                     1,
@@ -61,9 +66,10 @@ namespace MY3DEngine.Primitives
 
             // Instantiate Vertex buffer from vertex data
             this.VertexBuffer = Buffer.Create(Engine.GameEngine.GraphicsManager.GetDevice, BindFlags.VertexBuffer, this.Vertexies);
-            this.IndexBuffer = Buffer.Create(Engine.GameEngine.GraphicsManager.GetDevice, BindFlags.IndexBuffer, indicies);
+            // Instantiate Index Buffer from index data
+            this.IndexBuffer = Buffer.Create(Engine.GameEngine.GraphicsManager.GetDevice, BindFlags.IndexBuffer, this.Indices);
 
-            this.IndexCount = 3;
+            this.IndexCount = this.Indices.Length;
         }
 
         /// <inheritdoc/>
@@ -78,12 +84,6 @@ namespace MY3DEngine.Primitives
 
             // Set the type of the primitive that should be rendered from this vertex buffer, in this case triangles.
             Engine.GameEngine.GraphicsManager.GetDeviceContext.InputAssembler.PrimitiveTopology = SharpDX.Direct3D.PrimitiveTopology.TriangleList;
-        }
-
-        /// <inheritdoc/>
-        public override void Draw()
-        {
-            Engine.GameEngine.GraphicsManager.GetDeviceContext.DrawIndexed(this.IndexCount, 0, 0);
         }
     }
 }

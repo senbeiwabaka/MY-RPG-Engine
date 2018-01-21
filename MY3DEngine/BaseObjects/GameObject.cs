@@ -6,7 +6,8 @@ using System.Runtime.CompilerServices;
 
 namespace MY3DEngine.BaseObjects
 {
-    public abstract class GameObject : IGameObject, IDisposable, INotifyPropertyChanged
+    /// <inheritdoc/>
+    public abstract class GameObject : IGameObject, INotifyPropertyChanged
     {
         private string name;
 
@@ -47,20 +48,34 @@ namespace MY3DEngine.BaseObjects
 
         #endregion Constructors
 
+        /// <inheritdoc/>
         public string FileName { get; set; }
 
+        /// <inheritdoc/>
         public string FilePath { get; set; }
 
+        /// <inheritdoc/>
         public Guid Id { get; set; } = Guid.NewGuid();
 
+        /// <inheritdoc/>
+        public int IndexCount { get; set; } = 3;
+
+        /// <inheritdoc/>
+        public int[] Indices { get; set; }
+
+        /// <inheritdoc/>
         public bool IsCube { get; set; } = false;
 
+        /// <inheritdoc/>
         public bool IsPrimitive { get; set; } = false;
 
+        /// <inheritdoc/>
         public bool IsSelected { get; set; } = false;
 
+        /// <inheritdoc/>
         public bool IsTriangle { get; set; } = false;
 
+        /// <inheritdoc/>
         public string Name
         {
             get
@@ -76,19 +91,22 @@ namespace MY3DEngine.BaseObjects
             }
         }
 
-        public int IndexCount { get; set; } = 3;
-
-        //[XmlIgnore]
-        //public MeshClass MeshObject { get; protected set; }
-
-        [JsonIgnore]
-        protected SharpDX.Direct3D11.Buffer VertexBuffer { get; set; }
+        public Vertex[] Vertexies { get; set; }
 
         [JsonIgnore]
         protected SharpDX.Direct3D11.Buffer IndexBuffer { get; set; }
 
-        //[JsonIgnore]
-        public Vertex[] Vertexies { get; set; }
+        [JsonIgnore]
+        protected SharpDX.Direct3D11.Buffer VertexBuffer { get; set; }
+
+        /// <inheritdoc/>
+        public void ApplyColor()
+        {
+            if (this.IsPrimitive)
+            {
+                this.VertexBuffer = SharpDX.Direct3D11.Buffer.Create(Engine.GameEngine.GraphicsManager.GetDevice, BindFlags.VertexBuffer, this.Vertexies);
+            }
+        }
 
         /// <summary>
         ///
@@ -101,14 +119,17 @@ namespace MY3DEngine.BaseObjects
         }
 
         /// <inheritdoc/>
+        public virtual void Draw()
+        {
+        }
+
+        /// <inheritdoc/>
         public virtual void LoadContent(bool isNewObject = true)
         {
         }
 
         /// <inheritdoc/>
         public virtual void Render() { }
-
-        public virtual void Draw() { }
 
         /// <summary>
         ///
@@ -134,15 +155,6 @@ namespace MY3DEngine.BaseObjects
         protected void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-        /// <inheritdoc/>
-        public void ApplyColor()
-        {
-            if (this.IsPrimitive)
-            {
-                this.VertexBuffer = SharpDX.Direct3D11.Buffer.Create(Engine.GameEngine.GraphicsManager.GetDevice, BindFlags.VertexBuffer, this.Vertexies);
-            }
         }
     }
 }

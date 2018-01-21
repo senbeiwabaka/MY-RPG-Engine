@@ -1,15 +1,36 @@
-﻿using SharpDX.Direct3D11;
-using System;
+﻿using System;
 
 namespace MY3DEngine.BaseObjects
 {
-    public interface IGameObject
+    /// <summary>
+    /// Interface for the basic properties and methods of a game object (cube, triangle, sphere, mesh, etc)
+    /// </summary>
+    public interface IGameObject : IDisposable
     {
+        /// <summary>
+        /// File name of the texture to use
+        /// </summary>
         string FileName { get; set; }
 
+        /// <summary>
+        /// File path of the texture to use
+        /// </summary>
         string FilePath { get; set; }
 
+        /// <summary>
+        /// The unique identifier of the object
+        /// </summary>
         Guid Id { get; set; }
+
+        /// <summary>
+        /// The number of indexes to draw
+        /// </summary>
+        int IndexCount { get; set; }
+
+        /// <summary>
+        /// The indices placement
+        /// </summary>
+        int[] Indices { get; set; }
 
         /// <summary>
         /// Designate whether the object is a primitive type of Cube
@@ -21,16 +42,30 @@ namespace MY3DEngine.BaseObjects
         /// </summary>
         bool IsPrimitive { get; set; }
 
+        /// <summary>
+        /// Determine if the current object is selected
+        /// </summary>
         bool IsSelected { get; set; }
 
+        /// <summary>
+        /// Designate whether the object is a primitive type of Triangle
+        /// </summary>
         bool IsTriangle { get; set; }
 
+        /// <summary>
+        /// The name of the object
+        /// </summary>
         string Name { get; set; }
-        
+
         /// <summary>
         /// Change the color of the object
         /// </summary>
         void ApplyColor();
+
+        /// <summary>
+        /// Run the actual GPU draw call
+        /// </summary>
+        void Draw();
 
         /// <summary>
         /// Load the content of the object
