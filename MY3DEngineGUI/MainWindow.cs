@@ -1,5 +1,6 @@
 ﻿using MY3DEngine.BaseObjects;
 using MY3DEngine.GUI.HelperForms;
+using MY3DEngine.Models;
 using MY3DEngine.Primitives;
 using System;
 using System.ComponentModel;
@@ -553,6 +554,11 @@ namespace MY3DEngine.GUI
                 if (Engine.GameEngine.Manager.GameObjects.Count == 1 && Engine.GameEngine.Manager.GameObjects.First().IsSelected)
                 {
                     tbName.Text = Engine.GameEngine.Manager.GameObjects.First().Name;
+                }
+
+                if(!Engine.GameEngine.Manager.GameObjects.Any() || !Engine.GameEngine.Manager.GameObjects.Any(x => x.IsSelected))
+                {
+                    tbName.Text = string.Empty;
                 }
             }
         }

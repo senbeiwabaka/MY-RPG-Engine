@@ -1,7 +1,9 @@
 ﻿using MY3DEngine.BaseObjects;
 using MY3DEngine.Cameras;
-using MY3DEngine.GeneralManagers;
+using MY3DEngine.Managers;
 using MY3DEngine.Graphics;
+using MY3DEngine.Managers;
+using MY3DEngine.Models;
 using MY3DEngine.Primitives;
 using MY3DEngine.Shaders;
 using Newtonsoft.Json;
@@ -28,7 +30,7 @@ namespace MY3DEngine
         private ICamera camera;
         private IGraphicManager graphicsManager;
         private bool lighting;
-        private ObjectManager manager;
+        private IObjectManager manager;
         private Thread renderThread;
         
         /// <summary>
@@ -74,7 +76,7 @@ namespace MY3DEngine
         /// <summary>
         ///
         /// </summary>
-        public ObjectManager Manager
+        public IObjectManager Manager
         {
             get
             {
@@ -97,6 +99,14 @@ namespace MY3DEngine
         /// </summary>
         public IntPtr Window { get; }
         
+        /// <summary>
+        /// Add compiler errors to the exception list
+        /// </summary>
+        /// <param name="fileName"></param>
+        /// <param name="line"></param>
+        /// <param name="column"></param>
+        /// <param name="errorNumber"></param>
+        /// <param name="errorText"></param>
         public void AddCompilerErrors(string fileName, int line, int column, string errorNumber, string errorText)
         {
             if (IsDebugginTurnedOn)
@@ -240,8 +250,8 @@ namespace MY3DEngine
             try
             {
                 var jsonSerializedData = JsonConvert.SerializeObject(
-                    this.Manager.GetGameObjects(),
-                    new JsonSerializerSettings()
+                    this.Manager.GetGameObjects,
+                    new JsonSerializerSettings
                     {
                         TypeNameHandling = TypeNameHandling.Auto
                     });

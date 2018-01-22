@@ -6,7 +6,7 @@ using SharpDX.Mathematics.Interop;
 using System;
 using Device = SharpDX.Direct3D11.Device;
 
-namespace MY3DEngine.GeneralManagers
+namespace MY3DEngine.Managers
 {
     /// <summary>
     /// The device manager.

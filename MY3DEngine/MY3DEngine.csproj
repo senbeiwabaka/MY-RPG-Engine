@@ -86,12 +86,13 @@
     <Compile Include="Managers\DirectXManager.cs" />
     <Compile Include="Engine.cs" />
     <Compile Include="Managers\ExceptionManager.cs" />
-    <Compile Include="ExceptionData.cs" />
+    <Compile Include="Managers\IObjectManager.cs" />
+    <Compile Include="Models\ExceptionData.cs" />
     <Compile Include="Graphics\GraphicsManager.cs" />
     <Compile Include="Graphics\IGraphicManager.cs" />
     <Compile Include="ILevel.cs" />
     <Compile Include="Input.cs" />
-    <Compile Include="MatrixBuffer.cs" />
+    <Compile Include="Models\MatrixBuffer.cs" />
     <Compile Include="Shaders\IShader.cs" />
     <Compile Include="Shaders\Shader.cs" />
     <Content Include="Shaders\Color.ps">

@@ -4,18 +4,14 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 
-namespace MY3DEngine.GeneralManagers
+namespace MY3DEngine.Managers
 {
-    /// <summary>
-    /// Manages the list of objects
-    /// </summary>
-    public class ObjectManager
+    /// <inherietdoc/>
+    public class ObjectManager : IObjectManager
     {
         private readonly BindingList<GameObject> gameObjects = new BindingList<GameObject>();
 
-        /// <summary>
-        /// List of game objects
-        /// </summary>
+        /// <inherietdoc/>
         public BindingList<GameObject> GameObjects
         {
             get
@@ -27,12 +23,19 @@ namespace MY3DEngine.GeneralManagers
             }
         }
 
-        /// <summary>
-        /// Add an object to the list
-        /// </summary>
-        /// <param name="gameObject">The object to be added</param>
-        /// <param name="isNewObject"></param>
-        /// <returns>True when successful, false otherwise</returns>
+        /// <inherietdoc/>
+        public IEnumerable<GameObject> GetGameObjects
+        {
+            get
+            {
+                lock (this.GameObjects)
+                {
+                    return this.GameObjects.ToList();
+                }
+            }
+        }
+
+        /// <inherietdoc/>
         public bool AddObject(GameObject gameObject, bool isNewObject = true)
         {
             try
@@ -54,10 +57,7 @@ namespace MY3DEngine.GeneralManagers
             return true;
         }
 
-        /// <summary>
-        /// Removes an object from the list
-        /// </summary>
-        /// <returns>True when successful, false otherwise</returns>
+        /// <inherietdoc/>
         public bool RemoveObject(GameObject gameObject)
         {
             try
@@ -66,7 +66,7 @@ namespace MY3DEngine.GeneralManagers
                 {
                     var removed = this.GameObjects.Remove(gameObject);
 
-                    if(removed)
+                    if (removed)
                     {
                         gameObject?.Dispose();
                         gameObject = null;
@@ -80,18 +80,6 @@ namespace MY3DEngine.GeneralManagers
                 Engine.GameEngine.AddException(e);
 
                 return false;
-            }
-        }
-
-        /// <summary>
-        /// Get the list of game objects
-        /// </summary>
-        /// <returns></returns>
-        internal IEnumerable<GameObject> GetGameObjects()
-        {
-            lock (this.GameObjects)
-            {
-                return this.GameObjects.ToList();
             }
         }
     }

@@ -1,4 +1,5 @@
 ﻿using MY3DEngine.BaseObjects;
+using MY3DEngine.Models;
 using SharpDX;
 using SharpDX.D3DCompiler;
 using SharpDX.Direct3D11;

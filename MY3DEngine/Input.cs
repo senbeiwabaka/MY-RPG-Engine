@@ -1,4 +1,5 @@
-﻿using SharpDX.Multimedia;
+﻿using MY3DEngine.Models;
+using SharpDX.Multimedia;
 using SharpDX.RawInput;
 using System;
 using System.Drawing;

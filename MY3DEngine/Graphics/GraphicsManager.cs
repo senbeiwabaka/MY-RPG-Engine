@@ -1,4 +1,4 @@
-﻿using MY3DEngine.GeneralManagers;
+﻿using MY3DEngine.Managers;
 using SharpDX.Direct3D11;
 using System;
 

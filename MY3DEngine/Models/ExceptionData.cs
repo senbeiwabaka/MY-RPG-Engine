@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MY3DEngine
+namespace MY3DEngine.Models
 {
     /// <summary>Provides the base class for value types.</summary>
     public struct ExceptionData

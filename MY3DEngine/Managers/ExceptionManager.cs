@@ -1,6 +1,7 @@
-﻿using System.ComponentModel;
+﻿using MY3DEngine.Models;
+using System.ComponentModel;
 
-namespace MY3DEngine
+namespace MY3DEngine.Managers
 {
     /// <summary>
     /// Holds all of the game engine exceptions
