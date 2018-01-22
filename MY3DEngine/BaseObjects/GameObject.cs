@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using SharpDX;
 using SharpDX.Direct3D11;
 using System;
 using System.ComponentModel;
@@ -10,6 +11,7 @@ namespace MY3DEngine.BaseObjects
     public abstract class GameObject : IGameObject, INotifyPropertyChanged
     {
         private string name;
+        private Vector3 position;
 
         #region Constructors
 
@@ -91,11 +93,30 @@ namespace MY3DEngine.BaseObjects
             }
         }
 
+        /// <inheritdoc/>
+        public Vector3 Position
+        {
+            get
+            {
+                return this.position;
+            }
+
+            set
+            {
+                this.position = value;
+
+                this.NotifyPropertyChanged(nameof(this.Position));
+            }
+        }
+
+        /// <inheritdoc/>
         public Vertex[] Vertexies { get; set; }
 
+        /// <inheritdoc/>
         [JsonIgnore]
         protected SharpDX.Direct3D11.Buffer IndexBuffer { get; set; }
 
+        /// <inheritdoc/>
         [JsonIgnore]
         protected SharpDX.Direct3D11.Buffer VertexBuffer { get; set; }
 
@@ -145,6 +166,7 @@ namespace MY3DEngine.BaseObjects
             if (disposing)
             {
                 this.VertexBuffer?.Dispose();
+                this.IndexBuffer?.Dispose();
             }
         }
 

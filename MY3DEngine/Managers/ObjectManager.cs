@@ -64,7 +64,15 @@ namespace MY3DEngine.GeneralManagers
             {
                 lock (this.GameObjects)
                 {
-                    return this.GameObjects.Remove(gameObject);
+                    var removed = this.GameObjects.Remove(gameObject);
+
+                    if(removed)
+                    {
+                        gameObject?.Dispose();
+                        gameObject = null;
+                    }
+
+                    return removed;
                 }
             }
             catch (Exception e)

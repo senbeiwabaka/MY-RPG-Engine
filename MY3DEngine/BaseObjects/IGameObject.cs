@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SharpDX;
+using System;
 
 namespace MY3DEngine.BaseObjects
 {
@@ -56,6 +57,8 @@ namespace MY3DEngine.BaseObjects
         /// The name of the object
         /// </summary>
         string Name { get; set; }
+
+        Vector3 Position { get; set; }
 
         /// <summary>
         /// Change the color of the object
