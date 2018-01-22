@@ -12,7 +12,7 @@ namespace MY3DEngine.Primitives
         /// <summary>
         /// Basic game triangle object
         /// </summary>
-        public Triangle() : base("Triangle")
+        public Triangle() : base(name: "Triangle")
         {
             this.IsPrimitive = true;
             this.IsTriangle = true;

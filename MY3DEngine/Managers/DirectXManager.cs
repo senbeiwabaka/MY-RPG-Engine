@@ -77,7 +77,7 @@ namespace MY3DEngine.GeneralManagers
         /// <param name="vsync"></param>
         /// <param name="fullScreen"></param>
         /// <returns></returns>
-        public bool Initialize(IntPtr windowHandle, int screenWidth = 720, int screenHeight = 480, bool vsync = true, bool fullScreen = false)
+        public bool Initialize(IntPtr windowHandle, int screenWidth = 800, int screenHeight = 600, bool vsync = true, bool fullScreen = false)
         {
             int numerator = 0, denominator = 0;
 
@@ -340,6 +340,10 @@ namespace MY3DEngine.GeneralManagers
             }
         }
 
+        /// <summary>
+        /// Allow the write frame of objects to be displayed
+        /// </summary>
+        /// <param name="enable"></param>
         public void EnableWireFrameMode(bool enable = false)
         {
             var rasterizerStateDescription = new RasterizerStateDescription

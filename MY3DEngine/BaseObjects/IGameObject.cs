@@ -58,6 +58,9 @@ namespace MY3DEngine.BaseObjects
         /// </summary>
         string Name { get; set; }
 
+        /// <summary>
+        /// Where the object is located in the world
+        /// </summary>
         Vector3 Position { get; set; }
 
         /// <summary>

@@ -7,12 +7,14 @@ using System.Collections.Generic;
 
 namespace MY3DEngine.Shaders
 {
+    /// <inherietdoc/>
     public sealed class Shader : IShader
     {
         private InputLayout inputLayout;
         private PixelShader pixelShader;
         private VertexShader vertextShader;
 
+        /// <inherietdoc/>
         public SharpDX.Direct3D11.Buffer ConstantMatrixBuffer { get; set; }
 
         public void Dispose()
@@ -22,6 +24,7 @@ namespace MY3DEngine.Shaders
             GC.SuppressFinalize(true);
         }
 
+        /// <inherietdoc/>
         public bool Initialize()
         {
             try
@@ -89,6 +92,7 @@ namespace MY3DEngine.Shaders
             return true;
         }
 
+        /// <inherietdoc/>
         public bool Render(IEnumerable<GameObject> gameObjects, Matrix worldMatrix, Matrix viewMatrix, Matrix projectionMatrix)
         {
             if (!SetShaderParameters(worldMatrix, viewMatrix, projectionMatrix))

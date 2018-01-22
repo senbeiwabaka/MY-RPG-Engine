@@ -125,26 +125,5 @@ namespace MY3DEngine.Cameras
         {
             this.rotation = new Vector3(x, y, z);
         }
-
-        private float AngleBetween(Vector3 u, Vector3 v, bool returndegrees)
-        {
-            float toppart = 0;
-            for (int d = 0; d < 3; d++) toppart += u[d] * v[d];
-
-            float u2 = 0; //u squared
-            float v2 = 0; //v squared
-            for (int d = 0; d < 3; d++)
-            {
-                u2 += u[d] * u[d];
-                v2 += v[d] * v[d];
-            }
-
-            float bottompart = 0;
-            bottompart = (float)Math.Sqrt(u2 * v2);
-
-            float rtnval = (float)Math.Acos(toppart / bottompart);
-            if (returndegrees) rtnval *= 360.0f / (2.0f * (float)Math.PI);
-            return rtnval;
-        }
     }
 }

@@ -30,7 +30,7 @@ namespace MY3DEngine.Cameras
         void Initialize(int width = default(int), int height = default(int));
 
         void OnResize(float new_width, float new_height);
-
+        
         void Render();
 
         /// <summary>
@@ -52,8 +52,18 @@ namespace MY3DEngine.Cameras
         /// <param name="z">the z-axis</param>
         void SetPosition(float x, float y, float z);
 
+        /// <summary>
+        /// Set the rotation of the camera
+        /// </summary>
+        /// <param name="rotation"></param>
         void SetRotation(Vector3 rotation);
 
+        /// <summary>
+        /// Set the rotation of the camera
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <param name="z"></param>
         void SetRotation(float x, float y, float z);
     }
 }

@@ -18,32 +18,19 @@ namespace MY3DEngine.BaseObjects
         /// <summary>
         /// blank constructor
         /// </summary>
-        public GameObject() { }
+        protected GameObject() { }
 
         /// <summary>
         /// Constructor for building a .x object
         /// </summary>
         /// <param name="fileName">The file name of the object</param>
         /// <param name="path">The path of the object</param>
-        public GameObject(string fileName = "", string path = "")
+        /// <param name="name"></param>
+        protected GameObject(string fileName = default(string), string path = default(string), string name = "Cube")
         {
-            //MeshObject = new MeshClass(path, fileName);
-            FileName = fileName;
-            FilePath = path;
-        }
-
-        public GameObject(string type = "Cube")
-        {
-            //if (type.ToLower().Equals("triangle"))
-            //{
-            //    MeshObject = new MeshClass(MeshType.Triangle);
-            //}
-            //else
-            //{
-            //    MeshObject = new MeshClass(MeshType.Cube);
-            //}
-
-            Name = type;
+            this.FileName = fileName;
+            this.FilePath = path;
+            this.Name = name;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -145,9 +132,7 @@ namespace MY3DEngine.BaseObjects
         }
 
         /// <inheritdoc/>
-        public virtual void LoadContent(bool isNewObject = true)
-        {
-        }
+        public virtual void LoadContent(bool isNewObject = true) { }
 
         /// <inheritdoc/>
         public virtual void Render() { }
@@ -166,7 +151,10 @@ namespace MY3DEngine.BaseObjects
             if (disposing)
             {
                 this.VertexBuffer?.Dispose();
+                this.VertexBuffer = null;
+
                 this.IndexBuffer?.Dispose();
+                this.IndexBuffer = null;
             }
         }
 

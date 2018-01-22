@@ -6,7 +6,7 @@ namespace MY3DEngine.Primitives
 {
     public class Cube : GameObject
     {
-        public Cube() : base("Cube")
+        public Cube() : base(name: "Cube")
         {
             this.IsPrimitive = true;
             this.IsTriangle = false;
