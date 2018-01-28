@@ -7,7 +7,7 @@ The engine will be using just a list for all the objects until I, or someone joi
 The engine is currently using DirectX 11. The engine will as well be using SharpDX (4.0.1) which is included with the download via nuget.
 
 The engine currently has:
-  1. A basic camera that can move position (no rotation yet)
+  1. A basic camera that can move position and rotation
   2. 2D Cube and Triangle
   3. Build component that will generate a exe
     3.a. This includes the saved game file (json)
