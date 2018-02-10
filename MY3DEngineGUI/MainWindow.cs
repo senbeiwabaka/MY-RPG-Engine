@@ -24,42 +24,7 @@ namespace MY3DEngine.GUI
             this.InitializeComponent();
             this.LoadOrCreateProject();
 
-            var graphicsException = new ExceptionData("Engine Graphics not setup correctly", "Engine", string.Empty);
-            var exceptions = new BindingList<ExceptionData>();
-
             this.useVsyncToolStripMenuItem.Checked = true;
-
-            if (Engine.GameEngine.InitliazeGraphics(
-                this.rendererPnl.Handle,
-                this.rendererPnl.Width,
-                this.rendererPnl.Height,
-                vsyncEnabled: this.useVsyncToolStripMenuItem.Checked,
-                fullScreen: false))
-            {
-                Engine.GameEngine.Initialize(this.rendererPnl.Width, this.rendererPnl.Height);
-
-                exceptions = Engine.GameEngine.Exception.Exceptions;
-
-                _mouseLocation = new Point(0, 0);
-                _firstMouse = false;
-                isObjectSelected = false;
-
-                lock (Engine.GameEngine.Manager)
-                {
-                    this.GameObjectBindingSource.DataSource = Engine.GameEngine.Manager.GameObjects;
-                    GameObjectListComboBox.DataSource = this.GameObjectBindingSource.DataSource;
-                    this.TreeListViewSceneGraph.SetObjects(Engine.GameEngine.Manager.GameObjects, true);
-                }
-            }
-            else
-            {
-                exceptions.Add(graphicsException);
-            }
-
-            this.ExceptionBindingSource.DataSource = exceptions;
-
-            this.AddToInformationDisplay($"Video card memory : {Engine.GameEngine.GraphicsManager.GetDirectXManager.VideoCardMemory} MB");
-            this.AddToInformationDisplay($"Video card description : {Engine.GameEngine.GraphicsManager.GetDirectXManager.VideoCardDescription}");
         }
 
         #region Shutdown/Exit Events
@@ -195,7 +160,7 @@ namespace MY3DEngine.GUI
             int index = -1;
             lock (Engine.GameEngine.Manager)
             {
-                index = Engine.GameEngine.Manager.GameObjects.IndexOf((GameObject)GameObjectListComboBox.SelectedValue);
+                index = Engine.GameEngine.Manager.GameObjects.IndexOf((BaseObject)GameObjectListComboBox.SelectedValue);
             }
 
             if (index >= 0)
@@ -221,7 +186,7 @@ namespace MY3DEngine.GUI
             int index = -1;
             lock (Engine.GameEngine.Manager)
             {
-                index = Engine.GameEngine.Manager.GameObjects.IndexOf((GameObject)GameObjectListComboBox.SelectedValue);
+                index = Engine.GameEngine.Manager.GameObjects.IndexOf((BaseObject)GameObjectListComboBox.SelectedValue);
 
                 if (index >= 0)
                 {
@@ -276,7 +241,7 @@ namespace MY3DEngine.GUI
             int index = -1;
             lock (Engine.GameEngine.Manager)
             {
-                index = Engine.GameEngine.Manager.GameObjects.IndexOf((GameObject)GameObjectListComboBox.SelectedValue);
+                index = Engine.GameEngine.Manager.GameObjects.IndexOf((BaseObject)GameObjectListComboBox.SelectedValue);
 
                 Engine.GameEngine.Manager.GameObjects.ToList().ForEach(x => x.IsSelected = false);
             }
@@ -301,7 +266,7 @@ namespace MY3DEngine.GUI
         {
             lock (Engine.GameEngine.Manager)
             {
-                var gameObject = (GameObject)GameObjectListComboBox.SelectedValue;
+                var gameObject = (BaseObject)GameObjectListComboBox.SelectedValue;
 
                 Engine.GameEngine.Manager.GameObjects.ToList().ForEach(x => x.IsSelected = false);
 
@@ -495,6 +460,8 @@ namespace MY3DEngine.GUI
                 this.tlvGameFiles.Roots = files;
 
                 this.fswClassFileWatcher.Path = Engine.GameEngine.FolderLocation;
+
+                this.LoadGameEngine();
             }
         }
 
@@ -523,6 +490,8 @@ namespace MY3DEngine.GUI
                 this.tlvGameFiles.Roots = files;
 
                 this.fswClassFileWatcher.Path = Engine.GameEngine.FolderLocation;
+
+                this.LoadGameEngine();
             }
         }
 
@@ -556,7 +525,7 @@ namespace MY3DEngine.GUI
                     tbName.Text = Engine.GameEngine.Manager.GameObjects.First().Name;
                 }
 
-                if(!Engine.GameEngine.Manager.GameObjects.Any() || !Engine.GameEngine.Manager.GameObjects.Any(x => x.IsSelected))
+                if (!Engine.GameEngine.Manager.GameObjects.Any() || !Engine.GameEngine.Manager.GameObjects.Any(x => x.IsSelected))
                 {
                     tbName.Text = string.Empty;
                 }
@@ -566,6 +535,46 @@ namespace MY3DEngine.GUI
         private void AddToInformationDisplay(string message)
         {
             this.tbInformation.AppendText($"{message} {Environment.NewLine}");
+        }
+
+        private void LoadGameEngine()
+        {
+            var graphicsException = new ExceptionData("Engine Graphics not setup correctly", "Engine", string.Empty);
+            var exceptions = new BindingList<ExceptionData>();
+
+            Engine.GameEngine.SettingsManager.Initialize();
+
+            if (Engine.GameEngine.InitliazeGraphics(
+                this.rendererPnl.Handle,
+                this.rendererPnl.Width,
+                this.rendererPnl.Height,
+                vsyncEnabled: this.useVsyncToolStripMenuItem.Checked,
+                fullScreen: false))
+            {
+                Engine.GameEngine.Initialize();
+
+                exceptions = Engine.GameEngine.Exception.Exceptions;
+
+                _mouseLocation = new Point(0, 0);
+                _firstMouse = false;
+                isObjectSelected = false;
+
+                lock (Engine.GameEngine.Manager)
+                {
+                    this.GameObjectBindingSource.DataSource = Engine.GameEngine.Manager.GameObjects;
+                    GameObjectListComboBox.DataSource = this.GameObjectBindingSource.DataSource;
+                    this.TreeListViewSceneGraph.SetObjects(Engine.GameEngine.Manager.GameObjects, true);
+                }
+            }
+            else
+            {
+                exceptions.Add(graphicsException);
+            }
+
+            this.ExceptionBindingSource.DataSource = exceptions;
+
+            this.AddToInformationDisplay($"Video card memory : {Engine.GameEngine.GraphicsManager.GetDirectXManager.VideoCardMemory} MB");
+            this.AddToInformationDisplay($"Video card description : {Engine.GameEngine.GraphicsManager.GetDirectXManager.VideoCardDescription}");
         }
 
         private void LoadOrCreateProject()

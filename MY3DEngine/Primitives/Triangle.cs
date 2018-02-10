@@ -1,4 +1,5 @@
 ﻿using MY3DEngine.BaseObjects;
+using MY3DEngine.GraphicObjects;
 using SharpDX;
 using SharpDX.Direct3D11;
 
@@ -7,7 +8,7 @@ namespace MY3DEngine.Primitives
     /// <summary>
     /// Basic game triangle object
     /// </summary>
-    public class Triangle : GameObject
+    public class Triangle : BaseObject
     {
         /// <summary>
         /// Basic game triangle object
@@ -30,30 +31,18 @@ namespace MY3DEngine.Primitives
         {
             base.LoadContent(isNewObject);
 
-            this.Vertexies = new Vertex[3];
+            this.Vertexies = new ColorVertex[3];
 
             if (isNewObject)
             {
-                this.Vertexies = new Vertex[]
+                this.Vertexies = new ColorVertex[]
                 {
                     // Bottom left.
-					new Vertex()
-                    {
-                        Postion = new Vector3(-1, -1, 0),
-                        Color = new Vector4(1.0f, 1.0f, 1.0f, 1.0f)
-                    },
+					new ColorVertex(new Vector3(-1, -1, 0), new Vector4(1.0f, 1.0f, 1.0f, 1.0f)),
 					// Top middle. TO DO 3:  Top Left.
-					new Vertex()
-                    {
-                        Postion = new Vector3(0, 1, 0),
-                        Color = new Vector4(1.0f, 1.0f, 1.0f, 1.0f)
-                    },
+					new ColorVertex(new Vector3(0, 1, 0), new Vector4(1.0f, 1.0f, 1.0f, 1.0f)),
 					// Bottom right.
-					new Vertex()
-                    {
-                        Postion = new Vector3(1, -1, 0),
-                        Color = new Vector4(1.0f, 1.0f, 1.0f, 1.0f)
-                    }
+					new ColorVertex(new Vector3(1, -1, 0), new Vector4(1.0f, 1.0f, 1.0f, 1.0f))
                 };
 
                 this.Indices = new int[]
@@ -77,7 +66,7 @@ namespace MY3DEngine.Primitives
         {
             //int size = Utilities.SizeOf<ColorVertex>();
             // Set the vertex buffer to active in the input assembler so it can be rendered.
-            Engine.GameEngine.GraphicsManager.GetDeviceContext.InputAssembler.SetVertexBuffers(0, new VertexBufferBinding(this.VertexBuffer, Vertex.Size, 0));
+            Engine.GameEngine.GraphicsManager.GetDeviceContext.InputAssembler.SetVertexBuffers(0, new VertexBufferBinding(this.VertexBuffer, ColorVertex.Size, 0));
 
             // Set the index buffer to active in the input assembler so it can be rendered.
             Engine.GameEngine.GraphicsManager.GetDeviceContext.InputAssembler.SetIndexBuffer(this.IndexBuffer, SharpDX.DXGI.Format.R32_UInt, 0);

@@ -12,13 +12,13 @@ namespace MY3DEngine.Managers
         /// <summary>
         /// List of game objects
         /// </summary>
-        BindingList<GameObject> GameObjects { get; }
+        BindingList<BaseObject> GameObjects { get; }
 
         /// <summary>
         /// Get the list of game objects
         /// </summary>
         /// <returns></returns>
-        IEnumerable<GameObject> GetGameObjects { get; }
+        IEnumerable<BaseObject> GetGameObjects { get; }
 
         /// <summary>
         /// Add an object to the list
@@ -26,12 +26,12 @@ namespace MY3DEngine.Managers
         /// <param name="gameObject">The object to be added</param>
         /// <param name="isNewObject"></param>
         /// <returns>True when successful, false otherwise</returns>
-        bool AddObject(GameObject gameObject, bool isNewObject = true);
+        bool AddObject(BaseObject gameObject, bool isNewObject = true);
 
         /// <summary>
         /// Removes an object from the list
         /// </summary>
         /// <returns>True when successful, false otherwise</returns>
-        bool RemoveObject(GameObject gameObject);
+        bool RemoveObject(BaseObject gameObject);
     }
 }

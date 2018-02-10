@@ -1,6 +1,5 @@
 ﻿using MY3DEngine.BaseObjects;
 using MY3DEngine.Cameras;
-using MY3DEngine.Managers;
 using MY3DEngine.Graphics;
 using MY3DEngine.Managers;
 using MY3DEngine.Models;
@@ -25,20 +24,21 @@ namespace MY3DEngine
         public static bool IsDebugginTurnedOn;
 
         private static Engine gameEngine;
-
-        private IShader shader;
         private ICamera camera;
         private IGraphicManager graphicsManager;
         private bool lighting;
         private IObjectManager manager;
         private Thread renderThread;
-        
+        private SettingsManager settingsManager;
+        private IShader shader;
+
         /// <summary>
         /// Engine Constructor
         /// </summary>
         public Engine()
         {
             this.graphicsManager = null;
+            this.settingsManager = new SettingsManager();
         }
 
         /// <summary>
@@ -46,6 +46,9 @@ namespace MY3DEngine
         /// </summary>
         public static Engine GameEngine => gameEngine ?? (gameEngine = new Engine());
 
+        /// <summary>
+        /// The world camera
+        /// </summary>
         public ICamera Camera => this.camera;
 
         /// <summary>
@@ -76,62 +79,63 @@ namespace MY3DEngine
         /// <summary>
         ///
         /// </summary>
-        public IObjectManager Manager
-        {
-            get
-            {
-                return this.manager;
-            }
+        public IObjectManager Manager => this.manager;
 
-            set
-            {
-                if (this.manager == null)
-                {
-                    this.manager = new ObjectManager();
-                }
-
-                this.manager = value;
-            }
-        }
+        public SettingsManager SettingsManager => this.settingsManager;
 
         /// <summary>
         ///
         /// </summary>
         public IntPtr Window { get; }
-        
+
+        internal static bool DoesIniFileExist { get; set; }
+
+        #region Methods
+
         /// <summary>
-        /// Add compiler errors to the exception list
+        /// Add compiler error to the system error system for user display
         /// </summary>
-        /// <param name="fileName"></param>
-        /// <param name="line"></param>
-        /// <param name="column"></param>
-        /// <param name="errorNumber"></param>
-        /// <param name="errorText"></param>
+        /// <param name="fileName">The name of the file with the error</param>
+        /// <param name="line">The line of the error</param>
+        /// <param name="column">The character column of the error</param>
+        /// <param name="errorNumber">The CS error code #</param>
+        /// <param name="errorText">The error description</param>
         public void AddCompilerErrors(string fileName, int line, int column, string errorNumber, string errorText)
+        {
+            this.AddErrorMessage($"{fileName} has had an error compiling.", $"On line {line} in column {column}. The error code is {errorNumber}.", errorText);
+        }
+
+        /// <summary>
+        /// Add an error message to the system error system for user display
+        /// </summary>
+        /// <param name="message">The error message</param>
+        /// <param name="source">The source of the error</param>
+        /// <param name="stackTrace">The StackTrace of the error</param>
+        public void AddErrorMessage(string message, string source, string stackTrace)
         {
             if (IsDebugginTurnedOn)
             {
-                GameEngine.Exception.Exceptions.Add(new ExceptionData($"{fileName} has had an error compiling.", $"On line {line} in column {column}. The error code is {errorNumber}.", errorText));
+                GameEngine.Exception.Exceptions.Add(new ExceptionData(message, source, stackTrace));
             }
         }
 
         /// <summary>
-        /// Add exceptions to the list if debugging is enabled.
+        /// Add exception to the system error system for user display
         /// </summary>
-        /// <param name="e"></param>
+        /// <param name="e">The exception to add</param>
         public void AddException(Exception e)
         {
             if (IsDebugginTurnedOn)
             {
                 var exception = e;
 
-                GameEngine.Exception.Exceptions.Add(new ExceptionData(exception.Message, exception.Source, exception.StackTrace));
+                this.AddErrorMessage(exception.Message, exception.Source, exception.StackTrace);
 
                 while (exception.InnerException != null)
                 {
                     exception = exception.InnerException;
 
-                    GameEngine.Exception.Exceptions.Add(new ExceptionData(exception.Message, exception.Source, exception.StackTrace));
+                    this.AddErrorMessage(exception.Message, exception.Source, exception.StackTrace);
                 }
             }
         }
@@ -143,26 +147,26 @@ namespace MY3DEngine
             GC.SuppressFinalize(true);
         }
 
-        public bool Initialize(int screenWidth = 720, int screenHeight = 480)
+        public bool Initialize()
         {
             try
             {
                 this.shader = new Shader();
                 this.camera = new Camera();
                 this.Exception = new ExceptionManager();
-                this.Manager = new ObjectManager();
+                this.manager = new ObjectManager();
 
                 //this.Camera.Initialize(screenWidth, screenHeight);
                 this.Camera.SetPosition(0.0f, 0.0f, -10.0f);
 
-                if(!this.shader.Initialize())
+                if (!this.shader.Initialize())
                 {
                     return false;
                 }
 
                 this.Start();
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 this.AddException(e);
 
@@ -170,6 +174,15 @@ namespace MY3DEngine
             }
 
             return true;
+        }
+
+        /// <summary>
+        /// Initialize the settings for the game
+        /// </summary>
+        /// <returns></returns>
+        public bool InitializeSettings()
+        {
+            return this.SettingsManager.Initialize();
         }
 
         /// <summary>
@@ -188,6 +201,7 @@ namespace MY3DEngine
             return this.GraphicsManager.InitializeDirectXManager(windowHandle, screenWidth, screenHeight, vsyncEnabled, fullScreen);
         }
 
+        // TODO: Refactor
         public bool Load(string path)
         {
             try
@@ -197,7 +211,7 @@ namespace MY3DEngine
 
                 foreach (var item in jsonDeserializedData)
                 {
-                    var gameObject = JsonConvert.DeserializeObject<GameObject>(
+                    var gameObject = JsonConvert.DeserializeObject<BaseObject>(
                         item.ToString(),
                         new JsonSerializerSettings()
                         {
@@ -231,6 +245,9 @@ namespace MY3DEngine
             return false;
         }
 
+        /// <summary>
+        /// Run the games update and render code if the game hasn't been shutdown
+        /// </summary>
         public void Run()
         {
             while (GameEngine.IsNotShutDown)
@@ -240,11 +257,7 @@ namespace MY3DEngine
             }
         }
 
-        /// <summary>
-        /// Save the game to a folder
-        /// </summary>
-        /// <param name="filePath"></param>
-        /// <returns></returns>
+        // TODO: Refactor
         public bool Save(string filePath)
         {
             try
@@ -266,18 +279,6 @@ namespace MY3DEngine
             }
 
             return false;
-        }
-        
-        #region Old Code
-
-        /// <summary>
-        /// Toggle all lights
-        /// </summary>
-        public void GlobalLights()
-        {
-            this.lighting = this.lighting == false ? true : false;
-            //LocalDevice.ThisDevice.SetRenderState(RenderState.Lighting, _lighting);
-            //LocalDevice.ThisDevice.SetRenderState(RenderState.Ambient, new SlimDX.Color4(Color.Gray).ToArgb());
         }
 
         /// <summary>
@@ -301,6 +302,20 @@ namespace MY3DEngine
             this.GraphicsManager.EnableWireFrameMode(enableWireFrameMode);
         }
 
+        #endregion Methods
+
+        #region Old Code
+
+        /// <summary>
+        /// Toggle all lights
+        /// </summary>
+        public void GlobalLights()
+        {
+            this.lighting = this.lighting == false ? true : false;
+            //LocalDevice.ThisDevice.SetRenderState(RenderState.Lighting, _lighting);
+            //LocalDevice.ThisDevice.SetRenderState(RenderState.Ambient, new SlimDX.Color4(Color.Gray).ToArgb());
+        }
+
         #endregion Old Code
 
         #region Helper Methods
@@ -314,6 +329,9 @@ namespace MY3DEngine
             }
         }
 
+        /// <summary>
+        /// Any game render logic
+        /// </summary>
         private void Render()
         {
             this.GraphicsManager.BeginScene(0.0f, 0.0f, 0.0f, 1.0f);
@@ -335,16 +353,19 @@ namespace MY3DEngine
         }
 
         /// <summary>
-        ///
+        /// Start the background thread for running the game engine in the frame. (Non-UI thread)
         /// </summary>
         private void Start()
         {
             this.IsNotShutDown = true;
-            
+
             this.renderThread = new Thread(this.Run) { Name = "RenderingThread" };
             this.renderThread.Start();
         }
 
+        /// <summary>
+        /// And game update logic
+        /// </summary>
         private void Update()
         {
             //this.CalculateFrameRateStats();

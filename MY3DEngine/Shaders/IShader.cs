@@ -29,6 +29,6 @@ namespace MY3DEngine.Shaders
         /// <param name="viewMatrix"></param>
         /// <param name="projectionMatrix"></param>
         /// <returns></returns>
-        bool Render(IEnumerable<GameObject> gameObjects, Matrix worldMatrix, Matrix viewMatrix, Matrix projectionMatrix);
+        bool Render(IEnumerable<BaseObject> gameObjects, Matrix worldMatrix, Matrix viewMatrix, Matrix projectionMatrix);
     }
 }

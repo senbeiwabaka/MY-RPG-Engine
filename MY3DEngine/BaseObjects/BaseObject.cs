@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using MY3DEngine.GraphicObjects;
+using Newtonsoft.Json;
 using SharpDX;
 using SharpDX.Direct3D11;
 using System;
@@ -8,7 +9,7 @@ using System.Runtime.CompilerServices;
 namespace MY3DEngine.BaseObjects
 {
     /// <inheritdoc/>
-    public abstract class GameObject : IGameObject, INotifyPropertyChanged
+    public abstract class BaseObject : IGameObject, INotifyPropertyChanged
     {
         private string name;
         private Vector3 position;
@@ -18,30 +19,21 @@ namespace MY3DEngine.BaseObjects
         /// <summary>
         /// blank constructor
         /// </summary>
-        protected GameObject() { }
+        protected BaseObject() { }
 
         /// <summary>
-        /// Constructor for building a .x object
+        /// Constructor
         /// </summary>
-        /// <param name="fileName">The file name of the object</param>
-        /// <param name="path">The path of the object</param>
-        /// <param name="name"></param>
-        protected GameObject(string fileName = default(string), string path = default(string), string name = "Cube")
+        /// <param name="name">The name of the object</param>
+        protected BaseObject(string name = "Cube")
         {
-            this.FileName = fileName;
-            this.FilePath = path;
             this.Name = name;
         }
-
-        public event PropertyChangedEventHandler PropertyChanged;
 
         #endregion Constructors
 
         /// <inheritdoc/>
-        public string FileName { get; set; }
-
-        /// <inheritdoc/>
-        public string FilePath { get; set; }
+        public event PropertyChangedEventHandler PropertyChanged;
 
         /// <inheritdoc/>
         public Guid Id { get; set; } = Guid.NewGuid();
@@ -96,8 +88,10 @@ namespace MY3DEngine.BaseObjects
             }
         }
 
-        /// <inheritdoc/>
-        public Vertex[] Vertexies { get; set; }
+        /// <summary>
+        /// The building blocks of the object
+        /// </summary>
+        public ColorVertex[] Vertexies { get; set; }
 
         /// <inheritdoc/>
         [JsonIgnore]

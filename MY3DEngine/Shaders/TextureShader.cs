@@ -1,19 +1,22 @@
-﻿using MY3DEngine.BaseObjects;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using MY3DEngine.BaseObjects;
 using MY3DEngine.Models;
 using SharpDX;
 using SharpDX.D3DCompiler;
 using SharpDX.Direct3D11;
-using System;
-using System.Collections.Generic;
 
 namespace MY3DEngine.Shaders
 {
-    /// <inherietdoc/>
-    internal sealed class Shader : IShader
+    internal class TextureShader : IShader
     {
         private InputLayout inputLayout;
         private PixelShader pixelShader;
         private VertexShader vertextShader;
+        private SamplerState samplerState;
 
         /// <inherietdoc/>
         public SharpDX.Direct3D11.Buffer ConstantMatrixBuffer { get; set; }
@@ -25,7 +28,6 @@ namespace MY3DEngine.Shaders
             GC.SuppressFinalize(true);
         }
 
-        /// <inherietdoc/>
         public bool Initialize()
         {
             try
@@ -33,7 +35,7 @@ namespace MY3DEngine.Shaders
                 var path = Engine.GameEngine.SettingsManager.Settings.ShaderPath;
 
                 // Compile Vertex shaders
-                using (var vertexShaderByteCode = ShaderBytecode.CompileFromFile(string.Format("{0}\\Color.vs", path), "ColorVertexShader", "vs_4_0", ShaderFlags.None, EffectFlags.None))
+                using (var vertexShaderByteCode = ShaderBytecode.CompileFromFile(string.Format("{0}\\texture.vs", path), "TextureVertexShader", "vs_5_0", ShaderFlags.EnableStrictness, EffectFlags.None))
                 {
                     this.vertextShader = new VertexShader(Engine.GameEngine.GraphicsManager.GetDevice, vertexShaderByteCode);
 
@@ -54,9 +56,9 @@ namespace MY3DEngine.Shaders
                             },
                             new InputElement
                             {
-                                SemanticName = "COLOR",
+                                SemanticName = "TEXCOORD",
                                 SemanticIndex = 0,
-                                Format = SharpDX.DXGI.Format.R32G32B32A32_Float,
+                                Format = SharpDX.DXGI.Format.R32G32_Float,
                                 Slot = 0,
                                 AlignedByteOffset = InputElement.AppendAligned,
                                 Classification = InputClassification.PerVertexData,
@@ -66,7 +68,7 @@ namespace MY3DEngine.Shaders
                 }
 
                 // Compile Pixel shaders
-                using (var pixelShaderByteCode = ShaderBytecode.CompileFromFile(string.Format("{0}\\Color.ps", path), "ColorPixelShader", "ps_4_0", ShaderFlags.None, EffectFlags.None))
+                using (var pixelShaderByteCode = ShaderBytecode.CompileFromFile(string.Format("{0}\\texture.ps", path), "TexturePixelShader", "ps_5_0", ShaderFlags.EnableStrictness, EffectFlags.None))
                 {
                     this.pixelShader = new PixelShader(Engine.GameEngine.GraphicsManager.GetDevice, pixelShaderByteCode);
                 }
@@ -82,6 +84,21 @@ namespace MY3DEngine.Shaders
                 };
 
                 this.ConstantMatrixBuffer = new SharpDX.Direct3D11.Buffer(Engine.GameEngine.GraphicsManager.GetDevice, matrixBufDesc);
+
+                var sampleStateDescription = new SamplerStateDescription
+                {
+                    Filter = Filter.MinMagMipLinear,
+                    AddressU = TextureAddressMode.Wrap,
+                    AddressV = TextureAddressMode.Wrap,
+                    AddressW = TextureAddressMode.Wrap,
+                    MipLodBias = 0.0f,
+                    MaximumAnisotropy = 1,
+                    ComparisonFunction = Comparison.Always,
+                    BorderColor = new SharpDX.Mathematics.Interop.RawColor4(0.0f, 0.0f, 0.0f, 0.0f),
+                    MinimumLod = 0,
+                    MaximumLod = float.MaxValue
+                };
+                this.samplerState = new SamplerState(Engine.GameEngine.GraphicsManager.GetDevice, sampleStateDescription);
             }
             catch (Exception e)
             {
@@ -100,7 +117,6 @@ namespace MY3DEngine.Shaders
             return true;
         }
 
-        /// <inherietdoc/>
         public bool Render(IEnumerable<BaseObject> gameObjects, Matrix worldMatrix, Matrix viewMatrix, Matrix projectionMatrix)
         {
             if (!SetShaderParameters(worldMatrix, viewMatrix, projectionMatrix))
@@ -143,6 +159,8 @@ namespace MY3DEngine.Shaders
                 this.pixelShader = null;
                 this.vertextShader?.Dispose();
                 this.vertextShader = null;
+                this.samplerState?.Dispose();
+                this.samplerState = null;
             }
         }
 

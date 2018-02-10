@@ -9,10 +9,10 @@ namespace MY3DEngine.Managers
     /// <inherietdoc/>
     public class ObjectManager : IObjectManager
     {
-        private readonly BindingList<GameObject> gameObjects = new BindingList<GameObject>();
+        private readonly BindingList<BaseObject> gameObjects = new BindingList<BaseObject>();
 
         /// <inherietdoc/>
-        public BindingList<GameObject> GameObjects
+        public BindingList<BaseObject> GameObjects
         {
             get
             {
@@ -24,7 +24,7 @@ namespace MY3DEngine.Managers
         }
 
         /// <inherietdoc/>
-        public IEnumerable<GameObject> GetGameObjects
+        public IEnumerable<BaseObject> GetGameObjects
         {
             get
             {
@@ -36,7 +36,7 @@ namespace MY3DEngine.Managers
         }
 
         /// <inherietdoc/>
-        public bool AddObject(GameObject gameObject, bool isNewObject = true)
+        public bool AddObject(BaseObject gameObject, bool isNewObject = true)
         {
             try
             {
@@ -58,7 +58,7 @@ namespace MY3DEngine.Managers
         }
 
         /// <inherietdoc/>
-        public bool RemoveObject(GameObject gameObject)
+        public bool RemoveObject(BaseObject gameObject)
         {
             try
             {

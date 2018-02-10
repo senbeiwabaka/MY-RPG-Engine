@@ -11,7 +11,7 @@ namespace MY3DEngine.Models
         /// <param name="message"></param>
         /// <param name="source"></param>
         /// <param name="stacktrace"></param>
-        public ExceptionData(string message, string source, string stacktrace) : this()
+        public ExceptionData(string message, string source, string stacktrace)
         {
             Message = message;
             Source = source;

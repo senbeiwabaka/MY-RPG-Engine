@@ -6,7 +6,7 @@ namespace MY3DEngine
 {
     internal interface ILevel : IDisposable
     {
-        IObservable<GameObject> LevelObjects { get; set; }
+        IObservable<BaseObject> LevelObjects { get; set; }
         LevelType LevelType { get; set; }
         string Name { get; set; }
 

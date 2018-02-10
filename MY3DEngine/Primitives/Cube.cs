@@ -1,11 +1,18 @@
 ﻿using MY3DEngine.BaseObjects;
+using MY3DEngine.GraphicObjects;
 using SharpDX;
 using SharpDX.Direct3D11;
 
 namespace MY3DEngine.Primitives
 {
-    public class Cube : GameObject
+    /// <summary>
+    /// Base object that can have color applied
+    /// </summary>
+    public sealed class Cube : BaseObject
     {
+        /// <summary>
+        /// Base constructor for the cube
+        /// </summary>
         public Cube() : base(name: "Cube")
         {
             this.IsPrimitive = true;
@@ -24,16 +31,16 @@ namespace MY3DEngine.Primitives
         {
             base.LoadContent(isNewObject);
 
-            this.Vertexies = new Vertex[4];
+            this.Vertexies = new ColorVertex[4];
 
             if (isNewObject)
             {
-                this.Vertexies = new Vertex[]
+                this.Vertexies = new ColorVertex[]
                 {
-                        new Vertex(new Vector3(-1f, -1f, 0f), new Vector4(1.0f, 1.0f, 1.0f, 1.0f)), // Bottom Left
-                        new Vertex(new Vector3(-1f, 1f, 0f), new Vector4(1.0f, 1.0f, 1.0f, 1.0f)), // Top Left
-                        new Vertex(new Vector3(1f, 1f, 0f), new Vector4(1.0f, 1.0f, 1.0f, 1.0f)), // Top Right
-                        new Vertex(new Vector3(1f, -1f, 0f), new Vector4(1.0f, 1.0f, 1.0f, 1.0f)) // Bottom Right
+                        new ColorVertex(new Vector3(-1f, -1f, 0f), new Vector4(1.0f, 1.0f, 1.0f, 1.0f)), // Bottom Left
+                        new ColorVertex(new Vector3(-1f, 1f, 0f), new Vector4(1.0f, 1.0f, 1.0f, 1.0f)), // Top Left
+                        new ColorVertex(new Vector3(1f, 1f, 0f), new Vector4(1.0f, 1.0f, 1.0f, 1.0f)), // Top Right
+                        new ColorVertex(new Vector3(1f, -1f, 0f), new Vector4(1.0f, 1.0f, 1.0f, 1.0f)) // Bottom Right
                 };
 
                 this.Indices = new int[]
@@ -54,9 +61,8 @@ namespace MY3DEngine.Primitives
         /// <inheritdoc/>
         public override void Render()
         {
-            //int size = Utilities.SizeOf<ColorVertex>();
             // Set the vertex buffer to active in the input assembler so it can be rendered.
-            Engine.GameEngine.GraphicsManager.GetDeviceContext.InputAssembler.SetVertexBuffers(0, new VertexBufferBinding(this.VertexBuffer, Vertex.Size, 0));
+            Engine.GameEngine.GraphicsManager.GetDeviceContext.InputAssembler.SetVertexBuffers(0, new VertexBufferBinding(this.VertexBuffer, ColorVertex.Size, 0));
 
             // Set the index buffer to active in the input assembler so it can be rendered.
             Engine.GameEngine.GraphicsManager.GetDeviceContext.InputAssembler.SetIndexBuffer(this.IndexBuffer, SharpDX.DXGI.Format.R32_UInt, 0);

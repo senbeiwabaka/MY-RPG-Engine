@@ -76,35 +76,37 @@
   <ItemGroup>
     <Compile Include="BaseObjects\GameObjectWithTexture.cs" />
     <Compile Include="BaseObjects\IGameObjectWithTexture.cs" />
-    <Compile Include="BaseObjects\Vertex.cs" />
+    <Compile Include="FileSystem.cs" />
+    <Compile Include="GraphicObjects\ColorVertex.cs" />
     <Compile Include="Cameras\Camera.cs" />
     <Compile Include="Cameras\ICamera.cs" />
     <Compile Include="Common\TextureLoader.cs" />
     <Compile Include="Enums\LevelType.cs" />
     <Compile Include="GameTimer.cs" />
+    <Compile Include="GraphicObjects\TextureVertex.cs" />
     <Compile Include="IGameTimer.cs" />
     <Compile Include="Managers\DirectXManager.cs" />
     <Compile Include="Engine.cs" />
     <Compile Include="Managers\ExceptionManager.cs" />
     <Compile Include="Managers\IObjectManager.cs" />
+    <Compile Include="Managers\SettingsManager.cs" />
     <Compile Include="Models\ExceptionData.cs" />
     <Compile Include="Graphics\GraphicsManager.cs" />
     <Compile Include="Graphics\IGraphicManager.cs" />
     <Compile Include="ILevel.cs" />
     <Compile Include="Input.cs" />
     <Compile Include="Models\MatrixBuffer.cs" />
+    <Compile Include="Models\Settings.cs" />
     <Compile Include="Shaders\IShader.cs" />
     <Compile Include="Shaders\Shader.cs" />
-    <Content Include="Shaders\Color.ps">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <Compile Include="Shaders\TextureShader.cs" />
+    <Content Include="Assets\Shaders\Color.ps">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Shaders\Color.vs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <Content Include="Assets\Shaders\Color.vs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <None Include="app.config" />
-    <None Include="Shaders\TriangleWithTexture.fx">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
     <None Include="Assets\decal.dds">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -115,7 +117,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <Content Include="Graphics\MeshClass.cs" />
-    <Compile Include="BaseObjects\GameObject.cs" />
+    <Compile Include="BaseObjects\BaseObject.cs" />
     <Compile Include="BaseObjects\IGameObject.cs" />
     <Compile Include="Managers\ObjectManager.cs" />
     <Compile Include="Primitives\Cube.cs" />
@@ -123,17 +125,25 @@
     <Compile Include="Primitives\TriangleWithTexture.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Scripting.cs" />
-    <None Include="Shaders\Triangle.fx">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Shaders\SolidGreenColor.fx">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
+    <Content Include="Assets\Shaders\texture.ps">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="DefaultSettings.ini">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\Shaders\texture.vs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\MY3DEngine.Utilities\MY3DEngine.Utilities.csproj">
+      <Project>{bd4326b8-0018-4f84-857c-6a479c08f80b}</Project>
+      <Name>MY3DEngine.Utilities</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -1,5 +1,6 @@
 ﻿using SharpDX;
 using System;
+using System.ComponentModel;
 
 namespace MY3DEngine.BaseObjects
 {
@@ -9,14 +10,9 @@ namespace MY3DEngine.BaseObjects
     public interface IGameObject : IDisposable
     {
         /// <summary>
-        /// File name of the texture to use
+        /// Event to capture when a property has changed (ex. IsAlive = false)
         /// </summary>
-        string FileName { get; set; }
-
-        /// <summary>
-        /// File path of the texture to use
-        /// </summary>
-        string FilePath { get; set; }
+        event PropertyChangedEventHandler PropertyChanged;
 
         /// <summary>
         /// The unique identifier of the object
