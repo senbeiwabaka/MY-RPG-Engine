@@ -50,6 +50,11 @@ namespace MY3DEngine.Managers
                 this.settings.ShaderPath = $"{CurrentDirectory}{DefaultShaderPath}";
             }
 
+            if (string.IsNullOrWhiteSpace(this.settings.AssetsPath))
+            {
+                this.settings.AssetsPath = $"{CurrentDirectory}{DefaultAssetsPath}";
+            }
+
             return true;
         }
     }

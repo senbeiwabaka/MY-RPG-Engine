@@ -5,7 +5,15 @@
     /// </summary>
     public struct Settings
     {
+        /// <summary>
+        /// The location of the assets folder
+        /// </summary>
         public string AssetsPath { get; set; }
+
+        /// <summary>
+        /// The name of the game
+        /// </summary>
+        public string GameName { get; set; }
 
         /// <summary>
         /// Screen height
@@ -14,6 +22,9 @@
 
         public string PixelShaderName { get; set; }
 
+        /// <summary>
+        /// The location of the shader folder
+        /// </summary>
         public string ShaderPath { get; set; }
 
         public string VertexShaderName { get; set; }

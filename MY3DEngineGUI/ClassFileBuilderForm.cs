@@ -1,5 +1,6 @@
 ﻿using ScintillaNET;
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
@@ -115,6 +116,30 @@ namespace MY3DEngine.GUI
             // Calculate the width required to display the last line number and include some padding for good measure.
             this.scintilla1.Margins[0].Width = this.scintilla1.TextWidth(Style.LineNumber, new string('9', maxLineNumberCharLength + 1)) + padding;
             this.baseMaxLineNumberCharLength = maxLineNumberCharLength;
+        }
+
+        private void CompileToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.SaveFile();
+
+            ICollection<object> errors = new List<object>();
+
+            if (!Build.Build.CompileFile($"{folder}\\{fileName}", out errors))
+            {
+                this.AddToInformationDisplay("Compile Failed");
+            }
+            else
+            {
+                foreach (var error in errors)
+                {
+                    this.AddToInformationDisplay(error.ToString());
+                }
+            }
+
+            if (errors.Count == 0)
+            {
+                this.AddToInformationDisplay("No errors found");
+            }
         }
 
         #endregion Events

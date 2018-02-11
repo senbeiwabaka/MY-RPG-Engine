@@ -1,5 +1,4 @@
-﻿using MY3DEngine;
-using System;
+﻿using System;
 using System.Windows.Forms;
 
 namespace MY3DEngine.GUI.HelperForms

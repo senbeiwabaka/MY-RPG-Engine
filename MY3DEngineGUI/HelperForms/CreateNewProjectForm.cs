@@ -24,6 +24,13 @@ namespace MY3DEngine.GUI.HelperForms
             Engine.GameEngine.FolderLocation = this.folderLocation;
             Engine.GameEngine.GameName = this.tbName.Text.Trim();
 
+            if(!Build.Build.CreateGameMainFiles(Engine.GameEngine.FolderLocation, Engine.GameEngine.GameName))
+            {
+                MessageBox.Show("error", "error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                return;
+            }
+
             this.DialogResult = DialogResult.OK;
 
             this.Close();

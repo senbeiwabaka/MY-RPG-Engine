@@ -24,7 +24,7 @@ namespace MY3DEngine.BaseObjects
         }
 
         [JsonIgnore]
-        public ShaderResourceView ColorMap { get; set; }
+        public ShaderResourceView Texture { get; set; }
 
         /// <inheritdoc/>
         public string FileName { get; set; }

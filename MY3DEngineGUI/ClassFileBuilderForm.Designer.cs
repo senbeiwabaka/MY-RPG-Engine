@@ -33,6 +33,7 @@
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.compileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.clearLogToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.closeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tbInformation = new System.Windows.Forms.TextBox();
@@ -77,6 +78,7 @@
             // 
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.saveToolStripMenuItem,
+            this.compileToolStripMenuItem,
             this.clearLogToolStripMenuItem,
             this.closeToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
@@ -86,21 +88,28 @@
             // saveToolStripMenuItem
             // 
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.saveToolStripMenuItem.Text = "Save";
             this.saveToolStripMenuItem.Click += new System.EventHandler(this.SaveToolStripMenuItem_Click);
+            // 
+            // compileToolStripMenuItem
+            // 
+            this.compileToolStripMenuItem.Name = "compileToolStripMenuItem";
+            this.compileToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.compileToolStripMenuItem.Text = "Compile";
+            this.compileToolStripMenuItem.Click += new System.EventHandler(this.CompileToolStripMenuItem_Click);
             // 
             // clearLogToolStripMenuItem
             // 
             this.clearLogToolStripMenuItem.Name = "clearLogToolStripMenuItem";
-            this.clearLogToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
+            this.clearLogToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.clearLogToolStripMenuItem.Text = "Clear Log";
             this.clearLogToolStripMenuItem.Click += new System.EventHandler(this.ClearLogToolStripMenuItem_Click);
             // 
             // closeToolStripMenuItem
             // 
             this.closeToolStripMenuItem.Name = "closeToolStripMenuItem";
-            this.closeToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
+            this.closeToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.closeToolStripMenuItem.Text = "Close";
             this.closeToolStripMenuItem.Click += new System.EventHandler(this.CloseToolStripMenuItem_Click);
             // 
@@ -112,6 +121,7 @@
             this.tbInformation.Multiline = true;
             this.tbInformation.Name = "tbInformation";
             this.tbInformation.ReadOnly = true;
+            this.tbInformation.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.tbInformation.Size = new System.Drawing.Size(409, 63);
             this.tbInformation.TabIndex = 3;
             // 
@@ -146,5 +156,6 @@
         private System.Windows.Forms.ToolStripMenuItem closeToolStripMenuItem;
         private System.Windows.Forms.TextBox tbInformation;
         private System.Windows.Forms.ToolStripMenuItem clearLogToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem compileToolStripMenuItem;
     }
 }

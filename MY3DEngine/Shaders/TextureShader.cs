@@ -114,6 +114,9 @@ namespace MY3DEngine.Shaders
             Engine.GameEngine.GraphicsManager.GetDeviceContext.VertexShader.Set(this.vertextShader);
             Engine.GameEngine.GraphicsManager.GetDeviceContext.PixelShader.Set(this.pixelShader);
 
+            // Set the sampler state in the pixel shader.
+            Engine.GameEngine.GraphicsManager.GetDeviceContext.PixelShader.SetSampler(0, this.samplerState);
+
             return true;
         }
 
@@ -128,7 +131,7 @@ namespace MY3DEngine.Shaders
 
             lock (gameObjects)
             {
-                foreach (var gameObject in gameObjects)
+                foreach (var gameObject in gameObjects.Where(x => !x.IsPrimitive))
                 {
                     position = gameObject.Position;
 

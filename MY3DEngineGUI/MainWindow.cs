@@ -18,6 +18,7 @@ namespace MY3DEngine.GUI
         private string className;
         private string gamePath;
         private bool isObjectSelected;
+        private bool gameGeneratedSuccessfully;
 
         public MainWindow()
         {
@@ -345,7 +346,9 @@ namespace MY3DEngine.GUI
 
         private void GenerateGameToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (MY3DEngine.Build.Build.GenerateCSharpFile(gamePath))
+            this.gameGeneratedSuccessfully = Build.Build.GenerateCSharpFile(Engine.GameEngine.FolderLocation);
+
+            if (this.gameGeneratedSuccessfully)
             {
                 this.AddToInformationDisplay("Game generated successfully.");
 
@@ -357,6 +360,8 @@ namespace MY3DEngine.GUI
 
                 MessageBox.Show("Game not generated successfully. Please see error log.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+
+            this.UpdateBuildMenuClickUsability();
         }
 
         private void LoadToolStripMenuItem_Click(object sender, EventArgs e)
@@ -368,7 +373,7 @@ namespace MY3DEngine.GUI
 
             if (dialog.ShowDialog() == DialogResult.OK)
             {
-                var fileInfo = new System.IO.FileInfo(dialog.FileName);
+                var fileInfo = new FileInfo(dialog.FileName);
                 gamePath = fileInfo.DirectoryName;
 
                 if (Engine.GameEngine.Load(dialog.FileName))
@@ -462,6 +467,7 @@ namespace MY3DEngine.GUI
                 this.fswClassFileWatcher.Path = Engine.GameEngine.FolderLocation;
 
                 this.LoadGameEngine();
+                this.UpdateGenerateMenuClickUsability();
             }
         }
 
@@ -492,6 +498,7 @@ namespace MY3DEngine.GUI
                 this.fswClassFileWatcher.Path = Engine.GameEngine.FolderLocation;
 
                 this.LoadGameEngine();
+                this.UpdateGenerateMenuClickUsability();
             }
         }
 
@@ -634,6 +641,16 @@ namespace MY3DEngine.GUI
             }
         }
 
+        private void UpdateGenerateMenuClickUsability()
+        {
+            this.generateGameToolStripMenuItem.Enabled = !string.IsNullOrWhiteSpace(Engine.GameEngine.FolderLocation);
+        }
+
+        private void UpdateBuildMenuClickUsability()
+        {
+            this.buildGameToolStripMenuItem.Enabled = this.gameGeneratedSuccessfully;
+        }
+
         #endregion Helper Methods
 
         #region Context Menu Items
@@ -686,5 +703,21 @@ namespace MY3DEngine.GUI
         }
 
         #endregion File(s) Event(s)
+
+        private void buildGameToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (Build.Build.BuildGame(Engine.GameEngine.FolderLocation, Engine.GameEngine.GameName))
+            {
+                this.AddToInformationDisplay("Game built successfully.");
+
+                MessageBox.Show("Game built successfully.", "Information");
+            }
+            else
+            {
+                this.AddToInformationDisplay("Game not built successfully. Please see error log.");
+
+                MessageBox.Show("Game not built successfully. Please see error log.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
     }
 }

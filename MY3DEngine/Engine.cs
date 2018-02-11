@@ -151,7 +151,7 @@ namespace MY3DEngine
         {
             try
             {
-                this.shader = new Shader();
+                this.shader = new TextureShader();
                 this.camera = new Camera();
                 this.Exception = new ExceptionManager();
                 this.manager = new ObjectManager();

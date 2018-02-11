@@ -611,6 +611,7 @@
             this.buildGameToolStripMenuItem.Name = "buildGameToolStripMenuItem";
             this.buildGameToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
             this.buildGameToolStripMenuItem.Text = "Build Game";
+            this.buildGameToolStripMenuItem.Click += new System.EventHandler(this.buildGameToolStripMenuItem_Click);
             // 
             // generateGameToolStripMenuItem
             // 
