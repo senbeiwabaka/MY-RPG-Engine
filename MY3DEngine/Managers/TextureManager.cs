@@ -30,7 +30,7 @@ namespace MY3DEngine.Managers
             }
         }
 
-        public static bool Initialize(Device device, string fileName, ShaderResourceView textureResource)
+        public static bool Initialize(Device device, string fileName, ref ShaderResourceView textureResource)
         {
             try
             {
@@ -45,7 +45,7 @@ namespace MY3DEngine.Managers
                     srvDesc.Texture2D.MipLevels = -1;
 
                     textureResource = new ShaderResourceView(device, texture, srvDesc);
-                    device.ImmediateContext.GenerateMips(textureResource);
+                    Engine.GameEngine.GraphicsManager.GetDeviceContext.GenerateMips(textureResource);
                 }
 
                 return true;

@@ -1,11 +1,13 @@
 ﻿using MY3DEngine.GraphicObjects;
-using Newtonsoft.Json;
 using SharpDX.Direct3D11;
 
 namespace MY3DEngine.BaseObjects
 {
-    public class GameObjectWithTexture : BaseObject, IGameObjectWithTexture
+    /// <inheritdoc/>
+    public abstract class GameObjectWithTexture : BaseObject, IGameObjectWithTexture
     {
+        protected ShaderResourceView Texture;
+
         /// <summary>
         /// Constructor for building a .x object
         /// </summary>
@@ -22,9 +24,6 @@ namespace MY3DEngine.BaseObjects
             this.IsTriangle = false;
             this.IsSelected = false;
         }
-
-        [JsonIgnore]
-        public ShaderResourceView Texture { get; set; }
 
         /// <inheritdoc/>
         public string FileName { get; set; }

@@ -121,15 +121,13 @@ namespace MY3DEngine.BaseObjects
         }
 
         /// <inheritdoc/>
-        public virtual void Draw()
-        {
-        }
+        public abstract void Draw();
 
         /// <inheritdoc/>
-        public virtual void LoadContent(bool isNewObject = true) { }
+        public abstract void LoadContent(bool isNewObject = true);
 
         /// <inheritdoc/>
-        public virtual void Render() { }
+        public abstract void Render();
 
         /// <summary>
         ///

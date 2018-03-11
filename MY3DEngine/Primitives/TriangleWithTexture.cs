@@ -1,18 +1,21 @@
 ﻿using MY3DEngine.BaseObjects;
 using MY3DEngine.GraphicObjects;
 using MY3DEngine.Managers;
-using MY3DEngine.Utilities;
 using SharpDX;
 using SharpDX.Direct3D11;
-using System.IO;
-using wic = SharpDX.WIC;
 
 namespace MY3DEngine.Primitives
 {
+    /// <summary>
+    /// A basic triangle with a texture applied
+    /// </summary>
     public class TriangleWithTexture : GameObjectWithTexture
     {
+        /// <summary>
+        /// A basic triangle with a texture applied
+        /// </summary>
         public TriangleWithTexture()
-            :base(name: "Triangle with Texture")
+            : base(name: "Triangle with Texture")
         {
         }
 
@@ -25,12 +28,48 @@ namespace MY3DEngine.Primitives
         /// <inheritdoc/>
         public override void LoadContent(bool isNewObject = true)
         {
-            base.LoadContent(isNewObject);
-            
+            // Set number of vertices in the index array.
+            IndexCount = 3;
+
+            // Create the vertex array and load it with data.
+            this.TextureVerticies = new[]
+            {
+					// Bottom left.
+					new TextureVertex
+                    {
+                        Position = new Vector3(-1, -1, 0),
+                        Texture = new Vector2(0, 1)
+                    },
+					// Top middle.
+					new TextureVertex
+                    {
+                        Position = new Vector3(0, 1, 0),
+                        Texture = new Vector2(.5f, 0)
+                    },
+					// Bottom right.
+					new TextureVertex
+                    {
+                        Position = new Vector3(1, -1, 0),
+                        Texture = new Vector2(1, 1)
+                    }
+                };
+
+            // Create Indicies to load into the IndexBuffer.
+            this.Indices = new int[] {
+                    0, // Bottom left.
+					1, // Top middle.
+					2  // Bottom right.
+            };
+
+            // Instantiate Vertex buffer from vertex data
+            this.VertexBuffer = Buffer.Create(Engine.GameEngine.GraphicsManager.GetDevice, BindFlags.VertexBuffer, this.TextureVerticies);
+            // Instantiate Index Buffer from index data
+            this.IndexBuffer = Buffer.Create(Engine.GameEngine.GraphicsManager.GetDevice, BindFlags.IndexBuffer, this.Indices);
+
             var path = Engine.GameEngine.SettingsManager.Settings.AssetsPath;
             path = string.Format("{0}\\seafloor.bmp", path);
 
-            TextureManager.Initialize(Engine.GameEngine.GraphicsManager.GetDevice, path, this.Texture);
+            TextureManager.Initialize(Engine.GameEngine.GraphicsManager.GetDevice, path, ref this.Texture);
         }
 
         /// <inheritdoc/>

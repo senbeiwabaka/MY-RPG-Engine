@@ -5,8 +5,6 @@ namespace MY3DEngine.BaseObjects
 {
     public interface IGameObjectWithTexture
     {
-        ShaderResourceView Texture { get; set; }
-
         /// <summary>
         /// File name of the texture to use
         /// </summary>

@@ -29,8 +29,6 @@ namespace MY3DEngine.Primitives
         /// <inheritdoc/>
         public override void LoadContent(bool isNewObject = true)
         {
-            base.LoadContent(isNewObject);
-
             this.Vertexies = new ColorVertex[3];
 
             if (isNewObject)
