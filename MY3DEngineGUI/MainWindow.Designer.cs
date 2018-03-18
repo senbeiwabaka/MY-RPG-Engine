@@ -73,7 +73,7 @@
             this.tbInformation = new System.Windows.Forms.TextBox();
             this.lblCameraPosition = new System.Windows.Forms.Label();
             this.tbPlay = new System.Windows.Forms.TabPage();
-            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.MenuStripMain = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveLevelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.loadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -103,9 +103,10 @@
             this.otherToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.clearInformationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.clearErrorsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.colorDialog1 = new System.Windows.Forms.ColorDialog();
+            this.ColorDialogForObjects = new System.Windows.Forms.ColorDialog();
             this.GameObjectBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.fswClassFileWatcher = new System.IO.FileSystemWatcher();
+            this.viewLogFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.ExceptionGridView)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ExceptionBindingSource)).BeginInit();
             this.tabEditPlay.SuspendLayout();
@@ -114,7 +115,7 @@
             this.cmsGameFilesRightClickMenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.TreeListViewSceneGraph)).BeginInit();
             this.pnlObjectProperties.SuspendLayout();
-            this.menuStrip1.SuspendLayout();
+            this.MenuStripMain.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.GameObjectBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.fswClassFileWatcher)).BeginInit();
             this.SuspendLayout();
@@ -554,9 +555,9 @@
             this.tbPlay.Text = "Play";
             this.tbPlay.UseVisualStyleBackColor = true;
             // 
-            // menuStrip1
+            // MenuStripMain
             // 
-            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.MenuStripMain.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
             this.shapesObjectsToolStripMenuItem,
             this.terrainToolStripMenuItem,
@@ -564,11 +565,11 @@
             this.soundToolStripMenuItem,
             this.propertiesToolStripMenuItem,
             this.otherToolStripMenuItem});
-            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
-            this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1055, 24);
-            this.menuStrip1.TabIndex = 4;
-            this.menuStrip1.Text = "menuStrip1";
+            this.MenuStripMain.Location = new System.Drawing.Point(0, 0);
+            this.MenuStripMain.Name = "MenuStripMain";
+            this.MenuStripMain.Size = new System.Drawing.Size(1055, 24);
+            this.MenuStripMain.TabIndex = 4;
+            this.MenuStripMain.Text = "menuStrip1";
             // 
             // fileToolStripMenuItem
             // 
@@ -789,7 +790,8 @@
             // 
             this.otherToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.clearInformationToolStripMenuItem,
-            this.clearErrorsToolStripMenuItem});
+            this.clearErrorsToolStripMenuItem,
+            this.viewLogFileToolStripMenuItem});
             this.otherToolStripMenuItem.Name = "otherToolStripMenuItem";
             this.otherToolStripMenuItem.Size = new System.Drawing.Size(49, 20);
             this.otherToolStripMenuItem.Text = "Other";
@@ -797,14 +799,14 @@
             // clearInformationToolStripMenuItem
             // 
             this.clearInformationToolStripMenuItem.Name = "clearInformationToolStripMenuItem";
-            this.clearInformationToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
+            this.clearInformationToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.clearInformationToolStripMenuItem.Text = "Clear Information";
             this.clearInformationToolStripMenuItem.Click += new System.EventHandler(this.ClearInformationToolStripMenuItem_Click);
             // 
             // clearErrorsToolStripMenuItem
             // 
             this.clearErrorsToolStripMenuItem.Name = "clearErrorsToolStripMenuItem";
-            this.clearErrorsToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
+            this.clearErrorsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.clearErrorsToolStripMenuItem.Text = "Clear Errors";
             this.clearErrorsToolStripMenuItem.Click += new System.EventHandler(this.ClearErrorsToolStripMenuItem_Click);
             // 
@@ -815,14 +817,21 @@
             this.fswClassFileWatcher.SynchronizingObject = this;
             this.fswClassFileWatcher.Created += new System.IO.FileSystemEventHandler(this.FswClassFileWatcher_Created);
             // 
+            // viewLogFileToolStripMenuItem
+            // 
+            this.viewLogFileToolStripMenuItem.Name = "viewLogFileToolStripMenuItem";
+            this.viewLogFileToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.viewLogFileToolStripMenuItem.Text = "View Log File";
+            this.viewLogFileToolStripMenuItem.Click += new System.EventHandler(this.viewLogFileToolStripMenuItem_Click);
+            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1055, 761);
             this.Controls.Add(this.tabEditPlay);
-            this.Controls.Add(this.menuStrip1);
-            this.MainMenuStrip = this.menuStrip1;
+            this.Controls.Add(this.MenuStripMain);
+            this.MainMenuStrip = this.MenuStripMain;
             this.MaximizeBox = false;
             this.Name = "MainWindow";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
@@ -838,8 +847,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.TreeListViewSceneGraph)).EndInit();
             this.pnlObjectProperties.ResumeLayout(false);
             this.pnlObjectProperties.PerformLayout();
-            this.menuStrip1.ResumeLayout(false);
-            this.menuStrip1.PerformLayout();
+            this.MenuStripMain.ResumeLayout(false);
+            this.MenuStripMain.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.GameObjectBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.fswClassFileWatcher)).EndInit();
             this.ResumeLayout(false);
@@ -854,7 +863,7 @@
         private System.Windows.Forms.TabControl tabEditPlay;
         private System.Windows.Forms.TabPage tbEdit;
         private System.Windows.Forms.TabPage tbPlay;
-        private System.Windows.Forms.MenuStrip menuStrip1;
+        private System.Windows.Forms.MenuStrip MenuStripMain;
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem terrainToolStripMenuItem;
@@ -885,7 +894,7 @@
         private System.Windows.Forms.CheckBox ckbxLightOnOff;
         private System.Windows.Forms.Label lblColor;
         private System.Windows.Forms.Button ChangeGameObjectColorButton;
-        private System.Windows.Forms.ColorDialog colorDialog1;
+        private System.Windows.Forms.ColorDialog ColorDialogForObjects;
         private System.Windows.Forms.BindingSource GameObjectBindingSource;
         private BrightIdeasSoftware.TreeListView TreeListViewSceneGraph;
         private System.Windows.Forms.Button RemoveGameObjectButton;
@@ -924,6 +933,7 @@
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.TextBox tbZoomInOut;
         private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.ToolStripMenuItem viewLogFileToolStripMenuItem;
     }
 }
 

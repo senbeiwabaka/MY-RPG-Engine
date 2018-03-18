@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using MY3DEngine.BaseObjects;
 using MY3DEngine.Models;
 using SharpDX;

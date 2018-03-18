@@ -1,13 +1,13 @@
 ﻿using MY3DEngine.Models;
 using MY3DEngine.Utilities;
+using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MY3DEngine.Managers
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public sealed class SettingsManager
     {
         private const string OverrideFolderName = "\\Override";
@@ -19,33 +19,38 @@ namespace MY3DEngine.Managers
         private readonly string CurrentDirectory = FileIO.GetCurrentDirectory;
 
         private Settings settings;
+        private bool isLoaded;
 
+        /// <inherietdoc/>
         public Settings Settings => this.settings;
 
+        /// <summary>
+        /// Initialize the settings for the game engine
+        /// </summary>
+        /// <returns></returns>
         public bool Initialize()
         {
-            if(!FileIO.FileExists($"{CurrentDirectory}{DefaultIniFileName}"))
+            if (isLoaded)
             {
-                return false;
+                return isLoaded;
             }
 
-            try
-            {
-                this.settings = Newtonsoft.Json.JsonConvert.DeserializeObject<Settings>(FileIO.GetFileContent($"{CurrentDirectory}\\{DefaultIniFileName}"));
-            }
-            catch(Exception e)
-            {
-                Engine.GameEngine.AddException(e);
+            var path = Engine.GameEngine.FolderLocation ?? CurrentDirectory;
+            var fullPath = $"{path}{DefaultIniFileName}";
 
-                return false;
+            if (!FileIO.FileExists(fullPath))
+            {
+                return (isLoaded = false);
             }
+
+            this.settings = Deserialize.DeserializeFileAsT<Settings>(fullPath);
 
             if (FileIO.DirectoryExists($""))
             {
 
             }
 
-            if(string.IsNullOrWhiteSpace(this.settings.ShaderPath))
+            if (string.IsNullOrWhiteSpace(this.settings.ShaderPath))
             {
                 this.settings.ShaderPath = $"{CurrentDirectory}{DefaultShaderPath}";
             }
@@ -55,7 +60,9 @@ namespace MY3DEngine.Managers
                 this.settings.AssetsPath = $"{CurrentDirectory}{DefaultAssetsPath}";
             }
 
-            return true;
+            Engine.GameEngine.GameName = Settings.GameName;
+
+            return (isLoaded = true);
         }
     }
 }

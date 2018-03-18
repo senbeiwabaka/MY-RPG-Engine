@@ -10,7 +10,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>MY3DEngine.GUI</RootNamespace>
     <AssemblyName>MY3DEngine.GUI</AssemblyName>
-    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
     <TargetFrameworkProfile>
     </TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
@@ -125,6 +125,12 @@
     <Compile Include="HelperForms\CreateNewProjectForm.Designer.cs">
       <DependentUpon>CreateNewProjectForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="HelperForms\LogViewer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="HelperForms\LogViewer.Designer.cs">
+      <DependentUpon>LogViewer.cs</DependentUpon>
+    </Compile>
     <Compile Include="HelperForms\SelectFolderForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -152,6 +158,9 @@
     <EmbeddedResource Include="HelperForms\CreateNewProjectForm.resx">
       <DependentUpon>CreateNewProjectForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="HelperForms\LogViewer.resx">
+      <DependentUpon>LogViewer.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="HelperForms\SelectFolderForm.resx">
       <DependentUpon>SelectFolderForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -168,6 +177,14 @@
     <ProjectReference Include="..\MY3DEngine.Build\MY3DEngine.Build.csproj">
       <Project>{7165c534-42ac-4dee-ad66-68c73690b5d0}</Project>
       <Name>MY3DEngine.Build</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MY3DEngine.Logging\MY3DEngine.Logging.csproj">
+      <Project>{F21B75CC-7DBB-4E41-8364-2C8D3FFFAD8B}</Project>
+      <Name>MY3DEngine.Logging</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MY3DEngine.Utilities\MY3DEngine.Utilities.csproj">
+      <Project>{BD4326B8-0018-4F84-857C-6A479C08F80B}</Project>
+      <Name>MY3DEngine.Utilities</Name>
     </ProjectReference>
     <ProjectReference Include="..\MY3DEngine\MY3DEngine.csproj">
       <Project>{03537171-7E7B-41BE-AF46-CF5B85C1EB65}</Project>

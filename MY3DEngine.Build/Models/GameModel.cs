@@ -15,5 +15,8 @@ namespace MY3DEngine.Build.Models
         public string MainFileFolderLocation { get; set; }
 
         public string FolderLocation { get; set; }
+
+        public object Settings { get; set; }
+        public bool Successfull { get; internal set; }
     }
 }

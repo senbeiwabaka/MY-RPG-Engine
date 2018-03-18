@@ -64,7 +64,7 @@ namespace MY3DEngine
         /// <summary>
         /// The name of the game. This will be used when the exe is created as well.
         /// </summary>
-        public string GameName { get; set; }
+        public string GameName { get; internal set; }
 
         /// <summary>
         ///
@@ -288,9 +288,12 @@ namespace MY3DEngine
         {
             this.IsNotShutDown = false;
 
-            while (this.renderThread.IsAlive)
+            if (this.renderThread != null)
             {
-                this.renderThread.Abort();
+                while (this.renderThread.IsAlive)
+                {
+                    this.renderThread?.Abort();
+                }
             }
         }
 

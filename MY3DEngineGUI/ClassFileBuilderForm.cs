@@ -24,6 +24,8 @@ namespace MY3DEngine.GUI
             if (!string.IsNullOrWhiteSpace(folder))
             {
                 this.scintilla1.Text = File.ReadAllText($"{folder}\\{fileName}");
+
+                this.Text = $"{fileName} - Class File";
             }
         }
 

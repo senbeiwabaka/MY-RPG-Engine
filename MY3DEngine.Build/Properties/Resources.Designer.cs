@@ -73,12 +73,12 @@ namespace MY3DEngine.Build.Properties {
         ///	{
         ///		public MainWindow()
         ///		{
-        ///			this.ClientSize = new System.Drawing.Size(970, 639);
+        ///			this.ClientSize = new System.Drawing.Size({ScreenWidth}, {ScreenHeight});
         ///            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
         ///
         ///            var graphicsException = new ExceptionData(&quot;Engine Graphics not setup correctly&quot;, &quot;Engine&quot;, string.Empty);
         ///
-        ///            Engine.Is [rest of string was truncated]&quot;;.
+        /// [rest of string was truncated]&quot;;.
         /// </summary>
         public static string MainFile {
             get {

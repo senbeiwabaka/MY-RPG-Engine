@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MY3DEngine.Models;
+using System;
 using System.Windows.Forms;
 
 namespace MY3DEngine.GUI.HelperForms
@@ -22,11 +23,16 @@ namespace MY3DEngine.GUI.HelperForms
         private void BCreate_Click(object sender, EventArgs e)
         {
             Engine.GameEngine.FolderLocation = this.folderLocation;
-            Engine.GameEngine.GameName = this.tbName.Text.Trim();
-
-            if(!Build.Build.CreateGameMainFiles(Engine.GameEngine.FolderLocation, Engine.GameEngine.GameName))
+            var settings = new Settings
             {
-                MessageBox.Show("error", "error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                GameName = this.tbName.Text.Trim(),
+                Width = 800,
+                Height = 600
+            };
+
+            if(!Build.Create.CreateNewProject(Engine.GameEngine.FolderLocation, Engine.GameEngine.GameName, settings))
+            {
+                MessageBox.Show("Error", "Error! Please check the error log (if setup).", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
                 return;
             }

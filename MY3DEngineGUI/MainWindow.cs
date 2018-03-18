@@ -1,5 +1,6 @@
 ﻿using MY3DEngine.BaseObjects;
 using MY3DEngine.GUI.HelperForms;
+using MY3DEngine.Logging;
 using MY3DEngine.Models;
 using MY3DEngine.Primitives;
 using System;
@@ -13,6 +14,10 @@ namespace MY3DEngine.GUI
 {
     public partial class MainWindow : Form
     {
+        private readonly ExceptionData graphicsException = new ExceptionData("Engine Graphics not setup correctly", "Engine", string.Empty);
+
+        private const string EngineTitle = "MY 3D Engine Builder";
+
         private bool _firstMouse;
         private Point _mouseLocation;
         private string className;
@@ -204,18 +209,18 @@ namespace MY3DEngine.GUI
                             argb[3] = (int)gameObject.Vertexies[0].Color.Z;
                         }
 
-                        colorDialog1.Color = Color.FromArgb(argb[0] * 255, argb[1] * 255, argb[2] * 255, argb[3] * 255);
+                        ColorDialogForObjects.Color = Color.FromArgb(argb[0] * 255, argb[1] * 255, argb[2] * 255, argb[3] * 255);
                     }
 
-                    if (colorDialog1.ShowDialog() == DialogResult.OK)
+                    if (ColorDialogForObjects.ShowDialog() == DialogResult.OK)
                     {
                         if (Engine.GameEngine.Manager.GameObjects[index].IsPrimitive)
                         {
                             var gameObject = Engine.GameEngine.Manager.GameObjects[index];
-                            var red = colorDialog1.Color.R / 255.0f;
-                            var green = colorDialog1.Color.G / 255.0f;
-                            var blue = colorDialog1.Color.B / 255.0f;
-                            var alpha = colorDialog1.Color.A / 255.0f;
+                            var red = ColorDialogForObjects.Color.R / 255.0f;
+                            var green = ColorDialogForObjects.Color.G / 255.0f;
+                            var blue = ColorDialogForObjects.Color.B / 255.0f;
+                            var alpha = ColorDialogForObjects.Color.A / 255.0f;
 
                             for (var i = 0; i < gameObject.Vertexies.Length; ++i)
                             {
@@ -346,7 +351,7 @@ namespace MY3DEngine.GUI
 
         private void GenerateGameToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            this.gameGeneratedSuccessfully = Build.Build.GenerateCSharpFile(Engine.GameEngine.FolderLocation);
+            this.gameGeneratedSuccessfully = Build.Build.GenerateFilesForBuildingGame(Engine.GameEngine.FolderLocation);
 
             if (this.gameGeneratedSuccessfully)
             {
@@ -511,6 +516,8 @@ namespace MY3DEngine.GUI
             Engine.GameEngine?.Shutdown();
 
             Engine.GameEngine?.Dispose();
+
+            WriteToLog.Shutdown();
         }
 
         private void AddRemoveObject(string message)
@@ -546,7 +553,6 @@ namespace MY3DEngine.GUI
 
         private void LoadGameEngine()
         {
-            var graphicsException = new ExceptionData("Engine Graphics not setup correctly", "Engine", string.Empty);
             var exceptions = new BindingList<ExceptionData>();
 
             Engine.GameEngine.SettingsManager.Initialize();
@@ -564,12 +570,19 @@ namespace MY3DEngine.GUI
 
                 _mouseLocation = new Point(0, 0);
                 _firstMouse = false;
-                isObjectSelected = false;
+                this.isObjectSelected = false;
+
+                this.Text = $"{EngineTitle}";
+
+                if(!string.IsNullOrWhiteSpace(Engine.GameEngine.GameName))
+                {
+                    this.Text += $"{Engine.GameEngine.GameName}";
+                }
 
                 lock (Engine.GameEngine.Manager)
                 {
                     this.GameObjectBindingSource.DataSource = Engine.GameEngine.Manager.GameObjects;
-                    GameObjectListComboBox.DataSource = this.GameObjectBindingSource.DataSource;
+                    this.GameObjectListComboBox.DataSource = this.GameObjectBindingSource.DataSource;
                     this.TreeListViewSceneGraph.SetObjects(Engine.GameEngine.Manager.GameObjects, true);
                 }
             }
@@ -631,7 +644,7 @@ namespace MY3DEngine.GUI
 
         private void UpdateButtonsUseability()
         {
-            if (Engine.GameEngine.Manager.GameObjects.Count > 0)
+            if (Engine.GameEngine.Manager.GameObjects.Count(x => x.IsPrimitive) > 0)
             {
                 this.ChangeGameObjectColorButton.Enabled = this.RemoveGameObjectButton.Enabled = true;
             }
@@ -718,6 +731,13 @@ namespace MY3DEngine.GUI
 
                 MessageBox.Show("Game not built successfully. Please see error log.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        private void viewLogFileToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var logView = new LogViewer($"{Environment.CurrentDirectory}/log.log");
+
+            logView.Show(this);
         }
     }
 }

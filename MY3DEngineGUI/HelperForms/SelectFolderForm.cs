@@ -21,7 +21,10 @@ namespace MY3DEngine.GUI.HelperForms
                 this.bSelectFolder.UseWaitCursor = true;
                 this.bSelectFolder.Enabled = false;
 
+                var gameModel = Build.Load.LoadProject(this.fbdSelectFProject.SelectedPath);
+                
                 Engine.GameEngine.FolderLocation = this.fbdSelectFProject.SelectedPath;
+                Engine.GameEngine.SettingsManager.Initialize();
 
                 this.DialogResult = DialogResult.OK;
                 this.Close();

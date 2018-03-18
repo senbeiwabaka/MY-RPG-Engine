@@ -1,8 +1,9 @@
 ﻿using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using MY3DEngine.Build.Properties;
-using MY3DEngine.Models;
-using Newtonsoft.Json;
+using MY3DEngine.Logging;
+using MY3DEngine.Utilities;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -10,7 +11,7 @@ using System.Linq;
 
 namespace MY3DEngine.Build
 {
-    // TODO - REFACTOR/FIX/STOP USING ENGINE EXCEPTIONS
+    // TODO - REFACTOR/FIX
     public static class Build
     {
         /// <summary>
@@ -21,26 +22,56 @@ namespace MY3DEngine.Build
         /// <returns></returns>
         public static bool BuildGame(string folderLocation, string gameName)
         {
+            WriteToLog.Debug($"Starting {nameof(BuildGame)}");
+
+            var buildSuccessful = true;
+            
+            if (string.IsNullOrWhiteSpace(folderLocation))
+            {
+                WriteToLog.Info($"Argument: {nameof(folderLocation)} was not supplied");
+
+                return buildSuccessful;
+            }
+
+            if (string.IsNullOrWhiteSpace(gameName))
+            {
+                WriteToLog.Info($"Argument: {nameof(gameName)} was not supplied");
+
+                return buildSuccessful;
+            }
+
             try
             {
                 var fileName = "main.cs";
                 var fullPath = $"{folderLocation}\\{fileName}";
-                var fileContents = File.ReadAllText(fullPath);
-                var engine = typeof(Engine).Assembly;
-                var systemCollectionGenerics = typeof(System.Collections.Generic.IEnumerable<string>).Assembly;
-                var linq = typeof(Enumerable).Assembly;
-                var tree = CSharpSyntaxTree.ParseText(fileContents);
-                var references = new MetadataReference[]
+                var fileContents = FileIO.GetFileContent(fullPath);
+                var assemblies = Assembly.GetAssemblies();
+                var references = new List<MetadataReference>(assemblies.Count);
+                
+                foreach (var assembly in assemblies)
                 {
-                    MetadataReference.CreateFromFile(typeof(System.Windows.Forms.Form).Assembly.Location),
-                    MetadataReference.CreateFromFile(typeof(System.Threading.ThreadExceptionEventArgs).Assembly.Location),
-                    MetadataReference.CreateFromFile(typeof(System.ComponentModel.ComponentCollection).Assembly.Location),
-                    MetadataReference.CreateFromFile(typeof(System.Drawing.Size).Assembly.Location),
-                    MetadataReference.CreateFromFile(typeof(System.Object).Assembly.Location),
-                    MetadataReference.CreateFromFile(systemCollectionGenerics.Location),
-                    MetadataReference.CreateFromFile(engine.Location),
-                    MetadataReference.CreateFromFile(linq.Location)
-                };
+                    references.Add(MetadataReference.CreateFromFile(assembly.Location));
+                }
+
+                var tree = CSharpSyntaxTree.ParseText(fileContents);
+                var root = (CompilationUnitSyntax)tree.GetRoot();
+                var usings = root.Usings;
+
+                //foreach (var use in usings)
+                //{
+                //    var usingName = use.Name.ToString();
+
+                //    if (usingName == "MY3DEngine" || usingName == "MY3DEngine.Models" || usingName == "System")
+                //        continue;
+
+                //    var assembly = System.Reflection.Assembly.Load(usingName);
+
+                //    references.Add(MetadataReference.CreateFromFile(assembly.Location));
+                //}
+
+                var systemAssembly = System.Reflection.Assembly.Load("mscorlib");
+                var s = System.Reflection.Assembly.Load("System.Windows.Forms");
+
                 var csharpCompilationOptions = new CSharpCompilationOptions(
                     outputKind: OutputKind.WindowsApplication,
                     optimizationLevel: OptimizationLevel.Debug,
@@ -56,21 +87,23 @@ namespace MY3DEngine.Build
                     foreach (var error in emitResult.Diagnostics.Where(x => x.Severity == DiagnosticSeverity.Error))
                     {
                         var mappedLineSpan = error.Location.GetMappedLineSpan();
-
-                        Engine.GameEngine.AddCompilerErrors(mappedLineSpan.Path, mappedLineSpan.StartLinePosition.Line, mappedLineSpan.StartLinePosition.Character, error.Id, error.ToString());
+                        
+                        WriteToLog.Info($"{mappedLineSpan.Path}; {mappedLineSpan.StartLinePosition.Line}; {mappedLineSpan.StartLinePosition.Character}; {error.Id}; {error}");
                     }
 
-                    return false;
+                    buildSuccessful = false;
                 }
             }
             catch (Exception e)
             {
-                Engine.GameEngine.AddException(e);
+                WriteToLog.Exception(nameof(BuildGame), e);
 
-                return false;
+                buildSuccessful = false;
             }
 
-            return true;
+            WriteToLog.Debug($"Finished {nameof(BuildGame)}");
+
+            return buildSuccessful;
         }
 
         /// <summary>
@@ -81,11 +114,17 @@ namespace MY3DEngine.Build
         /// <returns></returns>
         public static bool CompileFile(string file, out ICollection<object> errors)
         {
+            WriteToLog.Debug($"Starting {nameof(CompileFile)}");
+
             errors = new List<object>();
 
             try
             {
-                var tree = CSharpSyntaxTree.ParseText(File.ReadAllText(file));
+                var tree = CSharpSyntaxTree.ParseText(
+                    File.ReadAllText(file),
+                    new CSharpParseOptions(LanguageVersion.CSharp5, DocumentationMode.Diagnose, SourceCodeKind.Regular));
+
+                var root = tree.GetRoot();
 
                 foreach (var error in tree.GetDiagnostics().Where(x => x.Severity == DiagnosticSeverity.Error).ToList())
                 {
@@ -96,78 +135,41 @@ namespace MY3DEngine.Build
             }
             catch (Exception e)
             {
-                Engine.GameEngine.AddException(e);
+                WriteToLog.Exception(nameof(CompileFile), e);
 
                 return false;
             }
 
-            return true;
-        }
-
-        /// <summary>
-        /// Creates the main game file with a new game project is selected
-        /// </summary>
-        /// <param name="folderLocation">The location for the new game files</param>
-        /// <param name="gameName">The name of the game for the ini file</param>
-        /// <returns></returns>
-        public static bool CreateGameMainFiles(string folderLocation, string gameName)
-        {
-            try
-            {
-                var fileName = "main.cs";
-                var fileContents = Resources.MainFile
-                    .Replace("{0}", $"@\"{folderLocation}\\GameObjects.go\"")
-                    .Replace("{1}", $"@\"{folderLocation}\\ErrorLog.txt\"")
-                    .Replace("{2}", $"@\"{folderLocation}\\InformationLog.txt\"");
-                var fullPath = $"{folderLocation}\\{fileName}";
-                var settingsFileName = "DefaultSettings.ini";
-                var settingsContent = JsonConvert.SerializeObject(new Settings
-                {
-                    GameName = gameName
-                });
-
-                File.AppendAllText(fullPath, fileContents);
-                File.AppendAllText($"{folderLocation}\\{settingsFileName}", settingsContent);
-            }
-            catch (Exception e)
-            {
-                Engine.GameEngine.AddException(e);
-
-                return false;
-            }
+            WriteToLog.Debug($"Finished {nameof(CompileFile)}");
 
             return true;
         }
 
-        // TODO - FIX
-        public static bool GenerateCSharpFile(string folderLocation)
+        // TODO - Finish using new FileIO from Utilities
+        public static bool GenerateFilesForBuildingGame(string folderLocation)
         {
+            WriteToLog.Debug($"Starting {nameof(GenerateFilesForBuildingGame)}");
+
             var fileName = "main.cs";
             var fileContents = Resources.MainFile
                 .Replace("{0}", $"@\"{folderLocation}\\GameObjects.go\"")
                 .Replace("{1}", $"@\"{folderLocation}\\ErrorLog.txt\"")
-                .Replace("{2}", $"@\"{folderLocation}\\InformationLog.txt\"");
+                .Replace("{2}", $"@\"{folderLocation}\\InformationLog.txt\"")
+                .Replace("{ScreenWidth}", "800")
+                .Replace("{ScreenHeight}", "400");
             var fullPath = $"{folderLocation}\\{fileName}";
-            var engine = typeof(Engine).Assembly;
-            var newtonsoft = typeof(DateFormatHandling).Assembly;
-            var sharpDx = typeof(SharpDX.Collision).Assembly;
-            var sharpDxMath = typeof(SharpDX.Mathematics.Interop.RawBool).Assembly;
-            var sharpDx3D11 = typeof(SharpDX.Direct3D11.Asynchronous).Assembly;
-            var sharpDxDXGL = typeof(SharpDX.DXGI.Adapter).Assembly;
-            var shardDxCompiler = typeof(SharpDX.D3DCompiler.ShaderBytecode).Assembly;
-            var systemCollections = typeof(System.Collections.IEnumerable).Assembly;
-            var systemCollectionGenerics = typeof(System.Collections.Generic.IEnumerable<string>).Assembly;
-            var linq = typeof(Enumerable).Assembly;
+            var assemblies = Assembly.GetAssemblies();
 
             try
             {
-                DeleteMainFileIfExists(fullPath);
-
-                File.AppendAllText(fullPath, fileContents);
-
-                if (!Directory.Exists($"{folderLocation}\\Assets"))
+                if (!FileIO.FileExists(fullPath))
                 {
-                    Directory.CreateDirectory($"{folderLocation}\\Assets");
+                    File.AppendAllText(fullPath, fileContents);
+                }
+
+                if (!FileIO.DirectoryExists($"{folderLocation}\\Assets"))
+                {
+                    FileIO.CreateDirectory($"{folderLocation}\\Assets");
                 }
 
                 foreach (var file in Directory.EnumerateFiles($"{folderLocation}\\Assets"))
@@ -177,33 +179,21 @@ namespace MY3DEngine.Build
                     File.Copy(file, $"{folderLocation}\\Assets\\{fileInfo.Name}", true);
                 }
 
-                File.Copy(engine.Location, $"{folderLocation}\\{engine.ManifestModule.Name}", true);
-                File.Copy(newtonsoft.Location, $"{folderLocation}\\{newtonsoft.ManifestModule.Name}", true);
-                File.Copy(sharpDx.Location, $"{folderLocation}\\{sharpDx.ManifestModule.Name}", true);
-                File.Copy(sharpDxMath.Location, $"{folderLocation}\\{sharpDxMath.ManifestModule.Name}", true);
-                File.Copy(sharpDx3D11.Location, $"{folderLocation}\\{sharpDx3D11.ManifestModule.Name}", true);
-                File.Copy(sharpDxDXGL.Location, $"{folderLocation}\\{sharpDxDXGL.ManifestModule.Name}", true);
-                File.Copy(shardDxCompiler.Location, $"{folderLocation}\\{shardDxCompiler.ManifestModule.Name}", true);
-                File.Copy(systemCollections.Location, $"{folderLocation}\\{systemCollections.ManifestModule.Name}", true);
-                File.Copy(systemCollectionGenerics.Location, $"{folderLocation}\\{systemCollectionGenerics.ManifestModule.Name}", true);
-                File.Copy(linq.Location, $"{folderLocation}\\{linq.ManifestModule.Name}", true);
+                foreach (var item in assemblies)
+                {
+                    File.Copy(item.Location, $"{folderLocation}\\{item.ManifestModule.Name}", true);
+                }
             }
             catch (Exception e)
             {
-                Engine.GameEngine.AddException(e);
+                WriteToLog.Exception(nameof(GenerateFilesForBuildingGame), e);
 
                 return false;
             }
 
-            return true;
-        }
+            WriteToLog.Debug($"Finished {nameof(GenerateFilesForBuildingGame)}");
 
-        private static void DeleteMainFileIfExists(string fullPath)
-        {
-            if (File.Exists(fullPath))
-            {
-                File.Delete(fullPath);
-            }
+            return true;
         }
     }
 }

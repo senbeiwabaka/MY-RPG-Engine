@@ -1,5 +1,4 @@
 ﻿using SharpDX;
-using System;
 using System.Diagnostics;
 
 namespace MY3DEngine.Cameras
