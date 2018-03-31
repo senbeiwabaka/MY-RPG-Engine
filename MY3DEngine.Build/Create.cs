@@ -17,6 +17,8 @@ namespace MY3DEngine.Build
         /// <returns></returns>
         public static bool CreateNewProject(string folderLocation, string gameName, dynamic settings)
         {
+            StaticLogger.Debug($"Starting {nameof(CreateNewProject)}");
+
             if (settings == null)
             {
                 throw new ArgumentNullException(nameof(settings));
@@ -44,10 +46,12 @@ namespace MY3DEngine.Build
             }
             catch (Exception e)
             {
-                WriteToLog.Exception(nameof(CreateNewProject), e);
+                StaticLogger.Exception(nameof(CreateNewProject), e);
 
                 return false;
             }
+
+            StaticLogger.Debug($"Finished {nameof(CreateNewProject)}");
 
             return true;
         }

@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using NLog;
 
 namespace MY3DEngine.Utilities
 {
-    class Serialize
+    public static class Serialize
     {
+        private static readonly Logger logger = LogManager.GetCurrentClassLogger();
     }
 }

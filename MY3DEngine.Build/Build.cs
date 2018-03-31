@@ -22,20 +22,20 @@ namespace MY3DEngine.Build
         /// <returns></returns>
         public static bool BuildGame(string folderLocation, string gameName)
         {
-            WriteToLog.Debug($"Starting {nameof(BuildGame)}");
+            StaticLogger.Debug($"Starting {nameof(BuildGame)}");
 
-            var buildSuccessful = true;
+            var buildSuccessful = false;
             
             if (string.IsNullOrWhiteSpace(folderLocation))
             {
-                WriteToLog.Info($"Argument: {nameof(folderLocation)} was not supplied");
+                StaticLogger.Info($"Argument: {nameof(folderLocation)} was not supplied");
 
                 return buildSuccessful;
             }
 
             if (string.IsNullOrWhiteSpace(gameName))
             {
-                WriteToLog.Info($"Argument: {nameof(gameName)} was not supplied");
+                StaticLogger.Info($"Argument: {nameof(gameName)} was not supplied");
 
                 return buildSuccessful;
             }
@@ -45,7 +45,7 @@ namespace MY3DEngine.Build
                 var fileName = "main.cs";
                 var fullPath = $"{folderLocation}\\{fileName}";
                 var fileContents = FileIO.GetFileContent(fullPath);
-                var assemblies = Assembly.GetAssemblies();
+                var assemblies = AssemblyHelper.GetAssemblies();
                 var references = new List<MetadataReference>(assemblies.Count);
                 
                 foreach (var assembly in assemblies)
@@ -70,7 +70,10 @@ namespace MY3DEngine.Build
                 //}
 
                 var systemAssembly = System.Reflection.Assembly.Load("mscorlib");
-                var s = System.Reflection.Assembly.Load("System.Windows.Forms");
+                var systemWindowsFormAssembly = System.Reflection.Assembly.LoadFrom(@"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7\System.Windows.Forms.dll");
+
+                references.Add(MetadataReference.CreateFromFile(systemAssembly.Location));
+                references.Add(MetadataReference.CreateFromFile(@"C:\Windows\Microsoft.NET\Framework64\v4.0.30319\System.Windows.Forms.dll"));
 
                 var csharpCompilationOptions = new CSharpCompilationOptions(
                     outputKind: OutputKind.WindowsApplication,
@@ -88,7 +91,7 @@ namespace MY3DEngine.Build
                     {
                         var mappedLineSpan = error.Location.GetMappedLineSpan();
                         
-                        WriteToLog.Info($"{mappedLineSpan.Path}; {mappedLineSpan.StartLinePosition.Line}; {mappedLineSpan.StartLinePosition.Character}; {error.Id}; {error}");
+                        StaticLogger.Info($"{mappedLineSpan.Path}; {mappedLineSpan.StartLinePosition.Line}; {mappedLineSpan.StartLinePosition.Character}; {error.Id}; {error}");
                     }
 
                     buildSuccessful = false;
@@ -96,12 +99,12 @@ namespace MY3DEngine.Build
             }
             catch (Exception e)
             {
-                WriteToLog.Exception(nameof(BuildGame), e);
+                StaticLogger.Exception(nameof(BuildGame), e);
 
                 buildSuccessful = false;
             }
 
-            WriteToLog.Debug($"Finished {nameof(BuildGame)}");
+            StaticLogger.Debug($"Finished {nameof(BuildGame)}");
 
             return buildSuccessful;
         }
@@ -114,7 +117,7 @@ namespace MY3DEngine.Build
         /// <returns></returns>
         public static bool CompileFile(string file, out ICollection<object> errors)
         {
-            WriteToLog.Debug($"Starting {nameof(CompileFile)}");
+            StaticLogger.Debug($"Starting {nameof(CompileFile)}");
 
             errors = new List<object>();
 
@@ -135,12 +138,12 @@ namespace MY3DEngine.Build
             }
             catch (Exception e)
             {
-                WriteToLog.Exception(nameof(CompileFile), e);
+                StaticLogger.Exception(nameof(CompileFile), e);
 
                 return false;
             }
 
-            WriteToLog.Debug($"Finished {nameof(CompileFile)}");
+            StaticLogger.Debug($"Finished {nameof(CompileFile)}");
 
             return true;
         }
@@ -148,7 +151,7 @@ namespace MY3DEngine.Build
         // TODO - Finish using new FileIO from Utilities
         public static bool GenerateFilesForBuildingGame(string folderLocation)
         {
-            WriteToLog.Debug($"Starting {nameof(GenerateFilesForBuildingGame)}");
+            StaticLogger.Debug($"Starting {nameof(GenerateFilesForBuildingGame)}");
 
             var fileName = "main.cs";
             var fileContents = Resources.MainFile
@@ -158,7 +161,7 @@ namespace MY3DEngine.Build
                 .Replace("{ScreenWidth}", "800")
                 .Replace("{ScreenHeight}", "400");
             var fullPath = $"{folderLocation}\\{fileName}";
-            var assemblies = Assembly.GetAssemblies();
+            var assemblies = AssemblyHelper.GetAssemblies();
 
             try
             {
@@ -186,12 +189,12 @@ namespace MY3DEngine.Build
             }
             catch (Exception e)
             {
-                WriteToLog.Exception(nameof(GenerateFilesForBuildingGame), e);
+                StaticLogger.Exception(nameof(GenerateFilesForBuildingGame), e);
 
                 return false;
             }
 
-            WriteToLog.Debug($"Finished {nameof(GenerateFilesForBuildingGame)}");
+            StaticLogger.Debug($"Finished {nameof(GenerateFilesForBuildingGame)}");
 
             return true;
         }

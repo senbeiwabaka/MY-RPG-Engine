@@ -3,10 +3,9 @@ using System;
 
 namespace MY3DEngine.Logging
 {
-    public static class WriteToLog
+    public static class StaticLogger
     {
         private static readonly Logger logger = LogManager.GetCurrentClassLogger();
-
 
         public static void Info(string message)
         {

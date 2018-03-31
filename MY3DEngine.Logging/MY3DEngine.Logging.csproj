@@ -44,8 +44,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="WriteToLog.cs" />
+    <Compile Include="BaseLogging.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="StaticLogger.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="NLog.config">

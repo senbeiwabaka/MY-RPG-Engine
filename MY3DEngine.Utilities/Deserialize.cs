@@ -1,20 +1,22 @@
-﻿using MY3DEngine.Logging;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
+using NLog;
 using System;
 
 namespace MY3DEngine.Utilities
 {
     public static class Deserialize
     {
-        public static T DeserializeStringAsT<T>(string content)where T : new()
+        private static readonly Logger logger = LogManager.GetCurrentClassLogger();
+
+        public static T DeserializeStringAsT<T>(string content) where T : new()
         {
             try
             {
                 return JsonConvert.DeserializeObject<T>(content);
             }
-            catch(Exception e)
+            catch (Exception e)
             {
-                WriteToLog.Exception(nameof(DeserializeStringAsT), e);
+                logger.Error(e, nameof(DeserializeStringAsT));
             }
 
             return new T();
@@ -26,9 +28,9 @@ namespace MY3DEngine.Utilities
             {
                 return JsonConvert.DeserializeObject<T>(FileIO.GetFileContent($"{path}"));
             }
-            catch(Exception e)
+            catch (Exception e)
             {
-                WriteToLog.Exception(nameof(DeserializeFileAsT), e);
+                logger.Error(e, nameof(DeserializeFileAsT));
             }
 
             return new T();

@@ -1,17 +1,16 @@
 ﻿using MY3DEngine.Build.Models;
 using MY3DEngine.Logging;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MY3DEngine.Build
 {
+    // TODO: FINISH
     public static class Load
     {
         public static GameModel LoadProject(string folderLocation)
         {
+            StaticLogger.Debug($"Starting {nameof(LoadProject)}");
+
             var model = new GameModel();
 
             try
@@ -20,10 +19,12 @@ namespace MY3DEngine.Build
             }
             catch (Exception e)
             {
-                WriteToLog.Exception(nameof(LoadProject), e);
+                StaticLogger.Exception(nameof(LoadProject), e);
 
                 model.Successfull = false;
             }
+
+            StaticLogger.Debug($"Finished {nameof(LoadProject)}");
 
             return model;
         }

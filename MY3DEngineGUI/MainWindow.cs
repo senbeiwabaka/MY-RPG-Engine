@@ -485,15 +485,7 @@ namespace MY3DEngine.GUI
             if (result == DialogResult.OK || result == DialogResult.Yes)
             {
                 this.Controls.RemoveAt(0);
-
-                //this.tlvGameFiles.CanExpandGetter = delegate (object x) {
-                //    return (x is DirectoryInfo);
-                //};
-
-                //this.tlvGameFiles.ChildrenGetter = delegate (object x) {
-                //    return (x is DirectoryInfo);
-                //};
-
+                
                 var directory = new DirectoryInfo(Engine.GameEngine.FolderLocation);
                 var files = directory.EnumerateFiles("*.cs").ToList();
                 //this.tlvGameFiles.SetObjects(files);
@@ -517,7 +509,7 @@ namespace MY3DEngine.GUI
 
             Engine.GameEngine?.Dispose();
 
-            WriteToLog.Shutdown();
+            StaticLogger.Shutdown();
         }
 
         private void AddRemoveObject(string message)
@@ -717,7 +709,7 @@ namespace MY3DEngine.GUI
 
         #endregion File(s) Event(s)
 
-        private void buildGameToolStripMenuItem_Click(object sender, EventArgs e)
+        private void BuildGameToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (Build.Build.BuildGame(Engine.GameEngine.FolderLocation, Engine.GameEngine.GameName))
             {
@@ -733,7 +725,7 @@ namespace MY3DEngine.GUI
             }
         }
 
-        private void viewLogFileToolStripMenuItem_Click(object sender, EventArgs e)
+        private void ViewLogFileToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var logView = new LogViewer($"{Environment.CurrentDirectory}/log.log");
 
