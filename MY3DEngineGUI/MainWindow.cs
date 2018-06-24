@@ -629,6 +629,11 @@ namespace MY3DEngine.GUI
 
         private void OpenClassBuilder(string fileName, string folderPath = default(string))
         {
+            if (!fileName.EndsWith(".cs"))
+            {
+                fileName += ".cs";
+            }
+
             var form = new ClassFileBuilderForm(fileName, folderPath);
 
             form.Show();
@@ -698,13 +703,32 @@ namespace MY3DEngine.GUI
 
         private void TlvGameFiles_CellRightClick(object sender, BrightIdeasSoftware.CellRightClickEventArgs e)
         {
+            cmsGameFilesRightClickMenu.Items.Clear();
+
             if (e.Item != null)
             {
                 if (e.Item.RowObject is FileInfo file)
                 {
-                    this.OpenClassBuilder(file.Name, file.DirectoryName);
+                    var openFile = new ToolStripMenuItem("Open File");
+                    openFile.Click += this.OpenFile_Click;
+                    openFile.Tag = file;
+
+                    var deleteFile = new ToolStripMenuItem("Delete File");
+
+                    cmsGameFilesRightClickMenu.Items.Add(openFile);
                 }
             }
+            else
+            {
+                cmsGameFilesRightClickMenu.Items.Add(tsmiAddClass);
+            }
+        }
+
+        private void OpenFile_Click(object sender, EventArgs e)
+        {
+            var toolStripMenuItem = sender as ToolStripMenuItem;
+            var file = toolStripMenuItem.Tag as FileInfo;
+            OpenClassBuilder(file.Name, file.DirectoryName);
         }
 
         #endregion File(s) Event(s)

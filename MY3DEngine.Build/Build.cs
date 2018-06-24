@@ -125,11 +125,11 @@ namespace MY3DEngine.Build
             {
                 var tree = CSharpSyntaxTree.ParseText(
                     File.ReadAllText(file),
-                    new CSharpParseOptions(LanguageVersion.CSharp5, DocumentationMode.Diagnose, SourceCodeKind.Regular));
+                    new CSharpParseOptions(LanguageVersion.CSharp6, DocumentationMode.Diagnose, SourceCodeKind.Regular));
 
                 var root = tree.GetRoot();
 
-                foreach (var error in tree.GetDiagnostics().Where(x => x.Severity == DiagnosticSeverity.Error).ToList())
+                foreach (var error in tree.GetDiagnostics().Where(x => x.Severity == DiagnosticSeverity.Error))
                 {
                     var mappedLineSpan = error.Location.GetMappedLineSpan();
 

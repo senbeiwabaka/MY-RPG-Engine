@@ -32,9 +32,20 @@ namespace MY3DEngine.GUI.HelperForms
             this.Close();
         }
 
+        // TODO: Use Utilities FileIO
         private void BCreate_Click(object sender, EventArgs e)
         {
-            File.Create($"{Engine.GameEngine.FolderLocation}\\{tbName.Text}.cs");
+            var fileName = string.Empty;
+            if(!tbName.Text.EndsWith(".cs"))
+            {
+                fileName = $"{tbName.Text}.cs";
+            }
+            else
+            {
+                fileName = tbName.Text;
+            }
+
+            File.Create($"{Engine.GameEngine.FolderLocation}\\{fileName}");
 
             this.DialogResult = DialogResult.OK;
 

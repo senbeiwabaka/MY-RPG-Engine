@@ -183,15 +183,25 @@ namespace MY3DEngine.GUI
                 return;
             }
 
+            var fullPath = string.Empty;
+            if (!this.fileName.EndsWith(".cs"))
+            {
+                fullPath = $"{this.fileName}.cs";
+            }
+            else
+            {
+                fullPath = this.fileName;
+            }
+
             try
             {
                 if (string.IsNullOrWhiteSpace(this.folder))
                 {
-                    File.WriteAllText($"{Engine.GameEngine.FolderLocation}\\{this.fileName}.cs", this.scintilla1.Text);
+                    File.WriteAllText($"{Engine.GameEngine.FolderLocation}\\{fullPath}", this.scintilla1.Text);
                 }
                 else
                 {
-                    File.WriteAllText($"{folder}\\{this.fileName}", this.scintilla1.Text);
+                    File.WriteAllText($"{folder}\\{fullPath}", this.scintilla1.Text);
                 }
             }
             catch (Exception exception)
