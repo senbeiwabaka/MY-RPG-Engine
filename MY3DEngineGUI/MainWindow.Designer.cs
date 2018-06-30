@@ -104,10 +104,10 @@
             this.clearInformationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.clearErrorsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.viewLogFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.deleteLogFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ColorDialogForObjects = new System.Windows.Forms.ColorDialog();
             this.GameObjectBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.fswClassFileWatcher = new System.IO.FileSystemWatcher();
-            this.deleteLogFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.ExceptionGridView)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ExceptionBindingSource)).BeginInit();
             this.tabEditPlay.SuspendLayout();
@@ -606,6 +606,7 @@
             this.playGameToolStripMenuItem.Name = "playGameToolStripMenuItem";
             this.playGameToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.playGameToolStripMenuItem.Text = "Play \"Game\"";
+            this.playGameToolStripMenuItem.Click += new System.EventHandler(this.PlayGameToolStripMenuItem_Click);
             // 
             // buildGameToolStripMenuItem
             // 
@@ -801,23 +802,30 @@
             // clearInformationToolStripMenuItem
             // 
             this.clearInformationToolStripMenuItem.Name = "clearInformationToolStripMenuItem";
-            this.clearInformationToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.clearInformationToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
             this.clearInformationToolStripMenuItem.Text = "Clear Information";
             this.clearInformationToolStripMenuItem.Click += new System.EventHandler(this.ClearInformationToolStripMenuItem_Click);
             // 
             // clearErrorsToolStripMenuItem
             // 
             this.clearErrorsToolStripMenuItem.Name = "clearErrorsToolStripMenuItem";
-            this.clearErrorsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.clearErrorsToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
             this.clearErrorsToolStripMenuItem.Text = "Clear Errors";
             this.clearErrorsToolStripMenuItem.Click += new System.EventHandler(this.ClearErrorsToolStripMenuItem_Click);
             // 
             // viewLogFileToolStripMenuItem
             // 
             this.viewLogFileToolStripMenuItem.Name = "viewLogFileToolStripMenuItem";
-            this.viewLogFileToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.viewLogFileToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
             this.viewLogFileToolStripMenuItem.Text = "View Log File";
             this.viewLogFileToolStripMenuItem.Click += new System.EventHandler(this.ViewLogFileToolStripMenuItem_Click);
+            // 
+            // deleteLogFileToolStripMenuItem
+            // 
+            this.deleteLogFileToolStripMenuItem.Name = "deleteLogFileToolStripMenuItem";
+            this.deleteLogFileToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
+            this.deleteLogFileToolStripMenuItem.Text = "Delete Log File";
+            this.deleteLogFileToolStripMenuItem.Click += new System.EventHandler(this.DeleteLogFileToolStripMenuItem_Click);
             // 
             // fswClassFileWatcher
             // 
@@ -825,13 +833,6 @@
             this.fswClassFileWatcher.Filter = "*.cs";
             this.fswClassFileWatcher.SynchronizingObject = this;
             this.fswClassFileWatcher.Created += new System.IO.FileSystemEventHandler(this.FswClassFileWatcher_Created);
-            // 
-            // deleteLogFileToolStripMenuItem
-            // 
-            this.deleteLogFileToolStripMenuItem.Name = "deleteLogFileToolStripMenuItem";
-            this.deleteLogFileToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.deleteLogFileToolStripMenuItem.Text = "Delete Log File";
-            this.deleteLogFileToolStripMenuItem.Click += new System.EventHandler(this.DeleteLogFileToolStripMenuItem_Click);
             // 
             // MainWindow
             // 

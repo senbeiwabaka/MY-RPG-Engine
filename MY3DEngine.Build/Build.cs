@@ -105,6 +105,8 @@ namespace MY3DEngine.Build
 
                     buildSuccessful = false;
                 }
+
+                buildSuccessful = true;
             }
             catch (Exception e)
             {

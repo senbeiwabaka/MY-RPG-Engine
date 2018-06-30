@@ -6,6 +6,7 @@ using MY3DEngine.Primitives;
 using MY3DEngine.Utilities;
 using System;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -779,6 +780,11 @@ namespace MY3DEngine.GUI
 
                 MessageBox.Show("Log unsuccessfully deleted.", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        private void PlayGameToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Process.Start($@"{Engine.GameEngine.FolderLocation}\Game.exe");
         }
     }
 }
