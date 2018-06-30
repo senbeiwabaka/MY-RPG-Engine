@@ -62,10 +62,18 @@ namespace MY3DEngine.Build.Properties {
         
         /// <summary>
         ///   Looks up a localized string similar to using MY3DEngine;
+        ///using MY3DEngine.BaseObjects;
+        ///using MY3DEngine.Logging;
+        ///using MY3DEngine.Models;
+        ///using MY3DEngine.Primitives;
+        ///using MY3DEngine.Utilities;
         ///using System;
-        ///using System.Windows.Forms;
         ///using System.Collections.Generic;
+        ///using System.ComponentModel;
+        ///using System.Drawing;
+        ///using System.IO;
         ///using System.Linq;
+        ///using System.Windows.Forms;
         ///
         ///namespace Game
         ///{
@@ -74,11 +82,7 @@ namespace MY3DEngine.Build.Properties {
         ///		public MainWindow()
         ///		{
         ///			this.ClientSize = new System.Drawing.Size({ScreenWidth}, {ScreenHeight});
-        ///            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
-        ///
-        ///            var graphicsException = new ExceptionData(&quot;Engine Graphics not setup correctly&quot;, &quot;Engine&quot;, string.Empty);
-        ///
-        /// [rest of string was truncated]&quot;;.
+        ///            this [rest of string was truncated]&quot;;.
         /// </summary>
         public static string MainFile {
             get {

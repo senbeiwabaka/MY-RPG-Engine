@@ -69,12 +69,20 @@ namespace MY3DEngine.Build
                 //    references.Add(MetadataReference.CreateFromFile(assembly.Location));
                 //}
 
-                var systemAssembly = System.Reflection.Assembly.Load("mscorlib");
-                //var systemWindowsFormAssembly = System.Reflection.Assembly.LoadFrom(@"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7\System.Windows.Forms.dll");
+                //The location of the .NET assemblies
+                var assemblyPath = Path.GetDirectoryName(typeof(object).Assembly.Location);
 
-                references.Add(MetadataReference.CreateFromFile(systemAssembly.Location));
-                //references.Add(MetadataReference.CreateFromFile(systemWindowsFormAssembly.Location));
-                references.Add(MetadataReference.CreateFromFile(@"C:\Windows\Microsoft.NET\Framework64\v4.0.30319\System.Windows.Forms.dll"));
+                /* 
+                    * Adding some necessary .NET assemblies
+                    * These assemblies couldn't be loaded correctly via the same construction as above,
+                    * in specific the System.Runtime.
+                    */
+                references.Add(MetadataReference.CreateFromFile(Path.Combine(assemblyPath, "mscorlib.dll")));
+                references.Add(MetadataReference.CreateFromFile(Path.Combine(assemblyPath, "System.dll")));
+                references.Add(MetadataReference.CreateFromFile(Path.Combine(assemblyPath, "System.Core.dll")));
+                references.Add(MetadataReference.CreateFromFile(Path.Combine(assemblyPath, "System.Runtime.dll")));
+                references.Add(MetadataReference.CreateFromFile(Path.Combine(assemblyPath, "System.Windows.Forms.dll")));
+                references.Add(MetadataReference.CreateFromFile(Path.Combine(assemblyPath, "System.Drawing.dll")));
 
                 var csharpCompilationOptions = new CSharpCompilationOptions(
                     outputKind: OutputKind.WindowsApplication,
