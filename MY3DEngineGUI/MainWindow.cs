@@ -629,7 +629,7 @@ namespace MY3DEngine.GUI
 
         private void OpenClassBuilder(string fileName, string folderPath = default(string))
         {
-            if (!fileName.EndsWith(".cs"))
+            if (!fileName.EndsWith(".cs", StringComparison.InvariantCultureIgnoreCase))
             {
                 fileName += ".cs";
             }
@@ -641,7 +641,7 @@ namespace MY3DEngine.GUI
 
         private void UpdateButtonsUseability()
         {
-            if (Engine.GameEngine.Manager.GameObjects.Count(x => x.IsPrimitive) > 0)
+            if (Engine.GameEngine.Manager.GameObjects.Any(x => x.IsPrimitive))
             {
                 this.ChangeGameObjectColorButton.Enabled = this.RemoveGameObjectButton.Enabled = true;
             }

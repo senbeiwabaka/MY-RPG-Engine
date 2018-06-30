@@ -18,18 +18,15 @@ namespace MY3DEngine
     /// </summary>
     public sealed class Engine : IDisposable
     {
-        /// <summary>
-        /// If set to true then debugging information is added to a collection
-        /// </summary>
-        public static bool IsDebugginTurnedOn;
-
         private static Engine gameEngine;
+
+        private readonly SettingsManager settingsManager;
+
         private ICamera camera;
         private IGraphicManager graphicsManager;
         private bool lighting;
         private IObjectManager manager;
         private Thread renderThread;
-        private SettingsManager settingsManager;
         private IShader shader;
 
         /// <summary>
@@ -41,8 +38,20 @@ namespace MY3DEngine
             this.settingsManager = new SettingsManager();
         }
 
+        ~Engine()
+        {
+            Dispose(false);
+        }
+
+        #region Properties
+
         /// <summary>
-        ///
+        /// If set to true then debugging information is added to a collection
+        /// </summary>
+        public static bool IsDebugginTurnedOn;
+
+        /// <summary>
+        ///Game engine instance
         /// </summary>
         public static Engine GameEngine => gameEngine ?? (gameEngine = new Engine());
 
@@ -52,7 +61,7 @@ namespace MY3DEngine
         public ICamera Camera => this.camera;
 
         /// <summary>
-        ///
+        /// This is an instance of the exception manager class that manages exceptions
         /// </summary>
         public ExceptionManager Exception { get; set; }
 
@@ -67,26 +76,33 @@ namespace MY3DEngine
         public string GameName { get; internal set; }
 
         /// <summary>
-        ///
+        /// This is the graphics manager that manages the graphics
         /// </summary>
+        /// <remarks>It is overrideable</remarks>
         public IGraphicManager GraphicsManager => this.graphicsManager;
 
         /// <summary>
-        ///
+        /// Boolean stating whether or not the engine has been shutdown yet
         /// </summary>
         public bool IsNotShutDown { get; set; }
 
         /// <summary>
-        ///
+        /// This manages the game objects
         /// </summary>
+        /// <remarks>It is overrideable</remarks>
         public IObjectManager Manager => this.manager;
 
+        /// <summary>
+        /// This manages the games settings
+        /// </summary>
         public SettingsManager SettingsManager => this.settingsManager;
 
         /// <summary>
-        ///
+        /// This is the memory pointer to the window where the engine is rendering its contents
         /// </summary>
         public IntPtr Window { get; }
+
+        #endregion Properties
 
         internal static bool DoesIniFileExist { get; set; }
 
@@ -144,7 +160,7 @@ namespace MY3DEngine
         {
             this.Dispose(true);
 
-            GC.SuppressFinalize(true);
+            GC.SuppressFinalize(this);
         }
 
         public bool Initialize()

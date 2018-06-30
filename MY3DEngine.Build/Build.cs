@@ -25,7 +25,7 @@ namespace MY3DEngine.Build
             StaticLogger.Debug($"Starting {nameof(BuildGame)}");
 
             var buildSuccessful = false;
-            
+
             if (string.IsNullOrWhiteSpace(folderLocation))
             {
                 StaticLogger.Info($"Argument: {nameof(folderLocation)} was not supplied");
@@ -47,7 +47,7 @@ namespace MY3DEngine.Build
                 var fileContents = FileIO.GetFileContent(fullPath);
                 var assemblies = AssemblyHelper.GetAssemblies();
                 var references = new List<MetadataReference>(assemblies.Count);
-                
+
                 foreach (var assembly in assemblies)
                 {
                     references.Add(MetadataReference.CreateFromFile(assembly.Location));
@@ -90,7 +90,7 @@ namespace MY3DEngine.Build
                     foreach (var error in emitResult.Diagnostics.Where(x => x.Severity == DiagnosticSeverity.Error))
                     {
                         var mappedLineSpan = error.Location.GetMappedLineSpan();
-                        
+
                         StaticLogger.Info($"{mappedLineSpan.Path}; {mappedLineSpan.StartLinePosition.Line}; {mappedLineSpan.StartLinePosition.Character}; {error.Id}; {error}");
                     }
 

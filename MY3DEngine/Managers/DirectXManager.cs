@@ -23,6 +23,11 @@ namespace MY3DEngine.Managers
         private DepthStencilView depthStencilView;
         private RasterizerState rasterizerState;
 
+        ~DirectXManager()
+        {
+            Dispose(false);
+        }
+
         /// <summary>
         /// Load content in the background
         /// </summary>
@@ -65,7 +70,7 @@ namespace MY3DEngine.Managers
         {
             this.Dispose(true);
 
-            GC.SuppressFinalize(true);
+            GC.SuppressFinalize(this);
         }
 
         /// <summary>
@@ -163,7 +168,7 @@ namespace MY3DEngine.Managers
 #endif
 
             // create swapchain, device, and device context
-            Device.CreateWithSwapChain(DriverType.Hardware, creationFlags, swapChainDescription, out var d, out var sc);
+            Device.CreateWithSwapChain(DriverType.Hardware, creationFlags, new[] { featureLevel }, swapChainDescription, out var d, out var sc);
 
             if (d == null || sc == null)
             {
@@ -175,7 +180,7 @@ namespace MY3DEngine.Managers
             this.GetDeviceContext = this.GetDevice.ImmediateContext;
 
             // initialize back buffer
-            var backBuffer = Texture2D.FromSwapChain<Texture2D>(this.swapChain, 0);
+            var backBuffer = SharpDX.Direct3D11.Resource.FromSwapChain<Texture2D>(this.swapChain, 0);
             if (backBuffer == null)
             {
                 return false;

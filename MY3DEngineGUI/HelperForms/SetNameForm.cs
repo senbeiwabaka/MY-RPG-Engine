@@ -35,15 +35,7 @@ namespace MY3DEngine.GUI.HelperForms
         // TODO: Use Utilities FileIO
         private void BCreate_Click(object sender, EventArgs e)
         {
-            var fileName = string.Empty;
-            if(!tbName.Text.EndsWith(".cs"))
-            {
-                fileName = $"{tbName.Text}.cs";
-            }
-            else
-            {
-                fileName = tbName.Text;
-            }
+            var fileName = !tbName.Text.EndsWith(".cs", StringComparison.InvariantCultureIgnoreCase) ? $"{tbName.Text}.cs" : tbName.Text;
 
             File.Create($"{Engine.GameEngine.FolderLocation}\\{fileName}");
 

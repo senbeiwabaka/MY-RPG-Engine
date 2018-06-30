@@ -6,10 +6,25 @@ namespace MY3DEngine.Graphics
 {
     public interface IGraphicManager : IDisposable
     {
+        /// <summary>
+        /// Get the device
+        /// </summary>
         Device GetDevice { get; }
+
+        /// <summary>
+        /// Get the device context from the device
+        /// </summary>
         DeviceContext GetDeviceContext { get; }
+
         DirectXManager GetDirectXManager { get; }
 
+        /// <summary>
+        /// The begin scene logic
+        /// </summary>
+        /// <param name="red"></param>
+        /// <param name="green"></param>
+        /// <param name="blue"></param>
+        /// <param name="alpha"></param>
         void BeginScene(float red, float green, float blue, float alpha);
 
         /// <summary>
@@ -28,7 +43,7 @@ namespace MY3DEngine.Graphics
         /// End the game scene
         /// </summary>
         void EndScene();
-        
+
         bool InitializeDirectXManager(IntPtr windowHandle, int screenWidth = 720, int screenHeight = 480, bool vsyncEnabled = true, bool fullScreen = false);
     }
 }

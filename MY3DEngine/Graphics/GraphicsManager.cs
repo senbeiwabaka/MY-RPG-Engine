@@ -12,6 +12,11 @@ namespace MY3DEngine.Graphics
 
         public IntPtr GetWindowHandle { get; private set; }
 
+        ~GraphicsManager()
+        {
+            Dispose(false);
+        }
+
         /// <inheritdoc/>
         public void BeginScene(float red, float green, float blue, float alpha)
         {
@@ -28,7 +33,7 @@ namespace MY3DEngine.Graphics
         {
             this.Dispose(true);
 
-            GC.SuppressFinalize(true);
+            GC.SuppressFinalize(this);
         }
 
         /// <inheritdoc/>
@@ -42,7 +47,7 @@ namespace MY3DEngine.Graphics
         {
             this.GetDirectXManager.EndScene();
         }
-        
+
         /// <inheritdoc/>
         public bool InitializeDirectXManager(IntPtr windowHandle, int screenWidth = 720, int screenHeight = 480, bool vsyncEnabled = true, bool fullScreen = false)
         {
