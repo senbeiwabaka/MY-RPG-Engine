@@ -30,7 +30,7 @@ namespace MY3DEngine.GUI.HelperForms
                 Height = 600
             };
 
-            if(!Build.Create.CreateNewProject(Engine.GameEngine.FolderLocation, Engine.GameEngine.GameName, settings))
+            if (!Build.Create.CreateNewProject(Engine.GameEngine.FolderLocation, Engine.GameEngine.GameName, settings.Width, settings.Height, settings))
             {
                 MessageBox.Show("Error", "Error! Please check the error log (if setup).", MessageBoxButtons.OK, MessageBoxIcon.Error);
 

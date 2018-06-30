@@ -9,10 +9,13 @@ namespace MY3DEngine.Utilities
     {
         private static readonly Logger logger = LogManager.GetCurrentClassLogger();
 
+        /// <summary>
+        /// Get all of the assemblies from the toolkit
+        /// </summary>
+        /// <returns></returns>
         public static IReadOnlyCollection<Assembly> GetAssemblies()
         {
-            var folderLocation = FileIO.GetCurrentDirectory;
-            var dlls = FileIO.GetFiles(folderLocation, "*.dll");
+            var dlls = FileIO.GetFiles(FileIO.GetCurrentDirectory, "*.dll");
             var assemblies = new List<Assembly>(dlls.Count);
 
             try
@@ -29,5 +32,7 @@ namespace MY3DEngine.Utilities
 
             return assemblies;
         }
+
+
     }
 }

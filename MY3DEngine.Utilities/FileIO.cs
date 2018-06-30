@@ -5,6 +5,7 @@ using System.IO;
 
 namespace MY3DEngine.Utilities
 {
+    // TODO: Make into interface so that it can be changed
     public static class FileIO
     {
         private static readonly Logger logger = LogManager.GetCurrentClassLogger();
@@ -17,7 +18,7 @@ namespace MY3DEngine.Utilities
         /// <returns></returns>
         public static bool CreateDirectory(string folderPath)
         {
-            logger.Debug($"Starting {nameof(CreateDirectory)}");
+            logger.Info($"Starting {nameof(CreateDirectory)}");
 
             var sucessful = false;
 
@@ -40,14 +41,14 @@ namespace MY3DEngine.Utilities
                 logger.Error(e, nameof(CreateDirectory));
             }
 
-            logger.Debug($"Finished {nameof(CreateDirectory)}");
+            logger.Info($"Finished {nameof(CreateDirectory)}");
 
             return sucessful;
         }
 
         public static IReadOnlyCollection<string> GetFiles(string folderLocation, string searchString)
         {
-            logger.Debug($"Starting {nameof(GetFiles)}");
+            logger.Info($"Starting {nameof(GetFiles)}");
 
             if (!DirectoryExists(folderLocation))
             {
@@ -65,7 +66,7 @@ namespace MY3DEngine.Utilities
                 logger.Error(e, nameof(GetFiles));
             }
 
-            logger.Debug($"Finished {nameof(GetFiles)}");
+            logger.Info($"Finished {nameof(GetFiles)}");
 
             return dlls;
         }
@@ -77,7 +78,7 @@ namespace MY3DEngine.Utilities
         /// <returns></returns>
         public static bool DirectoryExists(string directory)
         {
-            logger.Debug($"{nameof(DirectoryExists)}");
+            logger.Info($"{nameof(DirectoryExists)}");
 
             if (string.IsNullOrWhiteSpace(directory))
             {
@@ -94,7 +95,7 @@ namespace MY3DEngine.Utilities
         /// <returns></returns>
         public static bool FileExists(string file)
         {
-            logger.Debug($"{nameof(FileExists)}");
+            logger.Info($"{nameof(FileExists)}");
 
             if (string.IsNullOrWhiteSpace(file))
             {
@@ -104,9 +105,14 @@ namespace MY3DEngine.Utilities
             return File.Exists(file);
         }
 
+        /// <summary>
+        /// Get all of the contents from the specified file
+        /// </summary>
+        /// <param name="file"></param>
+        /// <returns></returns>
         public static string GetFileContent(string file)
         {
-            logger.Debug($"Starting {nameof(GetFileContent)}");
+            logger.Info($"Starting {nameof(GetFileContent)}");
 
             var contents = string.Empty;
 
@@ -119,14 +125,20 @@ namespace MY3DEngine.Utilities
                 logger.Error(e, nameof(GetFileContent));
             }
 
-            logger.Debug($"Finished {nameof(GetFileContent)}");
+            logger.Info($"Finished {nameof(GetFileContent)}");
 
             return contents;
         }
 
+        /// <summary>
+        /// Write all of the contents to the specified file
+        /// </summary>
+        /// <param name="filePath"></param>
+        /// <param name="fileContents"></param>
+        /// <returns></returns>
         public static bool WriteFileContent(string filePath, string fileContents)
         {
-            logger.Debug($"{nameof(WriteFileContent)}");
+            logger.Info($"Starting Method: {nameof(WriteFileContent)}");
 
             try
             {
@@ -138,6 +150,51 @@ namespace MY3DEngine.Utilities
 
                 return false;
             }
+
+            logger.Info($"Finished Method: {nameof(WriteFileContent)}");
+
+            return true;
+        }
+
+        public static bool CopyFile(string sourceFileName, string destinationFileName, bool overwriteFile = default(bool))
+        {
+            logger.Info($"Starting Method: {nameof(CopyFile)}");
+
+            try
+            {
+                File.Copy(sourceFileName, destinationFileName, overwriteFile);
+            }
+            catch(Exception e)
+            {
+                logger.Error(e, nameof(CopyFile));
+
+                return false;
+            }
+
+            logger.Info($"Finished Method: {nameof(CopyFile)}");
+
+            return true;
+        }
+
+        public static bool DeleteFile(string filePath)
+        {
+            logger.Info($"Starting Method: {nameof(DeleteFile)}");
+
+            try
+            {
+                if(FileExists(filePath))
+                {
+                    File.Delete(filePath);
+                }
+            }
+            catch (Exception e)
+            {
+                logger.Error(e, nameof(DeleteFile));
+
+                return false;
+            }
+
+            logger.Info($"Finished Method: {nameof(DeleteFile)}");
 
             return true;
         }

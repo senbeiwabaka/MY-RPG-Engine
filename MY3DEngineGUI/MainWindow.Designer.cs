@@ -103,10 +103,11 @@
             this.otherToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.clearInformationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.clearErrorsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.viewLogFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ColorDialogForObjects = new System.Windows.Forms.ColorDialog();
             this.GameObjectBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.fswClassFileWatcher = new System.IO.FileSystemWatcher();
-            this.viewLogFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.deleteLogFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.ExceptionGridView)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ExceptionBindingSource)).BeginInit();
             this.tabEditPlay.SuspendLayout();
@@ -588,14 +589,14 @@
             // saveLevelToolStripMenuItem
             // 
             this.saveLevelToolStripMenuItem.Name = "saveLevelToolStripMenuItem";
-            this.saveLevelToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
+            this.saveLevelToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.saveLevelToolStripMenuItem.Text = "Save";
             this.saveLevelToolStripMenuItem.Click += new System.EventHandler(this.SaveLevelToolStripMenuItem_Click);
             // 
             // loadToolStripMenuItem
             // 
             this.loadToolStripMenuItem.Name = "loadToolStripMenuItem";
-            this.loadToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
+            this.loadToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.loadToolStripMenuItem.Text = "Load";
             this.loadToolStripMenuItem.Click += new System.EventHandler(this.LoadToolStripMenuItem_Click);
             // 
@@ -603,14 +604,14 @@
             // 
             this.playGameToolStripMenuItem.Enabled = false;
             this.playGameToolStripMenuItem.Name = "playGameToolStripMenuItem";
-            this.playGameToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
+            this.playGameToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.playGameToolStripMenuItem.Text = "Play \"Game\"";
             // 
             // buildGameToolStripMenuItem
             // 
             this.buildGameToolStripMenuItem.Enabled = false;
             this.buildGameToolStripMenuItem.Name = "buildGameToolStripMenuItem";
-            this.buildGameToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
+            this.buildGameToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.buildGameToolStripMenuItem.Text = "Build Game";
             this.buildGameToolStripMenuItem.Click += new System.EventHandler(this.BuildGameToolStripMenuItem_Click);
             // 
@@ -618,19 +619,19 @@
             // 
             this.generateGameToolStripMenuItem.Enabled = false;
             this.generateGameToolStripMenuItem.Name = "generateGameToolStripMenuItem";
-            this.generateGameToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
+            this.generateGameToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.generateGameToolStripMenuItem.Text = "Generate Game";
             this.generateGameToolStripMenuItem.Click += new System.EventHandler(this.GenerateGameToolStripMenuItem_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(152, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(177, 6);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.ExitToolStripMenuItem_Click);
             // 
@@ -791,7 +792,8 @@
             this.otherToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.clearInformationToolStripMenuItem,
             this.clearErrorsToolStripMenuItem,
-            this.viewLogFileToolStripMenuItem});
+            this.viewLogFileToolStripMenuItem,
+            this.deleteLogFileToolStripMenuItem});
             this.otherToolStripMenuItem.Name = "otherToolStripMenuItem";
             this.otherToolStripMenuItem.Size = new System.Drawing.Size(49, 20);
             this.otherToolStripMenuItem.Text = "Other";
@@ -810,6 +812,13 @@
             this.clearErrorsToolStripMenuItem.Text = "Clear Errors";
             this.clearErrorsToolStripMenuItem.Click += new System.EventHandler(this.ClearErrorsToolStripMenuItem_Click);
             // 
+            // viewLogFileToolStripMenuItem
+            // 
+            this.viewLogFileToolStripMenuItem.Name = "viewLogFileToolStripMenuItem";
+            this.viewLogFileToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.viewLogFileToolStripMenuItem.Text = "View Log File";
+            this.viewLogFileToolStripMenuItem.Click += new System.EventHandler(this.ViewLogFileToolStripMenuItem_Click);
+            // 
             // fswClassFileWatcher
             // 
             this.fswClassFileWatcher.EnableRaisingEvents = true;
@@ -817,12 +826,12 @@
             this.fswClassFileWatcher.SynchronizingObject = this;
             this.fswClassFileWatcher.Created += new System.IO.FileSystemEventHandler(this.FswClassFileWatcher_Created);
             // 
-            // viewLogFileToolStripMenuItem
+            // deleteLogFileToolStripMenuItem
             // 
-            this.viewLogFileToolStripMenuItem.Name = "viewLogFileToolStripMenuItem";
-            this.viewLogFileToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.viewLogFileToolStripMenuItem.Text = "View Log File";
-            this.viewLogFileToolStripMenuItem.Click += new System.EventHandler(this.ViewLogFileToolStripMenuItem_Click);
+            this.deleteLogFileToolStripMenuItem.Name = "deleteLogFileToolStripMenuItem";
+            this.deleteLogFileToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.deleteLogFileToolStripMenuItem.Text = "Delete Log File";
+            this.deleteLogFileToolStripMenuItem.Click += new System.EventHandler(this.DeleteLogFileToolStripMenuItem_Click);
             // 
             // MainWindow
             // 
@@ -934,6 +943,7 @@
         private System.Windows.Forms.TextBox tbZoomInOut;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.ToolStripMenuItem viewLogFileToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem deleteLogFileToolStripMenuItem;
     }
 }
 

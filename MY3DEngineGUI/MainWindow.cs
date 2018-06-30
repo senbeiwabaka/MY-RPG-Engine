@@ -3,6 +3,7 @@ using MY3DEngine.GUI.HelperForms;
 using MY3DEngine.Logging;
 using MY3DEngine.Models;
 using MY3DEngine.Primitives;
+using MY3DEngine.Utilities;
 using System;
 using System.ComponentModel;
 using System.Drawing;
@@ -20,24 +21,24 @@ namespace MY3DEngine.GUI
 
         private bool _firstMouse;
         private Point _mouseLocation;
+        private bool isObjectSelected;
         private string className;
         private string gamePath;
-        private bool isObjectSelected;
         private bool gameGeneratedSuccessfully;
 
         public MainWindow()
         {
-            this.InitializeComponent();
-            this.LoadOrCreateProject();
+            InitializeComponent();
+            LoadOrCreateProject();
 
-            this.useVsyncToolStripMenuItem.Checked = true;
+            useVsyncToolStripMenuItem.Checked = true;
         }
 
         #region Shutdown/Exit Events
 
         private void ExitToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            this.Close();
+            Close();
         }
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
@@ -236,7 +237,7 @@ namespace MY3DEngine.GUI
 
         private void ExceptionGridView_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            var clickedOnCellContents = this.ExceptionGridView.Rows[e.RowIndex].Cells[e.ColumnIndex].Value;
+            var clickedOnCellContents = ExceptionGridView.Rows[e.RowIndex].Cells[e.ColumnIndex].Value;
             var exceptionValueDisplayForm = new ExceptionValueDisplayForm(clickedOnCellContents);
 
             exceptionValueDisplayForm.Show(this);
@@ -263,7 +264,7 @@ namespace MY3DEngine.GUI
             }
             else
             {
-                this.lblLocation.Text = string.Empty;
+                lblLocation.Text = string.Empty;
                 lblColor.Text = string.Empty;
             }
         }
@@ -278,7 +279,7 @@ namespace MY3DEngine.GUI
 
                 Engine.GameEngine.Manager.RemoveObject(gameObject);
 
-                this.AddRemoveObject($"Game Object '{gameObject.Name}' was removed.");
+                AddRemoveObject($"Game Object '{gameObject.Name}' was removed.");
             }
         }
 
@@ -292,15 +293,15 @@ namespace MY3DEngine.GUI
 
         private void TxtName_Leave(object sender, EventArgs e)
         {
-            if (!string.IsNullOrWhiteSpace(this.tbName.Text))
+            if (!string.IsNullOrWhiteSpace(tbName.Text))
             {
                 var gameObject = Engine.GameEngine.Manager.GameObjects.FirstOrDefault(x => x.IsSelected);
 
                 if (gameObject != null)
                 {
-                    gameObject.Name = this.tbName.Text;
+                    gameObject.Name = tbName.Text;
 
-                    this.AddToInformationDisplay($"Object {gameObject.GetType()} has had its name changed to '{this.tbName.Text}'.");
+                    AddToInformationDisplay($"Object {gameObject.GetType()} has had its name changed to '{tbName.Text}'.");
                 }
             }
         }
@@ -315,7 +316,7 @@ namespace MY3DEngine.GUI
 
             if (Engine.GameEngine.Manager.AddObject(gameObject))
             {
-                this.AddRemoveObject("Cube added.");
+                AddRemoveObject("Cube added.");
             }
         }
 
@@ -325,7 +326,7 @@ namespace MY3DEngine.GUI
 
             if (Engine.GameEngine.Manager.AddObject(gameObject))
             {
-                this.AddRemoveObject("Triangle added.");
+                AddRemoveObject("Triangle added.");
             }
         }
 
@@ -335,7 +336,7 @@ namespace MY3DEngine.GUI
 
             if (Engine.GameEngine.Manager.AddObject(gameObject))
             {
-                this.AddRemoveObject("Triangle with texture added.");
+                AddRemoveObject("Triangle with texture added.");
             }
         }
 
@@ -346,27 +347,27 @@ namespace MY3DEngine.GUI
 
         private void ClearInformationToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            this.tbInformation.Clear();
+            tbInformation.Clear();
         }
 
         private void GenerateGameToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            this.gameGeneratedSuccessfully = Build.Build.GenerateFilesForBuildingGame(Engine.GameEngine.FolderLocation);
+            gameGeneratedSuccessfully = Build.Build.GenerateFilesForBuildingGame(Engine.GameEngine.FolderLocation);
 
-            if (this.gameGeneratedSuccessfully)
+            if (gameGeneratedSuccessfully)
             {
-                this.AddToInformationDisplay("Game generated successfully.");
+                AddToInformationDisplay("Game generated successfully.");
 
                 MessageBox.Show("Game generated successfully.", "Information");
             }
             else
             {
-                this.AddToInformationDisplay("Game not generated successfully. Please see error log.");
+                AddToInformationDisplay("Game not generated successfully. Please see error log.");
 
                 MessageBox.Show("Game not generated successfully. Please see error log.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
-            this.UpdateBuildMenuClickUsability();
+            UpdateBuildMenuClickUsability();
         }
 
         private void LoadToolStripMenuItem_Click(object sender, EventArgs e)
@@ -383,8 +384,8 @@ namespace MY3DEngine.GUI
 
                 if (Engine.GameEngine.Load(dialog.FileName))
                 {
-                    this.UpdateButtonsUseability();
-                    this.AddToInformationDisplay("Game loaded successfully.");
+                    UpdateButtonsUseability();
+                    AddToInformationDisplay("Game loaded successfully.");
 
                     MessageBox.Show("Game loaded successfully.", "Information");
 
@@ -392,7 +393,7 @@ namespace MY3DEngine.GUI
                 }
                 else
                 {
-                    this.AddToInformationDisplay("Game not loaded successfully. Please see error log.");
+                    AddToInformationDisplay("Game not loaded successfully. Please see error log.");
 
                     MessageBox.Show("Game not loaded successfully. Please see error log.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
@@ -409,13 +410,13 @@ namespace MY3DEngine.GUI
 
                 if (Engine.GameEngine.Save(gamePath))
                 {
-                    this.AddToInformationDisplay("Game saved successfully.");
+                    AddToInformationDisplay("Game saved successfully.");
 
                     MessageBox.Show("Game saved successfully.", "Information");
                 }
                 else
                 {
-                    this.AddToInformationDisplay("Game not saved successfully. Please see error log.");
+                    AddToInformationDisplay("Game not saved successfully. Please see error log.");
 
                     MessageBox.Show("Game not saved successfully. Please see error log.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
@@ -426,54 +427,53 @@ namespace MY3DEngine.GUI
         {
             Engine.IsDebugginTurnedOn = !Engine.IsDebugginTurnedOn;
 
-            this.AddToInformationDisplay(string.Format("Engine debugging is set to {0}", Engine.IsDebugginTurnedOn));
+            AddToInformationDisplay(string.Format("Engine debugging is set to {0}", Engine.IsDebugginTurnedOn));
         }
 
         private void UseVsyncToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Engine.GameEngine.GraphicsManager.ChangeVSyncState(useVsyncToolStripMenuItem.Checked);
 
-            this.AddToInformationDisplay($"VSync is {useVsyncToolStripMenuItem.Checked}");
+            AddToInformationDisplay($"VSync is {useVsyncToolStripMenuItem.Checked}");
         }
 
         private void WireframOnOffToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Engine.GameEngine.WireFrame(this.wireframOnOffToolStripMenuItem.Checked);
+            Engine.GameEngine.WireFrame(wireframOnOffToolStripMenuItem.Checked);
         }
 
         #endregion Menu Events
 
         #region New/Load Project
 
-        // TODO -- FINISH
         private void CreateNewProject_Click(object sender, EventArgs e)
         {
+            // create an instance of the new project form
             var createNewProjectForm = new CreateNewProjectForm();
-            var result = createNewProjectForm.ShowDialog();
+            var result = createNewProjectForm.ShowDialog(); // display the form
 
+            // if they have hit okay or yes then we can create the new project
             if (result == DialogResult.OK || result == DialogResult.Yes)
             {
-                this.Controls.RemoveAt(0);
+                // this removes the load/create project cover
+                Controls.RemoveAt(0);
 
-                //this.tlvGameFiles.CanExpandGetter = delegate (object x) {
-                //    return (x is DirectoryInfo);
-                //};
-
-                //this.tlvGameFiles.ChildrenGetter = delegate (object x) {
-                //    return (x is DirectoryInfo);
-                //};
-
+                // get the directory where they created the new project at
                 var directory = new DirectoryInfo(Engine.GameEngine.FolderLocation);
-                var files = directory.EnumerateFiles("*.cs").ToList();
-                //this.tlvGameFiles.SetObjects(files);
-                //tlvGameFiles.RefreshObjects(files);
-                this.tlvGameFiles.Roots = files;
+                var files = directory.EnumerateFiles("*.cs").ToList(); // currently get a list of the c# files
 
-                this.fswClassFileWatcher.Path = Engine.GameEngine.FolderLocation;
+                // add them to the tree view
+                tlvGameFiles.Roots = files;
 
-                this.LoadGameEngine();
-                this.UpdateGenerateMenuClickUsability();
+                // add the new project folder location to the watch path for when new files are created outside of the toolkit so they show up
+                fswClassFileWatcher.Path = Engine.GameEngine.FolderLocation;
+
+                // load the game engine into the window
+                LoadGameEngine();
+                UpdateGenerateMenuClickUsability();
             }
+
+            createNewProjectForm.Dispose();
         }
 
         // TODO -- FINISH
@@ -484,18 +484,21 @@ namespace MY3DEngine.GUI
 
             if (result == DialogResult.OK || result == DialogResult.Yes)
             {
-                this.Controls.RemoveAt(0);
-                
+                Controls.RemoveAt(0);
+
                 var directory = new DirectoryInfo(Engine.GameEngine.FolderLocation);
                 var files = directory.EnumerateFiles("*.cs").ToList();
-                //this.tlvGameFiles.SetObjects(files);
-                //tlvGameFiles.RefreshObjects(files);
-                this.tlvGameFiles.Roots = files;
+                tlvGameFiles.Roots = files;
 
-                this.fswClassFileWatcher.Path = Engine.GameEngine.FolderLocation;
+                fswClassFileWatcher.Path = Engine.GameEngine.FolderLocation;
 
-                this.LoadGameEngine();
-                this.UpdateGenerateMenuClickUsability();
+                LoadGameEngine();
+                UpdateGenerateMenuClickUsability();
+
+                if(directory.EnumerateFiles("*.exe", SearchOption.AllDirectories).Any())
+                {
+                    buildGameToolStripMenuItem.Enabled = playGameToolStripMenuItem.Enabled = true;
+                }
             }
         }
 
@@ -514,12 +517,12 @@ namespace MY3DEngine.GUI
 
         private void AddRemoveObject(string message)
         {
-            this.AddToInformationDisplay(message);
-            this.UpdateButtonsUseability();
+            AddToInformationDisplay(message);
+            UpdateButtonsUseability();
 
             lock (Engine.GameEngine.Manager)
             {
-                this.TreeListViewSceneGraph.SetObjects(Engine.GameEngine.Manager.GameObjects);
+                TreeListViewSceneGraph.SetObjects(Engine.GameEngine.Manager.GameObjects);
 
                 if (Engine.GameEngine.Manager.GameObjects.Count == 1)
                 {
@@ -540,9 +543,12 @@ namespace MY3DEngine.GUI
 
         private void AddToInformationDisplay(string message)
         {
-            this.tbInformation.AppendText($"{message} {Environment.NewLine}");
+            tbInformation.AppendText($"{message} {Environment.NewLine}");
         }
 
+        /// <summary>
+        /// Load the game engine and its required components
+        /// </summary>
         private void LoadGameEngine()
         {
             var exceptions = new BindingList<ExceptionData>();
@@ -550,32 +556,28 @@ namespace MY3DEngine.GUI
             Engine.GameEngine.SettingsManager.Initialize();
 
             if (Engine.GameEngine.InitliazeGraphics(
-                this.rendererPnl.Handle,
-                this.rendererPnl.Width,
-                this.rendererPnl.Height,
-                vsyncEnabled: this.useVsyncToolStripMenuItem.Checked,
+                rendererPnl.Handle,
+                rendererPnl.Width,
+                rendererPnl.Height,
+                vsyncEnabled: useVsyncToolStripMenuItem.Checked,
                 fullScreen: false))
             {
                 Engine.GameEngine.Initialize();
 
                 exceptions = Engine.GameEngine.Exception.Exceptions;
 
-                _mouseLocation = new Point(0, 0);
-                _firstMouse = false;
-                this.isObjectSelected = false;
+                Text = $"{EngineTitle}";
 
-                this.Text = $"{EngineTitle}";
-
-                if(!string.IsNullOrWhiteSpace(Engine.GameEngine.GameName))
+                if (!string.IsNullOrWhiteSpace(Engine.GameEngine.GameName))
                 {
-                    this.Text += $"{Engine.GameEngine.GameName}";
+                    Text += $"{Engine.GameEngine.GameName}";
                 }
 
                 lock (Engine.GameEngine.Manager)
                 {
-                    this.GameObjectBindingSource.DataSource = Engine.GameEngine.Manager.GameObjects;
-                    this.GameObjectListComboBox.DataSource = this.GameObjectBindingSource.DataSource;
-                    this.TreeListViewSceneGraph.SetObjects(Engine.GameEngine.Manager.GameObjects, true);
+                    GameObjectBindingSource.DataSource = Engine.GameEngine.Manager.GameObjects;
+                    GameObjectListComboBox.DataSource = GameObjectBindingSource.DataSource;
+                    TreeListViewSceneGraph.SetObjects(Engine.GameEngine.Manager.GameObjects, true);
                 }
             }
             else
@@ -583,10 +585,10 @@ namespace MY3DEngine.GUI
                 exceptions.Add(graphicsException);
             }
 
-            this.ExceptionBindingSource.DataSource = exceptions;
+            ExceptionBindingSource.DataSource = exceptions;
 
-            this.AddToInformationDisplay($"Video card memory : {Engine.GameEngine.GraphicsManager.GetDirectXManager.VideoCardMemory} MB");
-            this.AddToInformationDisplay($"Video card description : {Engine.GameEngine.GraphicsManager.GetDirectXManager.VideoCardDescription}");
+            AddToInformationDisplay($"Video card memory : {Engine.GameEngine.GraphicsManager.GetDirectXManager.VideoCardMemory} MB");
+            AddToInformationDisplay($"Video card description : {Engine.GameEngine.GraphicsManager.GetDirectXManager.VideoCardDescription}");
         }
 
         private void LoadOrCreateProject()
@@ -598,8 +600,8 @@ namespace MY3DEngine.GUI
                 FormBorderStyle = FormBorderStyle.None,
                 Dock = DockStyle.None,
                 Visible = true,
-                Width = this.ClientSize.Width,
-                Height = this.ClientSize.Height
+                Width = ClientSize.Width,
+                Height = ClientSize.Height
             };
             var loadExistingProject = new Button
             {
@@ -612,19 +614,19 @@ namespace MY3DEngine.GUI
                 AutoSize = true
             };
 
-            loadExistingProject.Left = (this.ClientSize.Width - loadExistingProject.Width) / 2;
-            loadExistingProject.Top = ((this.ClientSize.Height - 50) - loadExistingProject.Height) / 2;
-            loadExistingProject.Click += this.LoadExistingProject_Click;
+            loadExistingProject.Left = (ClientSize.Width - loadExistingProject.Width) / 2;
+            loadExistingProject.Top = ((ClientSize.Height - 50) - loadExistingProject.Height) / 2;
+            loadExistingProject.Click += LoadExistingProject_Click;
 
-            createNewProject.Left = (this.ClientSize.Width - createNewProject.Width) / 2;
-            createNewProject.Top = ((this.ClientSize.Height + 50) - createNewProject.Height) / 2;
-            createNewProject.Click += this.CreateNewProject_Click;
+            createNewProject.Left = (ClientSize.Width - createNewProject.Width) / 2;
+            createNewProject.Top = ((ClientSize.Height + 50) - createNewProject.Height) / 2;
+            createNewProject.Click += CreateNewProject_Click;
 
             form.Controls.Add(loadExistingProject);
             form.Controls.Add(createNewProject);
 
-            this.Controls.Add(form);
-            this.Controls.SetChildIndex(form, 0);
+            Controls.Add(form);
+            Controls.SetChildIndex(form, 0);
         }
 
         private void OpenClassBuilder(string fileName, string folderPath = default(string))
@@ -643,22 +645,25 @@ namespace MY3DEngine.GUI
         {
             if (Engine.GameEngine.Manager.GameObjects.Any(x => x.IsPrimitive))
             {
-                this.ChangeGameObjectColorButton.Enabled = this.RemoveGameObjectButton.Enabled = true;
+                ChangeGameObjectColorButton.Enabled = RemoveGameObjectButton.Enabled = true;
             }
             else
             {
-                this.ChangeGameObjectColorButton.Enabled = this.RemoveGameObjectButton.Enabled = false;
+                ChangeGameObjectColorButton.Enabled = RemoveGameObjectButton.Enabled = false;
             }
         }
 
+        /// <summary>
+        /// Set the enabled/disabled status of the generate game menu item click
+        /// </summary>
         private void UpdateGenerateMenuClickUsability()
         {
-            this.generateGameToolStripMenuItem.Enabled = !string.IsNullOrWhiteSpace(Engine.GameEngine.FolderLocation);
+            generateGameToolStripMenuItem.Enabled = !string.IsNullOrWhiteSpace(Engine.GameEngine.FolderLocation);
         }
 
         private void UpdateBuildMenuClickUsability()
         {
-            this.buildGameToolStripMenuItem.Enabled = this.gameGeneratedSuccessfully;
+            buildGameToolStripMenuItem.Enabled = gameGeneratedSuccessfully;
         }
 
         #endregion Helper Methods
@@ -677,13 +682,13 @@ namespace MY3DEngine.GUI
         {
             var setNameForm = new SetNameForm();
 
-            setNameForm.ClosingSetNameForm += this.SetNameForm_ClosingSetNameForm;
+            setNameForm.ClosingSetNameForm += SetNameForm_ClosingSetNameForm;
 
             var dialogResult = setNameForm.ShowDialog();
 
             if (dialogResult == DialogResult.OK)
             {
-                this.OpenClassBuilder(this.className);
+                OpenClassBuilder(className);
             }
         }
 
@@ -697,7 +702,7 @@ namespace MY3DEngine.GUI
             {
                 var fileInfo = new FileInfo(e.FullPath);
 
-                this.tlvGameFiles.AddObject(fileInfo);
+                tlvGameFiles.AddObject(fileInfo);
             }
         }
 
@@ -710,7 +715,7 @@ namespace MY3DEngine.GUI
                 if (e.Item.RowObject is FileInfo file)
                 {
                     var openFile = new ToolStripMenuItem("Open File");
-                    openFile.Click += this.OpenFile_Click;
+                    openFile.Click += OpenFile_Click;
                     openFile.Tag = file;
 
                     var deleteFile = new ToolStripMenuItem("Delete File");
@@ -737,13 +742,17 @@ namespace MY3DEngine.GUI
         {
             if (Build.Build.BuildGame(Engine.GameEngine.FolderLocation, Engine.GameEngine.GameName))
             {
-                this.AddToInformationDisplay("Game built successfully.");
+                AddToInformationDisplay("Game built successfully.");
+
+                playGameToolStripMenuItem.Enabled = true;
 
                 MessageBox.Show("Game built successfully.", "Information");
             }
             else
             {
-                this.AddToInformationDisplay("Game not built successfully. Please see error log.");
+                AddToInformationDisplay("Game not built successfully. Please see error log.");
+
+                playGameToolStripMenuItem.Enabled = false;
 
                 MessageBox.Show("Game not built successfully. Please see error log.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
@@ -754,6 +763,22 @@ namespace MY3DEngine.GUI
             var logView = new LogViewer($"{Environment.CurrentDirectory}/log.log");
 
             logView.Show(this);
+        }
+
+        private void DeleteLogFileToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if(FileIO.DeleteFile($"{Environment.CurrentDirectory}/log.log"))
+            {
+                AddToInformationDisplay("Log successfully deleted.");
+
+                MessageBox.Show("Log successfully deleted.", "File Deleted", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            else
+            {
+                AddToInformationDisplay("Log unsuccessfully deleted.");
+
+                MessageBox.Show("Log unsuccessfully deleted.", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
     }
 }
