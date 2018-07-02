@@ -117,6 +117,52 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="LoggerFile" xml:space="preserve">
+    <value>&lt;?xml version="1.0" encoding="utf-8" ?&gt;
+&lt;nlog xmlns="http://www.nlog-project.org/schemas/NLog.xsd"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.nlog-project.org/schemas/NLog.xsd NLog.xsd"
+      autoReload="true"
+      throwExceptions="true"
+      internalLogLevel="Off"
+      internalLogFile="c:\temp\nlog-internal.log"&gt;
+
+  &lt;!-- optional, add some variables
+  https://github.com/nlog/NLog/wiki/Configuration-file#variables
+  --&gt;
+  &lt;variable name="myvar" value="myvalue"/&gt;
+
+  &lt;!--
+  See https://github.com/nlog/nlog/wiki/Configuration-file
+  for information on customizing logging rules and outputs.
+   --&gt;
+  &lt;targets&gt;
+
+    &lt;!--
+    add your targets here
+    See https://github.com/nlog/NLog/wiki/Targets for possible targets.
+    See https://github.com/nlog/NLog/wiki/Layout-Renderers for the possible layout renderers.
+    --&gt;
+
+    &lt;!--
+    Write events to a file with the date in the filename.
+    &lt;target xsi:type="File" name="f" fileName="${basedir}/logs/${shortdate}.log"
+            layout="${longdate} ${uppercase:${level}} ${message}" /&gt;
+    --&gt;
+    &lt;target name="logfile" xsi:type="File" fileName="log.log" /&gt;
+  &lt;/targets&gt;
+
+  &lt;rules&gt;
+    &lt;!-- add your logging rules here --&gt;
+
+    &lt;!--
+    Write all events with minimal level of Debug (So Debug, Info, Warn, Error and Fatal, but not Trace)  to "f"
+    &lt;logger name="*" minlevel="Debug" writeTo="f" /&gt;
+    --&gt;
+    &lt;logger name="*" minlevel="Debug" writeTo="logfile" /&gt;
+  &lt;/rules&gt;
+&lt;/nlog&gt;</value>
+  </data>
   <data name="MainFile" xml:space="preserve">
     <value>using MY3DEngine;
 using MY3DEngine.BaseObjects;
@@ -130,6 +176,7 @@ using System.ComponentModel;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Game
@@ -141,36 +188,53 @@ namespace Game
 			this.ClientSize = new System.Drawing.Size({ScreenWidth}, {ScreenHeight});
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
 
-            var graphicsException = new ExceptionData("Engine Graphics not setup correctly", "Engine", string.Empty);
+			var exceptions = new BindingList&lt;ExceptionData&gt;();
+            var generalException = new ExceptionData("Engine could not be setup correctly", "Engine", string.Empty);
 
             Engine.IsDebugginTurnedOn = true;
 
             try
 			{
-				if (Engine.GameEngine.InitliazeGraphics(
+				if (!Engine.GameEngine.InitliazeGraphics(
 					this.Handle,
 					this.ClientSize.Width,
 					this.ClientSize.Height,
 					vsyncEnabled: true,
                     fullScreen: false))
 				{
-					Engine.GameEngine.Initialize();
-
-					Engine.GameEngine.Load({0});
-
-                    ListExceptions(Engine.GameEngine.Exception.Exceptions.ToList());
+					exceptions = Engine.GameEngine.Exception.Exceptions;
+					exceptions.Add(generalException);
+					
+					ListExceptions(exceptions.ToList());
+					
+					if(MessageBox.Show("Error has occurred.", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error) == DialogResult.OK)
+					{
+						Close();
+					}					
                 }
-                else
-                {
-                    System.IO.File.AppendAllText({1}, DateTime.Now + Environment.NewLine);
-					System.IO.File.AppendAllText({1}, graphicsException.ToString() + Environment.NewLine + Environment.NewLine);
-                }
+				
+				if(!Engine.GameEngine.Initialize())
+				{
+					exceptions = Engine.GameEngine.Exception.Exceptions;
+					exceptions.Add(generalException);
+					
+					ListExceptions(exceptions.ToList());
+					
+					if(MessageBox.Show("Error has occurred.", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error) == DialogResult.OK)
+					{
+						Close();
+					}
+				}
+				
+				Engine.GameEngine.Load({0});
             }
 			catch(Exception e)
 			{
                 System.IO.File.AppendAllText({1}, DateTime.Now + Environment.NewLine);
 				System.IO.File.AppendAllText({1}, e.Message + Environment.NewLine);
 				System.IO.File.AppendAllText({1}, e.StackTrace + Environment.NewLine + Environment.NewLine);
+				
+				Close();
 			}
 		}
 
@@ -210,19 +274,55 @@ namespace Game
 		[STAThread]
 		static void Main()
 		{
-			// Set the unhandled exception mode to force all Windows Forms errors
-			// to go through our handler.
-			//Application.SetUnhandledExceptionMode(UnhandledExceptionMode.CatchException);
+			// Set the unhandled exception mode to force all Windows Forms errors to go through our handler.
+			Application.SetUnhandledExceptionMode(UnhandledExceptionMode.CatchException);
 
-			//AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
+			AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
 
 			// Add the event handler for handling UI thread exceptions to the event.
-			//Application.ThreadException += Application_ThreadException;
+			Application.ThreadException += Application_ThreadException;
+			
+			TaskScheduler.UnobservedTaskException += TaskScheduler_UnobservedTaskException;
 
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
 			Application.Run(new MainWindow());
 		}
+		
+		private static void TaskScheduler_UnobservedTaskException(object sender, UnobservedTaskExceptionEventArgs e)
+        {
+            var exception = e.Exception;
+
+            Engine.GameEngine.Exception.AddException(exception);
+
+            ExitApplication();
+        }
+
+        private static void Application_ThreadException(object sender, System.Threading.ThreadExceptionEventArgs e)
+        {
+            var exception = e.Exception;
+
+            Engine.GameEngine.Exception.AddException(exception);
+
+            ExitApplication();
+        }
+
+        private static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
+        {
+            var exception = e.ExceptionObject as Exception;
+
+            Engine.GameEngine.Exception.AddException(exception);
+
+            ExitApplication();
+        }
+
+        private static void ExitApplication()
+        {
+            System.Diagnostics.Process proc = System.Diagnostics.Process.GetCurrentProcess();
+            System.Windows.Forms.Application.Exit();
+            System.Environment.Exit(0);
+            proc.Kill();
+        }
 	}
 }</value>
   </data>

@@ -33,5 +33,16 @@
         /// Screen width
         /// </summary>
         public int Width { get; set; }
+
+        public override string ToString()
+        {
+            return $"AssetsPath: {AssetsPath} ;; " +
+                $"GameName: {GameName} ;; " +
+                $"Height: {Height} ;; " +
+                $"PixelShaderName: {PixelShaderName} ;; " +
+                $"ShaderPath: {ShaderPath} ;; " +
+                $"VertexShaderName: {VertexShaderName} ;; " +
+                $"Width: {Width}";
+        }
     }
 }

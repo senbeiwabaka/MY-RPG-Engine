@@ -164,7 +164,7 @@ namespace MY3DEngine.Utilities
             {
                 File.Copy(sourceFileName, destinationFileName, overwriteFile);
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 logger.Error(e, nameof(CopyFile));
 
@@ -182,7 +182,7 @@ namespace MY3DEngine.Utilities
 
             try
             {
-                if(FileExists(filePath))
+                if (FileExists(filePath))
                 {
                     File.Delete(filePath);
                 }

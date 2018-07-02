@@ -103,7 +103,7 @@ namespace MY3DEngine.Build
                         StaticLogger.Info($"{mappedLineSpan.Path}; {mappedLineSpan.StartLinePosition.Line}; {mappedLineSpan.StartLinePosition.Character}; {error.Id}; {error}");
                     }
 
-                    buildSuccessful = false;
+                    return buildSuccessful;
                 }
 
                 buildSuccessful = true;
@@ -159,26 +159,31 @@ namespace MY3DEngine.Build
             return true;
         }
 
-        // TODO - Finish using new FileIO from Utilities
         public static bool GenerateFilesForBuildingGame(string folderLocation)
         {
             StaticLogger.Info($"Starting Method: {nameof(GenerateFilesForBuildingGame)}");
 
-            var fileName = Constants.MainFileName;
-            var fileContents = Resources.MainFile
+            var mainFileContents = Resources.MainFile
                 .Replace("{0}", $"@\"{folderLocation}\\GameObjects.go\"")
                 .Replace("{1}", $"@\"{folderLocation}\\ErrorLog.txt\"")
                 .Replace("{2}", $"@\"{folderLocation}\\InformationLog.txt\"")
                 .Replace("{ScreenWidth}", "800")
                 .Replace("{ScreenHeight}", "400");
-            var fullPath = $"{folderLocation}\\{fileName}";
+            var loggerFileContents = Resources.LoggerFile;
+            var mainFileFullPath = $"{folderLocation}\\{Constants.MainFileName}";
+            var loggerFileFullPath = $"{folderLocation}\\{Constants.LoggerFileName}";
             var assemblies = AssemblyHelper.GetAssemblies();
 
             try
             {
-                if (!FileIO.FileExists(fullPath))
+                if (!FileIO.FileExists(mainFileFullPath))
                 {
-                    FileIO.WriteFileContent(fullPath, fileContents);
+                    FileIO.WriteFileContent(mainFileFullPath, mainFileContents);
+                }
+
+                if (!FileIO.FileExists(loggerFileFullPath))
+                {
+                    FileIO.WriteFileContent(loggerFileFullPath, loggerFileContents);
                 }
 
                 if (!FileIO.DirectoryExists($"{folderLocation}\\Assets"))
@@ -200,12 +205,12 @@ namespace MY3DEngine.Build
             }
             catch (Exception e)
             {
-                StaticLogger.Exception(nameof(GenerateFilesForBuildingGame), e);
+                StaticLogger.Exception($"Method: nameof{nameof(GenerateFilesForBuildingGame)}", e);
 
                 return false;
             }
 
-            StaticLogger.Info($"Finished {nameof(GenerateFilesForBuildingGame)}");
+            StaticLogger.Info($"Finished Method: {nameof(GenerateFilesForBuildingGame)}");
 
             return true;
         }

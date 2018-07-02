@@ -16,13 +16,10 @@ namespace MY3DEngine.GUI
 {
     public partial class MainWindow : Form
     {
-        private readonly ExceptionData graphicsException = new ExceptionData("Engine Graphics not setup correctly", "Engine", string.Empty);
+        private readonly ExceptionData graphicsException = new ExceptionData("Engine could not be setup correctly", "Engine", string.Empty);
 
         private const string EngineTitle = "MY 3D Engine Builder";
 
-        private bool _firstMouse;
-        private Point _mouseLocation;
-        private bool isObjectSelected;
         private string className;
         private string gamePath;
         private bool gameGeneratedSuccessfully;
@@ -50,24 +47,6 @@ namespace MY3DEngine.GUI
         #endregion Shutdown/Exit Events
 
         #region Camera -- FIX
-
-        private void rendererPnl_MouseEnter(object sender, EventArgs e)
-        {
-            rendererPnl.Focus();
-        }
-
-        private void rendererPnl_MouseMove(object sender, MouseEventArgs e)
-        {
-        }
-
-        private void rendererPnl_MouseUp(object sender, MouseEventArgs e)
-        {
-            _firstMouse = false;
-        }
-
-        private void rendererPnl_MouseWheel(object sender, MouseEventArgs e)
-        {
-        }
 
         private void ResetCameraToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -496,7 +475,7 @@ namespace MY3DEngine.GUI
                 LoadGameEngine();
                 UpdateGenerateMenuClickUsability();
 
-                if(directory.EnumerateFiles("*.exe", SearchOption.AllDirectories).Any())
+                if (directory.EnumerateFiles("*.exe", SearchOption.AllDirectories).Any())
                 {
                     buildGameToolStripMenuItem.Enabled = playGameToolStripMenuItem.Enabled = true;
                 }
@@ -563,23 +542,26 @@ namespace MY3DEngine.GUI
                 vsyncEnabled: useVsyncToolStripMenuItem.Checked,
                 fullScreen: false))
             {
-                Engine.GameEngine.Initialize();
-
-                exceptions = Engine.GameEngine.Exception.Exceptions;
-
-                Text = $"{EngineTitle}";
-
-                if (!string.IsNullOrWhiteSpace(Engine.GameEngine.GameName))
+                if(Engine.GameEngine.Initialize())
                 {
-                    Text += $"{Engine.GameEngine.GameName}";
+                    Text = $"{EngineTitle}";
+
+                    if (!string.IsNullOrWhiteSpace(Engine.GameEngine.GameName))
+                    {
+                        Text += $"{Engine.GameEngine.GameName}";
+                    }
+
+                    lock (Engine.GameEngine.Manager)
+                    {
+                        GameObjectBindingSource.DataSource = Engine.GameEngine.Manager.GameObjects;
+                        GameObjectListComboBox.DataSource = GameObjectBindingSource.DataSource;
+                        TreeListViewSceneGraph.SetObjects(Engine.GameEngine.Manager.GameObjects, true);
+                    }
+
+                    exceptions = Engine.GameEngine.Exception.Exceptions;
                 }
 
-                lock (Engine.GameEngine.Manager)
-                {
-                    GameObjectBindingSource.DataSource = Engine.GameEngine.Manager.GameObjects;
-                    GameObjectListComboBox.DataSource = GameObjectBindingSource.DataSource;
-                    TreeListViewSceneGraph.SetObjects(Engine.GameEngine.Manager.GameObjects, true);
-                }
+                exceptions.Add(graphicsException);
             }
             else
             {
@@ -768,7 +750,7 @@ namespace MY3DEngine.GUI
 
         private void DeleteLogFileToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if(FileIO.DeleteFile($"{Environment.CurrentDirectory}/log.log"))
+            if (FileIO.DeleteFile($"{Environment.CurrentDirectory}/log.log"))
             {
                 AddToInformationDisplay("Log successfully deleted.");
 

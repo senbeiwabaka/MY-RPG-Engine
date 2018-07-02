@@ -52,7 +52,7 @@ namespace MY3DEngine.Managers
             }
             catch (Exception e)
             {
-                Engine.GameEngine.AddException(e);
+                Engine.GameEngine.Exception.AddException(e);
 
                 return false;
             }

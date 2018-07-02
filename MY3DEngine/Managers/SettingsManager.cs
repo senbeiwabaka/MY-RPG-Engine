@@ -1,17 +1,12 @@
-﻿using MY3DEngine.Models;
+﻿using MY3DEngine.Logging;
+using MY3DEngine.Models;
 using MY3DEngine.Utilities;
-using Newtonsoft.Json;
-using System;
 
 namespace MY3DEngine.Managers
 {
-    /// <summary>
-    /// 
-    /// </summary>
     public sealed class SettingsManager
     {
         private const string OverrideFolderName = "\\Override";
-
         private const string DefaultIniFileName = "\\DefaultSettings.ini";
         private const string DefaultAssetsPath = "\\Assets";
         private const string DefaultShaderPath = "\\Assets\\Shaders";
@@ -22,7 +17,7 @@ namespace MY3DEngine.Managers
         private bool isLoaded;
 
         /// <inherietdoc/>
-        public Settings Settings => this.settings;
+        public Settings Settings => settings;
 
         /// <summary>
         /// Initialize the settings for the game engine
@@ -30,6 +25,8 @@ namespace MY3DEngine.Managers
         /// <returns></returns>
         public bool Initialize()
         {
+            StaticLogger.Info($"Starting {nameof(SettingsManager)}.{nameof(Initialize)}");
+
             if (isLoaded)
             {
                 return isLoaded;
@@ -43,26 +40,29 @@ namespace MY3DEngine.Managers
                 return (isLoaded = false);
             }
 
-            this.settings = Deserialize.DeserializeFileAsT<Settings>(fullPath);
+            settings = Deserialize.DeserializeFileAsT<Settings>(fullPath);
 
             if (FileIO.DirectoryExists($""))
             {
-
             }
 
-            if (string.IsNullOrWhiteSpace(this.settings.ShaderPath))
+            if (string.IsNullOrWhiteSpace(settings.ShaderPath))
             {
-                this.settings.ShaderPath = $"{CurrentDirectory}{DefaultShaderPath}";
+                settings.ShaderPath = $"{CurrentDirectory}{DefaultShaderPath}";
             }
 
-            if (string.IsNullOrWhiteSpace(this.settings.AssetsPath))
+            if (string.IsNullOrWhiteSpace(settings.AssetsPath))
             {
-                this.settings.AssetsPath = $"{CurrentDirectory}{DefaultAssetsPath}";
+                settings.AssetsPath = $"{CurrentDirectory}{DefaultAssetsPath}";
             }
 
             Engine.GameEngine.GameName = Settings.GameName;
 
-            return (isLoaded = true);
+            StaticLogger.Debug($"Settings: {settings}");
+
+            StaticLogger.Info($"Finished {nameof(SettingsManager)}.{nameof(Initialize)}");
+
+            return isLoaded = true;
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using MY3DEngine.BaseObjects;
+using MY3DEngine.Interfaces;
 using MY3DEngine.Models;
 using SharpDX;
 using SharpDX.D3DCompiler;
@@ -15,6 +16,15 @@ namespace MY3DEngine.Shaders
         private PixelShader pixelShader;
         private VertexShader vertextShader;
 
+        internal Shader()
+        {
+        }
+
+        ~Shader()
+        {
+            Dispose(false);
+        }
+
         /// <inherietdoc/>
         public SharpDX.Direct3D11.Buffer ConstantMatrixBuffer { get; set; }
 
@@ -22,26 +32,24 @@ namespace MY3DEngine.Shaders
         {
             this.Dispose(true);
 
-            GC.SuppressFinalize(true);
+            GC.SuppressFinalize(this);
         }
 
         /// <inherietdoc/>
-        public bool Initialize()
+        public void Initialize()
         {
-            try
+            var path = Engine.GameEngine.SettingsManager.Settings.ShaderPath;
+
+            // Compile Vertex shaders
+            using (var vertexShaderByteCode = ShaderBytecode.CompileFromFile(string.Format("{0}\\Color.vs", path), "ColorVertexShader", "vs_4_0", ShaderFlags.None, EffectFlags.None))
             {
-                var path = Engine.GameEngine.SettingsManager.Settings.ShaderPath;
+                this.vertextShader = new VertexShader(Engine.GameEngine.GraphicsManager.GetDevice, vertexShaderByteCode);
 
-                // Compile Vertex shaders
-                using (var vertexShaderByteCode = ShaderBytecode.CompileFromFile(string.Format("{0}\\Color.vs", path), "ColorVertexShader", "vs_4_0", ShaderFlags.None, EffectFlags.None))
-                {
-                    this.vertextShader = new VertexShader(Engine.GameEngine.GraphicsManager.GetDevice, vertexShaderByteCode);
-
-                    this.inputLayout = new InputLayout(
-                        Engine.GameEngine.GraphicsManager.GetDevice,
-                        ShaderSignature.GetInputSignature(vertexShaderByteCode),
-                        new InputElement[]
-                        {
+                this.inputLayout = new InputLayout(
+                    Engine.GameEngine.GraphicsManager.GetDevice,
+                    ShaderSignature.GetInputSignature(vertexShaderByteCode),
+                    new InputElement[]
+                    {
                             new InputElement
                             {
                                 SemanticName = "POSITION",
@@ -62,33 +70,26 @@ namespace MY3DEngine.Shaders
                                 Classification = InputClassification.PerVertexData,
                                 InstanceDataStepRate = 0
                             }
-                        });
-                }
-
-                // Compile Pixel shaders
-                using (var pixelShaderByteCode = ShaderBytecode.CompileFromFile(string.Format("{0}\\Color.ps", path), "ColorPixelShader", "ps_4_0", ShaderFlags.None, EffectFlags.None))
-                {
-                    this.pixelShader = new PixelShader(Engine.GameEngine.GraphicsManager.GetDevice, pixelShaderByteCode);
-                }
-
-                var matrixBufDesc = new BufferDescription()
-                {
-                    Usage = ResourceUsage.Dynamic,
-                    SizeInBytes = SharpDX.Utilities.SizeOf<MatrixBuffer>(),
-                    BindFlags = BindFlags.ConstantBuffer,
-                    CpuAccessFlags = CpuAccessFlags.Write,
-                    OptionFlags = ResourceOptionFlags.None,
-                    StructureByteStride = 0
-                };
-
-                this.ConstantMatrixBuffer = new SharpDX.Direct3D11.Buffer(Engine.GameEngine.GraphicsManager.GetDevice, matrixBufDesc);
+                    });
             }
-            catch (Exception e)
+
+            // Compile Pixel shaders
+            using (var pixelShaderByteCode = ShaderBytecode.CompileFromFile(string.Format("{0}\\Color.ps", path), "ColorPixelShader", "ps_4_0", ShaderFlags.None, EffectFlags.None))
             {
-                Engine.GameEngine.AddException(e);
-
-                return false;
+                this.pixelShader = new PixelShader(Engine.GameEngine.GraphicsManager.GetDevice, pixelShaderByteCode);
             }
+
+            var matrixBufDesc = new BufferDescription()
+            {
+                Usage = ResourceUsage.Dynamic,
+                SizeInBytes = SharpDX.Utilities.SizeOf<MatrixBuffer>(),
+                BindFlags = BindFlags.ConstantBuffer,
+                CpuAccessFlags = CpuAccessFlags.Write,
+                OptionFlags = ResourceOptionFlags.None,
+                StructureByteStride = 0
+            };
+
+            this.ConstantMatrixBuffer = new SharpDX.Direct3D11.Buffer(Engine.GameEngine.GraphicsManager.GetDevice, matrixBufDesc);
 
             // Set the vertex input layout.
             Engine.GameEngine.GraphicsManager.GetDeviceContext.InputAssembler.InputLayout = this.inputLayout;
@@ -96,8 +97,6 @@ namespace MY3DEngine.Shaders
             // Set the vertex and pixel shaders that will be used to render this triangle.
             Engine.GameEngine.GraphicsManager.GetDeviceContext.VertexShader.Set(this.vertextShader);
             Engine.GameEngine.GraphicsManager.GetDeviceContext.PixelShader.Set(this.pixelShader);
-
-            return true;
         }
 
         /// <inherietdoc/>
@@ -173,7 +172,7 @@ namespace MY3DEngine.Shaders
             }
             catch (Exception e)
             {
-                Engine.GameEngine.AddException(e);
+                Engine.GameEngine.Exception.AddException(e);
 
                 return false;
             }

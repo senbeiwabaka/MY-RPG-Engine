@@ -76,15 +76,15 @@
   <ItemGroup>
     <Compile Include="BaseObjects\GameObjectWithTexture.cs" />
     <Compile Include="BaseObjects\IGameObjectWithTexture.cs" />
-    <Compile Include="FileSystem.cs" />
     <Compile Include="GraphicObjects\ColorVertex.cs" />
     <Compile Include="Cameras\Camera.cs" />
     <Compile Include="Cameras\ICamera.cs" />
+    <Compile Include="Interfaces\IExceptionManager.cs" />
     <Compile Include="Managers\TextureManager.cs" />
     <Compile Include="Enums\LevelType.cs" />
     <Compile Include="GameTimer.cs" />
     <Compile Include="GraphicObjects\TextureVertex.cs" />
-    <Compile Include="IGameTimer.cs" />
+    <Compile Include="Interfaces\IGameTimer.cs" />
     <Compile Include="Managers\DirectXManager.cs" />
     <Compile Include="Engine.cs" />
     <Compile Include="Managers\ExceptionManager.cs" />
@@ -93,11 +93,11 @@
     <Compile Include="Models\ExceptionData.cs" />
     <Compile Include="Graphics\GraphicsManager.cs" />
     <Compile Include="Graphics\IGraphicManager.cs" />
-    <Compile Include="ILevel.cs" />
+    <Compile Include="Interfaces\ILevel.cs" />
     <Compile Include="Input.cs" />
     <Compile Include="Models\MatrixBuffer.cs" />
     <Compile Include="Models\Settings.cs" />
-    <Compile Include="Shaders\IShader.cs" />
+    <Compile Include="Interfaces\IShader.cs" />
     <Compile Include="Shaders\Shader.cs" />
     <Compile Include="Shaders\TextureShader.cs" />
     <Content Include="Assets\seafloor.bmp">
@@ -133,6 +133,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\MY3DEngine.Logging\MY3DEngine.Logging.csproj">
+      <Project>{F21B75CC-7DBB-4E41-8364-2C8D3FFFAD8B}</Project>
+      <Name>MY3DEngine.Logging</Name>
+    </ProjectReference>
     <ProjectReference Include="..\MY3DEngine.Utilities\MY3DEngine.Utilities.csproj">
       <Project>{bd4326b8-0018-4f84-857c-6a479c08f80b}</Project>
       <Name>MY3DEngine.Utilities</Name>

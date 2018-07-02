@@ -3,7 +3,7 @@ using SharpDX;
 using System;
 using System.Collections.Generic;
 
-namespace MY3DEngine.Shaders
+namespace MY3DEngine.Interfaces
 {
     /// <summary>
     /// Interface for using shaders in the engine
@@ -19,7 +19,7 @@ namespace MY3DEngine.Shaders
         /// Initialize the required memory and datasets
         /// </summary>
         /// <returns></returns>
-        bool Initialize();
+        void Initialize();
 
         /// <summary>
         /// Render all of the objects to the screen
@@ -28,7 +28,6 @@ namespace MY3DEngine.Shaders
         /// <param name="worldMatrix"></param>
         /// <param name="viewMatrix"></param>
         /// <param name="projectionMatrix"></param>
-        /// <returns></returns>
         bool Render(IEnumerable<BaseObject> gameObjects, Matrix worldMatrix, Matrix viewMatrix, Matrix projectionMatrix);
     }
 }

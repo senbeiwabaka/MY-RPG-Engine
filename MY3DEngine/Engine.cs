@@ -1,8 +1,8 @@
 ﻿using MY3DEngine.BaseObjects;
 using MY3DEngine.Cameras;
 using MY3DEngine.Graphics;
+using MY3DEngine.Interfaces;
 using MY3DEngine.Managers;
-using MY3DEngine.Models;
 using MY3DEngine.Primitives;
 using MY3DEngine.Shaders;
 using Newtonsoft.Json;
@@ -34,8 +34,8 @@ namespace MY3DEngine
         /// </summary>
         public Engine()
         {
-            this.graphicsManager = null;
-            this.settingsManager = new SettingsManager();
+            graphicsManager = null;
+            settingsManager = new SettingsManager();
         }
 
         ~Engine()
@@ -58,12 +58,12 @@ namespace MY3DEngine
         /// <summary>
         /// The world camera
         /// </summary>
-        public ICamera Camera => this.camera;
+        public ICamera Camera => camera;
 
         /// <summary>
         /// This is an instance of the exception manager class that manages exceptions
         /// </summary>
-        public ExceptionManager Exception { get; set; }
+        public IExceptionManager Exception { get; set; }
 
         /// <summary>
         /// Root location of where the game files are stored
@@ -79,7 +79,7 @@ namespace MY3DEngine
         /// This is the graphics manager that manages the graphics
         /// </summary>
         /// <remarks>It is overrideable</remarks>
-        public IGraphicManager GraphicsManager => this.graphicsManager;
+        public IGraphicManager GraphicsManager => graphicsManager;
 
         /// <summary>
         /// Boolean stating whether or not the engine has been shutdown yet
@@ -90,12 +90,12 @@ namespace MY3DEngine
         /// This manages the game objects
         /// </summary>
         /// <remarks>It is overrideable</remarks>
-        public IObjectManager Manager => this.manager;
+        public IObjectManager Manager => manager;
 
         /// <summary>
         /// This manages the games settings
         /// </summary>
-        public SettingsManager SettingsManager => this.settingsManager;
+        public SettingsManager SettingsManager => settingsManager;
 
         /// <summary>
         /// This is the memory pointer to the window where the engine is rendering its contents
@@ -108,57 +108,9 @@ namespace MY3DEngine
 
         #region Methods
 
-        /// <summary>
-        /// Add compiler error to the system error system for user display
-        /// </summary>
-        /// <param name="fileName">The name of the file with the error</param>
-        /// <param name="line">The line of the error</param>
-        /// <param name="column">The character column of the error</param>
-        /// <param name="errorNumber">The CS error code #</param>
-        /// <param name="errorText">The error description</param>
-        public void AddCompilerErrors(string fileName, int line, int column, string errorNumber, string errorText)
-        {
-            this.AddErrorMessage($"{fileName} has had an error compiling.", $"On line {line} in column {column}. The error code is {errorNumber}.", errorText);
-        }
-
-        /// <summary>
-        /// Add an error message to the system error system for user display
-        /// </summary>
-        /// <param name="message">The error message</param>
-        /// <param name="source">The source of the error</param>
-        /// <param name="stackTrace">The StackTrace of the error</param>
-        public void AddErrorMessage(string message, string source, string stackTrace)
-        {
-            if (IsDebugginTurnedOn)
-            {
-                GameEngine.Exception.Exceptions.Add(new ExceptionData(message, source, stackTrace));
-            }
-        }
-
-        /// <summary>
-        /// Add exception to the system error system for user display
-        /// </summary>
-        /// <param name="e">The exception to add</param>
-        public void AddException(Exception e)
-        {
-            if (IsDebugginTurnedOn)
-            {
-                var exception = e;
-
-                this.AddErrorMessage(exception.Message, exception.Source, exception.StackTrace);
-
-                while (exception.InnerException != null)
-                {
-                    exception = exception.InnerException;
-
-                    this.AddErrorMessage(exception.Message, exception.Source, exception.StackTrace);
-                }
-            }
-        }
-
         public void Dispose()
         {
-            this.Dispose(true);
+            Dispose(true);
 
             GC.SuppressFinalize(this);
         }
@@ -167,24 +119,21 @@ namespace MY3DEngine
         {
             try
             {
-                this.shader = new TextureShader();
-                this.camera = new Camera();
-                this.Exception = new ExceptionManager();
-                this.manager = new ObjectManager();
+                shader = new TextureShader();
+                camera = new Camera();
+                Exception = new ExceptionManager();
+                manager = new ObjectManager();
 
-                //this.Camera.Initialize(screenWidth, screenHeight);
-                this.Camera.SetPosition(0.0f, 0.0f, -10.0f);
+                //Camera.Initialize(screenWidth, screenHeight);
+                Camera.SetPosition(0.0f, 0.0f, -10.0f);
 
-                if (!this.shader.Initialize())
-                {
-                    return false;
-                }
+                shader.Initialize();
 
-                this.Start();
+                Start();
             }
             catch (Exception e)
             {
-                this.AddException(e);
+                Exception.AddException(e);
 
                 return false;
             }
@@ -198,7 +147,7 @@ namespace MY3DEngine
         /// <returns></returns>
         public bool InitializeSettings()
         {
-            return this.SettingsManager.Initialize();
+            return SettingsManager.Initialize();
         }
 
         /// <summary>
@@ -212,9 +161,9 @@ namespace MY3DEngine
         /// <returns></returns>
         public bool InitliazeGraphics(IntPtr windowHandle, int screenWidth = 720, int screenHeight = 480, bool vsyncEnabled = true, bool fullScreen = false)
         {
-            this.graphicsManager = new GraphicsManager();
+            graphicsManager = new GraphicsManager();
 
-            return this.GraphicsManager.InitializeDirectXManager(windowHandle, screenWidth, screenHeight, vsyncEnabled, fullScreen);
+            return GraphicsManager.InitializeDirectXManager(windowHandle, screenWidth, screenHeight, vsyncEnabled, fullScreen);
         }
 
         // TODO: Refactor
@@ -240,12 +189,12 @@ namespace MY3DEngine
                         {
                             if (gameObject.IsTriangle)
                             {
-                                this.Manager.AddObject(gameObject as Triangle, false);
+                                Manager.AddObject(gameObject as Triangle, false);
                             }
 
                             if (gameObject.IsCube)
                             {
-                                this.Manager.AddObject(gameObject as Cube, false);
+                                Manager.AddObject(gameObject as Cube, false);
                             }
                         }
                     }
@@ -255,7 +204,7 @@ namespace MY3DEngine
             }
             catch (Exception e)
             {
-                this.AddException(e);
+                Exception.AddException(e);
             }
 
             return false;
@@ -268,8 +217,8 @@ namespace MY3DEngine
         {
             while (GameEngine.IsNotShutDown)
             {
-                this.Update();
-                this.Render();
+                Update();
+                Render();
             }
         }
 
@@ -279,7 +228,7 @@ namespace MY3DEngine
             try
             {
                 var jsonSerializedData = JsonConvert.SerializeObject(
-                    this.Manager.GetGameObjects,
+                    Manager.GetGameObjects,
                     new JsonSerializerSettings
                     {
                         TypeNameHandling = TypeNameHandling.Auto
@@ -291,7 +240,7 @@ namespace MY3DEngine
             }
             catch (Exception e)
             {
-                this.AddException(e);
+                Exception.AddException(e);
             }
 
             return false;
@@ -302,13 +251,13 @@ namespace MY3DEngine
         /// </summary>
         public void Shutdown()
         {
-            this.IsNotShutDown = false;
+            IsNotShutDown = false;
 
-            if (this.renderThread != null)
+            if (renderThread != null)
             {
-                while (this.renderThread.IsAlive)
+                while (renderThread.IsAlive)
                 {
-                    this.renderThread?.Abort();
+                    renderThread?.Abort();
                 }
             }
         }
@@ -318,7 +267,7 @@ namespace MY3DEngine
         /// </summary>
         public void WireFrame(bool enableWireFrameMode = false)
         {
-            this.GraphicsManager.EnableWireFrameMode(enableWireFrameMode);
+            GraphicsManager.EnableWireFrameMode(enableWireFrameMode);
         }
 
         #endregion Methods
@@ -330,7 +279,7 @@ namespace MY3DEngine
         /// </summary>
         public void GlobalLights()
         {
-            this.lighting = this.lighting == false ? true : false;
+            lighting = lighting == false ? true : false;
             //LocalDevice.ThisDevice.SetRenderState(RenderState.Lighting, _lighting);
             //LocalDevice.ThisDevice.SetRenderState(RenderState.Ambient, new SlimDX.Color4(Color.Gray).ToArgb());
         }
@@ -343,8 +292,8 @@ namespace MY3DEngine
         {
             if (disposing)
             {
-                this.graphicsManager?.Dispose();
-                this.shader?.Dispose();
+                graphicsManager?.Dispose();
+                shader?.Dispose();
             }
         }
 
@@ -353,22 +302,22 @@ namespace MY3DEngine
         /// </summary>
         private void Render()
         {
-            this.GraphicsManager.BeginScene(0.0f, 0.0f, 0.0f, 1.0f);
+            GraphicsManager.BeginScene(0.0f, 0.0f, 0.0f, 1.0f);
 
             // Generate the view matrix based on the camera's position.
-            this.Camera.Render();
+            Camera.Render();
 
             // Get the world, view, and projection matrices from camera and d3d objects.
-            Matrix viewMatrix = this.Camera.ViewMatrix;
-            Matrix worldMatrix = this.GraphicsManager.GetDirectXManager.WorldMatrix;
-            Matrix projectionMatrix = this.GraphicsManager.GetDirectXManager.ProjectionMatrix;
+            Matrix viewMatrix = Camera.ViewMatrix;
+            Matrix worldMatrix = GraphicsManager.GetDirectXManager.WorldMatrix;
+            Matrix projectionMatrix = GraphicsManager.GetDirectXManager.ProjectionMatrix;
 
             // Rotate the world matrix by the rotation value so that the triangle will spin.
             //Matrix.RotationY(1.0f, out worldMatrix);
 
-            this.shader.Render(this.manager.GameObjects, worldMatrix, viewMatrix, projectionMatrix);
+            shader.Render(manager.GameObjects, worldMatrix, viewMatrix, projectionMatrix);
 
-            this.GraphicsManager.EndScene();
+            GraphicsManager.EndScene();
         }
 
         /// <summary>
@@ -376,10 +325,10 @@ namespace MY3DEngine
         /// </summary>
         private void Start()
         {
-            this.IsNotShutDown = true;
+            IsNotShutDown = true;
 
-            this.renderThread = new Thread(this.Run) { Name = "RenderingThread" };
-            this.renderThread.Start();
+            renderThread = new Thread(Run) { Name = "RenderingThread" };
+            renderThread.Start();
         }
 
         /// <summary>
@@ -387,7 +336,7 @@ namespace MY3DEngine
         /// </summary>
         private void Update()
         {
-            //this.CalculateFrameRateStats();
+            //CalculateFrameRateStats();
         }
 
         #endregion Helper Methods

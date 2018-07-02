@@ -61,6 +61,27 @@ namespace MY3DEngine.Build.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; ?&gt;
+        ///&lt;nlog xmlns=&quot;http://www.nlog-project.org/schemas/NLog.xsd&quot;
+        ///      xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
+        ///      xsi:schemaLocation=&quot;http://www.nlog-project.org/schemas/NLog.xsd NLog.xsd&quot;
+        ///      autoReload=&quot;true&quot;
+        ///      throwExceptions=&quot;true&quot;
+        ///      internalLogLevel=&quot;Off&quot;
+        ///      internalLogFile=&quot;c:\temp\nlog-internal.log&quot;&gt;
+        ///
+        ///  &lt;!-- optional, add some variables
+        ///  https://github.com/nlog/NLog/wiki/Configuration-file#variables
+        ///  --&gt;
+        ///  &lt;variable name=&quot;m [rest of string was truncated]&quot;;.
+        /// </summary>
+        public static string LoggerFile {
+            get {
+                return ResourceManager.GetString("LoggerFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to using MY3DEngine;
         ///using MY3DEngine.BaseObjects;
         ///using MY3DEngine.Logging;
@@ -73,6 +94,7 @@ namespace MY3DEngine.Build.Properties {
         ///using System.Drawing;
         ///using System.IO;
         ///using System.Linq;
+        ///using System.Threading.Tasks;
         ///using System.Windows.Forms;
         ///
         ///namespace Game
@@ -81,8 +103,7 @@ namespace MY3DEngine.Build.Properties {
         ///	{
         ///		public MainWindow()
         ///		{
-        ///			this.ClientSize = new System.Drawing.Size({ScreenWidth}, {ScreenHeight});
-        ///            this [rest of string was truncated]&quot;;.
+        ///			this.ClientSize = new System.Drawing.Size({ScreenWidth}, {Sc [rest of string was truncated]&quot;;.
         /// </summary>
         public static string MainFile {
             get {
