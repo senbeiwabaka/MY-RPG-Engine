@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using MY3DEngine.Interfaces;
+using System.Diagnostics;
 
 namespace MY3DEngine
 {

@@ -1,4 +1,5 @@
 ﻿using MY3DEngine.BaseObjects;
+using MY3DEngine.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -7,9 +8,15 @@ using System.Linq;
 namespace MY3DEngine.Managers
 {
     /// <inherietdoc/>
-    public class ObjectManager : IObjectManager
+    public sealed class ObjectManager : IObjectManager
     {
         private readonly BindingList<BaseObject> gameObjects = new BindingList<BaseObject>();
+
+        /// <inherietdoc/>
+        ~ObjectManager()
+        {
+            Dispose(false);
+        }
 
         /// <inherietdoc/>
         public BindingList<BaseObject> GameObjects
@@ -58,6 +65,26 @@ namespace MY3DEngine.Managers
         }
 
         /// <inherietdoc/>
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        /// <inherietdoc/>
+        public bool LoadObjects(IEnumerable<BaseObject> objects)
+        {
+            foreach (var item in objects)
+            {
+                if (!AddObject(item, true))
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        /// <inherietdoc/>
         public bool RemoveObject(BaseObject gameObject)
         {
             try
@@ -80,6 +107,17 @@ namespace MY3DEngine.Managers
                 Engine.GameEngine.Exception.AddException(e);
 
                 return false;
+            }
+        }
+
+        private void Dispose(bool dispose)
+        {
+            if (dispose)
+            {
+                foreach (var baseObject in gameObjects)
+                {
+                    baseObject?.Dispose();
+                }
             }
         }
     }

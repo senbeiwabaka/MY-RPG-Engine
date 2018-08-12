@@ -1,4 +1,4 @@
-﻿namespace MY3DEngine
+﻿namespace MY3DEngine.Interfaces
 {
     public interface IGameTimer
     {

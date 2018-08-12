@@ -6,8 +6,15 @@ namespace MY3DEngine.Models
     [StructLayout(LayoutKind.Sequential)]
     public struct MatrixBuffer
     {
-        public Matrix world;
-        public Matrix view;
-        public Matrix projection;
+        public MatrixBuffer(Matrix world, Matrix view, Matrix projection)
+        {
+            this.World = world;
+            this.View = view;
+            this.Projection = projection;
+        }
+
+        public Matrix World { get; }
+        public Matrix View;
+        public Matrix Projection;
     }
 }

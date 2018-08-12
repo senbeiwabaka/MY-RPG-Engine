@@ -4,18 +4,18 @@ using System.Windows.Forms;
 
 namespace MY3DEngine.GUI
 {
-    static class Program
+    internal static class Program
     {
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
         [STAThread]
-        static void Main()
+        private static void Main()
         {
             // Set the unhandled exception mode to force all Windows Forms errors
             // to go through our handler.
             Application.SetUnhandledExceptionMode(UnhandledExceptionMode.CatchException);
-            
+
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
 
             // Add the event handler for handling UI thread exceptions to the event.
@@ -33,8 +33,6 @@ namespace MY3DEngine.GUI
             var exception = e.Exception;
 
             Engine.GameEngine.Exception.AddException(exception);
-
-            ExitApplication();
         }
 
         private static void Application_ThreadException(object sender, System.Threading.ThreadExceptionEventArgs e)
@@ -42,8 +40,6 @@ namespace MY3DEngine.GUI
             var exception = e.Exception;
 
             Engine.GameEngine.Exception.AddException(exception);
-
-            ExitApplication();
         }
 
         private static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
@@ -51,16 +47,6 @@ namespace MY3DEngine.GUI
             var exception = e.ExceptionObject as Exception;
 
             Engine.GameEngine.Exception.AddException(exception);
-
-            ExitApplication();
-        }
-
-        private static void ExitApplication()
-        {
-            System.Diagnostics.Process proc = System.Diagnostics.Process.GetCurrentProcess();
-            System.Windows.Forms.Application.Exit();
-            System.Environment.Exit(0);
-            proc.Kill();
         }
     }
 }

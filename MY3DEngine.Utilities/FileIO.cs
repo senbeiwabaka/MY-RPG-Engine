@@ -46,7 +46,7 @@ namespace MY3DEngine.Utilities
             return sucessful;
         }
 
-        public static IReadOnlyCollection<string> GetFiles(string folderLocation, string searchString)
+        public static IReadOnlyList<string> GetFiles(string folderLocation, string searchString)
         {
             logger.Info($"Starting {nameof(GetFiles)}");
 
@@ -55,11 +55,11 @@ namespace MY3DEngine.Utilities
                 return new List<string>();
             }
 
-            var dlls = new List<string>();
+            var files = new List<string>();
 
             try
             {
-                dlls.AddRange(Directory.GetFiles(folderLocation, searchString, SearchOption.AllDirectories));
+                files.AddRange(Directory.GetFiles(folderLocation, searchString, SearchOption.AllDirectories));
             }
             catch (Exception e)
             {
@@ -68,7 +68,7 @@ namespace MY3DEngine.Utilities
 
             logger.Info($"Finished {nameof(GetFiles)}");
 
-            return dlls;
+            return files;
         }
 
         /// <summary>
@@ -138,11 +138,30 @@ namespace MY3DEngine.Utilities
         /// <returns></returns>
         public static bool WriteFileContent(string filePath, string fileContents)
         {
+            return WriteFileContent(filePath, fileContents, true);
+        }
+
+        /// <summary>
+        /// Write all of the contents to the specified file
+        /// </summary>
+        /// <param name="filePath"></param>
+        /// <param name="fileContents"></param>
+        /// <param name="appendContents"></param>
+        /// <returns></returns>
+        public static bool WriteFileContent(string filePath, string fileContents, bool appendContents)
+        {
             logger.Info($"Starting Method: {nameof(WriteFileContent)}");
 
             try
             {
-                File.AppendAllText(filePath, fileContents);
+                if (appendContents)
+                {
+                    File.AppendAllText(filePath, fileContents);
+                }
+                else
+                {
+                    File.WriteAllText(filePath, fileContents);
+                }
             }
             catch (Exception e)
             {

@@ -1,4 +1,5 @@
 ﻿using MY3DEngine.GraphicObjects;
+using MY3DEngine.Interfaces;
 using Newtonsoft.Json;
 using SharpDX;
 using SharpDX.Direct3D11;

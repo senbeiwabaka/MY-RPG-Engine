@@ -75,10 +75,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BaseObjects\GameObjectWithTexture.cs" />
-    <Compile Include="BaseObjects\IGameObjectWithTexture.cs" />
+    <Compile Include="Interfaces\IGameObjectWithTexture.cs" />
     <Compile Include="GraphicObjects\ColorVertex.cs" />
     <Compile Include="Cameras\Camera.cs" />
-    <Compile Include="Cameras\ICamera.cs" />
+    <Compile Include="Interfaces\ICamera.cs" />
     <Compile Include="Interfaces\IExceptionManager.cs" />
     <Compile Include="Managers\TextureManager.cs" />
     <Compile Include="Enums\LevelType.cs" />
@@ -88,16 +88,17 @@
     <Compile Include="Managers\DirectXManager.cs" />
     <Compile Include="Engine.cs" />
     <Compile Include="Managers\ExceptionManager.cs" />
-    <Compile Include="Managers\IObjectManager.cs" />
+    <Compile Include="Interfaces\IObjectManager.cs" />
     <Compile Include="Managers\SettingsManager.cs" />
     <Compile Include="Models\ExceptionData.cs" />
     <Compile Include="Graphics\GraphicsManager.cs" />
-    <Compile Include="Graphics\IGraphicManager.cs" />
+    <Compile Include="Interfaces\IGraphicManager.cs" />
     <Compile Include="Interfaces\ILevel.cs" />
     <Compile Include="Input.cs" />
     <Compile Include="Models\MatrixBuffer.cs" />
-    <Compile Include="Models\Settings.cs" />
+    <Compile Include="Models\SettingsModel.cs" />
     <Compile Include="Interfaces\IShader.cs" />
+    <Compile Include="Primitives\CubeWithTexture.cs" />
     <Compile Include="Shaders\Shader.cs" />
     <Compile Include="Shaders\TextureShader.cs" />
     <Content Include="Assets\seafloor.bmp">
@@ -112,7 +113,7 @@
     <None Include="app.config" />
     <Content Include="Graphics\MeshClass.cs" />
     <Compile Include="BaseObjects\BaseObject.cs" />
-    <Compile Include="BaseObjects\IGameObject.cs" />
+    <Compile Include="Interfaces\IGameObject.cs" />
     <Compile Include="Managers\ObjectManager.cs" />
     <Compile Include="Primitives\Cube.cs" />
     <Compile Include="Primitives\Triangle.cs" />

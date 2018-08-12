@@ -1,4 +1,5 @@
 ﻿using MY3DEngine.GraphicObjects;
+using MY3DEngine.Interfaces;
 using SharpDX.Direct3D11;
 
 namespace MY3DEngine.BaseObjects

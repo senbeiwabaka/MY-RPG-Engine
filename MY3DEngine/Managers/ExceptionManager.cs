@@ -13,7 +13,7 @@ namespace MY3DEngine.Managers
         /// <summary>
         /// List of exceptions that occur
         /// </summary>
-        public BindingList<ExceptionData> Exceptions { get; } = new BindingList<ExceptionData>();
+        public BindingList<ErrorModel> Exceptions { get; } = new BindingList<ErrorModel>();
 
         /// <summary>
         /// Add compiler error to the system error system for user display
@@ -38,7 +38,7 @@ namespace MY3DEngine.Managers
         {
             if (Engine.IsDebugginTurnedOn)
             {
-                Exceptions.Add(new ExceptionData(message, source, stackTrace));
+                Exceptions.Add(new ErrorModel(message, source, stackTrace));
             }
         }
 

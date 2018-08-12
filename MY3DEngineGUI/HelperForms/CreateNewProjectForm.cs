@@ -22,15 +22,15 @@ namespace MY3DEngine.GUI.HelperForms
 
         private void BCreate_Click(object sender, EventArgs e)
         {
-            Engine.GameEngine.FolderLocation = this.folderLocation;
-            var settings = new Settings
+            var settings = new SettingsModel
             {
                 GameName = this.tbName.Text.Trim(),
                 Width = 800,
-                Height = 600
+                Height = 600,
+                MainFolderLocation = this.folderLocation.Trim()
             };
 
-            if (!Build.Create.CreateNewProject(Engine.GameEngine.FolderLocation, Engine.GameEngine.GameName, settings.Width, settings.Height, settings))
+            if (!Build.GameEngineSave.CreateNewProject(settings.MainFolderLocation, settings.GameName, settings.Width, settings.Height, settings))
             {
                 MessageBox.Show("Error", "Error! Please check the error log (if setup).", MessageBoxButtons.OK, MessageBoxIcon.Error);
 

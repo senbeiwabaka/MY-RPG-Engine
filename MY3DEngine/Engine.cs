@@ -1,14 +1,9 @@
-﻿using MY3DEngine.BaseObjects;
-using MY3DEngine.Cameras;
+﻿using MY3DEngine.Cameras;
 using MY3DEngine.Graphics;
 using MY3DEngine.Interfaces;
 using MY3DEngine.Managers;
-using MY3DEngine.Primitives;
 using MY3DEngine.Shaders;
-using Newtonsoft.Json;
-using SharpDX;
 using System;
-using System.Collections;
 using System.Threading;
 
 namespace MY3DEngine
@@ -19,22 +14,22 @@ namespace MY3DEngine
     public sealed class Engine : IDisposable
     {
         private static Engine gameEngine;
+        private static bool isDebugginTurnedOn;
+
+        #region Fields
 
         private readonly SettingsManager settingsManager;
 
-        private ICamera camera;
-        private IGraphicManager graphicsManager;
-        private bool lighting;
-        private IObjectManager manager;
         private Thread renderThread;
         private IShader shader;
+
+        #endregion Fields
 
         /// <summary>
         /// Engine Constructor
         /// </summary>
         public Engine()
         {
-            graphicsManager = null;
             settingsManager = new SettingsManager();
         }
 
@@ -43,43 +38,28 @@ namespace MY3DEngine
             Dispose(false);
         }
 
-        #region Properties
-
-        /// <summary>
-        /// If set to true then debugging information is added to a collection
-        /// </summary>
-        public static bool IsDebugginTurnedOn;
-
         /// <summary>
         ///Game engine instance
         /// </summary>
         public static Engine GameEngine => gameEngine ?? (gameEngine = new Engine());
 
+        #region Properties
+
         /// <summary>
         /// The world camera
         /// </summary>
-        public ICamera Camera => camera;
+        public ICamera Camera { get; private set; }
 
         /// <summary>
         /// This is an instance of the exception manager class that manages exceptions
         /// </summary>
-        public IExceptionManager Exception { get; set; }
-
-        /// <summary>
-        /// Root location of where the game files are stored
-        /// </summary>
-        public string FolderLocation { get; set; }
-
-        /// <summary>
-        /// The name of the game. This will be used when the exe is created as well.
-        /// </summary>
-        public string GameName { get; internal set; }
-
+        public IExceptionManager Exception { get; private set; }
+        
         /// <summary>
         /// This is the graphics manager that manages the graphics
         /// </summary>
-        /// <remarks>It is overrideable</remarks>
-        public IGraphicManager GraphicsManager => graphicsManager;
+        /// <remarks>It is override-able</remarks>
+        public IGraphicManager GraphicsManager { get; private set; }
 
         /// <summary>
         /// Boolean stating whether or not the engine has been shutdown yet
@@ -89,8 +69,8 @@ namespace MY3DEngine
         /// <summary>
         /// This manages the game objects
         /// </summary>
-        /// <remarks>It is overrideable</remarks>
-        public IObjectManager Manager => manager;
+        /// <remarks>It is override-able</remarks>
+        public IObjectManager Manager { get; private set; }
 
         /// <summary>
         /// This manages the games settings
@@ -102,9 +82,12 @@ namespace MY3DEngine
         /// </summary>
         public IntPtr Window { get; }
 
-        #endregion Properties
+        /// <summary>
+        /// If set to true then debugging information is added to a collection
+        /// </summary>
+        public static bool IsDebugginTurnedOn { get => isDebugginTurnedOn; set => isDebugginTurnedOn = value; }
 
-        internal static bool DoesIniFileExist { get; set; }
+        #endregion Properties
 
         #region Methods
 
@@ -120,11 +103,10 @@ namespace MY3DEngine
             try
             {
                 shader = new TextureShader();
-                camera = new Camera();
+                Camera = new Camera();
                 Exception = new ExceptionManager();
-                manager = new ObjectManager();
+                Manager = new ObjectManager();
 
-                //Camera.Initialize(screenWidth, screenHeight);
                 Camera.SetPosition(0.0f, 0.0f, -10.0f);
 
                 shader.Initialize();
@@ -142,15 +124,6 @@ namespace MY3DEngine
         }
 
         /// <summary>
-        /// Initialize the settings for the game
-        /// </summary>
-        /// <returns></returns>
-        public bool InitializeSettings()
-        {
-            return SettingsManager.Initialize();
-        }
-
-        /// <summary>
         /// Initialize the game engines graphics
         /// </summary>
         /// <param name="windowHandle"></param>
@@ -161,53 +134,9 @@ namespace MY3DEngine
         /// <returns></returns>
         public bool InitliazeGraphics(IntPtr windowHandle, int screenWidth = 720, int screenHeight = 480, bool vsyncEnabled = true, bool fullScreen = false)
         {
-            graphicsManager = new GraphicsManager();
+            GraphicsManager = new GraphicsManager();
 
             return GraphicsManager.InitializeDirectXManager(windowHandle, screenWidth, screenHeight, vsyncEnabled, fullScreen);
-        }
-
-        // TODO: Refactor
-        public bool Load(string path)
-        {
-            try
-            {
-                var contentsofFile = System.IO.File.ReadAllText(path);
-                var jsonDeserializedData = JsonConvert.DeserializeObject(contentsofFile) as IEnumerable;
-
-                foreach (var item in jsonDeserializedData)
-                {
-                    var gameObject = JsonConvert.DeserializeObject<BaseObject>(
-                        item.ToString(),
-                        new JsonSerializerSettings()
-                        {
-                            TypeNameHandling = TypeNameHandling.Auto
-                        });
-
-                    if (gameObject != null)
-                    {
-                        if (gameObject.IsPrimitive)
-                        {
-                            if (gameObject.IsTriangle)
-                            {
-                                Manager.AddObject(gameObject as Triangle, false);
-                            }
-
-                            if (gameObject.IsCube)
-                            {
-                                Manager.AddObject(gameObject as Cube, false);
-                            }
-                        }
-                    }
-                }
-
-                return true;
-            }
-            catch (Exception e)
-            {
-                Exception.AddException(e);
-            }
-
-            return false;
         }
 
         /// <summary>
@@ -220,30 +149,6 @@ namespace MY3DEngine
                 Update();
                 Render();
             }
-        }
-
-        // TODO: Refactor
-        public bool Save(string filePath)
-        {
-            try
-            {
-                var jsonSerializedData = JsonConvert.SerializeObject(
-                    Manager.GetGameObjects,
-                    new JsonSerializerSettings
-                    {
-                        TypeNameHandling = TypeNameHandling.Auto
-                    });
-
-                System.IO.File.WriteAllText(string.Format("{0}\\GameObjects.go", filePath), jsonSerializedData);
-
-                return true;
-            }
-            catch (Exception e)
-            {
-                Exception.AddException(e);
-            }
-
-            return false;
         }
 
         /// <summary>
@@ -263,7 +168,7 @@ namespace MY3DEngine
         }
 
         /// <summary>
-        /// Toggle the wireframe of all displayed objects
+        /// Toggle the wire-frame of all displayed objects
         /// </summary>
         public void WireFrame(bool enableWireFrameMode = false)
         {
@@ -272,27 +177,14 @@ namespace MY3DEngine
 
         #endregion Methods
 
-        #region Old Code
-
-        /// <summary>
-        /// Toggle all lights
-        /// </summary>
-        public void GlobalLights()
-        {
-            lighting = lighting == false ? true : false;
-            //LocalDevice.ThisDevice.SetRenderState(RenderState.Lighting, _lighting);
-            //LocalDevice.ThisDevice.SetRenderState(RenderState.Ambient, new SlimDX.Color4(Color.Gray).ToArgb());
-        }
-
-        #endregion Old Code
-
         #region Helper Methods
 
         private void Dispose(bool disposing)
         {
             if (disposing)
             {
-                graphicsManager?.Dispose();
+                GraphicsManager?.Dispose();
+                Manager?.Dispose();
                 shader?.Dispose();
             }
         }
@@ -308,14 +200,14 @@ namespace MY3DEngine
             Camera.Render();
 
             // Get the world, view, and projection matrices from camera and d3d objects.
-            Matrix viewMatrix = Camera.ViewMatrix;
-            Matrix worldMatrix = GraphicsManager.GetDirectXManager.WorldMatrix;
-            Matrix projectionMatrix = GraphicsManager.GetDirectXManager.ProjectionMatrix;
+            var viewMatrix = Camera.ViewMatrix;
+            var worldMatrix = GraphicsManager.GetDirectXManager.WorldMatrix;
+            var projectionMatrix = GraphicsManager.GetDirectXManager.ProjectionMatrix;
 
             // Rotate the world matrix by the rotation value so that the triangle will spin.
             //Matrix.RotationY(1.0f, out worldMatrix);
 
-            shader.Render(manager.GameObjects, worldMatrix, viewMatrix, projectionMatrix);
+            shader.Render(Manager.GameObjects, worldMatrix, viewMatrix, projectionMatrix);
 
             GraphicsManager.EndScene();
         }

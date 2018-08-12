@@ -194,7 +194,7 @@ namespace MY3DEngine.GUI
             {
                 if (string.IsNullOrWhiteSpace(folder))
                 {
-                    File.WriteAllText($"{Engine.GameEngine.FolderLocation}\\{fullPath}", scintilla1.Text);
+                    File.WriteAllText($"{Engine.GameEngine.SettingsManager.Settings.MainFolderLocation}\\{fullPath}", scintilla1.Text);
                 }
                 else
                 {

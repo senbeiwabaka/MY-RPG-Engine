@@ -1,7 +1,7 @@
 ﻿using MY3DEngine.GraphicObjects;
 using SharpDX.Direct3D11;
 
-namespace MY3DEngine.BaseObjects
+namespace MY3DEngine.Interfaces
 {
     public interface IGameObjectWithTexture
     {

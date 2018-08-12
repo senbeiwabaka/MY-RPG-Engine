@@ -1,6 +1,5 @@
 ﻿using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 using MY3DEngine.Build.Properties;
 using MY3DEngine.Logging;
 using MY3DEngine.Utilities;
@@ -22,7 +21,7 @@ namespace MY3DEngine.Build
         /// <returns></returns>
         public static bool BuildGame(string folderLocation, string gameName)
         {
-            StaticLogger.Info($"Starting Method: {nameof(BuildGame)}");
+            StaticLogger.Info($"Starting {nameof(Build)}.{nameof(BuildGame)}");
 
             var buildSuccessful = false;
 
@@ -72,7 +71,7 @@ namespace MY3DEngine.Build
                 //The location of the .NET assemblies
                 var assemblyPath = Path.GetDirectoryName(typeof(object).Assembly.Location);
 
-                /* 
+                /*
                     * Adding some necessary .NET assemblies
                     * These assemblies couldn't be loaded correctly via the same construction as above,
                     * in specific the System.Runtime.
@@ -115,7 +114,7 @@ namespace MY3DEngine.Build
                 buildSuccessful = false;
             }
 
-            StaticLogger.Info($"Finished Method: {nameof(BuildGame)}");
+            StaticLogger.Info($"Finished {nameof(Build)}.{nameof(BuildGame)}");
 
             return buildSuccessful;
         }
@@ -161,7 +160,7 @@ namespace MY3DEngine.Build
 
         public static bool GenerateFilesForBuildingGame(string folderLocation)
         {
-            StaticLogger.Info($"Starting Method: {nameof(GenerateFilesForBuildingGame)}");
+            StaticLogger.Info($"Starting {nameof(Build)}.{nameof(GenerateFilesForBuildingGame)}");
 
             var mainFileContents = Resources.MainFile
                 .Replace("{0}", $"@\"{folderLocation}\\GameObjects.go\"")
@@ -205,12 +204,12 @@ namespace MY3DEngine.Build
             }
             catch (Exception e)
             {
-                StaticLogger.Exception($"Method: nameof{nameof(GenerateFilesForBuildingGame)}", e);
+                StaticLogger.Exception($"{nameof(Build)}.nameof{nameof(GenerateFilesForBuildingGame)}", e);
 
                 return false;
             }
 
-            StaticLogger.Info($"Finished Method: {nameof(GenerateFilesForBuildingGame)}");
+            StaticLogger.Info($"Finished {nameof(Build)}.{nameof(GenerateFilesForBuildingGame)}");
 
             return true;
         }

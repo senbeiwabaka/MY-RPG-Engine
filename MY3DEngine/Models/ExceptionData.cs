@@ -3,7 +3,7 @@
 namespace MY3DEngine.Models
 {
     /// <summary>Provides the base class for value types.</summary>
-    public struct ExceptionData
+    public struct ErrorModel
     {
         /// <summary>
         ///
@@ -11,7 +11,7 @@ namespace MY3DEngine.Models
         /// <param name="message"></param>
         /// <param name="source"></param>
         /// <param name="stacktrace"></param>
-        public ExceptionData(string message, string source, string stacktrace)
+        public ErrorModel(string message, string source, string stacktrace)
         {
             Message = message;
             Source = source;

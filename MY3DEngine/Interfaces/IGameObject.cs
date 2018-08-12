@@ -2,7 +2,7 @@
 using System;
 using System.ComponentModel;
 
-namespace MY3DEngine.BaseObjects
+namespace MY3DEngine.Interfaces
 {
     /// <summary>
     /// Interface for the basic properties and methods of a game object (cube, triangle, sphere, mesh, etc)

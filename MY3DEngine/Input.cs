@@ -12,7 +12,7 @@ namespace MY3DEngine
         {
             try
             {
-                Engine.GameEngine.Exception.Exceptions.Add(new ExceptionData("Beginning setting up input", "Input", string.Empty));
+                Engine.GameEngine.Exception.Exceptions.Add(new ErrorModel("Beginning setting up input", "Input", string.Empty));
 
                 Device.RegisterDevice(UsagePage.Generic, UsageId.GenericMouse, DeviceFlags.None);
                 Device.MouseInput += Device_MouseInput;
@@ -20,11 +20,11 @@ namespace MY3DEngine
                 Device.RegisterDevice(UsagePage.Generic, UsageId.GenericKeyboard, DeviceFlags.None);
                 Device.KeyboardInput += Device_KeyboardInput;
 
-                Engine.GameEngine.Exception.Exceptions.Add(new ExceptionData("Ending setting up input", "Input", string.Empty));
+                Engine.GameEngine.Exception.Exceptions.Add(new ErrorModel("Ending setting up input", "Input", string.Empty));
             }
             catch (Exception e)
             {
-                Engine.GameEngine.Exception.Exceptions.Add(new ExceptionData(e.Message, e.Source, e.StackTrace));
+                Engine.GameEngine.Exception.Exceptions.Add(new ErrorModel(e.Message, e.Source, e.StackTrace));
             }
             finally
             {

@@ -155,12 +155,7 @@ namespace MY3DEngine.Shaders
 
                 Engine.GameEngine.GraphicsManager.GetDeviceContext.MapSubresource(this.ConstantMatrixBuffer, MapMode.WriteDiscard, MapFlags.None, out var mappedResource);
 
-                var matrixBuffer = new MatrixBuffer
-                {
-                    world = worldMatrix,
-                    view = viewMatrix,
-                    projection = projectionMatrix
-                };
+                var matrixBuffer = new MatrixBuffer(worldMatrix, viewMatrix, projectionMatrix);
 
                 mappedResource.Write(matrixBuffer);
 

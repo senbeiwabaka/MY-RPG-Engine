@@ -2,7 +2,7 @@
 using SharpDX.Direct3D11;
 using System;
 
-namespace MY3DEngine.Graphics
+namespace MY3DEngine.Interfaces
 {
     public interface IGraphicManager : IDisposable
     {

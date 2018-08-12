@@ -32,7 +32,5 @@ namespace MY3DEngine.Utilities
 
             return assemblies;
         }
-
-
     }
 }

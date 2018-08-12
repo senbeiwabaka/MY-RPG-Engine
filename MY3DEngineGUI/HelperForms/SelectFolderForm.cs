@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MY3DEngine.GUI.Utilities;
+using System;
 using System.Windows.Forms;
 
 namespace MY3DEngine.GUI.HelperForms
@@ -21,13 +22,18 @@ namespace MY3DEngine.GUI.HelperForms
                 this.bSelectFolder.UseWaitCursor = true;
                 this.bSelectFolder.Enabled = false;
 
-                var gameModel = Build.Load.LoadProject(this.fbdSelectFProject.SelectedPath);
-                
-                Engine.GameEngine.FolderLocation = this.fbdSelectFProject.SelectedPath;
-                Engine.GameEngine.SettingsManager.Initialize();
+                var toolsetGameModel = Build.GameEngineLoad.LoadProject(this.fbdSelectFProject.SelectedPath);
 
-                this.DialogResult = DialogResult.OK;
-                this.Close();
+                if (toolsetGameModel.Successful)
+                {
+                    ToolsetGameModelManager.ToolsetGameModel = toolsetGameModel;
+                    this.DialogResult = DialogResult.OK;
+                    this.Close();
+                }
+                else
+                {
+                    MessageBox.Show("Game project not loaded successfully.", MessageResources.Error, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
         }
     }

@@ -2,7 +2,7 @@
 using MY3DEngine.Enums;
 using System;
 
-namespace MY3DEngine
+namespace MY3DEngine.Interfaces
 {
     internal interface ILevel : IDisposable
     {

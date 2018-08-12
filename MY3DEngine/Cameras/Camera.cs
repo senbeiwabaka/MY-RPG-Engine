@@ -1,4 +1,5 @@
-﻿using SharpDX;
+﻿using MY3DEngine.Interfaces;
+using SharpDX;
 using System.Diagnostics;
 
 namespace MY3DEngine.Cameras
@@ -73,19 +74,19 @@ namespace MY3DEngine.Cameras
         public void Render()
         {
             // Setup where the camera is looking by default.
-            Vector3 lookAt = new Vector3(0, 0, 1);
+            var lookAt = new Vector3(0, 0, 1);
 
             // Set the yaw (Y axis), pitch (X axis), and roll (Z axis) rotations in radians.
-            float pitch = this.rotation.X * 0.0174532925f;
-            float yaw = this.rotation.Y * 0.0174532925f;
-            float roll = this.rotation.Z * 0.0174532925f;
+            var pitch = this.rotation.X * 0.0174532925f;
+            var yaw = this.rotation.Y * 0.0174532925f;
+            var roll = this.rotation.Z * 0.0174532925f;
 
             // Create the rotation matrix from the yaw, pitch, and roll values.
-            Matrix rotationMatrix = Matrix.RotationYawPitchRoll(yaw, pitch, roll);
+            var rotationMatrix = Matrix.RotationYawPitchRoll(yaw, pitch, roll);
 
             // Transform the lookAt and up vector by the rotation matrix so the view is correctly rotated at the origin.
             lookAt = Vector3.TransformCoordinate(lookAt, rotationMatrix);
-            Vector3 up = Vector3.TransformCoordinate(Vector3.UnitY, rotationMatrix);
+            var up = Vector3.TransformCoordinate(Vector3.UnitY, rotationMatrix);
 
             // Translate the rotated camera position to the location of the viewer.
             lookAt = position + lookAt;

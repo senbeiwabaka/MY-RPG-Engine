@@ -9,7 +9,7 @@ namespace MY3DEngine.Primitives
     /// <summary>
     /// A basic triangle with a texture applied
     /// </summary>
-    public class TriangleWithTexture : GameObjectWithTexture
+    public sealed class TriangleWithTexture : GameObjectWithTexture
     {
         /// <summary>
         /// A basic triangle with a texture applied

@@ -9,7 +9,7 @@ namespace MY3DEngine.Interfaces
         /// <summary>
         /// List of exceptions that occur
         /// </summary>
-        BindingList<ExceptionData> Exceptions { get; }
+        BindingList<ErrorModel> Exceptions { get; }
 
         /// <summary>
         /// Add compiler error to the system error system for user display
