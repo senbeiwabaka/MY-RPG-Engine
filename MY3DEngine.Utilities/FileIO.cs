@@ -5,12 +5,38 @@ using System.IO;
 
 namespace MY3DEngine.Utilities
 {
-    // TODO: Make into interface so that it can be changed
+    // TODO: Make into interface so that it can be changed and used on different systems
     public static class FileIO
     {
+        public static readonly string GetCurrentDirectory = Environment.CurrentDirectory;
         private static readonly Logger logger = LogManager.GetCurrentClassLogger();
 
-        public static string GetCurrentDirectory => Environment.CurrentDirectory;
+        /// <summary>
+        /// Code a source file to a destination location. Overwrite an already existing file, if one is there, if the last value is set to true.
+        /// </summary>
+        /// <param name="sourceFileName"></param>
+        /// <param name="destinationFileName"></param>
+        /// <param name="overwriteFile"></param>
+        /// <returns></returns>
+        public static bool CopyFile(string sourceFileName, string destinationFileName, bool overwriteFile = default(bool))
+        {
+            logger.Info($"Starting Method: {nameof(CopyFile)}");
+
+            try
+            {
+                File.Copy(sourceFileName, destinationFileName, overwriteFile);
+            }
+            catch (Exception e)
+            {
+                logger.Error(e, nameof(CopyFile));
+
+                return false;
+            }
+
+            logger.Info($"Finished Method: {nameof(CopyFile)}");
+
+            return true;
+        }
 
         /// <summary>
         /// Create a new directory
@@ -46,29 +72,27 @@ namespace MY3DEngine.Utilities
             return sucessful;
         }
 
-        public static IReadOnlyList<string> GetFiles(string folderLocation, string searchString)
+        public static bool DeleteFile(string filePath)
         {
-            logger.Info($"Starting {nameof(GetFiles)}");
-
-            if (!DirectoryExists(folderLocation))
-            {
-                return new List<string>();
-            }
-
-            var files = new List<string>();
+            logger.Info($"Starting Method: {nameof(DeleteFile)}");
 
             try
             {
-                files.AddRange(Directory.GetFiles(folderLocation, searchString, SearchOption.AllDirectories));
+                if (FileExists(filePath))
+                {
+                    File.Delete(filePath);
+                }
             }
             catch (Exception e)
             {
-                logger.Error(e, nameof(GetFiles));
+                logger.Error(e, nameof(DeleteFile));
+
+                return false;
             }
 
-            logger.Info($"Finished {nameof(GetFiles)}");
+            logger.Info($"Finished Method: {nameof(DeleteFile)}");
 
-            return files;
+            return true;
         }
 
         /// <summary>
@@ -130,6 +154,31 @@ namespace MY3DEngine.Utilities
             return contents;
         }
 
+        public static IReadOnlyList<string> GetFiles(string folderLocation, string searchString)
+        {
+            logger.Info($"Starting {nameof(GetFiles)}");
+
+            if (!DirectoryExists(folderLocation))
+            {
+                return new List<string>();
+            }
+
+            var files = new List<string>();
+
+            try
+            {
+                files.AddRange(Directory.GetFiles(folderLocation, searchString, SearchOption.AllDirectories));
+            }
+            catch (Exception e)
+            {
+                logger.Error(e, nameof(GetFiles));
+            }
+
+            logger.Info($"Finished {nameof(GetFiles)}");
+
+            return files;
+        }
+
         /// <summary>
         /// Write all of the contents to the specified file
         /// </summary>
@@ -171,49 +220,6 @@ namespace MY3DEngine.Utilities
             }
 
             logger.Info($"Finished Method: {nameof(WriteFileContent)}");
-
-            return true;
-        }
-
-        public static bool CopyFile(string sourceFileName, string destinationFileName, bool overwriteFile = default(bool))
-        {
-            logger.Info($"Starting Method: {nameof(CopyFile)}");
-
-            try
-            {
-                File.Copy(sourceFileName, destinationFileName, overwriteFile);
-            }
-            catch (Exception e)
-            {
-                logger.Error(e, nameof(CopyFile));
-
-                return false;
-            }
-
-            logger.Info($"Finished Method: {nameof(CopyFile)}");
-
-            return true;
-        }
-
-        public static bool DeleteFile(string filePath)
-        {
-            logger.Info($"Starting Method: {nameof(DeleteFile)}");
-
-            try
-            {
-                if (FileExists(filePath))
-                {
-                    File.Delete(filePath);
-                }
-            }
-            catch (Exception e)
-            {
-                logger.Error(e, nameof(DeleteFile));
-
-                return false;
-            }
-
-            logger.Info($"Finished Method: {nameof(DeleteFile)}");
 
             return true;
         }

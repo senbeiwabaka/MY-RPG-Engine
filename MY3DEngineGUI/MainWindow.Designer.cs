@@ -87,6 +87,7 @@
             this.addCubeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.addTriangleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.addTriangleWithTextureToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.loadAssetToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.terrainToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.addRandomTerrainToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.lightsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -108,6 +109,7 @@
             this.ColorDialogForObjects = new System.Windows.Forms.ColorDialog();
             this.GameObjectBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.fswClassFileWatcher = new System.IO.FileSystemWatcher();
+            this.addCubeWithTextureToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.ExceptionGridView)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ExceptionBindingSource)).BeginInit();
             this.tabEditPlay.SuspendLayout();
@@ -589,14 +591,14 @@
             // saveLevelToolStripMenuItem
             // 
             this.saveLevelToolStripMenuItem.Name = "saveLevelToolStripMenuItem";
-            this.saveLevelToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.saveLevelToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
             this.saveLevelToolStripMenuItem.Text = "Save";
             this.saveLevelToolStripMenuItem.Click += new System.EventHandler(this.SaveLevelToolStripMenuItem_Click);
             // 
             // loadToolStripMenuItem
             // 
             this.loadToolStripMenuItem.Name = "loadToolStripMenuItem";
-            this.loadToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.loadToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
             this.loadToolStripMenuItem.Text = "Load";
             this.loadToolStripMenuItem.Click += new System.EventHandler(this.LoadToolStripMenuItem_Click);
             // 
@@ -604,7 +606,7 @@
             // 
             this.playGameToolStripMenuItem.Enabled = false;
             this.playGameToolStripMenuItem.Name = "playGameToolStripMenuItem";
-            this.playGameToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.playGameToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
             this.playGameToolStripMenuItem.Text = "Play \"Game\"";
             this.playGameToolStripMenuItem.Click += new System.EventHandler(this.PlayGameToolStripMenuItem_Click);
             // 
@@ -612,7 +614,7 @@
             // 
             this.buildGameToolStripMenuItem.Enabled = false;
             this.buildGameToolStripMenuItem.Name = "buildGameToolStripMenuItem";
-            this.buildGameToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.buildGameToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
             this.buildGameToolStripMenuItem.Text = "Build Game";
             this.buildGameToolStripMenuItem.Click += new System.EventHandler(this.BuildGameToolStripMenuItem_Click);
             // 
@@ -620,19 +622,19 @@
             // 
             this.generateGameToolStripMenuItem.Enabled = false;
             this.generateGameToolStripMenuItem.Name = "generateGameToolStripMenuItem";
-            this.generateGameToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.generateGameToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
             this.generateGameToolStripMenuItem.Text = "Generate Game";
             this.generateGameToolStripMenuItem.Click += new System.EventHandler(this.GenerateGameToolStripMenuItem_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(177, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(152, 6);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.ExitToolStripMenuItem_Click);
             // 
@@ -642,7 +644,9 @@
             this.addObjectToolStripMenuItem,
             this.addCubeToolStripMenuItem,
             this.addTriangleToolStripMenuItem,
-            this.addTriangleWithTextureToolStripMenuItem});
+            this.addTriangleWithTextureToolStripMenuItem,
+            this.addCubeWithTextureToolStripMenuItem,
+            this.loadAssetToolStripMenuItem});
             this.shapesObjectsToolStripMenuItem.Name = "shapesObjectsToolStripMenuItem";
             this.shapesObjectsToolStripMenuItem.Size = new System.Drawing.Size(101, 20);
             this.shapesObjectsToolStripMenuItem.Text = "Shapes/Objects";
@@ -675,6 +679,13 @@
             this.addTriangleWithTextureToolStripMenuItem.Size = new System.Drawing.Size(208, 22);
             this.addTriangleWithTextureToolStripMenuItem.Text = "Add Triangle with Texture";
             this.addTriangleWithTextureToolStripMenuItem.Click += new System.EventHandler(this.AddTriangleWithTextureToolStripMenuItem_Click);
+            // 
+            // loadAssetToolStripMenuItem
+            // 
+            this.loadAssetToolStripMenuItem.Name = "loadAssetToolStripMenuItem";
+            this.loadAssetToolStripMenuItem.Size = new System.Drawing.Size(208, 22);
+            this.loadAssetToolStripMenuItem.Text = "Load Asset";
+            this.loadAssetToolStripMenuItem.Click += new System.EventHandler(this.LoadAssetToolStripMenuItem_Click);
             // 
             // terrainToolStripMenuItem
             // 
@@ -834,6 +845,13 @@
             this.fswClassFileWatcher.SynchronizingObject = this;
             this.fswClassFileWatcher.Created += new System.IO.FileSystemEventHandler(this.FswClassFileWatcher_Created);
             // 
+            // addCubeWithTextureToolStripMenuItem
+            // 
+            this.addCubeWithTextureToolStripMenuItem.Name = "addCubeWithTextureToolStripMenuItem";
+            this.addCubeWithTextureToolStripMenuItem.Size = new System.Drawing.Size(208, 22);
+            this.addCubeWithTextureToolStripMenuItem.Text = "Add Cube with Texture";
+            this.addCubeWithTextureToolStripMenuItem.Click += new System.EventHandler(this.AddCubeWithTextureToolStripMenuItem_Click);
+            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -945,6 +963,8 @@
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.ToolStripMenuItem viewLogFileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem deleteLogFileToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem loadAssetToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem addCubeWithTextureToolStripMenuItem;
     }
 }
 

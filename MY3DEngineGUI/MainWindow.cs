@@ -323,6 +323,16 @@ namespace MY3DEngine.GUI
             }
         }
 
+        private void AddCubeWithTextureToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var gameObject = new CubeWithTexture();
+
+            if (Engine.GameEngine.Manager.AddObject(gameObject))
+            {
+                AddRemoveObject("Cube with texture added.");
+            }
+        }
+
         private void ClearErrorsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Engine.GameEngine.Exception.Exceptions.Clear();
@@ -422,6 +432,33 @@ namespace MY3DEngine.GUI
         private void WireframOnOffToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Engine.GameEngine.WireFrame(wireframOnOffToolStripMenuItem.Checked);
+        }
+
+        private void LoadAssetToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var fileExplorer = new OpenFileDialog()
+            {
+                AddExtension = true,
+                CheckFileExists = true,
+                CheckPathExists = true,
+                DefaultExt = ".bmp",
+                Multiselect = true
+            };
+
+            var result = fileExplorer.ShowDialog();
+
+            if (result == DialogResult.OK || result == DialogResult.Yes)
+            {
+                for (var i = 0; i < fileExplorer.FileNames.Length; ++i)
+                {
+                    if (fileExplorer.SafeFileNames[i].EndsWith(".bmp", StringComparison.InvariantCultureIgnoreCase))
+                    {
+                        FileIO.CopyFile(fileExplorer.FileNames[i], $"{Engine.GameEngine.SettingsManager.Settings.AssetsPath}\\{fileExplorer.SafeFileNames[i]}", true);
+                    }
+                }
+            }
+
+            fileExplorer.Dispose();
         }
 
         #endregion Menu Events
