@@ -6,11 +6,6 @@
     public struct SettingsModel
     {
         /// <summary>
-        /// Location of the root of the project/game
-        /// </summary>
-        public string MainFolderLocation { get; set; }
-
-        /// <summary>
         /// The location of the assets folder
         /// </summary>
         public string AssetsPath { get; set; }
@@ -25,7 +20,16 @@
         /// </summary>
         public int Height { get; set; }
 
+        public string LevelsPath { get; set; }
+
+        /// <summary>
+        /// Location of the root of the project/game
+        /// </summary>
+        public string MainFolderLocation { get; set; }
+
         public string PixelShaderName { get; set; }
+
+        public string SettingsFileName { get; set; }
 
         /// <summary>
         /// The location of the shader folder
@@ -33,10 +37,6 @@
         public string ShaderPath { get; set; }
 
         public string VertexShaderName { get; set; }
-
-        public string LevelsPath { get; set; }
-
-        public string SettingsFileName { get; set; }
 
         /// <summary>
         /// Screen width

@@ -109,7 +109,7 @@ namespace MY3DEngine.GUI
 
         #region Old Event -- FIX
 
-        private void addDirectionalLightToolStripMenuItem_Click(object sender, EventArgs e)
+        private void AddDirectionalLightToolStripMenuItem_Click(object sender, EventArgs e)
         {
             //if (Engine.GameEngine.Manager.AddObject(new LightClass("Directional")))
             //{
@@ -117,7 +117,7 @@ namespace MY3DEngine.GUI
             //}
         }
 
-        private void addObjectToolStripMenuItem_Click(object sender, EventArgs e)
+        private void AddObjectToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var open = new OpenFileDialog
             {
@@ -138,7 +138,7 @@ namespace MY3DEngine.GUI
             }
         }
 
-        private void addPointLightToolStripMenuItem_Click(object sender, EventArgs e)
+        private void AddPointLightToolStripMenuItem_Click(object sender, EventArgs e)
         {
             //if (Engine.GameEngine.Manager.AddObject(new LightClass()))
             //{
@@ -146,7 +146,7 @@ namespace MY3DEngine.GUI
             //}
         }
 
-        private void ckbxLightOnOff_CheckedChanged(object sender, EventArgs e)
+        private void CkbxLightOnOff_CheckedChanged(object sender, EventArgs e)
         {
             int index = -1;
             lock (Engine.GameEngine.Manager)
@@ -163,7 +163,7 @@ namespace MY3DEngine.GUI
             }
         }
 
-        private void globalLightsOnOffToolStripMenuItem_Click(object sender, EventArgs e)
+        private void GlobalLightsOnOffToolStripMenuItem_Click(object sender, EventArgs e)
         {
         }
 
@@ -696,7 +696,7 @@ namespace MY3DEngine.GUI
 
         #region Context Menu Items
 
-        private void SetNameForm_ClosingSetNameForm(object sender, ClosingSetNameEventArg args)
+        private void SetNameForm_ClosingSetNameForm(object sender, ClosingSetNameEventArgs args)
         {
             if (args != null)
             {

@@ -1,16 +1,16 @@
-﻿using System;
-using System.IO;
+﻿using MY3DEngine.Utilities;
+using System;
 using System.Windows.Forms;
 
 namespace MY3DEngine.GUI.HelperForms
 {
-    public delegate void ClosingSetNameForm(object sender, ClosingSetNameEventArg args);
+    public delegate void ClosingSetNameForm(object sender, ClosingSetNameEventArgs args);
 
-    public class ClosingSetNameEventArg : EventArgs
+    public class ClosingSetNameEventArgs : EventArgs
     {
         public readonly string ClassName;
 
-        public ClosingSetNameEventArg(string className)
+        public ClosingSetNameEventArgs(string className)
         {
             this.ClassName = className;
         }
@@ -32,16 +32,15 @@ namespace MY3DEngine.GUI.HelperForms
             this.Close();
         }
 
-        // TODO: Use Utilities FileIO
         private void BCreate_Click(object sender, EventArgs e)
         {
             var fileName = !tbName.Text.EndsWith(".cs", StringComparison.InvariantCultureIgnoreCase) ? $"{tbName.Text}.cs" : tbName.Text;
 
-            File.Create($"{Engine.GameEngine.SettingsManager.Settings.MainFolderLocation}\\{fileName}");
+            FileIO.WriteFileContent($"{Engine.GameEngine.SettingsManager.Settings.MainFolderLocation}\\{fileName}", string.Empty);
 
             this.DialogResult = DialogResult.OK;
 
-            this.ClosingSetNameForm?.Invoke(this, new ClosingSetNameEventArg(tbName.Text));
+            this.ClosingSetNameForm?.Invoke(this, new ClosingSetNameEventArgs(tbName.Text));
 
             this.Close();
         }

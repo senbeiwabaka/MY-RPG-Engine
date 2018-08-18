@@ -12,7 +12,7 @@ namespace MY3DEngine.Tests
         {
             var result = Build.Build.BuildGame(null, null);
 
-            Assert.AreEqual(false, result);
+            Assert.IsFalse(result);
         }
 
         [TestMethod]
@@ -21,7 +21,7 @@ namespace MY3DEngine.Tests
         {
             var result = Build.Build.BuildGame("test", null);
 
-            Assert.AreEqual(false, result);
+            Assert.IsFalse(result);
         }
     }
 }

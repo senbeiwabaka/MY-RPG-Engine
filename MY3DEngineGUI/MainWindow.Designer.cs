@@ -476,7 +476,7 @@
             this.ckbxLightOnOff.Text = "Light On/Off";
             this.ckbxLightOnOff.UseVisualStyleBackColor = true;
             this.ckbxLightOnOff.Visible = false;
-            this.ckbxLightOnOff.CheckedChanged += new System.EventHandler(this.ckbxLightOnOff_CheckedChanged);
+            this.ckbxLightOnOff.CheckedChanged += new System.EventHandler(this.CkbxLightOnOff_CheckedChanged);
             // 
             // label1
             // 
@@ -657,7 +657,7 @@
             this.addObjectToolStripMenuItem.Name = "addObjectToolStripMenuItem";
             this.addObjectToolStripMenuItem.Size = new System.Drawing.Size(208, 22);
             this.addObjectToolStripMenuItem.Text = "Add Object";
-            this.addObjectToolStripMenuItem.Click += new System.EventHandler(this.addObjectToolStripMenuItem_Click);
+            this.addObjectToolStripMenuItem.Click += new System.EventHandler(this.AddObjectToolStripMenuItem_Click);
             // 
             // addCubeToolStripMenuItem
             // 
@@ -721,7 +721,7 @@
             this.addPointLightToolStripMenuItem.Name = "addPointLightToolStripMenuItem";
             this.addPointLightToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
             this.addPointLightToolStripMenuItem.Text = "Add Point Light";
-            this.addPointLightToolStripMenuItem.Click += new System.EventHandler(this.addPointLightToolStripMenuItem_Click);
+            this.addPointLightToolStripMenuItem.Click += new System.EventHandler(this.AddPointLightToolStripMenuItem_Click);
             // 
             // addDirectionalLightToolStripMenuItem
             // 
@@ -729,7 +729,7 @@
             this.addDirectionalLightToolStripMenuItem.Name = "addDirectionalLightToolStripMenuItem";
             this.addDirectionalLightToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
             this.addDirectionalLightToolStripMenuItem.Text = "Add Directional Light";
-            this.addDirectionalLightToolStripMenuItem.Click += new System.EventHandler(this.addDirectionalLightToolStripMenuItem_Click);
+            this.addDirectionalLightToolStripMenuItem.Click += new System.EventHandler(this.AddDirectionalLightToolStripMenuItem_Click);
             // 
             // soundToolStripMenuItem
             // 
@@ -766,7 +766,7 @@
             this.globalLightsOnOffToolStripMenuItem.Name = "globalLightsOnOffToolStripMenuItem";
             this.globalLightsOnOffToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
             this.globalLightsOnOffToolStripMenuItem.Text = "Global Lights On/Off";
-            this.globalLightsOnOffToolStripMenuItem.Click += new System.EventHandler(this.globalLightsOnOffToolStripMenuItem_Click);
+            this.globalLightsOnOffToolStripMenuItem.Click += new System.EventHandler(this.GlobalLightsOnOffToolStripMenuItem_Click);
             // 
             // wireframOnOffToolStripMenuItem
             // 
