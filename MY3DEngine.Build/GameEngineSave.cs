@@ -1,4 +1,5 @@
-﻿using MY3DEngine.Build.Properties;
+﻿using MY3DEngine.Build.Models;
+using MY3DEngine.Build.Properties;
 using MY3DEngine.Logging;
 using MY3DEngine.Utilities;
 using Newtonsoft.Json;
@@ -12,19 +13,20 @@ namespace MY3DEngine.Build
         /// <summary>
         /// Creates the main game file with a new game project is selected
         /// </summary>
-        /// <param name="folderLocation">The location for the new game files</param>
+        /// <param name="mainFolderLocation">The location for the new game files</param>
         /// <param name="gameName">The name of the game for the INI file</param>
         /// <param name="settings"></param>
         /// <returns></returns>
-        public static bool CreateNewProject(string folderLocation, string gameName, int width, int height, object settings)
+        /// <exception cref="ArgumentNullException"></exception>
+        public static ToolsetGameModel CreateNewProject(string mainFolderLocation, string gameName, int width, int height, object settings)
         {
             StaticLogger.Info($"Starting {nameof(GameEngineSave)}.{nameof(CreateNewProject)}");
 
-            if (string.IsNullOrWhiteSpace(folderLocation))
+            if (string.IsNullOrWhiteSpace(mainFolderLocation))
             {
-                StaticLogger.Exception($"{nameof(GameEngineSave)}.{nameof(CreateNewProject)}", new ArgumentNullException(nameof(folderLocation)));
+                StaticLogger.Exception($"{nameof(GameEngineSave)}.{nameof(CreateNewProject)}", new ArgumentNullException(nameof(mainFolderLocation)));
 
-                throw new ArgumentNullException(nameof(folderLocation));
+                throw new ArgumentNullException(nameof(mainFolderLocation));
             }
 
             if (settings == null)
@@ -34,62 +36,62 @@ namespace MY3DEngine.Build
                 throw new ArgumentNullException(nameof(settings));
             }
 
+            var settingsContent = JsonConvert.SerializeObject(settings);
+            var fullPathOfMainFile = $"{mainFolderLocation}\\{Constants.MainFileName}";
+
             try
             {
-                var fileName = Constants.MainFileName;
                 var fileContents = Resources.MainFile
-                    .Replace("{0}", $"@\"{folderLocation}\\GameObjects.go\"")
-                    .Replace("{1}", $"@\"{folderLocation}\\ErrorLog.txt\"")
-                    .Replace("{2}", $"@\"{folderLocation}\\InformationLog.txt\"")
+                    .Replace("{0}", $"@\"{mainFolderLocation}\\GameObjects.go\"")
+                    .Replace("{1}", $"@\"{mainFolderLocation}\\ErrorLog.txt\"")
+                    .Replace("{2}", $"@\"{mainFolderLocation}\\InformationLog.txt\"")
                     .Replace("{ScreenWidth}", width.ToString())
                     .Replace("{ScreenHeight}", height.ToString());
-                var fullFolderLocation = $"{folderLocation}\\{gameName}";
-                var fullPath = $"{fullFolderLocation}\\{fileName}";
-                var settingsFileName = Constants.SettingsFileName;
-                var settingsContent = JsonConvert.SerializeObject(settings);
 
-                if (FileIO.CreateDirectory(fullFolderLocation))
+                var settingsFileName = Constants.SettingsFileName;
+
+                if (!FileIO.DirectoryExists(mainFolderLocation))
                 {
-                    FileIO.WriteFileContent(fullPath, fileContents);
-                    FileIO.WriteFileContent($"{fullFolderLocation}\\{settingsFileName}", settingsContent);
+                    FileIO.CreateDirectory(mainFolderLocation);
                 }
+
+                FileIO.WriteFileContent(fullPathOfMainFile, fileContents);
+                FileIO.WriteFileContent($"{mainFolderLocation}\\{settingsFileName}", settingsContent);
             }
-            catch (Exception ex)
+            catch (ArgumentNullException ex)
             {
                 StaticLogger.Exception($"{nameof(GameEngineSave)}.{nameof(CreateNewProject)}", ex);
 
-                return false;
+                return new ToolsetGameModel(false);
+            }
+            catch (ArgumentException ex)
+            {
+                StaticLogger.Exception($"{nameof(GameEngineSave)}.{nameof(CreateNewProject)}", ex);
+
+                return new ToolsetGameModel(false);
             }
 
             StaticLogger.Info($"Finished {nameof(GameEngineSave)}.{nameof(CreateNewProject)}");
 
-            return true;
+            return new ToolsetGameModel(true)
+            {
+                MainFileFolderLocation = fullPathOfMainFile,
+                MainFileName = Constants.MainFileName,
+                GameName = gameName,
+                FolderLocation = mainFolderLocation,
+                Settings = settingsContent
+            };
         }
 
         // TODO: UPDATE
-        public static bool SaveLevel(string filePath, IReadOnlyList<object> gameObjects)
+        // Needs the class files saved
+        // Needs the game objects saved
+        // Needs the settings saved
+        public static bool SaveProject(string filePath, IReadOnlyList<object> gameObjects)
         {
-            StaticLogger.Info($"Starting {nameof(GameEngineSave)}.{nameof(SaveLevel)}");
-
-            try
-            {
-                var jsonSerializedData = JsonConvert.SerializeObject(
-                    gameObjects,
-                    new JsonSerializerSettings
-                    {
-                        TypeNameHandling = TypeNameHandling.Auto
-                    });
-
-                System.IO.File.WriteAllText(string.Format("{0}\\GameObjects.go", filePath), jsonSerializedData);
-
-                return true;
-            }
-            catch (Exception ex)
-            {
-                StaticLogger.Exception($"{nameof(GameEngineSave)}.{nameof(SaveLevel)}", ex);
-            }
-
-            StaticLogger.Info($"Finished {nameof(GameEngineSave)}.{nameof(SaveLevel)}");
+            StaticLogger.Info($"Starting {nameof(GameEngineSave)}.{nameof(SaveProject)}");
+            
+            StaticLogger.Info($"Finished {nameof(GameEngineSave)}.{nameof(SaveProject)}");
 
             return false;
         }

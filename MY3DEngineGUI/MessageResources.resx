@@ -119,6 +119,10 @@
   </resheader>
   <data name="Error" xml:space="preserve">
     <value>ERROR</value>
-    <comment>Error display header text</comment>
+    <comment>Error message box display header text</comment>
+  </data>
+  <data name="Information" xml:space="preserve">
+    <value>Information</value>
+    <comment>Information message box display header text</comment>
   </data>
 </root>

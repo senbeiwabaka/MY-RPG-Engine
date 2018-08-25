@@ -6,6 +6,7 @@ using MY3DEngine.Logging;
 using MY3DEngine.Models;
 using MY3DEngine.Primitives;
 using MY3DEngine.Utilities;
+using NLog;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -20,10 +21,12 @@ namespace MY3DEngine.GUI
 {
     public partial class MainWindow : Form
     {
-        private readonly ErrorModel graphicsException = new ErrorModel("Engine could not be setup correctly", "Engine", string.Empty);
-
         private const string EngineTitle = "MY 3D Engine Builder";
 
+        private static readonly Logger logger = LogManager.GetCurrentClassLogger();
+
+        private readonly ErrorModel graphicsException = new ErrorModel("Engine could not be setup correctly", "Engine", string.Empty);
+        
         private string className;
         private string gamePath;
         private bool gameGeneratedSuccessfully;
@@ -351,7 +354,7 @@ namespace MY3DEngine.GUI
             {
                 AddToInformationDisplay("Game generated successfully.");
 
-                MessageBox.Show("Game generated successfully.", "Information");
+                MessageBox.Show("Game generated successfully.", MessageResources.Information);
             }
             else
             {
@@ -382,7 +385,7 @@ namespace MY3DEngine.GUI
                     UpdateButtonsUseability();
                     AddToInformationDisplay("Game loaded successfully.");
 
-                    MessageBox.Show("Game loaded successfully.", "Information");
+                    MessageBox.Show("Game loaded successfully.", MessageResources.Information);
 
                     generateGameToolStripMenuItem.Enabled = true;
                 }
@@ -399,11 +402,11 @@ namespace MY3DEngine.GUI
         {
             UseWaitCursor = true;
 
-            if (GameEngineSave.SaveLevel(ToolsetGameModelManager.ToolsetGameModel.MainFileFolderLocation, new ReadOnlyCollection<BaseObject>(Engine.GameEngine.Manager.GetGameObjects.ToList())))
+            if (GameEngineSave.SaveProject(ToolsetGameModelManager.ToolsetGameModel.MainFileFolderLocation, new ReadOnlyCollection<BaseObject>(Engine.GameEngine.Manager.GetGameObjects.ToList())))
             {
                 AddToInformationDisplay("Game saved successfully.");
 
-                MessageBox.Show("Game saved successfully.", "Information");
+                MessageBox.Show("Game saved successfully.", MessageResources.Information, MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             else
             {
@@ -461,6 +464,88 @@ namespace MY3DEngine.GUI
             fileExplorer.Dispose();
         }
 
+        private void BuildGameToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (Build.Build.BuildGame(Engine.GameEngine.SettingsManager.Settings.MainFolderLocation, Engine.GameEngine.SettingsManager.Settings.GameName))
+            {
+                AddToInformationDisplay("Game built successfully.");
+
+                playGameToolStripMenuItem.Enabled = true;
+
+                MessageBox.Show("Game built successfully.", MessageResources.Information);
+            }
+            else
+            {
+                AddToInformationDisplay("Game not built successfully. Please see error log.");
+
+                playGameToolStripMenuItem.Enabled = false;
+
+                MessageBox.Show("Game not built successfully. Please see error log.", MessageResources.Error, MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void ViewLogFileToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var logView = new LogViewer($"{Environment.CurrentDirectory}/log.log");
+
+            logView.Show(this);
+        }
+
+        private void DeleteLogFileToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (FileIO.DeleteFile($"{Environment.CurrentDirectory}/log.log"))
+            {
+                AddToInformationDisplay("Log successfully deleted.");
+
+                MessageBox.Show("Log successfully deleted.", "File Deleted", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            else
+            {
+                AddToInformationDisplay("Log unsuccessfully deleted.");
+
+                MessageBox.Show("Log unsuccessfully deleted.", MessageResources.Error, MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void PlayGameToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Process.Start($@"{Engine.GameEngine.SettingsManager.Settings.MainFolderLocation}\Game.exe");
+        }
+
+        private void CloseCurrentProjectToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var result = MessageBox.Show("Do you want to save the current project before quiting?", "Quite Current Project?", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Warning);
+
+            UseWaitCursor = true;
+
+            if (result == DialogResult.Cancel)
+            {
+                return;
+            }
+
+            if(result == DialogResult.Yes)
+            {
+                if(GameEngineSave.SaveProject(ToolsetGameModelManager.ToolsetGameModel.FolderLocation, new ReadOnlyCollection<BaseObject>(Engine.GameEngine.Manager.GetGameObjects.ToList())))
+                {
+                    MessageBox.Show("Game saved successfully.", MessageResources.Information, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                {
+                    UseWaitCursor = false;
+
+                    MessageBox.Show("Game not saved successfully. Please see error log.", MessageResources.Error, MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                    return;
+                }
+            }
+
+            Engine.GameEngine.Shutdown();
+            InitializeComponent();
+            LoadOrCreateProject();
+
+            UseWaitCursor = false;
+        }
+
         #endregion Menu Events
 
         #region New/Load Project
@@ -478,14 +563,14 @@ namespace MY3DEngine.GUI
                 Controls.RemoveAt(0);
 
                 // get the directory where they created the new project at
-                var directory = new DirectoryInfo(Engine.GameEngine.SettingsManager.Settings.MainFolderLocation);
+                var directory = new DirectoryInfo(ToolsetGameModelManager.ToolsetGameModel.FolderLocation);
                 var files = directory.EnumerateFiles("*.cs").ToList(); // currently get a list of the c# files
 
                 // add them to the tree view
                 tlvGameFiles.Roots = files;
 
                 // add the new project folder location to the watch path for when new files are created outside of the toolkit so they show up
-                fswClassFileWatcher.Path = Engine.GameEngine.SettingsManager.Settings.MainFolderLocation;
+                fswClassFileWatcher.Path = ToolsetGameModelManager.ToolsetGameModel.FolderLocation;
 
                 // load the game engine into the window
                 LoadGameEngine();
@@ -505,11 +590,11 @@ namespace MY3DEngine.GUI
             {
                 Controls.RemoveAt(0);
 
-                var directory = new DirectoryInfo(ToolsetGameModelManager.ToolsetGameModel.MainFileFolderLocation);
+                var directory = new DirectoryInfo(ToolsetGameModelManager.ToolsetGameModel.FolderLocation);
                 var files = directory.EnumerateFiles("*.cs").ToList();
                 tlvGameFiles.Roots = files;
 
-                fswClassFileWatcher.Path = Engine.GameEngine.SettingsManager.Settings.MainFolderLocation;
+                fswClassFileWatcher.Path = ToolsetGameModelManager.ToolsetGameModel.FolderLocation;
 
                 LoadGameEngine();
                 UpdateGenerateMenuClickUsability();
@@ -532,6 +617,7 @@ namespace MY3DEngine.GUI
             Engine.GameEngine?.Dispose();
 
             StaticLogger.Shutdown();
+            LogManager.Shutdown();
         }
 
         private void AddRemoveObject(string message)
@@ -611,10 +697,15 @@ namespace MY3DEngine.GUI
                 return;
             }
 
-            ExceptionBindingSource.DataSource = new BindingList<ErrorModel>()
+            ExceptionBindingSource.DataSource = Engine.GameEngine?.Exception?.Exceptions;
+
+            if (ExceptionBindingSource.DataSource == null)
             {
-                graphicsException
-            };
+                ExceptionBindingSource.DataSource = new BindingList<ErrorModel>
+                {
+                    graphicsException
+                };
+            }
         }
 
         private void LoadOrCreateProject()
@@ -763,53 +854,5 @@ namespace MY3DEngine.GUI
         }
 
         #endregion File(s) Event(s)
-
-        private void BuildGameToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (Build.Build.BuildGame(Engine.GameEngine.SettingsManager.Settings.MainFolderLocation, Engine.GameEngine.SettingsManager.Settings.GameName))
-            {
-                AddToInformationDisplay("Game built successfully.");
-
-                playGameToolStripMenuItem.Enabled = true;
-
-                MessageBox.Show("Game built successfully.", "Information");
-            }
-            else
-            {
-                AddToInformationDisplay("Game not built successfully. Please see error log.");
-
-                playGameToolStripMenuItem.Enabled = false;
-
-                MessageBox.Show("Game not built successfully. Please see error log.", MessageResources.Error, MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
-        private void ViewLogFileToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            var logView = new LogViewer($"{Environment.CurrentDirectory}/log.log");
-
-            logView.Show(this);
-        }
-
-        private void DeleteLogFileToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (FileIO.DeleteFile($"{Environment.CurrentDirectory}/log.log"))
-            {
-                AddToInformationDisplay("Log successfully deleted.");
-
-                MessageBox.Show("Log successfully deleted.", "File Deleted", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
-            else
-            {
-                AddToInformationDisplay("Log unsuccessfully deleted.");
-
-                MessageBox.Show("Log unsuccessfully deleted.", MessageResources.Error, MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
-        private void PlayGameToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            Process.Start($@"{Engine.GameEngine.SettingsManager.Settings.MainFolderLocation}\Game.exe");
-        }
     }
 }

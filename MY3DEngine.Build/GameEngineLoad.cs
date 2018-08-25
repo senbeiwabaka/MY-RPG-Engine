@@ -72,29 +72,29 @@ namespace MY3DEngine.Build
                     FolderLocation = folderLocation
                 };
 
-                var files = FileIO.GetFiles(folderLocation, "main.cs");
+                var files = FileIO.GetFiles(folderLocation, Constants.MainFileName);
 
-                if (files.Any(x => x.ToLowerInvariant().Contains("main.cs".ToLowerInvariant())))
+                if (files.Any(x => x.ToUpperInvariant().Contains(Constants.MainFileName.ToUpperInvariant())))
                 {
-                    var mainFile = files.Single(x => x.ToLowerInvariant().Contains("main.cs".ToLowerInvariant()));
-                    model.MainFileFolderLocation = mainFile.Substring(0, mainFile.IndexOf("main.cs".ToLowerInvariant(), StringComparison.Ordinal));
-                    model.MainFileName = "main.cs";
+                    var mainFile = files.Single(x => x.ToUpperInvariant().Contains(Constants.MainFileName.ToUpperInvariant()));
+                    model.MainFileFolderLocation = mainFile.Substring(0, mainFile.IndexOf(Constants.MainFileName, StringComparison.InvariantCultureIgnoreCase));
+                    model.MainFileName = Constants.MainFileName;
                 }
 
-                files = FileIO.GetFiles(folderLocation, "settings".ToLowerInvariant());
+                files = FileIO.GetFiles(folderLocation, "settings".ToUpperInvariant());
 
-                if (files.Any(x => x.ToLowerInvariant().Contains("settings".ToLowerInvariant())))
+                if (files.Any(x => x.ToUpperInvariant().Contains("settings".ToUpperInvariant())))
                 {
-                    model.Settings = FileIO.GetFileContent(files.First(x => x.ToLowerInvariant().Contains("settings".ToLowerInvariant())));
+                    model.Settings = FileIO.GetFileContent(files.First(x => x.ToUpperInvariant().Contains("settings".ToUpperInvariant())));
                 }
 
                 if (string.IsNullOrWhiteSpace(model.Settings))
                 {
                     files = FileIO.GetFiles(folderLocation, "DefaultSettings.ini");
 
-                    if (files.Any(x => x.ToLowerInvariant().Contains("DefaultSettings.ini".ToLowerInvariant())))
+                    if (files.Any(x => x.ToUpperInvariant().Contains("DefaultSettings.ini".ToUpperInvariant())))
                     {
-                        model.Settings = FileIO.GetFileContent(files.Single(x => x.ToLowerInvariant().Contains("DefaultSettings.ini".ToLowerInvariant())));
+                        model.Settings = FileIO.GetFileContent(files.Single(x => x.ToUpperInvariant().Contains("DefaultSettings.ini".ToUpperInvariant())));
                     }
                 }
             }

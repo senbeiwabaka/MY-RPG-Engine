@@ -5,6 +5,9 @@ using System;
 
 namespace MY3DEngine.Managers
 {
+    /// <summary>
+    /// Manages the games settings
+    /// </summary>
     public sealed class SettingsManager
     {
         private const string OverrideFolderPath = "\\Override";
@@ -17,13 +20,17 @@ namespace MY3DEngine.Managers
 
         private bool isLoaded;
 
-        public SettingsModel Settings { get; set; }
+        /// <summary>
+        /// Holds the games settings
+        /// </summary>
+        public SettingsModel Settings { get; private set; }
 
         /// <summary>
         /// Initialize the settings for the game engine
         /// </summary>
         /// <returns></returns>
-        public bool Initialize(string folderLocation, string gameName, string settings)
+        /// <exception cref="ArgumentNullException"></exception>
+        public bool Initialize(string mainFolderLocation, string gameName, string settings)
         {
             StaticLogger.Info($"Starting {nameof(SettingsManager)}.{nameof(Initialize)}");
 
@@ -32,15 +39,15 @@ namespace MY3DEngine.Managers
                 return isLoaded;
             }
 
-            if (string.IsNullOrWhiteSpace(folderLocation))
+            if (string.IsNullOrWhiteSpace(mainFolderLocation))
             {
-                StaticLogger.Exception($"Starting {nameof(SettingsManager)}.{nameof(Initialize)}", new ArgumentNullException(nameof(folderLocation)));
+                StaticLogger.Exception($"Starting {nameof(SettingsManager)}.{nameof(Initialize)}", new ArgumentNullException(nameof(mainFolderLocation)));
 
-                throw new ArgumentNullException(nameof(folderLocation));
+                throw new ArgumentNullException(nameof(mainFolderLocation));
             }
 
             SettingsModel settingsModel;
-            string fullPath = $"{folderLocation}{DefaultIniFileName}";
+            string fullPath = $"{mainFolderLocation}{DefaultIniFileName}";
 
             // The settings parameter has data so just parse it
             if (!string.IsNullOrWhiteSpace(settings))
@@ -60,7 +67,7 @@ namespace MY3DEngine.Managers
 
             if (string.IsNullOrWhiteSpace(settingsModel.MainFolderLocation))
             {
-                settingsModel.MainFolderLocation = folderLocation;
+                settingsModel.MainFolderLocation = mainFolderLocation;
             }
 
             if (string.IsNullOrWhiteSpace(settingsModel.ShaderPath))

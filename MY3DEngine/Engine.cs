@@ -156,7 +156,7 @@ namespace MY3DEngine
         /// </summary>
         public void Shutdown()
         {
-            IsNotShutDown = false;
+            IsNotShutDown = true;
 
             if (renderThread != null)
             {
@@ -165,6 +165,8 @@ namespace MY3DEngine
                     renderThread?.Abort();
                 }
             }
+
+            IsNotShutDown = false;
         }
 
         /// <summary>

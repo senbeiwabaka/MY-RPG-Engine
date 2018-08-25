@@ -8,32 +8,33 @@ namespace MY3DEngine.GUI.HelperForms
     {
         public SelectFolderForm()
         {
-            this.InitializeComponent();
+            InitializeComponent();
         }
 
         private void BSelectFolder_Click(object sender, EventArgs e)
         {
-            var dialogResult = this.fbdSelectFProject.ShowDialog();
+            var dialogResult = fbdSelectFProject.ShowDialog();
 
             if (dialogResult == DialogResult.OK || dialogResult == DialogResult.Yes)
             {
-                this.UseWaitCursor = true;
+                UseWaitCursor = true;
 
-                this.bSelectFolder.UseWaitCursor = true;
-                this.bSelectFolder.Enabled = false;
+                bSelectFolder.UseWaitCursor = true;
+                bSelectFolder.Enabled = false;
 
-                var toolsetGameModel = Build.GameEngineLoad.LoadProject(this.fbdSelectFProject.SelectedPath);
+                var toolsetGameModel = Build.GameEngineLoad.LoadProject(fbdSelectFProject.SelectedPath);
 
-                if (toolsetGameModel.Successful)
-                {
-                    ToolsetGameModelManager.ToolsetGameModel = toolsetGameModel;
-                    this.DialogResult = DialogResult.OK;
-                    this.Close();
-                }
-                else
+                if (!toolsetGameModel.Successful)
                 {
                     MessageBox.Show("Game project not loaded successfully.", MessageResources.Error, MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                    return;
                 }
+
+                ToolsetGameModelManager.ToolsetGameModel = toolsetGameModel;
+
+                DialogResult = DialogResult.OK;
+                Close();
             }
         }
     }
