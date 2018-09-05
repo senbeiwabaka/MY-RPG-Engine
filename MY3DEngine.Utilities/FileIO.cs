@@ -1,24 +1,25 @@
-﻿using NLog;
+﻿using MY3DEngine.Utilities.Interfaces;
+using NLog;
 using System;
 using System.Collections.Generic;
 using System.IO;
 
 namespace MY3DEngine.Utilities
 {
-    // TODO: Make into interface so that it can be changed and used on different systems
-    public static class FileIO
+    public class FileIO : IFileIO
     {
         public static readonly string GetCurrentDirectory = Environment.CurrentDirectory;
         private static readonly Logger logger = LogManager.GetCurrentClassLogger();
 
         /// <summary>
-        /// Code a source file to a destination location. Overwrite an already existing file, if one is there, if the last value is set to true.
+        /// Code a source file to a destination location. Overwrite an already existing file, if one
+        /// is there, if the last value is set to true.
         /// </summary>
         /// <param name="sourceFileName"></param>
         /// <param name="destinationFileName"></param>
         /// <param name="overwriteFile"></param>
         /// <returns></returns>
-        public static bool CopyFile(string sourceFileName, string destinationFileName, bool overwriteFile = default(bool))
+        public bool CopyFile(string sourceFileName, string destinationFileName, bool overwriteFile)
         {
             logger.Info($"Starting Method: {nameof(CopyFile)}");
 
@@ -26,9 +27,9 @@ namespace MY3DEngine.Utilities
             {
                 File.Copy(sourceFileName, destinationFileName, overwriteFile);
             }
-            catch (Exception e)
+            catch (Exception exception)
             {
-                logger.Error(e, nameof(CopyFile));
+                logger.Error(exception, nameof(CopyFile));
 
                 return false;
             }
@@ -38,41 +39,72 @@ namespace MY3DEngine.Utilities
             return true;
         }
 
+        public bool CopyFile(string sourceFileName, string destinationFileName)
+        {
+            return CopyFile(sourceFileName, destinationFileName, false);
+        }
+
         /// <summary>
         /// Create a new directory
         /// </summary>
         /// <returns></returns>
-        public static bool CreateDirectory(string folderPath)
+        public bool CreateDirectory(string folderPath)
         {
             logger.Info($"Starting {nameof(CreateDirectory)}");
 
-            var sucessful = false;
-
             try
             {
-                if (!DirectoryExists(folderPath))
+                if (DirectoryExists(folderPath))
                 {
-                    var directoryInfo = Directory.CreateDirectory(folderPath);
+                    logger.Info($"Finished {nameof(CreateDirectory)}");
 
-                    if (directoryInfo != null && directoryInfo.Exists)
-                    {
-                        sucessful = true;
-                    }
+                    return true;
                 }
 
-                sucessful = true;
+                var directoryInfo = Directory.CreateDirectory(folderPath);
+
+                if (directoryInfo != null && directoryInfo.Exists)
+                {
+                    logger.Info($"Finished {nameof(CreateDirectory)}");
+
+                    return true;
+                }
             }
-            catch (Exception e)
+            catch (ArgumentNullException exception)
             {
-                logger.Error(e, nameof(CreateDirectory));
+                logger.Error(exception, nameof(CreateDirectory));
+            }
+            catch (ArgumentException exception)
+            {
+                logger.Error(exception, nameof(CreateDirectory));
+            }
+            catch (UnauthorizedAccessException exception)
+            {
+                logger.Error(exception, nameof(CreateDirectory));
+            }
+            catch (DirectoryNotFoundException exception)
+            {
+                logger.Error(exception, nameof(CreateDirectory));
+            }
+            catch (PathTooLongException exception)
+            {
+                logger.Error(exception, nameof(CreateDirectory));
+            }
+            catch (IOException exception)
+            {
+                logger.Error(exception, nameof(CreateDirectory));
+            }
+            catch (NotSupportedException exception)
+            {
+                logger.Error(exception, nameof(CreateDirectory));
             }
 
             logger.Info($"Finished {nameof(CreateDirectory)}");
 
-            return sucessful;
+            return false;
         }
 
-        public static bool DeleteFile(string filePath)
+        public bool DeleteFile(string filePath)
         {
             logger.Info($"Starting Method: {nameof(DeleteFile)}");
 
@@ -83,9 +115,9 @@ namespace MY3DEngine.Utilities
                     File.Delete(filePath);
                 }
             }
-            catch (Exception e)
+            catch (Exception exception)
             {
-                logger.Error(e, nameof(DeleteFile));
+                logger.Error(exception, nameof(DeleteFile));
 
                 return false;
             }
@@ -100,7 +132,7 @@ namespace MY3DEngine.Utilities
         /// </summary>
         /// <param name="directory">The directory to check</param>
         /// <returns></returns>
-        public static bool DirectoryExists(string directory)
+        public bool DirectoryExists(string directory)
         {
             logger.Info($"{nameof(DirectoryExists)}");
 
@@ -117,7 +149,7 @@ namespace MY3DEngine.Utilities
         /// </summary>
         /// <param name="file">The file to check</param>
         /// <returns></returns>
-        public static bool FileExists(string file)
+        public bool FileExists(string file)
         {
             logger.Info($"{nameof(FileExists)}");
 
@@ -134,7 +166,7 @@ namespace MY3DEngine.Utilities
         /// </summary>
         /// <param name="file"></param>
         /// <returns></returns>
-        public static string GetFileContent(string file)
+        public string GetFileContent(string file)
         {
             logger.Info($"Starting {nameof(GetFileContent)}");
 
@@ -144,9 +176,9 @@ namespace MY3DEngine.Utilities
             {
                 contents = File.ReadAllText(file);
             }
-            catch (Exception e)
+            catch (Exception exception)
             {
-                logger.Error(e, nameof(GetFileContent));
+                logger.Error(exception, nameof(GetFileContent));
             }
 
             logger.Info($"Finished {nameof(GetFileContent)}");
@@ -154,7 +186,7 @@ namespace MY3DEngine.Utilities
             return contents;
         }
 
-        public static IReadOnlyList<string> GetFiles(string folderLocation, string searchString)
+        public IReadOnlyList<string> GetFiles(string folderLocation, string searchString)
         {
             logger.Info($"Starting {nameof(GetFiles)}");
 
@@ -169,9 +201,33 @@ namespace MY3DEngine.Utilities
             {
                 files.AddRange(Directory.GetFiles(folderLocation, searchString, SearchOption.AllDirectories));
             }
-            catch (Exception e)
+            catch (ArgumentNullException exception)
             {
-                logger.Error(e, nameof(GetFiles));
+                logger.Error(exception, nameof(GetFiles));
+            }
+            catch (ArgumentOutOfRangeException exception)
+            {
+                logger.Error(exception, nameof(GetFiles));
+            }
+            catch (ArgumentException exception)
+            {
+                logger.Error(exception, nameof(GetFiles));
+            }
+            catch (UnauthorizedAccessException exception)
+            {
+                logger.Error(exception, nameof(GetFiles));
+            }
+            catch (DirectoryNotFoundException exception)
+            {
+                logger.Error(exception, nameof(GetFiles));
+            }
+            catch (PathTooLongException exception)
+            {
+                logger.Error(exception, nameof(GetFiles));
+            }
+            catch (IOException exception)
+            {
+                logger.Error(exception, nameof(GetFiles));
             }
 
             logger.Info($"Finished {nameof(GetFiles)}");
@@ -185,7 +241,7 @@ namespace MY3DEngine.Utilities
         /// <param name="filePath"></param>
         /// <param name="fileContents"></param>
         /// <returns></returns>
-        public static bool WriteFileContent(string filePath, string fileContents)
+        public bool WriteFileContent(string filePath, string fileContents)
         {
             return WriteFileContent(filePath, fileContents, true);
         }
@@ -197,7 +253,7 @@ namespace MY3DEngine.Utilities
         /// <param name="fileContents"></param>
         /// <param name="appendContents"></param>
         /// <returns></returns>
-        public static bool WriteFileContent(string filePath, string fileContents, bool appendContents)
+        public bool WriteFileContent(string filePath, string fileContents, bool appendContents)
         {
             logger.Info($"Starting Method: {nameof(WriteFileContent)}");
 
@@ -212,9 +268,9 @@ namespace MY3DEngine.Utilities
                     File.WriteAllText(filePath, fileContents);
                 }
             }
-            catch (Exception e)
+            catch (Exception exception)
             {
-                logger.Error(e, nameof(WriteFileContent));
+                logger.Error(exception, nameof(WriteFileContent));
 
                 return false;
             }

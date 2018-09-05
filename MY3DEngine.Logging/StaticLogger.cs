@@ -1,8 +1,10 @@
 ﻿using NLog;
 using System;
+using System.Diagnostics.CodeAnalysis;
 
 namespace MY3DEngine.Logging
 {
+    [ExcludeFromCodeCoverage]
     public static class StaticLogger
     {
         private static readonly Logger logger = LogManager.GetCurrentClassLogger();

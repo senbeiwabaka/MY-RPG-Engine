@@ -7,7 +7,7 @@ namespace MY3DEngine.GUI.HelperForms
     {
         public LogViewer(string file) : this()
         {
-           rtbLogContent.Text = FileIO.GetFileContent(file);
+            rtbLogContent.Text = new FileIO().GetFileContent(file);
         }
 
         public LogViewer()

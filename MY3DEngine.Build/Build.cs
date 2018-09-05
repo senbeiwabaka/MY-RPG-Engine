@@ -3,6 +3,7 @@ using Microsoft.CodeAnalysis.CSharp;
 using MY3DEngine.Build.Properties;
 using MY3DEngine.Logging;
 using MY3DEngine.Utilities;
+using MY3DEngine.Utilities.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -16,35 +17,43 @@ namespace MY3DEngine.Build
         /// <summary>
         /// Builds the game
         /// </summary>
-        /// <param name="folderLocation">The folder location with the files to build and where the .exe goes</param>
+        /// <param name="folderLocation">
+        /// The folder location with the files to build and where the .exe goes
+        /// </param>
         /// <param name="gameName">The name of the game</param>
+        /// <param name="fileIo"></param>
         /// <returns></returns>
-        public static bool BuildGame(string folderLocation, string gameName)
+        public static bool BuildGame(string folderLocation, string gameName, IFileIO fileIo)
         {
             StaticLogger.Info($"Starting {nameof(Build)}.{nameof(BuildGame)}");
-
-            var buildSuccessful = false;
 
             if (string.IsNullOrWhiteSpace(folderLocation))
             {
                 StaticLogger.Info($"Argument: {nameof(folderLocation)} was not supplied");
 
-                return buildSuccessful;
+                throw new ArgumentNullException(nameof(folderLocation));
             }
 
             if (string.IsNullOrWhiteSpace(gameName))
             {
                 StaticLogger.Info($"Argument: {nameof(gameName)} was not supplied");
 
-                return buildSuccessful;
+                throw new ArgumentNullException(nameof(gameName));
             }
+
+            if (fileIo == null)
+            {
+                throw new ArgumentNullException(nameof(fileIo));
+            }
+
+            var buildSuccessful = false;
 
             try
             {
                 var fileName = Constants.MainFileName;
                 var fullPath = $"{folderLocation}\\{fileName}";
-                var fileContents = FileIO.GetFileContent(fullPath);
-                var assemblies = AssemblyHelper.GetAssemblies();
+                var fileContents = fileIo.GetFileContent(fullPath);
+                var assemblies = AssemblyHelper.GetAssemblies(fileIo);
                 var references = new List<MetadataReference>(assemblies.Count);
 
                 foreach (var assembly in assemblies)
@@ -60,10 +69,10 @@ namespace MY3DEngine.Build
                 //{
                 //    var usingName = use.Name.ToString();
 
-                //    if (usingName == "MY3DEngine" || usingName == "MY3DEngine.Models" || usingName == "System")
-                //        continue;
+                // if (usingName == "MY3DEngine" || usingName == "MY3DEngine.Models" || usingName ==
+                // "System") continue;
 
-                //    var assembly = System.Reflection.Assembly.Load(usingName);
+                // var assembly = System.Reflection.Assembly.Load(usingName);
 
                 //    references.Add(MetadataReference.CreateFromFile(assembly.Location));
                 //}
@@ -158,7 +167,7 @@ namespace MY3DEngine.Build
             return true;
         }
 
-        public static bool GenerateFilesForBuildingGame(string folderLocation)
+        public static bool GenerateFilesForBuildingGame(string folderLocation, IFileIO fileIo)
         {
             StaticLogger.Info($"Starting {nameof(Build)}.{nameof(GenerateFilesForBuildingGame)}");
 
@@ -171,35 +180,35 @@ namespace MY3DEngine.Build
             var loggerFileContents = Resources.LoggerFile;
             var mainFileFullPath = $"{folderLocation}\\{Constants.MainFileName}";
             var loggerFileFullPath = $"{folderLocation}\\{Constants.LoggerFileName}";
-            var assemblies = AssemblyHelper.GetAssemblies();
+            var assemblies = AssemblyHelper.GetAssemblies(fileIo);
 
             try
             {
-                if (!FileIO.FileExists(mainFileFullPath))
+                if (!fileIo.FileExists(mainFileFullPath))
                 {
-                    FileIO.WriteFileContent(mainFileFullPath, mainFileContents);
+                    fileIo.WriteFileContent(mainFileFullPath, mainFileContents);
                 }
 
-                if (!FileIO.FileExists(loggerFileFullPath))
+                if (!fileIo.FileExists(loggerFileFullPath))
                 {
-                    FileIO.WriteFileContent(loggerFileFullPath, loggerFileContents);
+                    fileIo.WriteFileContent(loggerFileFullPath, loggerFileContents);
                 }
 
-                if (!FileIO.DirectoryExists($"{folderLocation}\\Assets"))
+                if (!fileIo.DirectoryExists($"{folderLocation}\\Assets"))
                 {
-                    FileIO.CreateDirectory($"{folderLocation}\\Assets");
+                    fileIo.CreateDirectory($"{folderLocation}\\Assets");
                 }
 
                 foreach (var file in Directory.EnumerateFiles($"{folderLocation}\\Assets"))
                 {
                     var fileInfo = new FileInfo(file);
 
-                    FileIO.CopyFile(file, $"{folderLocation}\\Assets\\{fileInfo.Name}", true);
+                    fileIo.CopyFile(file, $"{folderLocation}\\Assets\\{fileInfo.Name}", true);
                 }
 
                 foreach (var item in assemblies)
                 {
-                    FileIO.CopyFile(item.Location, $"{folderLocation}\\{item.ManifestModule.Name}", true);
+                    fileIo.CopyFile(item.Location, $"{folderLocation}\\{item.ManifestModule.Name}", true);
                 }
             }
             catch (Exception e)

@@ -26,7 +26,7 @@ namespace MY3DEngine.GUI
         private static readonly Logger logger = LogManager.GetCurrentClassLogger();
 
         private readonly ErrorModel graphicsException = new ErrorModel("Engine could not be setup correctly", "Engine", string.Empty);
-        
+
         private string className;
         private string gamePath;
         private bool gameGeneratedSuccessfully;
@@ -348,7 +348,7 @@ namespace MY3DEngine.GUI
 
         private void GenerateGameToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            gameGeneratedSuccessfully = Build.Build.GenerateFilesForBuildingGame(Engine.GameEngine.SettingsManager.Settings.MainFolderLocation);
+            gameGeneratedSuccessfully = Build.Build.GenerateFilesForBuildingGame(Engine.GameEngine.SettingsManager.Settings.MainFolderLocation, new FileIO());
 
             if (gameGeneratedSuccessfully)
             {
@@ -378,7 +378,7 @@ namespace MY3DEngine.GUI
                 var fileInfo = new FileInfo(dialog.FileName);
                 gamePath = fileInfo.DirectoryName;
 
-                var gameLoadResult = GameEngineLoad.LoadProject(dialog.FileName);
+                var gameLoadResult = GameEngineLoad.LoadProject(dialog.FileName, new FileIO());
 
                 if (gameLoadResult.Successful)
                 {
@@ -456,7 +456,7 @@ namespace MY3DEngine.GUI
                 {
                     if (fileExplorer.SafeFileNames[i].EndsWith(".bmp", StringComparison.InvariantCultureIgnoreCase))
                     {
-                        FileIO.CopyFile(fileExplorer.FileNames[i], $"{Engine.GameEngine.SettingsManager.Settings.AssetsPath}\\{fileExplorer.SafeFileNames[i]}", true);
+                        new FileIO().CopyFile(fileExplorer.FileNames[i], $"{Engine.GameEngine.SettingsManager.Settings.AssetsPath}\\{fileExplorer.SafeFileNames[i]}", true);
                     }
                 }
             }
@@ -466,7 +466,7 @@ namespace MY3DEngine.GUI
 
         private void BuildGameToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (Build.Build.BuildGame(Engine.GameEngine.SettingsManager.Settings.MainFolderLocation, Engine.GameEngine.SettingsManager.Settings.GameName))
+            if (Build.Build.BuildGame(Engine.GameEngine.SettingsManager.Settings.MainFolderLocation, Engine.GameEngine.SettingsManager.Settings.GameName, new FileIO()))
             {
                 AddToInformationDisplay("Game built successfully.");
 
@@ -493,7 +493,7 @@ namespace MY3DEngine.GUI
 
         private void DeleteLogFileToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (FileIO.DeleteFile($"{Environment.CurrentDirectory}/log.log"))
+            if (new FileIO().DeleteFile($"{Environment.CurrentDirectory}/log.log"))
             {
                 AddToInformationDisplay("Log successfully deleted.");
 
@@ -523,9 +523,9 @@ namespace MY3DEngine.GUI
                 return;
             }
 
-            if(result == DialogResult.Yes)
+            if (result == DialogResult.Yes)
             {
-                if(GameEngineSave.SaveProject(ToolsetGameModelManager.ToolsetGameModel.FolderLocation, new ReadOnlyCollection<BaseObject>(Engine.GameEngine.Manager.GetGameObjects.ToList())))
+                if (GameEngineSave.SaveProject(ToolsetGameModelManager.ToolsetGameModel.FolderLocation, new ReadOnlyCollection<BaseObject>(Engine.GameEngine.Manager.GetGameObjects.ToList())))
                 {
                     MessageBox.Show("Game saved successfully.", MessageResources.Information, MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
@@ -569,7 +569,8 @@ namespace MY3DEngine.GUI
                 // add them to the tree view
                 tlvGameFiles.Roots = files;
 
-                // add the new project folder location to the watch path for when new files are created outside of the toolkit so they show up
+                // add the new project folder location to the watch path for when new files are
+                // created outside of the toolkit so they show up
                 fswClassFileWatcher.Path = ToolsetGameModelManager.ToolsetGameModel.FolderLocation;
 
                 // load the game engine into the window
@@ -659,9 +660,10 @@ namespace MY3DEngine.GUI
             Engine.GameEngine.SettingsManager.Initialize(
                 ToolsetGameModelManager.ToolsetGameModel.FolderLocation,
                 ToolsetGameModelManager.ToolsetGameModel.GameName,
-                ToolsetGameModelManager.ToolsetGameModel.Settings);
+                ToolsetGameModelManager.ToolsetGameModel.Settings,
+                new FileIO());
 
-            GameEngineSave.SaveSettings(Engine.GameEngine.SettingsManager.Settings.MainFolderLocation, Engine.GameEngine.SettingsManager.Settings.SettingsFileName, Engine.GameEngine.SettingsManager.Settings);
+            GameEngineSave.SaveSettings(Engine.GameEngine.SettingsManager.Settings.MainFolderLocation, Engine.GameEngine.SettingsManager.Settings.SettingsFileName, Engine.GameEngine.SettingsManager.Settings, new FileIO());
 
             if (Engine.GameEngine.InitliazeGraphics(
                             rendererPnl.Handle,

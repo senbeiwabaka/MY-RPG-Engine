@@ -1,7 +1,7 @@
 ﻿using MY3DEngine.Build.Models;
 using MY3DEngine.Build.Properties;
 using MY3DEngine.Logging;
-using MY3DEngine.Utilities;
+using MY3DEngine.Utilities.Interfaces;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -18,7 +18,7 @@ namespace MY3DEngine.Build
         /// <param name="settings"></param>
         /// <returns></returns>
         /// <exception cref="ArgumentNullException"></exception>
-        public static ToolsetGameModel CreateNewProject(string mainFolderLocation, string gameName, int width, int height, object settings)
+        public static ToolsetGameModel CreateNewProject(string mainFolderLocation, string gameName, int width, int height, object settings, IFileIO fileIo)
         {
             StaticLogger.Info($"Starting {nameof(GameEngineSave)}.{nameof(CreateNewProject)}");
 
@@ -50,13 +50,13 @@ namespace MY3DEngine.Build
 
                 var settingsFileName = Constants.SettingsFileName;
 
-                if (!FileIO.DirectoryExists(mainFolderLocation))
+                if (!fileIo.DirectoryExists(mainFolderLocation))
                 {
-                    FileIO.CreateDirectory(mainFolderLocation);
+                    fileIo.CreateDirectory(mainFolderLocation);
                 }
 
-                FileIO.WriteFileContent(fullPathOfMainFile, fileContents);
-                FileIO.WriteFileContent($"{mainFolderLocation}\\{settingsFileName}", settingsContent);
+                fileIo.WriteFileContent(fullPathOfMainFile, fileContents);
+                fileIo.WriteFileContent($"{mainFolderLocation}\\{settingsFileName}", settingsContent);
             }
             catch (ArgumentNullException ex)
             {
@@ -83,20 +83,17 @@ namespace MY3DEngine.Build
             };
         }
 
-        // TODO: UPDATE
-        // Needs the class files saved
-        // Needs the game objects saved
-        // Needs the settings saved
+        // TODO: UPDATE Needs the class files saved Needs the game objects saved Needs the settings saved
         public static bool SaveProject(string filePath, IReadOnlyList<object> gameObjects)
         {
             StaticLogger.Info($"Starting {nameof(GameEngineSave)}.{nameof(SaveProject)}");
-            
+
             StaticLogger.Info($"Finished {nameof(GameEngineSave)}.{nameof(SaveProject)}");
 
             return false;
         }
 
-        public static bool SaveSettings(string filePath, string fileName, object settingsData)
+        public static bool SaveSettings(string filePath, string fileName, object settingsData, IFileIO fileIo)
         {
             StaticLogger.Info($"Starting {nameof(GameEngineSave)}.{nameof(SaveSettings)}");
 
@@ -104,7 +101,7 @@ namespace MY3DEngine.Build
             {
                 var jsonSerializedData = JsonConvert.SerializeObject(settingsData);
 
-                FileIO.WriteFileContent($"{filePath}\\{fileName}", jsonSerializedData, false);
+                fileIo.WriteFileContent($"{filePath}\\{fileName}", jsonSerializedData, false);
 
                 return true;
             }

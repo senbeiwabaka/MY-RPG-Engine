@@ -3,7 +3,7 @@ using System;
 
 namespace MY3DEngine.Logging
 {
-    public class BaseLogging
+    public abstract class BaseLogging
     {
         private readonly Logger logger = LogManager.GetCurrentClassLogger();
 

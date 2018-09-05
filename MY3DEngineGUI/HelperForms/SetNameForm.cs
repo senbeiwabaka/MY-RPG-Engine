@@ -36,7 +36,7 @@ namespace MY3DEngine.GUI.HelperForms
         {
             var fileName = !tbName.Text.EndsWith(".cs", StringComparison.InvariantCultureIgnoreCase) ? $"{tbName.Text}.cs" : tbName.Text;
 
-            FileIO.WriteFileContent($"{Engine.GameEngine.SettingsManager.Settings.MainFolderLocation}\\{fileName}", string.Empty);
+            new FileIO().WriteFileContent($"{Engine.GameEngine.SettingsManager.Settings.MainFolderLocation}\\{fileName}", string.Empty);
 
             this.DialogResult = DialogResult.OK;
 

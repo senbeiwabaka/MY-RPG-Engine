@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using MY3DEngine.Utilities.Interfaces;
+using Newtonsoft.Json;
 using NLog;
 using System;
 
@@ -22,11 +23,11 @@ namespace MY3DEngine.Utilities
             return new T();
         }
 
-        public static T DeserializeFileAsT<T>(string path) where T : new()
+        public static T DeserializeFileAsT<T>(string path, IFileIO fileIo) where T : new()
         {
             try
             {
-                return JsonConvert.DeserializeObject<T>(FileIO.GetFileContent($"{path}"));
+                return JsonConvert.DeserializeObject<T>(fileIo.GetFileContent($"{path}"));
             }
             catch (Exception e)
             {

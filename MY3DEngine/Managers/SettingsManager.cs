@@ -1,6 +1,7 @@
 ﻿using MY3DEngine.Logging;
 using MY3DEngine.Models;
 using MY3DEngine.Utilities;
+using MY3DEngine.Utilities.Interfaces;
 using System;
 
 namespace MY3DEngine.Managers
@@ -30,7 +31,7 @@ namespace MY3DEngine.Managers
         /// </summary>
         /// <returns></returns>
         /// <exception cref="ArgumentNullException"></exception>
-        public bool Initialize(string mainFolderLocation, string gameName, string settings)
+        public bool Initialize(string mainFolderLocation, string gameName, string settings, IFileIO fileIo)
         {
             StaticLogger.Info($"Starting {nameof(SettingsManager)}.{nameof(Initialize)}");
 
@@ -54,15 +55,16 @@ namespace MY3DEngine.Managers
             {
                 settingsModel = Deserialize.DeserializeStringAsT<SettingsModel>(settings);
             }
-            // The settings parameter doesn't have data so we need to build the location then parse the data
+            // The settings parameter doesn't have data so we need to build the location then parse
+            // the data
             else
             {
-                if (!FileIO.FileExists(fullPath))
+                if (!fileIo.FileExists(fullPath))
                 {
                     return (isLoaded = false);
                 }
 
-                settingsModel = Deserialize.DeserializeFileAsT<SettingsModel>(fullPath);
+                settingsModel = Deserialize.DeserializeFileAsT<SettingsModel>(fullPath, new FileIO());
             }
 
             if (string.IsNullOrWhiteSpace(settingsModel.MainFolderLocation))

@@ -1,6 +1,6 @@
 ﻿using MY3DEngine.Build.Models;
 using MY3DEngine.Logging;
-using MY3DEngine.Utilities;
+using MY3DEngine.Utilities.Interfaces;
 using Newtonsoft.Json;
 using System;
 using System.Collections;
@@ -54,14 +54,14 @@ namespace MY3DEngine.Build
         /// </summary>
         /// <param name="folderLocation">The location for the game files</param>
         /// <returns>The load project result. <see cref="ToolsetGameModel"/></returns>
-        public static ToolsetGameModel LoadProject(string folderLocation)
+        public static ToolsetGameModel LoadProject(string folderLocation, IFileIO fileIo)
         {
             StaticLogger.Info($"Starting {nameof(GameEngineLoad)}.{nameof(LoadProject)}");
 
             ToolsetGameModel model;
 
             // The folder path passed in is empty or is not a valid directory
-            if (string.IsNullOrWhiteSpace(folderLocation) || !FileIO.DirectoryExists(folderLocation))
+            if (string.IsNullOrWhiteSpace(folderLocation) || !fileIo.DirectoryExists(folderLocation))
             {
                 model = new ToolsetGameModel(false);
             }
@@ -72,7 +72,7 @@ namespace MY3DEngine.Build
                     FolderLocation = folderLocation
                 };
 
-                var files = FileIO.GetFiles(folderLocation, Constants.MainFileName);
+                var files = fileIo.GetFiles(folderLocation, Constants.MainFileName);
 
                 if (files.Any(x => x.ToUpperInvariant().Contains(Constants.MainFileName.ToUpperInvariant())))
                 {
@@ -81,20 +81,20 @@ namespace MY3DEngine.Build
                     model.MainFileName = Constants.MainFileName;
                 }
 
-                files = FileIO.GetFiles(folderLocation, "settings".ToUpperInvariant());
+                files = fileIo.GetFiles(folderLocation, "settings".ToUpperInvariant());
 
                 if (files.Any(x => x.ToUpperInvariant().Contains("settings".ToUpperInvariant())))
                 {
-                    model.Settings = FileIO.GetFileContent(files.First(x => x.ToUpperInvariant().Contains("settings".ToUpperInvariant())));
+                    model.Settings = fileIo.GetFileContent(files.First(x => x.ToUpperInvariant().Contains("settings".ToUpperInvariant())));
                 }
 
                 if (string.IsNullOrWhiteSpace(model.Settings))
                 {
-                    files = FileIO.GetFiles(folderLocation, "DefaultSettings.ini");
+                    files = fileIo.GetFiles(folderLocation, "DefaultSettings.ini");
 
                     if (files.Any(x => x.ToUpperInvariant().Contains("DefaultSettings.ini".ToUpperInvariant())))
                     {
-                        model.Settings = FileIO.GetFileContent(files.Single(x => x.ToUpperInvariant().Contains("DefaultSettings.ini".ToUpperInvariant())));
+                        model.Settings = fileIo.GetFileContent(files.Single(x => x.ToUpperInvariant().Contains("DefaultSettings.ini".ToUpperInvariant())));
                     }
                 }
             }

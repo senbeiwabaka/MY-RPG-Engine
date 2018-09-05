@@ -13,7 +13,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MY3DEngine.Utilities", "MY3
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MY3DEngine.Logging", "MY3DEngine.Logging\MY3DEngine.Logging.csproj", "{F21B75CC-7DBB-4E41-8364-2C8D3FFFAD8B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MY3DEngine.Tests", "MY3DEngine.Tests\MY3DEngine.Tests.csproj", "{04830EDA-AA44-41BA-990F-180690CE36B7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MY3DEngine.Build.Tests", "MY3DEngine.Tests\MY3DEngine.Build.Tests.csproj", "{04830EDA-AA44-41BA-990F-180690CE36B7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

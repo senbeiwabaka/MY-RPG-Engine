@@ -1,6 +1,7 @@
 ﻿using MY3DEngine.Build;
 using MY3DEngine.GUI.Utilities;
 using MY3DEngine.Models;
+using MY3DEngine.Utilities;
 using System;
 using System.Windows.Forms;
 
@@ -31,7 +32,7 @@ namespace MY3DEngine.GUI.HelperForms
                 Height = 600,
                 MainFolderLocation = folderLocation.Trim()
             };
-            var toolsetGameModel = GameEngineSave.CreateNewProject(settings.MainFolderLocation, settings.GameName, settings.Width, settings.Height, settings);
+            var toolsetGameModel = GameEngineSave.CreateNewProject(settings.MainFolderLocation, settings.GameName, settings.Width, settings.Height, settings, new FileIO());
 
             if (!toolsetGameModel.Successful)
             {
