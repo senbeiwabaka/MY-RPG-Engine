@@ -13,9 +13,6 @@ namespace MY3DEngine.Managers
     /// </summary>
     public sealed class DirectXManager : IDisposable
     {
-        private bool vsyncEnabled;
-        private long videoCardMemory;
-        private string videoCardDescription;
         private SwapChain swapChain;
         private RenderTargetView renderTargetView;
         private Texture2D depthStencilBuffer;
@@ -41,24 +38,14 @@ namespace MY3DEngine.Managers
         /// <summary>
         ///
         /// </summary>
-        public long VideoCardMemory => this.videoCardMemory;
+        public long VideoCardMemory { get; private set; }
 
         /// <summary>
         ///
         /// </summary>
-        public string VideoCardDescription => this.videoCardDescription;
+        public string VideoCardDescription { get; private set; }
 
-        internal bool VSync
-        {
-            get
-            {
-                return this.vsyncEnabled;
-            }
-            set
-            {
-                this.vsyncEnabled = value;
-            }
-        }
+        internal bool VerticalSync { get; set; }
 
         internal Matrix WorldMatrix { get; set; }
         internal Matrix ProjectionMatrix { get; set; }
@@ -86,7 +73,7 @@ namespace MY3DEngine.Managers
         {
             int numerator = 0, denominator = 0;
 
-            this.vsyncEnabled = vsync;
+            this.VerticalSync = vsync;
 
             // create directx graphics interface factory
             using (var factory = new Factory1())
@@ -101,10 +88,10 @@ namespace MY3DEngine.Managers
                         var adapterDescription = adapter.Description;
 
                         // store the video card memory in megabytes
-                        this.videoCardMemory = (long)adapterDescription.DedicatedVideoMemory >> 10 >> 10;
+                        this.VideoCardMemory = (long)adapterDescription.DedicatedVideoMemory >> 10 >> 10;
 
                         // store the name of the video card array
-                        this.videoCardDescription = adapterDescription.Description.Trim('\0');
+                        this.VideoCardDescription = adapterDescription.Description.Trim('\0');
 
                         // get number of modes the fit the dxgi_format_r8gab88a8_uniform display format for the adapter output (monitor)
                         // create a list to hold all of the possible modes for this monitor/video card combination
@@ -136,7 +123,7 @@ namespace MY3DEngine.Managers
                 denominator = 1;
             }
 
-            var rational = this.vsyncEnabled ? new Rational(numerator, denominator) : new Rational(0, 1);
+            var rational = this.VerticalSync ? new Rational(numerator, denominator) : new Rational(0, 1);
             var modeDescription = new ModeDescription(screenWidth, screenHeight, rational, Format.R8G8B8A8_UNorm);
 
             var swapChainDescription = new SwapChainDescription
@@ -333,7 +320,7 @@ namespace MY3DEngine.Managers
         /// </summary>
         public void EndScene()
         {
-            if (this.VSync)
+            if (this.VerticalSync)
             {
                 // lock to screen
                 this.swapChain.Present(1, PresentFlags.None);

@@ -1,9 +1,9 @@
-﻿namespace MY3DEngine.Build
+﻿namespace MY3DEngine.BuildTools
 {
-    public static class Constants
+    internal static class Constants
     {
-        public const string MainFileName = "main.cs";
-        public const string SettingsFileName = "DefaultSettings.ini";
-        public const string LoggerFileName = "NLog.config";
+        internal const string MainFileName = "main.cs";
+        internal const string SettingsFileName = "DefaultSettings.ini";
+        internal const string LoggerFileName = "NLog.config";
     }
 }

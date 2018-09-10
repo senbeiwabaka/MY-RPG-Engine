@@ -1,4 +1,5 @@
-﻿using MY3DEngine.GUI.Utilities;
+﻿using MY3DEngine.BuildTools;
+using MY3DEngine.GUI.Utilities;
 using MY3DEngine.Utilities;
 using System;
 using System.Windows.Forms;
@@ -23,7 +24,7 @@ namespace MY3DEngine.GUI.HelperForms
                 bSelectFolder.UseWaitCursor = true;
                 bSelectFolder.Enabled = false;
 
-                var toolsetGameModel = Build.GameEngineLoad.LoadProject(fbdSelectFProject.SelectedPath, new FileIO());
+                var toolsetGameModel = GameEngineLoad.LoadProject(fbdSelectFProject.SelectedPath, new FileIO());
 
                 if (!toolsetGameModel.Successful)
                 {

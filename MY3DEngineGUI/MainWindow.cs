@@ -1,5 +1,5 @@
 ﻿using MY3DEngine.BaseObjects;
-using MY3DEngine.Build;
+using MY3DEngine.BuildTools;
 using MY3DEngine.GUI.HelperForms;
 using MY3DEngine.GUI.Utilities;
 using MY3DEngine.Logging;
@@ -23,7 +23,7 @@ namespace MY3DEngine.GUI
     {
         private const string EngineTitle = "MY 3D Engine Builder";
 
-        private static readonly Logger logger = LogManager.GetCurrentClassLogger();
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
         private readonly ErrorModel graphicsException = new ErrorModel("Engine could not be setup correctly", "Engine", string.Empty);
 
@@ -114,60 +114,27 @@ namespace MY3DEngine.GUI
 
         private void AddDirectionalLightToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            //if (Engine.GameEngine.Manager.AddObject(new LightClass("Directional")))
-            //{
-            //    Add_RemoveObject("Directional Light Added");
-            //}
+            throw new NotSupportedException();
         }
 
         private void AddObjectToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var open = new OpenFileDialog
-            {
-                Multiselect = false
-            };
-            var result = open.ShowDialog();
-
-            if (result == DialogResult.OK)
-            {
-                if (open.SafeFileName.ToLower().EndsWith(".x", StringComparison.CurrentCulture))
-                {
-                    //GameObject objclass = new GameObject(fileName: open.SafeFileName, path: open.FileName);
-                    //if (Engine.GameEngine.Manager.AddObject(objclass))
-                    //{
-                    //    Add_RemoveObject(open.SafeFileName + " added");
-                    //}
-                }
-            }
+            throw new NotSupportedException();
         }
 
         private void AddPointLightToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            //if (Engine.GameEngine.Manager.AddObject(new LightClass()))
-            //{
-            //    Add_RemoveObject("Point light added");
-            //}
+            throw new NotSupportedException();
         }
 
         private void CkbxLightOnOff_CheckedChanged(object sender, EventArgs e)
         {
-            int index = -1;
-            lock (Engine.GameEngine.Manager)
-            {
-                index = Engine.GameEngine.Manager.GameObjects.IndexOf((BaseObject)GameObjectListComboBox.SelectedValue);
-            }
-
-            if (index >= 0)
-            {
-                //if (Engine.GameEngine.Manager.GameObjects[index] is LightClass)
-                //{
-                //    (Engine.GameEngine.Manager.GameObjects[index] as LightClass).LightOnOff();
-                //}
-            }
+            throw new NotSupportedException();
         }
 
         private void GlobalLightsOnOffToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            throw new NotSupportedException();
         }
 
         #endregion Old Event -- FIX
@@ -199,23 +166,20 @@ namespace MY3DEngine.GUI
                         ColorDialogForObjects.Color = Color.FromArgb(argb[0] * 255, argb[1] * 255, argb[2] * 255, argb[3] * 255);
                     }
 
-                    if (ColorDialogForObjects.ShowDialog() == DialogResult.OK)
+                    if (ColorDialogForObjects.ShowDialog() == DialogResult.OK && Engine.GameEngine.Manager.GameObjects[index].IsPrimitive)
                     {
-                        if (Engine.GameEngine.Manager.GameObjects[index].IsPrimitive)
+                        var gameObject = Engine.GameEngine.Manager.GameObjects[index];
+                        var red = ColorDialogForObjects.Color.R / 255.0f;
+                        var green = ColorDialogForObjects.Color.G / 255.0f;
+                        var blue = ColorDialogForObjects.Color.B / 255.0f;
+                        var alpha = ColorDialogForObjects.Color.A / 255.0f;
+
+                        for (var i = 0; i < gameObject.Vertexies.Length; ++i)
                         {
-                            var gameObject = Engine.GameEngine.Manager.GameObjects[index];
-                            var red = ColorDialogForObjects.Color.R / 255.0f;
-                            var green = ColorDialogForObjects.Color.G / 255.0f;
-                            var blue = ColorDialogForObjects.Color.B / 255.0f;
-                            var alpha = ColorDialogForObjects.Color.A / 255.0f;
-
-                            for (var i = 0; i < gameObject.Vertexies.Length; ++i)
-                            {
-                                gameObject.Vertexies[i].Color = new SharpDX.Vector4(red, green, blue, alpha);
-                            }
-
-                            gameObject.ApplyColor();
+                            gameObject.Vertexies[i].Color = new SharpDX.Vector4(red, green, blue, alpha);
                         }
+
+                        gameObject.ApplyColor();
                     }
                 }
             }
@@ -348,7 +312,7 @@ namespace MY3DEngine.GUI
 
         private void GenerateGameToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            gameGeneratedSuccessfully = Build.Build.GenerateFilesForBuildingGame(Engine.GameEngine.SettingsManager.Settings.MainFolderLocation, new FileIO());
+            gameGeneratedSuccessfully = Build.GenerateFilesForBuildingGame(Engine.GameEngine.SettingsManager.Settings.MainFolderLocation, new FileIO());
 
             if (gameGeneratedSuccessfully)
             {
@@ -466,7 +430,7 @@ namespace MY3DEngine.GUI
 
         private void BuildGameToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (Build.Build.BuildGame(Engine.GameEngine.SettingsManager.Settings.MainFolderLocation, Engine.GameEngine.SettingsManager.Settings.GameName, new FileIO()))
+            if (Build.BuildGame(Engine.GameEngine.SettingsManager.Settings.MainFolderLocation, Engine.GameEngine.SettingsManager.Settings.GameName, new FileIO()))
             {
                 AddToInformationDisplay("Game built successfully.");
 

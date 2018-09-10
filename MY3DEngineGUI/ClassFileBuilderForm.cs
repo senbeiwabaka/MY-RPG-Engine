@@ -1,6 +1,7 @@
-﻿using ScintillaNET;
+﻿using MY3DEngine.BuildTools;
+using NLog;
+using ScintillaNET;
 using System;
-using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
@@ -10,7 +11,7 @@ namespace MY3DEngine.GUI
     public partial class ClassFileBuilderForm : Form
     {
         private const int padding = 2;
-
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         private readonly string fileName;
         private readonly string folder;
         private int baseMaxLineNumberCharLength;
@@ -75,6 +76,28 @@ namespace MY3DEngine.GUI
             SaveFile();
         }
 
+        private void CompileToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SaveFile();
+
+            if (!Build.CompileFile($"{folder}\\{fileName}", out var errors))
+            {
+                AddToInformationDisplay("Compile Failed");
+            }
+            else
+            {
+                foreach (var error in errors)
+                {
+                    AddToInformationDisplay(error.ToString());
+                }
+            }
+
+            if (errors.Count == 0)
+            {
+                AddToInformationDisplay("No errors found");
+            }
+        }
+
         private void Scintilla1_CharAdded(object sender, CharAddedEventArgs e)
         {
             // Find the word start
@@ -123,30 +146,6 @@ namespace MY3DEngine.GUI
             // Calculate the width required to display the last line number and include some padding for good measure.
             scintilla1.Margins[0].Width = scintilla1.TextWidth(Style.LineNumber, new string('9', maxLineNumberCharLength + 1)) + padding;
             baseMaxLineNumberCharLength = maxLineNumberCharLength;
-        }
-
-        private void CompileToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            SaveFile();
-
-            ICollection<object> errors = new List<object>();
-
-            if (!Build.Build.CompileFile($"{folder}\\{fileName}", out errors))
-            {
-                AddToInformationDisplay("Compile Failed");
-            }
-            else
-            {
-                foreach (var error in errors)
-                {
-                    AddToInformationDisplay(error.ToString());
-                }
-            }
-
-            if (errors.Count == 0)
-            {
-                AddToInformationDisplay("No errors found");
-            }
         }
 
         #endregion Events
@@ -203,6 +202,8 @@ namespace MY3DEngine.GUI
             }
             catch (Exception exception)
             {
+                Logger.Error(exception);
+
                 AddToInformationDisplay($"Message: {exception.Message} {Environment.NewLine}StackTrace: {exception.StackTrace}");
             }
         }
@@ -232,6 +233,7 @@ namespace MY3DEngine.GUI
 
         private void Scintilla1_SavePointLeft(object sender, EventArgs e)
         {
+            throw new NotSupportedException();
         }
     }
 }

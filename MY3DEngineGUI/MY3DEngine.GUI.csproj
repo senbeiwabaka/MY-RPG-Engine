@@ -198,9 +198,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\MY3DEngine.Build\MY3DEngine.Build.csproj">
-      <Project>{7165c534-42ac-4dee-ad66-68c73690b5d0}</Project>
-      <Name>MY3DEngine.Build</Name>
+    <ProjectReference Include="..\MY3DEngine.Build\MY3DEngine.BuildTools.csproj">
+      <Project>{7165C534-42AC-4DEE-AD66-68C73690B5D0}</Project>
+      <Name>MY3DEngine.BuildTools</Name>
     </ProjectReference>
     <ProjectReference Include="..\MY3DEngine.Logging\MY3DEngine.Logging.csproj">
       <Project>{F21B75CC-7DBB-4E41-8364-2C8D3FFFAD8B}</Project>

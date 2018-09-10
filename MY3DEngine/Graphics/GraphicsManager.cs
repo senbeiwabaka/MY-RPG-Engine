@@ -27,7 +27,7 @@ namespace MY3DEngine.Graphics
         /// <inheritdoc/>
         public void ChangeVSyncState(bool vSync = false)
         {
-            this.GetDirectXManager.VSync = vSync;
+            this.GetDirectXManager.VerticalSync = vSync;
         }
 
         public void Dispose()

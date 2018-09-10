@@ -9,6 +9,20 @@ namespace MY3DEngine.GUI
     {
         private static readonly Logger logger = LogManager.GetCurrentClassLogger();
 
+        private static void Application_ThreadException(object sender, System.Threading.ThreadExceptionEventArgs e)
+        {
+            var exception = e.Exception;
+
+            logger.Error(exception, $"Unhandled exception in {nameof(Program)}.{nameof(Application_ThreadException)} with message: {exception.Message}");
+        }
+
+        private static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
+        {
+            var exception = e.ExceptionObject as Exception;
+
+            logger.Error(exception, $"Unhandled exception in {nameof(Program)}.{nameof(CurrentDomain_UnhandledException)} with message: {exception.Message}");
+        }
+
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
@@ -35,20 +49,6 @@ namespace MY3DEngine.GUI
             var exception = e.Exception;
 
             logger.Error(exception, $"Unhandled exception in {nameof(Program)}.{nameof(TaskScheduler_UnobservedTaskException)} with message: {exception.Message}");
-        }
-
-        private static void Application_ThreadException(object sender, System.Threading.ThreadExceptionEventArgs e)
-        {
-            var exception = e.Exception;
-
-            logger.Error(exception, $"Unhandled exception in {nameof(Program)}.{nameof(Application_ThreadException)} with message: {exception.Message}");
-        }
-
-        private static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
-        {
-            var exception = e.ExceptionObject as Exception;
-
-            logger.Error(exception, $"Unhandled exception in {nameof(Program)}.{nameof(CurrentDomain_UnhandledException)} with message: {exception.Message}");
         }
     }
 }

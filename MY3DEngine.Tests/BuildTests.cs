@@ -4,7 +4,7 @@ using MY3DEngine.Utilities.Interfaces;
 using System;
 using System.Diagnostics.CodeAnalysis;
 
-namespace MY3DEngine.Tests
+namespace MY3DEngine.BuildTools.Tests
 {
     [ExcludeFromCodeCoverage]
     [TestClass]
@@ -14,7 +14,7 @@ namespace MY3DEngine.Tests
         [TestCategory("Build")]
         public void BuildGame_Folder_Exception_Test()
         {
-            var result = Assert.ThrowsException<ArgumentNullException>(() => Build.Build.BuildGame(null, null, null));
+            var result = Assert.ThrowsException<ArgumentNullException>(() => Build.BuildGame(null, null, null));
 
             Assert.IsNotNull(result);
             Assert.AreEqual($"Value cannot be null.{Environment.NewLine}Parameter name: folderLocation", result.Message);
@@ -24,7 +24,7 @@ namespace MY3DEngine.Tests
         [TestCategory("Build")]
         public void BuildGame_GameName_Exception_Test()
         {
-            var result = Assert.ThrowsException<ArgumentNullException>(() => Build.Build.BuildGame("FolderPath", null, null));
+            var result = Assert.ThrowsException<ArgumentNullException>(() => Build.BuildGame("FolderPath", null, null));
 
             Assert.IsNotNull(result);
             Assert.AreEqual($"Value cannot be null.{Environment.NewLine}Parameter name: gameName", result.Message);
@@ -34,7 +34,7 @@ namespace MY3DEngine.Tests
         [TestCategory("Build")]
         public void BuildGame_fileIO_Exception_Test()
         {
-            var result = Assert.ThrowsException<ArgumentNullException>(() => Build.Build.BuildGame("FolderPath", "GameName", null));
+            var result = Assert.ThrowsException<ArgumentNullException>(() => Build.BuildGame("FolderPath", "GameName", null));
 
             Assert.IsNotNull(result);
             Assert.AreEqual($"Value cannot be null.{Environment.NewLine}Parameter name: fileIo", result.Message);
@@ -46,7 +46,7 @@ namespace MY3DEngine.Tests
         {
             var fileIo = A.Fake<IFileIO>();
             A.CallTo(() => fileIo.GetFileContent(string.Empty)).Returns("test");
-            var result = Build.Build.BuildGame(@"C:\Temp", "GameName", fileIo);
+            var result = Build.BuildGame(@"C:\Temp", "GameName", fileIo);
 
             Assert.IsFalse(result);
         }

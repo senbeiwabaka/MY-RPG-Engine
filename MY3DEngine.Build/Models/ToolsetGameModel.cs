@@ -1,4 +1,4 @@
-﻿namespace MY3DEngine.Build.Models
+﻿namespace MY3DEngine.BuildTools.Models
 {
     public sealed class ToolsetGameModel
     {

@@ -1,4 +1,4 @@
-﻿using MY3DEngine.Build.Models;
+﻿using MY3DEngine.BuildTools.Models;
 using MY3DEngine.Logging;
 using MY3DEngine.Utilities.Interfaces;
 using Newtonsoft.Json;
@@ -7,7 +7,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace MY3DEngine.Build
+namespace MY3DEngine.BuildTools
 {
     public static class GameEngineLoad
     {
@@ -40,7 +40,7 @@ namespace MY3DEngine.Build
             }
             catch (Exception ex)
             {
-                StaticLogger.Exception($"{nameof(GameEngineSave)}.{nameof(LoadLevel)}", ex);
+                StaticLogger.Exception($"{nameof(GameEngineLoad)}.{nameof(LoadLevel)}", ex);
             }
 
             StaticLogger.Info($"Finished {nameof(GameEngineLoad)}.{nameof(LoadLevel)}");

@@ -1,12 +1,12 @@
-﻿using MY3DEngine.Build.Models;
-using MY3DEngine.Build.Properties;
+﻿using MY3DEngine.BuildTools.Models;
+using MY3DEngine.BuildTools.Properties;
 using MY3DEngine.Logging;
 using MY3DEngine.Utilities.Interfaces;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 
-namespace MY3DEngine.Build
+namespace MY3DEngine.BuildTools
 {
     public static class GameEngineSave
     {
@@ -36,12 +36,20 @@ namespace MY3DEngine.Build
                 throw new ArgumentNullException(nameof(settings));
             }
 
+            
+
+            
+            var fullPath = $"{mainFolderLocation}\\{gameName}";
+            var fullPathOfMainFile = $"{fullPath}\\{Constants.MainFileName}";
+
+            var folderLocation = settings.GetType().GetProperty("MainFolderLocation");
+            folderLocation.SetValue(settings, fullPath);
+
             var settingsContent = JsonConvert.SerializeObject(settings);
-            var fullPathOfMainFile = $"{mainFolderLocation}\\{Constants.MainFileName}";
 
             try
             {
-                var fileContents = Resources.MainFile
+                var mainFileContents = Resources.MainFile
                     .Replace("{0}", $"@\"{mainFolderLocation}\\GameObjects.go\"")
                     .Replace("{1}", $"@\"{mainFolderLocation}\\ErrorLog.txt\"")
                     .Replace("{2}", $"@\"{mainFolderLocation}\\InformationLog.txt\"")
@@ -50,13 +58,43 @@ namespace MY3DEngine.Build
 
                 var settingsFileName = Constants.SettingsFileName;
 
-                if (!fileIo.DirectoryExists(mainFolderLocation))
+                if (!fileIo.DirectoryExists(fullPath))
                 {
-                    fileIo.CreateDirectory(mainFolderLocation);
+                    fileIo.CreateDirectory(fullPath);
                 }
 
-                fileIo.WriteFileContent(fullPathOfMainFile, fileContents);
-                fileIo.WriteFileContent($"{mainFolderLocation}\\{settingsFileName}", settingsContent);
+                fileIo.WriteFileContent(fullPathOfMainFile, mainFileContents);
+                fileIo.WriteFileContent($"{fullPath}\\{settingsFileName}", settingsContent);
+
+                if (!fileIo.DirectoryExists($"{fullPath}\\Assets"))
+                {
+                    fileIo.CreateDirectory($"{fullPath}\\Assets");
+                }
+
+                if (!fileIo.DirectoryExists($"{fullPath}\\Assets\\Shaders"))
+                {
+                    fileIo.CreateDirectory($"{fullPath}\\Assets\\Shaders");
+                }
+
+                if(!fileIo.FileExists($"{fullPath}\\Assets\\Shaders\\Color.ps"))
+                {
+                    fileIo.WriteFileContent($"{fullPath}\\Assets\\Shaders\\Color.ps", "", false);
+                }
+
+                if (!fileIo.FileExists($"{fullPath}\\Assets\\Shaders\\Color.vs"))
+                {
+                    fileIo.WriteFileContent($"{fullPath}\\Assets\\Shaders\\Color.vs", "", false);
+                }
+
+                if (!fileIo.FileExists($"{fullPath}\\Assets\\Shaders\\texture.ps"))
+                {
+                    fileIo.WriteFileContent($"{fullPath}\\Assets\\Shaders\\texture.ps", "", false);
+                }
+
+                if (!fileIo.FileExists($"{fullPath}\\Assets\\Shaders\\texture.vs"))
+                {
+                    fileIo.WriteFileContent($"{fullPath}\\Assets\\Shaders\\texture.vs", "", false);
+                }
             }
             catch (ArgumentNullException ex)
             {
@@ -78,7 +116,7 @@ namespace MY3DEngine.Build
                 MainFileFolderLocation = fullPathOfMainFile,
                 MainFileName = Constants.MainFileName,
                 GameName = gameName,
-                FolderLocation = mainFolderLocation,
+                FolderLocation = fullPath,
                 Settings = settingsContent
             };
         }
