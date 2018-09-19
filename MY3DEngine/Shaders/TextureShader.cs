@@ -16,11 +16,7 @@ namespace MY3DEngine.Shaders
         private PixelShader pixelShader;
         private VertexShader vertextShader;
         private SamplerState samplerState;
-
-        internal TextureShader()
-        {
-        }
-
+        
         ~TextureShader()
         {
             Dispose(false);
@@ -31,7 +27,7 @@ namespace MY3DEngine.Shaders
 
         public void Dispose()
         {
-            this.Dispose(true);
+            Dispose(true);
 
             GC.SuppressFinalize(this);
         }
@@ -147,9 +143,9 @@ namespace MY3DEngine.Shaders
             return true;
         }
 
-        private void Dispose(bool dispose)
+        protected virtual void Dispose(bool disposing)
         {
-            if (dispose)
+            if (disposing)
             {
                 this.ConstantMatrixBuffer?.Dispose();
                 this.ConstantMatrixBuffer = null;

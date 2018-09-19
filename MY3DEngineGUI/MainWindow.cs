@@ -9,7 +9,6 @@ using MY3DEngine.Utilities;
 using NLog;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
@@ -366,7 +365,7 @@ namespace MY3DEngine.GUI
         {
             UseWaitCursor = true;
 
-            if (GameEngineSave.SaveProject(ToolsetGameModelManager.ToolsetGameModel.MainFileFolderLocation, new ReadOnlyCollection<BaseObject>(Engine.GameEngine.Manager.GetGameObjects.ToList())))
+            if (GameEngineSave.SaveProject(ToolsetGameModelManager.ToolsetGameModel.MainFileFolderLocation, Engine.GameEngine.Manager.GetGameObjects()))
             {
                 AddToInformationDisplay("Game saved successfully.");
 
@@ -450,14 +449,14 @@ namespace MY3DEngine.GUI
 
         private void ViewLogFileToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var logView = new LogViewer($"{Environment.CurrentDirectory}/log.log");
+            var logView = new LogViewer($"{Environment.CurrentDirectory}\\logs\\{DateTime.Today.ToString("yyyy-MM-dd")}_log.log");
 
             logView.Show(this);
         }
 
         private void DeleteLogFileToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (new FileIO().DeleteFile($"{Environment.CurrentDirectory}/log.log"))
+            if (new FileIO().DeleteFile($"{Environment.CurrentDirectory}\\logs\\{DateTime.Today.ToString("yyyy-MM-dd")}_log.log"))
             {
                 AddToInformationDisplay("Log successfully deleted.");
 
@@ -489,7 +488,7 @@ namespace MY3DEngine.GUI
 
             if (result == DialogResult.Yes)
             {
-                if (GameEngineSave.SaveProject(ToolsetGameModelManager.ToolsetGameModel.FolderLocation, new ReadOnlyCollection<BaseObject>(Engine.GameEngine.Manager.GetGameObjects.ToList())))
+                if (GameEngineSave.SaveProject(ToolsetGameModelManager.ToolsetGameModel.FolderLocation, Engine.GameEngine.Manager.GetGameObjects()))
                 {
                     MessageBox.Show("Game saved successfully.", MessageResources.Information, MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
@@ -614,6 +613,7 @@ namespace MY3DEngine.GUI
         private void AddToInformationDisplay(string message)
         {
             tbInformation.AppendText($"{message} {Environment.NewLine}");
+            Logger.Info($"{message} {Environment.NewLine}");
         }
 
         /// <summary>

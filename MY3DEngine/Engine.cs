@@ -3,6 +3,7 @@ using MY3DEngine.Graphics;
 using MY3DEngine.Interfaces;
 using MY3DEngine.Managers;
 using MY3DEngine.Shaders;
+using NLog;
 using System;
 using System.Threading;
 
@@ -13,25 +14,14 @@ namespace MY3DEngine
     /// </summary>
     public sealed class Engine : IDisposable
     {
-        private static Engine gameEngine;
-        private static bool isDebugginTurnedOn;
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
         #region Fields
-
-        private readonly SettingsManager settingsManager;
 
         private Thread renderThread;
         private IShader shader;
 
         #endregion Fields
-
-        /// <summary>
-        /// Engine Constructor
-        /// </summary>
-        public Engine()
-        {
-            settingsManager = new SettingsManager();
-        }
 
         ~Engine()
         {
@@ -41,7 +31,7 @@ namespace MY3DEngine
         /// <summary>
         ///Game engine instance
         /// </summary>
-        public static Engine GameEngine => gameEngine ?? (gameEngine = new Engine());
+        public static Engine GameEngine => new Engine();
 
         #region Properties
 
@@ -54,7 +44,7 @@ namespace MY3DEngine
         /// This is an instance of the exception manager class that manages exceptions
         /// </summary>
         public IExceptionManager Exception { get; private set; }
-        
+
         /// <summary>
         /// This is the graphics manager that manages the graphics
         /// </summary>
@@ -75,7 +65,7 @@ namespace MY3DEngine
         /// <summary>
         /// This manages the games settings
         /// </summary>
-        public SettingsManager SettingsManager => settingsManager;
+        public SettingsManager SettingsManager { get; } = new SettingsManager();
 
         /// <summary>
         /// This is the memory pointer to the window where the engine is rendering its contents
@@ -85,7 +75,7 @@ namespace MY3DEngine
         /// <summary>
         /// If set to true then debugging information is added to a collection
         /// </summary>
-        public static bool IsDebugginTurnedOn { get => isDebugginTurnedOn; set => isDebugginTurnedOn = value; }
+        public static bool IsDebugginTurnedOn { get; set; }
 
         #endregion Properties
 
@@ -113,9 +103,11 @@ namespace MY3DEngine
 
                 Start();
             }
-            catch (Exception e)
+            catch (Exception exception)
             {
-                Exception.AddException(e);
+                Exception.AddException(exception);
+
+                Logger.Error(exception, $"{nameof(Engine)}.{nameof(Initialize)} method errored.");
 
                 return false;
             }

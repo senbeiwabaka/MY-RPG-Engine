@@ -7,8 +7,8 @@ namespace MY3DEngine.Graphics
 {
     internal sealed class GraphicsManager : IGraphicManager
     {
-        public Device GetDevice => this.GetDirectXManager?.GetDevice;
-        public DeviceContext GetDeviceContext => this.GetDirectXManager?.GetDeviceContext;
+        public Device GetDevice => GetDirectXManager?.GetDevice;
+        public DeviceContext GetDeviceContext => GetDirectXManager?.GetDeviceContext;
         public DirectXManager GetDirectXManager { get; private set; } = new DirectXManager();
 
         public IntPtr GetWindowHandle { get; private set; }
@@ -21,18 +21,18 @@ namespace MY3DEngine.Graphics
         /// <inheritdoc/>
         public void BeginScene(float red, float green, float blue, float alpha)
         {
-            this.GetDirectXManager.BeginScene(red, green, blue, alpha);
+            GetDirectXManager.BeginScene(red, green, blue, alpha);
         }
 
         /// <inheritdoc/>
         public void ChangeVSyncState(bool vSync = false)
         {
-            this.GetDirectXManager.VerticalSync = vSync;
+            GetDirectXManager.VerticalSync = vSync;
         }
 
         public void Dispose()
         {
-            this.Dispose(true);
+            Dispose(true);
 
             GC.SuppressFinalize(this);
         }
@@ -40,24 +40,24 @@ namespace MY3DEngine.Graphics
         /// <inheritdoc/>
         public void EnableWireFrameMode(bool enableWireFrame = false)
         {
-            this.GetDirectXManager.EnableWireFrameMode(enableWireFrame);
+            GetDirectXManager.EnableWireFrameMode(enableWireFrame);
         }
 
         /// <inheritdoc/>
         public void EndScene()
         {
-            this.GetDirectXManager.EndScene();
+            GetDirectXManager.EndScene();
         }
 
         /// <inheritdoc/>
         public bool InitializeDirectXManager(IntPtr windowHandle, int screenWidth = 720, int screenHeight = 480, bool vsyncEnabled = true, bool fullScreen = false)
         {
-            if (!this.GetDirectXManager.Initialize(windowHandle, screenWidth, screenHeight, vsyncEnabled, fullScreen))
+            if (!GetDirectXManager.Initialize(windowHandle, screenWidth, screenHeight, vsyncEnabled, fullScreen))
             {
                 return false;
             }
 
-            this.GetWindowHandle = windowHandle;
+            GetWindowHandle = windowHandle;
 
             return true;
         }
@@ -66,7 +66,7 @@ namespace MY3DEngine.Graphics
         {
             if (disposing)
             {
-                this.GetDirectXManager?.Dispose();
+                GetDirectXManager?.Dispose();
             }
         }
     }

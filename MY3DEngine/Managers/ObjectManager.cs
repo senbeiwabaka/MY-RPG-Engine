@@ -23,21 +23,9 @@ namespace MY3DEngine.Managers
         {
             get
             {
-                lock (this.gameObjects)
+                lock (gameObjects)
                 {
-                    return this.gameObjects;
-                }
-            }
-        }
-
-        /// <inherietdoc/>
-        public IEnumerable<BaseObject> GetGameObjects
-        {
-            get
-            {
-                lock (this.GameObjects)
-                {
-                    return this.GameObjects.ToList();
+                    return gameObjects;
                 }
             }
         }
@@ -49,9 +37,9 @@ namespace MY3DEngine.Managers
             {
                 gameObject.LoadContent(isNewObject);
 
-                lock (this.GameObjects)
+                lock (GameObjects)
                 {
-                    this.GameObjects.Add(gameObject);
+                    GameObjects.Add(gameObject);
                 }
             }
             catch (Exception e)
@@ -72,6 +60,15 @@ namespace MY3DEngine.Managers
         }
 
         /// <inherietdoc/>
+        public IReadOnlyList<BaseObject> GetGameObjects()
+        {
+            lock (GameObjects)
+            {
+                return GameObjects.ToList();
+            }
+        }
+
+        /// <inherietdoc/>
         public bool LoadObjects(IEnumerable<BaseObject> objects)
         {
             foreach (var item in objects)
@@ -89,9 +86,9 @@ namespace MY3DEngine.Managers
         {
             try
             {
-                lock (this.GameObjects)
+                lock (GameObjects)
                 {
-                    var removed = this.GameObjects.Remove(gameObject);
+                    var removed = GameObjects.Remove(gameObject);
 
                     if (removed)
                     {

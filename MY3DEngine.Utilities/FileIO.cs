@@ -151,14 +151,20 @@ namespace MY3DEngine.Utilities
         /// <returns></returns>
         public bool FileExists(string file)
         {
-            logger.Info($"{nameof(FileExists)}");
+            logger.Info($"Starting {nameof(FileExists)}");
 
             if (string.IsNullOrWhiteSpace(file))
             {
                 return false;
             }
 
-            return File.Exists(file);
+            var fileExists = File.Exists(file);
+
+            logger.Info($"File: '{file}' exists? {fileExists}");
+
+            logger.Info($"Finished {nameof(FileExists)}");
+
+            return fileExists;
         }
 
         /// <summary>

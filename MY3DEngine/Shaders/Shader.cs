@@ -10,7 +10,7 @@ using System.Collections.Generic;
 namespace MY3DEngine.Shaders
 {
     /// <inherietdoc/>
-    internal sealed class Shader : IShader
+    internal class Shader : IShader
     {
         private InputLayout inputLayout;
         private PixelShader pixelShader;
@@ -130,7 +130,7 @@ namespace MY3DEngine.Shaders
             return true;
         }
 
-        private void Dispose(bool dispose)
+        protected virtual void Dispose(bool dispose)
         {
             if (dispose)
             {

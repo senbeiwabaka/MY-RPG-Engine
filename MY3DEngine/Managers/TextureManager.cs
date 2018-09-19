@@ -1,4 +1,5 @@
-﻿using SharpDX.Direct3D11;
+﻿using NLog;
+using SharpDX.Direct3D11;
 using SharpDX.WIC;
 using System;
 
@@ -6,6 +7,8 @@ namespace MY3DEngine.Managers
 {
     public static class TextureManager
     {
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+
         public static Texture2D CreateTexture2DFromBitmap(Device device, BitmapSource bitmapSource)
         {
             // Allocate DataStream to receive the WIC image pixels
@@ -50,9 +53,11 @@ namespace MY3DEngine.Managers
 
                 return true;
             }
-            catch (Exception e)
+            catch (Exception exception)
             {
-                Engine.GameEngine.Exception.AddException(e);
+                Engine.GameEngine.Exception.AddException(exception);
+
+                Logger.Error(exception, $"{nameof(TextureManager)}.{nameof(Initialize)} method errored.");
 
                 return false;
             }

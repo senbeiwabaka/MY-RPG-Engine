@@ -20,13 +20,15 @@ namespace MY3DEngine.BaseObjects
         /// <summary>
         /// blank constructor
         /// </summary>
-        protected BaseObject() { }
+        protected BaseObject()
+            : this("Cube")
+        { }
 
         /// <summary>
         /// Constructor
         /// </summary>
         /// <param name="name">The name of the object</param>
-        protected BaseObject(string name = "Cube")
+        protected BaseObject(string name)
         {
             this.Name = name;
         }
