@@ -11,6 +11,7 @@
     public class Triangle : BaseObject
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="Triangle"/> class.
         /// Basic game triangle object
         /// </summary>
         public Triangle() : base(name: "Triangle")
@@ -36,11 +37,13 @@
                 this.Vertexies = new ColorVertex[]
                 {
                     // Bottom left.
-					new ColorVertex(new Vector3(-1, -1, 0), new Vector4(1.0f, 1.0f, 1.0f, 1.0f)),
-					// Top middle. TO DO 3:  Top Left.
-					new ColorVertex(new Vector3(0, 1, 0), new Vector4(1.0f, 1.0f, 1.0f, 1.0f)),
-					// Bottom right.
-					new ColorVertex(new Vector3(1, -1, 0), new Vector4(1.0f, 1.0f, 1.0f, 1.0f))
+                    new ColorVertex(new Vector3(-1, -1, 0), new Vector4(1.0f, 1.0f, 1.0f, 1.0f)),
+
+                    // Top middle. TO DO 3:  Top Left.
+                    new ColorVertex(new Vector3(0, 1, 0), new Vector4(1.0f, 1.0f, 1.0f, 1.0f)),
+
+                    // Bottom right.
+                    new ColorVertex(new Vector3(1, -1, 0), new Vector4(1.0f, 1.0f, 1.0f, 1.0f))
                 };
 
                 this.Indices = new int[]
@@ -53,6 +56,7 @@
 
             // Instantiate Vertex buffer from vertex data
             this.VertexBuffer = Buffer.Create(Engine.GameEngine.GraphicsManager.GetDevice, BindFlags.VertexBuffer, this.Vertexies);
+
             // Instantiate Index Buffer from index data
             this.IndexBuffer = Buffer.Create(Engine.GameEngine.GraphicsManager.GetDevice, BindFlags.IndexBuffer, this.Indices);
 

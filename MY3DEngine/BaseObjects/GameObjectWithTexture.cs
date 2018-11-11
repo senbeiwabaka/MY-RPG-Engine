@@ -10,6 +10,7 @@
         protected ShaderResourceView Texture;
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="GameObjectWithTexture"/> class.
         /// Constructor for building a .x object
         /// </summary>
         /// <param name="fileName">The file name of the object</param>

@@ -13,8 +13,41 @@
             this.Projection = projection;
         }
 
+        /// <summary>
+        /// Gets the World from the matrix
+        /// </summary>
         public Matrix World { get; }
-        public Matrix View;
-        public Matrix Projection;
+
+        /// <summary>
+        /// Gets View from the matrix
+        /// </summary>
+        public Matrix View { get; }
+
+        /// <summary>
+        /// Gets Projection from the matrix
+        /// </summary>
+        public Matrix Projection { get; }
+
+        public static bool operator ==(MatrixBuffer left, MatrixBuffer right) => left.Equals(right);
+
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="left"></param>
+        /// <param name="right"></param>
+        /// <returns></returns>
+        public static bool operator !=(MatrixBuffer left, MatrixBuffer right) => !(left == right);
+
+        /// <inheritdoc/>
+        public override bool Equals(object obj)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        /// <inheritdoc/>
+        public override int GetHashCode()
+        {
+           return base.GetHashCode();
+        }
     }
 }

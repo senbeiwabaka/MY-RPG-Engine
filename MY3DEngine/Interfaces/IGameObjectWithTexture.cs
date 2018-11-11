@@ -6,17 +6,17 @@
     public interface IGameObjectWithTexture
     {
         /// <summary>
-        /// File name of the texture to use
+        /// Gets or sets file name of the texture to use
         /// </summary>
         string FileName { get; set; }
 
         /// <summary>
-        /// File path of the texture to use
+        /// Gets or sets file path of the texture to use
         /// </summary>
         string FilePath { get; set; }
 
         /// <summary>
-        /// The building blocks of the object
+        /// Gets or sets the building blocks of the object
         /// </summary>
         TextureVertex[] TextureVerticies { get; set; }
     }

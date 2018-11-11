@@ -8,17 +8,17 @@
     public interface ICamera
     {
         /// <summary>
-        /// The position of the camera
+        /// Gets the position of the camera
         /// </summary>
         Vector3 Position { get; }
 
         /// <summary>
-        /// The rotation of the camera
+        /// Gets the rotation of the camera
         /// </summary>
         Vector3 Rotation { get; }
 
         /// <summary>
-        /// The view of the camera in the world
+        /// Gets or sets the view of the camera in the world
         /// </summary>
         Matrix ViewMatrix { get; set; }
 
@@ -30,7 +30,7 @@
         void Initialize(int width = default(int), int height = default(int));
 
         void OnResize(float new_width, float new_height);
-        
+
         void Render();
 
         /// <summary>

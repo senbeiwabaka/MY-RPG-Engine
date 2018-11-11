@@ -15,13 +15,8 @@
     public sealed class Engine : IDisposable
     {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
-
-        #region Fields
-
         private Thread renderThread;
         private IShader shader;
-
-        #endregion Fields
 
         ~Engine()
         {
@@ -29,58 +24,53 @@
         }
 
         /// <summary>
-        ///Game engine instance
+        ///Gets game engine instance
         /// </summary>
         public static Engine GameEngine => new Engine();
 
-        #region Properties
-
         /// <summary>
-        /// The world camera
+        /// Gets the world camera
         /// </summary>
         public ICamera Camera { get; private set; }
 
         /// <summary>
-        /// This is an instance of the exception manager class that manages exceptions
+        /// Gets this is an instance of the exception manager class that manages exceptions
         /// </summary>
         public IExceptionManager Exception { get; private set; }
 
         /// <summary>
-        /// This is the graphics manager that manages the graphics
+        /// Gets this is the graphics manager that manages the graphics
         /// </summary>
         /// <remarks>It is override-able</remarks>
         public IGraphicManager GraphicsManager { get; private set; }
 
         /// <summary>
-        /// Boolean stating whether or not the engine has been shutdown yet
+        /// Gets or sets a value indicating whether boolean stating whether or not the engine has been shutdown yet
         /// </summary>
         public bool IsNotShutDown { get; set; }
 
         /// <summary>
-        /// This manages the game objects
+        /// Gets this manages the game objects
         /// </summary>
         /// <remarks>It is override-able</remarks>
         public IObjectManager Manager { get; private set; }
 
         /// <summary>
-        /// This manages the games settings
+        /// Gets this manages the games settings
         /// </summary>
         public SettingsManager SettingsManager { get; } = new SettingsManager();
 
         /// <summary>
-        /// This is the memory pointer to the window where the engine is rendering its contents
+        /// Gets this is the memory pointer to the window where the engine is rendering its contents
         /// </summary>
         public IntPtr Window { get; }
 
         /// <summary>
-        /// If set to true then debugging information is added to a collection
+        /// Gets or sets a value indicating whether if set to true then debugging information is added to a collection
         /// </summary>
         public static bool IsDebugginTurnedOn { get; set; }
 
-        #endregion Properties
-
-        #region Methods
-
+        /// <inheritdoc/>
         public void Dispose()
         {
             Dispose(true);
@@ -169,10 +159,6 @@
             GraphicsManager.EnableWireFrameMode(enableWireFrameMode);
         }
 
-        #endregion Methods
-
-        #region Helper Methods
-
         private void Dispose(bool disposing)
         {
             if (disposing)
@@ -224,7 +210,5 @@
         {
             //CalculateFrameRateStats();
         }
-
-        #endregion Helper Methods
     }
 }

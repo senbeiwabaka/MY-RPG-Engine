@@ -7,20 +7,20 @@
 
     internal static class Program
     {
-        private static readonly Logger logger = LogManager.GetCurrentClassLogger();
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
         private static void Application_ThreadException(object sender, System.Threading.ThreadExceptionEventArgs e)
         {
             var exception = e.Exception;
 
-            logger.Error(exception, $"Unhandled exception in {nameof(Program)}.{nameof(Application_ThreadException)} with message: {exception.Message}");
+            Logger.Error(exception, $"Unhandled exception in {nameof(Program)}.{nameof(Application_ThreadException)} with message: {exception.Message}");
         }
 
         private static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
             var exception = e.ExceptionObject as Exception;
 
-            logger.Error(exception, $"Unhandled exception in {nameof(Program)}.{nameof(CurrentDomain_UnhandledException)} with message: {exception.Message}");
+            Logger.Error(exception, $"Unhandled exception in {nameof(Program)}.{nameof(CurrentDomain_UnhandledException)} with message: {exception.Message}");
         }
 
         /// <summary>
@@ -39,16 +39,25 @@
 
             TaskScheduler.UnobservedTaskException += TaskScheduler_UnobservedTaskException;
 
+            Application.ApplicationExit += Application_ApplicationExit;
+
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new MainWindow());
+        }
+
+        private static void Application_ApplicationExit(object sender, EventArgs e)
+        {
+            Logger.Info("Application is existing");
+
+            LogManager.Shutdown();
         }
 
         private static void TaskScheduler_UnobservedTaskException(object sender, UnobservedTaskExceptionEventArgs e)
         {
             var exception = e.Exception;
 
-            logger.Error(exception, $"Unhandled exception in {nameof(Program)}.{nameof(TaskScheduler_UnobservedTaskException)} with message: {exception.Message}");
+            Logger.Error(exception, $"Unhandled exception in {nameof(Program)}.{nameof(TaskScheduler_UnobservedTaskException)} with message: {exception.Message}");
         }
     }
 }

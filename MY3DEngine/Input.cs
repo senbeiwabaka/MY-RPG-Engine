@@ -42,6 +42,7 @@
             throw new NotImplementedException();
         }
 
+        /// <inheritdoc/>
         public void Dispose()
         {
         }

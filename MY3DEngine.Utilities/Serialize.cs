@@ -4,6 +4,6 @@
 
     public static class Serialize
     {
-        private static readonly Logger logger = LogManager.GetCurrentClassLogger();
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
     }
 }

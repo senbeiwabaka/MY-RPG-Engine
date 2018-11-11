@@ -22,7 +22,7 @@
         private bool isLoaded;
 
         /// <summary>
-        /// Holds the games settings
+        /// Gets holds the games settings
         /// </summary>
         public SettingsModel Settings { get; private set; }
 
@@ -55,6 +55,7 @@
             {
                 settingsModel = Deserialize.DeserializeStringAsT<SettingsModel>(settings);
             }
+
             // The settings parameter doesn't have data so we need to build the location then parse
             // the data
             else

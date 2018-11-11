@@ -11,6 +11,7 @@
     public sealed class CubeWithTexture : GameObjectWithTexture
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="CubeWithTexture"/> class.
         /// A basic cube with a texture applied
         /// </summary>
         public CubeWithTexture()

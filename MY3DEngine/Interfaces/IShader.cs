@@ -11,7 +11,7 @@
     public interface IShader : IDisposable
     {
         /// <summary>
-        /// The constant buffer that has the resources mapped to it.
+        /// Gets or sets the constant buffer that has the resources mapped to it.
         /// </summary>
         SharpDX.Direct3D11.Buffer ConstantMatrixBuffer { get; set; }
 

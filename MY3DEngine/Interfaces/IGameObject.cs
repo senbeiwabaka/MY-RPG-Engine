@@ -15,47 +15,42 @@
         event PropertyChangedEventHandler PropertyChanged;
 
         /// <summary>
-        /// The unique identifier of the object
+        /// Gets or sets the unique identifier of the object
         /// </summary>
         Guid Id { get; set; }
 
         /// <summary>
-        /// The number of indexes to draw
+        /// Gets or sets the number of indexes to draw
         /// </summary>
         int IndexCount { get; set; }
 
         /// <summary>
-        /// The indices placement
-        /// </summary>
-        int[] Indices { get; set; }
-
-        /// <summary>
-        /// Designate whether the object is a primitive type of Cube
+        /// Gets or sets a value indicating whether designate whether the object is a primitive type of Cube
         /// </summary>
         bool IsCube { get; set; }
 
         /// <summary>
-        /// Designate whether the object is a primitive type
+        /// Gets or sets a value indicating whether designate whether the object is a primitive type
         /// </summary>
         bool IsPrimitive { get; set; }
 
         /// <summary>
-        /// Determine if the current object is selected
+        /// Gets or sets a value indicating whether determine if the current object is selected
         /// </summary>
         bool IsSelected { get; set; }
 
         /// <summary>
-        /// Designate whether the object is a primitive type of Triangle
+        /// Gets or sets a value indicating whether designate whether the object is a primitive type of Triangle
         /// </summary>
         bool IsTriangle { get; set; }
 
         /// <summary>
-        /// The name of the object
+        /// Gets or sets the name of the object
         /// </summary>
         string Name { get; set; }
 
         /// <summary>
-        /// Where the object is located in the world
+        /// Gets or sets where the object is located in the world
         /// </summary>
         Vector3 Position { get; set; }
 

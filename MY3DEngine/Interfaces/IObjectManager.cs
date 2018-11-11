@@ -11,7 +11,7 @@
     public interface IObjectManager : IDisposable
     {
         /// <summary>
-        /// List of game objects
+        /// Gets list of game objects
         /// </summary>
         BindingList<BaseObject> GameObjects { get; }
 

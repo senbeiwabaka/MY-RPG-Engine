@@ -26,33 +26,35 @@
         }
 
         /// <summary>
-        /// Load content in the background
+        /// Gets load content in the background
         /// </summary>
         public Device GetDevice { get; private set; }
 
         /// <summary>
-        /// Renders content to the screen while loading can be happening
+        /// Gets renders content to the screen while loading can be happening
         /// </summary>
         public DeviceContext GetDeviceContext { get; private set; }
 
         /// <summary>
         ///
-        /// </summary>
+        /// Gets </summary>
         public long VideoCardMemory { get; private set; }
 
         /// <summary>
         ///
-        /// </summary>
+        /// Gets </summary>
         public string VideoCardDescription { get; private set; }
 
         internal bool VerticalSync { get; set; }
 
         internal Matrix WorldMatrix { get; set; }
+
         internal Matrix ProjectionMatrix { get; set; }
 
         /// <summary>
         ///
         /// </summary>
+/// <inheritdoc/>
         public void Dispose()
         {
             this.Dispose(true);
@@ -130,18 +132,25 @@
             {
                 // Set to a single back buffer.
                 BufferCount = 1,
+
                 // Set the width and height of the back buffer.
                 ModeDescription = modeDescription,
+
                 // Set the usage of the back buffer.
                 Usage = Usage.RenderTargetOutput,
+
                 // Set the handle for the window to render to.
                 OutputHandle = windowHandle,
+
                 // Turn multisampling off.
                 SampleDescription = new SampleDescription(1, 0),
+
                 // Set to full screen or windowed mode.
                 IsWindowed = fullScreen,
+
                 // Don't set the advanced flags.
                 Flags = SwapChainFlags.None,
+
                 // Discard the back buffer content after presenting.
                 SwapEffect = SwapEffect.Discard
             };
@@ -212,6 +221,7 @@
                 IsStencilEnabled = true,
                 StencilReadMask = 0xFF,
                 StencilWriteMask = 0xFF,
+
                 // Stencil operation if pixel front-facing.
                 FrontFace = new DepthStencilOperationDescription()
                 {
@@ -220,6 +230,7 @@
                     PassOperation = StencilOperation.Keep,
                     Comparison = Comparison.Always
                 },
+
                 // Stencil operation if pixel is back-facing.
                 BackFace = new DepthStencilOperationDescription()
                 {
@@ -362,8 +373,6 @@
             this.GetDeviceContext.Rasterizer.State = this.rasterizerState;
         }
 
-        #region Helper Methods
-
         private void InitializeViewport(int screenWidth, int screenHeight)
         {
             var viewport = new Viewport(0, 0, screenWidth, screenHeight, 0.0f, 1.0f);
@@ -389,7 +398,5 @@
                 this.rasterizerState?.Dispose();
             }
         }
-
-        #endregion Helper Methods
     }
 }

@@ -7,21 +7,21 @@
     [ExcludeFromCodeCoverage]
     public static class StaticLogger
     {
-        private static readonly Logger logger = LogManager.GetCurrentClassLogger();
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
         public static void Info(string message)
         {
-            logger.Info(message);
+            Logger.Info(message);
         }
 
         public static void Debug(string message)
         {
-            logger.Debug(message);
+            Logger.Debug(message);
         }
 
         public static void Exception(string message, Exception exception)
         {
-            logger.Error(exception, message);
+            Logger.Error(exception, message);
         }
 
         public static void Shutdown()

@@ -7,8 +7,13 @@
 
     internal sealed class GraphicsManager : IGraphicManager
     {
+        /// <inheritdoc/>
         public Device GetDevice => GetDirectXManager?.GetDevice;
+
+        /// <inheritdoc/>
         public DeviceContext GetDeviceContext => GetDirectXManager?.GetDeviceContext;
+
+        /// <inheritdoc/>
         public DirectXManager GetDirectXManager { get; private set; } = new DirectXManager();
 
         public IntPtr GetWindowHandle { get; private set; }
@@ -30,6 +35,7 @@
             GetDirectXManager.VerticalSync = vSync;
         }
 
+        /// <inheritdoc/>
         public void Dispose()
         {
             Dispose(true);

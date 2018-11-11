@@ -10,6 +10,7 @@
     public struct ColorVertex
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="ColorVertex"/> struct.
         /// Constructor
         /// </summary>
         /// <param name="position"></param>
@@ -21,17 +22,17 @@
         }
 
         /// <summary>
-        /// Position of the object in the world
+        /// Gets or sets position of the object in the world
         /// </summary>
         public Vector3 Position { get; set; }
 
         /// <summary>
-        /// Color of the object in the world
+        /// Gets or sets color of the object in the world
         /// </summary>
         public Vector4 Color { get; set; }
 
         /// <summary>
-        /// How big the object is for transfering data and building buffers
+        /// Gets how big the object is for transfering data and building buffers
         /// </summary>
         public static int Size => SharpDX.Utilities.SizeOf<ColorVertex>();
     }

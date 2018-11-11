@@ -7,6 +7,7 @@
     public struct TextureVertex
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="TextureVertex"/> struct.
         /// Constructor
         /// </summary>
         /// <param name="position"></param>
@@ -18,17 +19,17 @@
         }
 
         /// <summary>
-        /// Position of the object in the world
+        /// Gets or sets position of the object in the world
         /// </summary>
         public Vector3 Position { get; set; }
 
         /// <summary>
-        /// Texture (image) applied to the object
+        /// Gets or sets texture (image) applied to the object
         /// </summary>
         public Vector2 Texture { get; set; }
 
         /// <summary>
-        /// How big the object is for transfering data and building buffers
+        /// Gets how big the object is for transfering data and building buffers
         /// </summary>
         public static int Size => SharpDX.Utilities.SizeOf<TextureVertex>();
     }

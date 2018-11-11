@@ -69,8 +69,6 @@
             //scintilla1.AssignCmdKey(Keys.Control | Keys.S, Command.s)
         }
 
-        #region Events
-
         private void ClassFileBuilderForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             SaveFile();
@@ -148,10 +146,6 @@
             baseMaxLineNumberCharLength = maxLineNumberCharLength;
         }
 
-        #endregion Events
-
-        #region Menu Events
-
         private void ClearLogToolStripMenuItem_Click(object sender, EventArgs e)
         {
             tbInformation.Text = string.Empty;
@@ -168,10 +162,6 @@
         {
             SaveFile();
         }
-
-        #endregion Menu Events
-
-        #region Helpers
 
         private void AddToInformationDisplay(string message)
         {
@@ -218,8 +208,6 @@
                 scintilla1.Lines[i].MarginText = "0x" + i.ToString("X2");
             }
         }
-
-        #endregion Helpers
 
         private void ClassFileBuilderForm_KeyPress(object sender, KeyPressEventArgs e)
         {

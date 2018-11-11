@@ -15,9 +15,8 @@
         private string name;
         private Vector3 position;
 
-        #region Constructors
-
         /// <summary>
+        /// Initializes a new instance of the <see cref="BaseObject"/> class.
         /// blank constructor
         /// </summary>
         protected BaseObject()
@@ -25,6 +24,7 @@
         { }
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="BaseObject"/> class.
         /// Constructor
         /// </summary>
         /// <param name="name">The name of the object</param>
@@ -32,8 +32,6 @@
         {
             this.Name = name;
         }
-
-        #endregion Constructors
 
         /// <inheritdoc/>
         public event PropertyChangedEventHandler PropertyChanged;
@@ -43,9 +41,6 @@
 
         /// <inheritdoc/>
         public int IndexCount { get; set; } = 3;
-
-        /// <inheritdoc/>
-        public int[] Indices { get; set; }
 
         /// <inheritdoc/>
         public bool IsCube { get; set; } = false;
@@ -92,7 +87,7 @@
         }
 
         /// <summary>
-        /// The building blocks of the object
+        /// Gets or sets the building blocks of the object
         /// </summary>
         public ColorVertex[] Vertexies { get; set; }
 
@@ -104,6 +99,11 @@
         [JsonIgnore]
         protected SharpDX.Direct3D11.Buffer VertexBuffer { get; set; }
 
+        /// <summary>
+        /// Gets or sets indices
+        /// </summary>
+        protected int[] Indices { get; set; }
+
         /// <inheritdoc/>
         public void ApplyColor()
         {
@@ -113,9 +113,7 @@
             }
         }
 
-        /// <summary>
-        ///
-        /// </summary>
+        /// <inheritdoc/>
         public void Dispose()
         {
             this.Dispose(true);
@@ -132,15 +130,13 @@
         /// <inheritdoc/>
         public abstract void Render();
 
-        /// <summary>
-        ///
-        /// </summary>
-        /// <returns></returns>
+        /// <inheritdoc/>
         public override string ToString() => $"{Name}";
 
         /// <summary>
         /// Disposes of the object's mesh
         /// </summary>
+        /// <param name="disposing"></param>
         protected virtual void Dispose(bool disposing)
         {
             if (disposing)

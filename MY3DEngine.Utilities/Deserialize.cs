@@ -7,7 +7,7 @@
 
     public static class Deserialize
     {
-        private static readonly Logger logger = LogManager.GetCurrentClassLogger();
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
         public static T DeserializeStringAsT<T>(string content) where T : new()
         {
@@ -17,7 +17,7 @@
             }
             catch (Exception e)
             {
-                logger.Error(e, nameof(DeserializeStringAsT));
+                Logger.Error(e, nameof(DeserializeStringAsT));
             }
 
             return new T();
@@ -31,7 +31,7 @@
             }
             catch (Exception e)
             {
-                logger.Error(e, nameof(DeserializeFileAsT));
+                Logger.Error(e, nameof(DeserializeFileAsT));
             }
 
             return new T();

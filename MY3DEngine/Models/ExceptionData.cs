@@ -6,6 +6,7 @@
     public struct ErrorModel
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="ErrorModel"/> struct.
         ///
         /// </summary>
         /// <param name="message"></param>
@@ -20,17 +21,17 @@
 
         /// <summary>
         ///
-        /// </summary>
+        /// Gets </summary>
         public string Message { get; }
 
         /// <summary>
         ///
-        /// </summary>
+        /// Gets </summary>
         public string Source { get; }
 
         /// <summary>
         ///
-        /// </summary>
+        /// Gets </summary>
         public string StackTrace { get; }
 
         /// <inheritdoc/>

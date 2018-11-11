@@ -9,7 +9,7 @@
     public class FileIO : IFileIO
     {
         public static readonly string GetCurrentDirectory = Environment.CurrentDirectory;
-        private static readonly Logger logger = LogManager.GetCurrentClassLogger();
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
         /// <summary>
         /// Code a source file to a destination location. Overwrite an already existing file, if one
@@ -21,7 +21,7 @@
         /// <returns></returns>
         public bool CopyFile(string sourceFileName, string destinationFileName, bool overwriteFile)
         {
-            logger.Info($"Starting Method: {nameof(CopyFile)}");
+            Logger.Info($"Starting Method: {nameof(CopyFile)}");
 
             try
             {
@@ -29,12 +29,12 @@
             }
             catch (Exception exception)
             {
-                logger.Error(exception, nameof(CopyFile));
+                Logger.Error(exception, nameof(CopyFile));
 
                 return false;
             }
 
-            logger.Info($"Finished Method: {nameof(CopyFile)}");
+            Logger.Info($"Finished Method: {nameof(CopyFile)}");
 
             return true;
         }
@@ -50,13 +50,13 @@
         /// <returns></returns>
         public bool CreateDirectory(string folderPath)
         {
-            logger.Info($"Starting {nameof(CreateDirectory)}");
+            Logger.Info($"Starting {nameof(CreateDirectory)}");
 
             try
             {
                 if (DirectoryExists(folderPath))
                 {
-                    logger.Info($"Finished {nameof(CreateDirectory)}");
+                    Logger.Info($"Finished {nameof(CreateDirectory)}");
 
                     return true;
                 }
@@ -65,48 +65,48 @@
 
                 if (directoryInfo != null && directoryInfo.Exists)
                 {
-                    logger.Info($"Finished {nameof(CreateDirectory)}");
+                    Logger.Info($"Finished {nameof(CreateDirectory)}");
 
                     return true;
                 }
             }
             catch (ArgumentNullException exception)
             {
-                logger.Error(exception, nameof(CreateDirectory));
+                Logger.Error(exception, nameof(CreateDirectory));
             }
             catch (ArgumentException exception)
             {
-                logger.Error(exception, nameof(CreateDirectory));
+                Logger.Error(exception, nameof(CreateDirectory));
             }
             catch (UnauthorizedAccessException exception)
             {
-                logger.Error(exception, nameof(CreateDirectory));
+                Logger.Error(exception, nameof(CreateDirectory));
             }
             catch (DirectoryNotFoundException exception)
             {
-                logger.Error(exception, nameof(CreateDirectory));
+                Logger.Error(exception, nameof(CreateDirectory));
             }
             catch (PathTooLongException exception)
             {
-                logger.Error(exception, nameof(CreateDirectory));
+                Logger.Error(exception, nameof(CreateDirectory));
             }
             catch (IOException exception)
             {
-                logger.Error(exception, nameof(CreateDirectory));
+                Logger.Error(exception, nameof(CreateDirectory));
             }
             catch (NotSupportedException exception)
             {
-                logger.Error(exception, nameof(CreateDirectory));
+                Logger.Error(exception, nameof(CreateDirectory));
             }
 
-            logger.Info($"Finished {nameof(CreateDirectory)}");
+            Logger.Info($"Finished {nameof(CreateDirectory)}");
 
             return false;
         }
 
         public bool DeleteFile(string filePath)
         {
-            logger.Info($"Starting Method: {nameof(DeleteFile)}");
+            Logger.Info($"Starting Method: {nameof(DeleteFile)}");
 
             try
             {
@@ -117,12 +117,12 @@
             }
             catch (Exception exception)
             {
-                logger.Error(exception, nameof(DeleteFile));
+                Logger.Error(exception, nameof(DeleteFile));
 
                 return false;
             }
 
-            logger.Info($"Finished Method: {nameof(DeleteFile)}");
+            Logger.Info($"Finished Method: {nameof(DeleteFile)}");
 
             return true;
         }
@@ -134,7 +134,7 @@
         /// <returns></returns>
         public bool DirectoryExists(string directory)
         {
-            logger.Info($"{nameof(DirectoryExists)}");
+            Logger.Info($"{nameof(DirectoryExists)}");
 
             if (string.IsNullOrWhiteSpace(directory))
             {
@@ -151,7 +151,7 @@
         /// <returns></returns>
         public bool FileExists(string file)
         {
-            logger.Info($"Starting {nameof(FileExists)}");
+            Logger.Info($"Starting {nameof(FileExists)}");
 
             if (string.IsNullOrWhiteSpace(file))
             {
@@ -160,9 +160,9 @@
 
             var fileExists = File.Exists(file);
 
-            logger.Info($"File: '{file}' exists? {fileExists}");
+            Logger.Info($"File: '{file}' exists? {fileExists}");
 
-            logger.Info($"Finished {nameof(FileExists)}");
+            Logger.Info($"Finished {nameof(FileExists)}");
 
             return fileExists;
         }
@@ -174,7 +174,7 @@
         /// <returns></returns>
         public string GetFileContent(string file)
         {
-            logger.Info($"Starting {nameof(GetFileContent)}");
+            Logger.Info($"Starting {nameof(GetFileContent)}");
 
             var contents = string.Empty;
 
@@ -184,17 +184,17 @@
             }
             catch (Exception exception)
             {
-                logger.Error(exception, nameof(GetFileContent));
+                Logger.Error(exception, nameof(GetFileContent));
             }
 
-            logger.Info($"Finished {nameof(GetFileContent)}");
+            Logger.Info($"Finished {nameof(GetFileContent)}");
 
             return contents;
         }
 
         public IReadOnlyList<string> GetFiles(string folderLocation, string searchString)
         {
-            logger.Info($"Starting {nameof(GetFiles)}");
+            Logger.Info($"Starting {nameof(GetFiles)}");
 
             if (!DirectoryExists(folderLocation))
             {
@@ -209,34 +209,34 @@
             }
             catch (ArgumentNullException exception)
             {
-                logger.Error(exception, nameof(GetFiles));
+                Logger.Error(exception, nameof(GetFiles));
             }
             catch (ArgumentOutOfRangeException exception)
             {
-                logger.Error(exception, nameof(GetFiles));
+                Logger.Error(exception, nameof(GetFiles));
             }
             catch (ArgumentException exception)
             {
-                logger.Error(exception, nameof(GetFiles));
+                Logger.Error(exception, nameof(GetFiles));
             }
             catch (UnauthorizedAccessException exception)
             {
-                logger.Error(exception, nameof(GetFiles));
+                Logger.Error(exception, nameof(GetFiles));
             }
             catch (DirectoryNotFoundException exception)
             {
-                logger.Error(exception, nameof(GetFiles));
+                Logger.Error(exception, nameof(GetFiles));
             }
             catch (PathTooLongException exception)
             {
-                logger.Error(exception, nameof(GetFiles));
+                Logger.Error(exception, nameof(GetFiles));
             }
             catch (IOException exception)
             {
-                logger.Error(exception, nameof(GetFiles));
+                Logger.Error(exception, nameof(GetFiles));
             }
 
-            logger.Info($"Finished {nameof(GetFiles)}");
+            Logger.Info($"Finished {nameof(GetFiles)}");
 
             return files;
         }
@@ -261,7 +261,7 @@
         /// <returns></returns>
         public bool WriteFileContent(string filePath, string fileContents, bool appendContents)
         {
-            logger.Info($"Starting Method: {nameof(WriteFileContent)}");
+            Logger.Info($"Starting Method: {nameof(WriteFileContent)}");
 
             try
             {
@@ -276,12 +276,12 @@
             }
             catch (Exception exception)
             {
-                logger.Error(exception, nameof(WriteFileContent));
+                Logger.Error(exception, nameof(WriteFileContent));
 
                 return false;
             }
 
-            logger.Info($"Finished Method: {nameof(WriteFileContent)}");
+            Logger.Info($"Finished Method: {nameof(WriteFileContent)}");
 
             return true;
         }

@@ -36,9 +36,6 @@
                 throw new ArgumentNullException(nameof(settings));
             }
 
-            
-
-            
             var fullPath = $"{mainFolderLocation}\\{gameName}";
             var fullPathOfMainFile = $"{fullPath}\\{Constants.MainFileName}";
 

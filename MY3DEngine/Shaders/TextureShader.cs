@@ -16,7 +16,7 @@
         private PixelShader pixelShader;
         private VertexShader vertextShader;
         private SamplerState samplerState;
-        
+
         ~TextureShader()
         {
             Dispose(false);
@@ -25,6 +25,7 @@
         /// <inherietdoc/>
         public SharpDX.Direct3D11.Buffer ConstantMatrixBuffer { get; set; }
 
+        /// <inheritdoc/>
         public void Dispose()
         {
             Dispose(true);
@@ -32,6 +33,7 @@
             GC.SuppressFinalize(this);
         }
 
+        /// <inheritdoc/>
         public void Initialize()
         {
             var path = Engine.GameEngine.SettingsManager.Settings.ShaderPath;
@@ -113,6 +115,7 @@
             Engine.GameEngine.GraphicsManager.GetDeviceContext.PixelShader.SetSampler(0, this.samplerState);
         }
 
+        /// <inheritdoc/>
         public bool Render(IEnumerable<BaseObject> gameObjects, Matrix worldMatrix, Matrix viewMatrix, Matrix projectionMatrix)
         {
             if (!SetShaderParameters(worldMatrix, viewMatrix, projectionMatrix))

@@ -62,6 +62,7 @@
                 }
 
                 var tree = CSharpSyntaxTree.ParseText(fileContents);
+
                 //var root = (CompilationUnitSyntax)tree.GetRoot();
                 //var usings = root.Usings;
 

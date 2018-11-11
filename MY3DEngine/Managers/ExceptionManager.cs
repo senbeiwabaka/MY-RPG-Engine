@@ -11,7 +11,7 @@
     public sealed class ExceptionManager : IExceptionManager
     {
         /// <summary>
-        /// List of exceptions that occur
+        /// Gets list of exceptions that occur
         /// </summary>
         public BindingList<ErrorModel> Exceptions { get; } = new BindingList<ErrorModel>();
 

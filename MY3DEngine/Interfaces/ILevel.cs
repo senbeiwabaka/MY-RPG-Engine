@@ -7,7 +7,9 @@
     internal interface ILevel : IDisposable
     {
         IObservable<BaseObject> LevelObjects { get; set; }
+
         LevelType LevelType { get; set; }
+
         string Name { get; set; }
 
         bool LoadLevel(string path);

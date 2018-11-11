@@ -11,6 +11,7 @@
     public sealed class Cube : BaseObject
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="Cube"/> class.
         /// Base constructor for the cube
         /// </summary>
         public Cube() : base(name: "Cube")
@@ -50,6 +51,7 @@
 
             // Instantiate Index Buffer from index data
             this.IndexBuffer = Buffer.Create(Engine.GameEngine.GraphicsManager.GetDevice, BindFlags.IndexBuffer, this.Indices);
+
             // Instantiate Vertex buffer from vertex data
             this.VertexBuffer = Buffer.Create(Engine.GameEngine.GraphicsManager.GetDevice, BindFlags.VertexBuffer, this.Vertexies);
 

@@ -28,6 +28,7 @@
         /// <inherietdoc/>
         public SharpDX.Direct3D11.Buffer ConstantMatrixBuffer { get; set; }
 
+        /// <inheritdoc/>
         public void Dispose()
         {
             this.Dispose(true);
@@ -41,7 +42,7 @@
             var path = Engine.GameEngine.SettingsManager.Settings.ShaderPath;
 
             // Compile Vertex shaders
-            using (var vertexShaderByteCode = ShaderBytecode.CompileFromFile(string.Format("{0}\\Color.vs", path), "ColorVertexShader", "vs_4_0", ShaderFlags.None, EffectFlags.None))
+            using (var vertexShaderByteCode = ShaderBytecode.CompileFromFile($"{path}\\Color.vs", "ColorVertexShader", "vs_4_0", ShaderFlags.None, EffectFlags.None))
             {
                 this.vertextShader = new VertexShader(Engine.GameEngine.GraphicsManager.GetDevice, vertexShaderByteCode);
 

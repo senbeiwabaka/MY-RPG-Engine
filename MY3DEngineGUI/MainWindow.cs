@@ -38,8 +38,6 @@
             useVsyncToolStripMenuItem.Checked = true;
         }
 
-        #region Shutdown/Exit Events
-
         private void ExitToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Close();
@@ -49,10 +47,6 @@
         {
             ShutDown();
         }
-
-        #endregion Shutdown/Exit Events
-
-        #region Camera -- FIX
 
         private void ResetCameraToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -107,10 +101,6 @@
             }
         }
 
-        #endregion Camera -- FIX
-
-        #region Old Event -- FIX
-
         private void AddDirectionalLightToolStripMenuItem_Click(object sender, EventArgs e)
         {
             throw new NotSupportedException();
@@ -135,10 +125,6 @@
         {
             throw new NotSupportedException();
         }
-
-        #endregion Old Event -- FIX
-
-        #region Events
 
         private void BtnColor_Click(object sender, EventArgs e)
         {
@@ -254,10 +240,6 @@
                 }
             }
         }
-
-        #endregion Events
-
-        #region Menu Events
 
         private void AddCubeToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -509,10 +491,6 @@
             UseWaitCursor = false;
         }
 
-        #endregion Menu Events
-
-        #region New/Load Project
-
         private void CreateNewProject_Click(object sender, EventArgs e)
         {
             // create an instance of the new project form
@@ -569,10 +547,6 @@
                 }
             }
         }
-
-        #endregion New/Load Project
-
-        #region Helper Methods
 
         private static void ShutDown()
         {
@@ -749,10 +723,6 @@
             buildGameToolStripMenuItem.Enabled = gameGeneratedSuccessfully;
         }
 
-        #endregion Helper Methods
-
-        #region Context Menu Items
-
         private void SetNameForm_ClosingSetNameForm(object sender, ClosingSetNameEventArgs args)
         {
             if (args != null)
@@ -774,10 +744,6 @@
                 OpenClassBuilder(className);
             }
         }
-
-        #endregion Context Menu Items
-
-        #region File(s) Event(s)
 
         private void FswClassFileWatcher_Created(object sender, FileSystemEventArgs e)
         {
@@ -818,7 +784,5 @@
             var file = toolStripMenuItem.Tag as FileInfo;
             OpenClassBuilder(file.Name, file.DirectoryName);
         }
-
-        #endregion File(s) Event(s)
     }
 }

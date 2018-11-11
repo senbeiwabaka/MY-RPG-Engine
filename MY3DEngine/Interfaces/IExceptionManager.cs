@@ -7,7 +7,7 @@
     public interface IExceptionManager
     {
         /// <summary>
-        /// List of exceptions that occur
+        /// Gets list of exceptions that occur
         /// </summary>
         BindingList<ErrorModel> Exceptions { get; }
 

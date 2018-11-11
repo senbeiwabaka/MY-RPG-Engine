@@ -7,12 +7,12 @@
     public interface IGraphicManager : IDisposable
     {
         /// <summary>
-        /// Get the device
+        /// Gets get the device
         /// </summary>
         Device GetDevice { get; }
 
         /// <summary>
-        /// Get the device context from the device
+        /// Gets get the device context from the device
         /// </summary>
         DeviceContext GetDeviceContext { get; }
 

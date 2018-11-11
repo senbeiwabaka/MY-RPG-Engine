@@ -8,32 +8,32 @@
         }
 
         /// <summary>
-        /// The game name
+        /// Gets or sets the game name
         /// </summary>
         public string GameName { get; set; }
 
         /// <summary>
-        /// The game entry point file
+        /// Gets or sets the game entry point file
         /// </summary>
         public string MainFileName { get; set; }
 
         /// <summary>
-        /// The folder path of <see cref="MainFileName"/>
+        /// Gets or sets the folder path of <see cref="MainFileName"/>
         /// </summary>
         public string MainFileFolderLocation { get; set; }
 
         /// <summary>
-        /// The root of the project
+        /// Gets or sets the root of the project
         /// </summary>
         public string FolderLocation { get; set; }
 
         /// <summary>
-        /// Holds the string contents of the settings file
+        /// Gets or sets holds the string contents of the settings file
         /// </summary>
         public string Settings { get; set; }
 
         /// <summary>
-        /// True if it was able to fine the folder directory, false otherwise
+        /// Gets a value indicating whether true if it was able to fine the folder directory, false otherwise
         /// </summary>
         public bool Successful { get; }
     }

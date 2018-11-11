@@ -28,6 +28,7 @@
             Clock.Start();
         }
 
+        /// <inheritdoc/>
         public void OnResize(float new_width, float new_height)
         {
             //this.ClientWidth = new_width;
@@ -71,6 +72,7 @@
             return false;
         }
 
+        /// <inheritdoc/>
         public void Render()
         {
             // Setup where the camera is looking by default.
