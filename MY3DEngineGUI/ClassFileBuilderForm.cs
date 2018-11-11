@@ -10,7 +10,8 @@
 
     public partial class ClassFileBuilderForm : Form
     {
-        private const int padding = 2;
+        private const int PaddingSize = 2;
+
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         private readonly string fileName;
         private readonly string folder;
@@ -66,7 +67,7 @@
             scintilla1.SetKeywords(0, "abstract as base break case catch checked continue default delegate do else event explicit extern false finally fixed for foreach goto if implicit in interface internal is lock namespace new null object operator out override params private protected public readonly ref return sealed sizeof stackalloc switch this throw true try typeof unchecked unsafe using virtual while");
             scintilla1.SetKeywords(1, "bool byte char class const decimal double enum float int long sbyte short static string struct uint ulong ushort void");
 
-            //scintilla1.AssignCmdKey(Keys.Control | Keys.S, Command.s)
+            scintilla1.ClearCmdKey(Keys.Control | Keys.S);
         }
 
         private void ClassFileBuilderForm_FormClosing(object sender, FormClosingEventArgs e)
@@ -142,7 +143,7 @@
             }
 
             // Calculate the width required to display the last line number and include some padding for good measure.
-            scintilla1.Margins[0].Width = scintilla1.TextWidth(Style.LineNumber, new string('9', maxLineNumberCharLength + 1)) + padding;
+            scintilla1.Margins[0].Width = scintilla1.TextWidth(Style.LineNumber, new string('9', maxLineNumberCharLength + 1)) + PaddingSize;
             baseMaxLineNumberCharLength = maxLineNumberCharLength;
         }
 
@@ -211,17 +212,20 @@
 
         private void ClassFileBuilderForm_KeyPress(object sender, KeyPressEventArgs e)
         {
-            AddToInformationDisplay($"Key Pressed: {e.KeyChar}");
+            AddToInformationDisplay($"Form key Pressed: {e.KeyChar}");
         }
 
         private void Scintilla1_KeyPress(object sender, KeyPressEventArgs e)
         {
-            AddToInformationDisplay($"Key Pressed: {e.KeyChar}");
+            AddToInformationDisplay($"Scintilla key Pressed: {e.KeyChar}");
         }
 
-        private void Scintilla1_SavePointLeft(object sender, EventArgs e)
+        private void ClassFileBuilderForm_KeyDown(object sender, KeyEventArgs e)
         {
-            throw new NotSupportedException();
+            if (e.Control && e.KeyCode == Keys.S)
+            {
+                SaveFile();
+            }
         }
     }
 }

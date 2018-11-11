@@ -535,7 +535,7 @@
                     Controls.RemoveAt(0);
 
                     var directory = new DirectoryInfo(ToolsetGameModelManager.ToolsetGameModel.FolderLocation);
-                    var files = directory.EnumerateFiles("*.cs").ToList();
+                    var files = directory.EnumerateFiles("*.cs", SearchOption.AllDirectories).ToList();
                     tlvGameFiles.Roots = files;
 
                     fswClassFileWatcher.Path = ToolsetGameModelManager.ToolsetGameModel.FolderLocation;

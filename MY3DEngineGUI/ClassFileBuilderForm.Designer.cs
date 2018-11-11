@@ -52,7 +52,6 @@
             this.scintilla1.CharAdded += new System.EventHandler<ScintillaNET.CharAddedEventArgs>(this.Scintilla1_CharAdded);
             this.scintilla1.Delete += new System.EventHandler<ScintillaNET.ModificationEventArgs>(this.Scintilla1_Delete);
             this.scintilla1.Insert += new System.EventHandler<ScintillaNET.ModificationEventArgs>(this.Scintilla1_Insert);
-            this.scintilla1.SavePointLeft += new System.EventHandler<System.EventArgs>(this.Scintilla1_SavePointLeft);
             this.scintilla1.TextChanged += new System.EventHandler(this.Scintilla1_TextChanged);
             this.scintilla1.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Scintilla1_KeyPress);
             // 
@@ -134,11 +133,13 @@
             this.Controls.Add(this.ssTextEditorInformation);
             this.Controls.Add(this.menuStrip1);
             this.Controls.Add(this.scintilla1);
+            this.KeyPreview = true;
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "ClassFileBuilderForm";
             this.ShowIcon = false;
             this.Text = "Class Fie";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ClassFileBuilderForm_FormClosing);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ClassFileBuilderForm_KeyDown);
             this.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.ClassFileBuilderForm_KeyPress);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
