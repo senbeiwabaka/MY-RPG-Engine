@@ -1,12 +1,10 @@
 ﻿namespace MY3DEngine.BuildTools.Tests
 {
     using System;
-    using System.Diagnostics.CodeAnalysis;
     using FakeItEasy;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using MY3DEngine.Utilities.Interfaces;
-
-    [ExcludeFromCodeCoverage]
+    
     [TestClass]
     public class BuildTests
     {
@@ -42,7 +40,7 @@
 
         [TestMethod]
         [TestCategory("Build")]
-        public void BuildGameNoNameArgumentSuppliedTest()
+        public void BuildGame_NoName_ArgumentSupplied_Test()
         {
             var fileIo = A.Fake<IFileIO>();
             A.CallTo(() => fileIo.GetFileContent(string.Empty)).Returns("test");

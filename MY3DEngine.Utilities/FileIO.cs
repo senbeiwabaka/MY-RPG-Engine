@@ -6,7 +6,7 @@
     using MY3DEngine.Utilities.Interfaces;
     using NLog;
 
-    public class FileIO : IFileIO
+    public sealed class FileIO : IFileIO
     {
         public static readonly string GetCurrentDirectory = Environment.CurrentDirectory;
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
