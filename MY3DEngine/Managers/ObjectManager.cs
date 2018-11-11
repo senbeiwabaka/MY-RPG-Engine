@@ -1,12 +1,12 @@
-﻿using MY3DEngine.BaseObjects;
-using MY3DEngine.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-
-namespace MY3DEngine.Managers
+﻿namespace MY3DEngine.Managers
 {
+    using System;
+    using System.Collections.Generic;
+    using System.ComponentModel;
+    using System.Linq;
+    using MY3DEngine.BaseObjects;
+    using MY3DEngine.Interfaces;
+
     /// <inherietdoc/>
     public sealed class ObjectManager : IObjectManager
     {

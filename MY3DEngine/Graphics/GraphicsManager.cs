@@ -1,10 +1,10 @@
-﻿using MY3DEngine.Interfaces;
-using MY3DEngine.Managers;
-using SharpDX.Direct3D11;
-using System;
-
-namespace MY3DEngine.Graphics
+﻿namespace MY3DEngine.Graphics
 {
+    using System;
+    using MY3DEngine.Interfaces;
+    using MY3DEngine.Managers;
+    using SharpDX.Direct3D11;
+
     internal sealed class GraphicsManager : IGraphicManager
     {
         public Device GetDevice => GetDirectXManager?.GetDevice;

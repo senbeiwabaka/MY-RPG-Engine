@@ -1,11 +1,11 @@
-﻿using MY3DEngine.Logging;
-using MY3DEngine.Utilities.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Reflection;
-
-namespace MY3DEngine.Utilities
+﻿namespace MY3DEngine.Utilities
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Reflection;
+    using MY3DEngine.Logging;
+    using MY3DEngine.Utilities.Interfaces;
+
     public static class AssemblyHelper
     {
         /// <summary>

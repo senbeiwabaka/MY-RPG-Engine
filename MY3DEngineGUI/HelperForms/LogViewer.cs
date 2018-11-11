@@ -1,8 +1,8 @@
-﻿using MY3DEngine.Utilities;
-using System.Windows.Forms;
-
-namespace MY3DEngine.GUI.HelperForms
+﻿namespace MY3DEngine.GUI.HelperForms
 {
+    using System.Windows.Forms;
+    using MY3DEngine.Utilities;
+
     public partial class LogViewer : Form
     {
         public LogViewer(string file) : this()

@@ -1,11 +1,11 @@
-﻿using FakeItEasy;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using MY3DEngine.Utilities.Interfaces;
-using System;
-using System.Diagnostics.CodeAnalysis;
-
-namespace MY3DEngine.BuildTools.Tests
+﻿namespace MY3DEngine.BuildTools.Tests
 {
+    using System;
+    using System.Diagnostics.CodeAnalysis;
+    using FakeItEasy;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using MY3DEngine.Utilities.Interfaces;
+
     [ExcludeFromCodeCoverage]
     [TestClass]
     public class BuildTests

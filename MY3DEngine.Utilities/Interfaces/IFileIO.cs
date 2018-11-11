@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
-
-namespace MY3DEngine.Utilities.Interfaces
+﻿namespace MY3DEngine.Utilities.Interfaces
 {
+    using System.Collections.Generic;
+
     public interface IFileIO
     {
         /// <summary>

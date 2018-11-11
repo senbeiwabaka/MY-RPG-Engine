@@ -1,9 +1,9 @@
-﻿using NLog;
-using System;
-using System.Diagnostics.CodeAnalysis;
-
-namespace MY3DEngine.Logging
+﻿namespace MY3DEngine.Logging
 {
+    using System;
+    using System.Diagnostics.CodeAnalysis;
+    using NLog;
+
     [ExcludeFromCodeCoverage]
     public static class StaticLogger
     {

@@ -1,14 +1,14 @@
-﻿using MY3DEngine.GraphicObjects;
-using MY3DEngine.Interfaces;
-using Newtonsoft.Json;
-using SharpDX;
-using SharpDX.Direct3D11;
-using System;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
-
-namespace MY3DEngine.BaseObjects
+﻿namespace MY3DEngine.BaseObjects
 {
+    using System;
+    using System.ComponentModel;
+    using System.Runtime.CompilerServices;
+    using MY3DEngine.GraphicObjects;
+    using MY3DEngine.Interfaces;
+    using Newtonsoft.Json;
+    using SharpDX;
+    using SharpDX.Direct3D11;
+
     /// <inheritdoc/>
     public abstract class BaseObject : IGameObject, INotifyPropertyChanged
     {

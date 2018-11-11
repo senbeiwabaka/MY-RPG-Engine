@@ -1,7 +1,7 @@
-﻿using System.Windows.Forms;
-
-namespace MY3DEngine.GUI
+﻿namespace MY3DEngine.GUI
 {
+    using System.Windows.Forms;
+
     public partial class ExceptionValueDisplayForm : Form
     {
         public ExceptionValueDisplayForm()

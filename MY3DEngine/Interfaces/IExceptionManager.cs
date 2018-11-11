@@ -1,9 +1,9 @@
-﻿using MY3DEngine.Models;
-using System;
-using System.ComponentModel;
-
-namespace MY3DEngine.Interfaces
+﻿namespace MY3DEngine.Interfaces
 {
+    using System;
+    using System.ComponentModel;
+    using MY3DEngine.Models;
+
     public interface IExceptionManager
     {
         /// <summary>

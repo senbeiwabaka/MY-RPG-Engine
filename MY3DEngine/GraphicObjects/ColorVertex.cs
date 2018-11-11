@@ -1,8 +1,8 @@
-﻿using SharpDX;
-using System.Runtime.InteropServices;
-
-namespace MY3DEngine.GraphicObjects
+﻿namespace MY3DEngine.GraphicObjects
 {
+    using System.Runtime.InteropServices;
+    using SharpDX;
+
     /// <summary>
     /// The Color Vertex for graphics
     /// </summary>

@@ -1,8 +1,8 @@
-﻿using SharpDX;
-using System.Runtime.InteropServices;
-
-namespace MY3DEngine.Models
+﻿namespace MY3DEngine.Models
 {
+    using System.Runtime.InteropServices;
+    using SharpDX;
+
     [StructLayout(LayoutKind.Sequential)]
     public struct MatrixBuffer
     {

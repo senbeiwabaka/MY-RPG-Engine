@@ -1,8 +1,8 @@
-﻿using NLog;
-using System;
-
-namespace MY3DEngine.Logging
+﻿namespace MY3DEngine.Logging
 {
+    using System;
+    using NLog;
+
     public abstract class BaseLogging
     {
         private readonly Logger logger = LogManager.GetCurrentClassLogger();

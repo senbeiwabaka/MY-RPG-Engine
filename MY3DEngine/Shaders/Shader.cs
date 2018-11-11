@@ -1,14 +1,14 @@
-﻿using MY3DEngine.BaseObjects;
-using MY3DEngine.Interfaces;
-using MY3DEngine.Models;
-using SharpDX;
-using SharpDX.D3DCompiler;
-using SharpDX.Direct3D11;
-using System;
-using System.Collections.Generic;
-
-namespace MY3DEngine.Shaders
+﻿namespace MY3DEngine.Shaders
 {
+    using System;
+    using System.Collections.Generic;
+    using MY3DEngine.BaseObjects;
+    using MY3DEngine.Interfaces;
+    using MY3DEngine.Models;
+    using SharpDX;
+    using SharpDX.D3DCompiler;
+    using SharpDX.Direct3D11;
+
     /// <inherietdoc/>
     internal class Shader : IShader
     {

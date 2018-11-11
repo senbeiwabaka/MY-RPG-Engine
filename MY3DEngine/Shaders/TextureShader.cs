@@ -1,15 +1,15 @@
-﻿using MY3DEngine.BaseObjects;
-using MY3DEngine.Interfaces;
-using MY3DEngine.Models;
-using SharpDX;
-using SharpDX.D3DCompiler;
-using SharpDX.Direct3D11;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-
-namespace MY3DEngine.Shaders
+﻿namespace MY3DEngine.Shaders
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using MY3DEngine.BaseObjects;
+    using MY3DEngine.Interfaces;
+    using MY3DEngine.Models;
+    using SharpDX;
+    using SharpDX.D3DCompiler;
+    using SharpDX.Direct3D11;
+
     internal class TextureShader : IShader
     {
         private InputLayout inputLayout;

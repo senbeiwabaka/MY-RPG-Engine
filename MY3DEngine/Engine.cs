@@ -1,14 +1,14 @@
-﻿using MY3DEngine.Cameras;
-using MY3DEngine.Graphics;
-using MY3DEngine.Interfaces;
-using MY3DEngine.Managers;
-using MY3DEngine.Shaders;
-using NLog;
-using System;
-using System.Threading;
-
-namespace MY3DEngine
+﻿namespace MY3DEngine
 {
+    using System;
+    using System.Threading;
+    using MY3DEngine.Cameras;
+    using MY3DEngine.Graphics;
+    using MY3DEngine.Interfaces;
+    using MY3DEngine.Managers;
+    using MY3DEngine.Shaders;
+    using NLog;
+
     /// <summary>
     /// The main entry point for the engine
     /// </summary>

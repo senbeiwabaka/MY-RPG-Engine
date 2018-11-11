@@ -1,10 +1,10 @@
-﻿using MY3DEngine.BaseObjects;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-
-namespace MY3DEngine.Interfaces
+﻿namespace MY3DEngine.Interfaces
 {
+    using System;
+    using System.Collections.Generic;
+    using System.ComponentModel;
+    using MY3DEngine.BaseObjects;
+
     /// <summary>
     /// Manages the list of objects
     /// </summary>

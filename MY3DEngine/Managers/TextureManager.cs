@@ -1,10 +1,10 @@
-﻿using NLog;
-using SharpDX.Direct3D11;
-using SharpDX.WIC;
-using System;
-
-namespace MY3DEngine.Managers
+﻿namespace MY3DEngine.Managers
 {
+    using System;
+    using NLog;
+    using SharpDX.Direct3D11;
+    using SharpDX.WIC;
+
     public static class TextureManager
     {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();

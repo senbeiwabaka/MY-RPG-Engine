@@ -1,13 +1,13 @@
-﻿using MY3DEngine.BuildTools;
-using NLog;
-using ScintillaNET;
-using System;
-using System.Drawing;
-using System.IO;
-using System.Windows.Forms;
-
-namespace MY3DEngine.GUI
+﻿namespace MY3DEngine.GUI
 {
+    using System;
+    using System.Drawing;
+    using System.IO;
+    using System.Windows.Forms;
+    using MY3DEngine.BuildTools;
+    using NLog;
+    using ScintillaNET;
+
     public partial class ClassFileBuilderForm : Form
     {
         private const int padding = 2;

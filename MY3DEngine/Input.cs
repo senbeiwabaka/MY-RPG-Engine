@@ -1,11 +1,11 @@
-﻿using MY3DEngine.Models;
-using SharpDX.Multimedia;
-using SharpDX.RawInput;
-using System;
-using System.Drawing;
-
-namespace MY3DEngine
+﻿namespace MY3DEngine
 {
+    using System;
+    using System.Drawing;
+    using MY3DEngine.Models;
+    using SharpDX.Multimedia;
+    using SharpDX.RawInput;
+
     internal class Input : IDisposable
     {
         public Input()

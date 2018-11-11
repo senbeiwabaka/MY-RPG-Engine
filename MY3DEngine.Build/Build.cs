@@ -1,16 +1,16 @@
-﻿using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.CSharp;
-using MY3DEngine.BuildTools.Properties;
-using MY3DEngine.Logging;
-using MY3DEngine.Utilities;
-using MY3DEngine.Utilities.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-
-namespace MY3DEngine.BuildTools
+﻿namespace MY3DEngine.BuildTools
 {
+    using System;
+    using System.Collections.Generic;
+    using System.IO;
+    using System.Linq;
+    using Microsoft.CodeAnalysis;
+    using Microsoft.CodeAnalysis.CSharp;
+    using MY3DEngine.BuildTools.Properties;
+    using MY3DEngine.Logging;
+    using MY3DEngine.Utilities;
+    using MY3DEngine.Utilities.Interfaces;
+
     // TODO - REFACTOR/FIX
     public static class Build
     {

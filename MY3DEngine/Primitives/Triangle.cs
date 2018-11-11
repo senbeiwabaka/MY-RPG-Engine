@@ -1,10 +1,10 @@
-﻿using MY3DEngine.BaseObjects;
-using MY3DEngine.GraphicObjects;
-using SharpDX;
-using SharpDX.Direct3D11;
-
-namespace MY3DEngine.Primitives
+﻿namespace MY3DEngine.Primitives
 {
+    using MY3DEngine.BaseObjects;
+    using MY3DEngine.GraphicObjects;
+    using SharpDX;
+    using SharpDX.Direct3D11;
+
     /// <summary>
     /// Basic game triangle object
     /// </summary>

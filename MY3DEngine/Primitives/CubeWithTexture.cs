@@ -1,10 +1,10 @@
-﻿using MY3DEngine.BaseObjects;
-using MY3DEngine.GraphicObjects;
-using SharpDX.Direct3D11;
-using System;
-
-namespace MY3DEngine.Primitives
+﻿namespace MY3DEngine.Primitives
 {
+    using System;
+    using MY3DEngine.BaseObjects;
+    using MY3DEngine.GraphicObjects;
+    using SharpDX.Direct3D11;
+
     /// <summary>
     /// Holds properties and methods of a cube with texture
     /// </summary>

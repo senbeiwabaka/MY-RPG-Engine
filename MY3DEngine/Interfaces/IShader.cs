@@ -1,10 +1,10 @@
-﻿using MY3DEngine.BaseObjects;
-using SharpDX;
-using System;
-using System.Collections.Generic;
-
-namespace MY3DEngine.Interfaces
+﻿namespace MY3DEngine.Interfaces
 {
+    using System;
+    using System.Collections.Generic;
+    using MY3DEngine.BaseObjects;
+    using SharpDX;
+
     /// <summary>
     /// Interface for using shaders in the engine
     /// </summary>

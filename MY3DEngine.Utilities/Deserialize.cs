@@ -1,10 +1,10 @@
-﻿using MY3DEngine.Utilities.Interfaces;
-using Newtonsoft.Json;
-using NLog;
-using System;
-
-namespace MY3DEngine.Utilities
+﻿namespace MY3DEngine.Utilities
 {
+    using System;
+    using MY3DEngine.Utilities.Interfaces;
+    using Newtonsoft.Json;
+    using NLog;
+
     public static class Deserialize
     {
         private static readonly Logger logger = LogManager.GetCurrentClassLogger();

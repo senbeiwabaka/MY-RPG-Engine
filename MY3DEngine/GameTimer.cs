@@ -1,8 +1,8 @@
-﻿using MY3DEngine.Interfaces;
-using System.Diagnostics;
-
-namespace MY3DEngine
+﻿namespace MY3DEngine
 {
+    using System.Diagnostics;
+    using MY3DEngine.Interfaces;
+
     /// <inheritdoc/>
     public sealed class GameTimer : IGameTimer
     {

@@ -1,14 +1,14 @@
-﻿using MY3DEngine.BuildTools.Models;
-using MY3DEngine.Logging;
-using MY3DEngine.Utilities.Interfaces;
-using Newtonsoft.Json;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-
-namespace MY3DEngine.BuildTools
+﻿namespace MY3DEngine.BuildTools
 {
+    using System;
+    using System.Collections;
+    using System.Collections.Generic;
+    using System.Linq;
+    using MY3DEngine.BuildTools.Models;
+    using MY3DEngine.Logging;
+    using MY3DEngine.Utilities.Interfaces;
+    using Newtonsoft.Json;
+
     public static class GameEngineLoad
     {
         // TODO: UPDATE

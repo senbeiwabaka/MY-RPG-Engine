@@ -1,7 +1,7 @@
-﻿using SharpDX;
-
-namespace MY3DEngine.Interfaces
+﻿namespace MY3DEngine.Interfaces
 {
+    using SharpDX;
+
     /// <summary>
     /// Interface to build camera to see the world
     /// </summary>

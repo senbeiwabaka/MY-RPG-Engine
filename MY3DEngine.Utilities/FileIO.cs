@@ -1,11 +1,11 @@
-﻿using MY3DEngine.Utilities.Interfaces;
-using NLog;
-using System;
-using System.Collections.Generic;
-using System.IO;
-
-namespace MY3DEngine.Utilities
+﻿namespace MY3DEngine.Utilities
 {
+    using System;
+    using System.Collections.Generic;
+    using System.IO;
+    using MY3DEngine.Utilities.Interfaces;
+    using NLog;
+
     public class FileIO : IFileIO
     {
         public static readonly string GetCurrentDirectory = Environment.CurrentDirectory;

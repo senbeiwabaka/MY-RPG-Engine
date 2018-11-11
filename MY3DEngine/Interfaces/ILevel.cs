@@ -1,9 +1,9 @@
-﻿using MY3DEngine.BaseObjects;
-using MY3DEngine.Enums;
-using System;
-
-namespace MY3DEngine.Interfaces
+﻿namespace MY3DEngine.Interfaces
 {
+    using System;
+    using MY3DEngine.BaseObjects;
+    using MY3DEngine.Enums;
+
     internal interface ILevel : IDisposable
     {
         IObservable<BaseObject> LevelObjects { get; set; }

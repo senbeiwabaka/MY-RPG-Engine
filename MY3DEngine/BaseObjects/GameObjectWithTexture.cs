@@ -1,9 +1,9 @@
-﻿using MY3DEngine.GraphicObjects;
-using MY3DEngine.Interfaces;
-using SharpDX.Direct3D11;
-
-namespace MY3DEngine.BaseObjects
+﻿namespace MY3DEngine.BaseObjects
 {
+    using MY3DEngine.GraphicObjects;
+    using MY3DEngine.Interfaces;
+    using SharpDX.Direct3D11;
+
     /// <inheritdoc/>
     public abstract class GameObjectWithTexture : BaseObject, IGameObjectWithTexture
     {

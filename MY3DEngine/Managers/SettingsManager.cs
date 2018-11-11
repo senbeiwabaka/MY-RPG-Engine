@@ -1,11 +1,11 @@
-﻿using MY3DEngine.Logging;
-using MY3DEngine.Models;
-using MY3DEngine.Utilities;
-using MY3DEngine.Utilities.Interfaces;
-using System;
-
-namespace MY3DEngine.Managers
+﻿namespace MY3DEngine.Managers
 {
+    using System;
+    using MY3DEngine.Logging;
+    using MY3DEngine.Models;
+    using MY3DEngine.Utilities;
+    using MY3DEngine.Utilities.Interfaces;
+
     /// <summary>
     /// Manages the games settings
     /// </summary>

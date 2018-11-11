@@ -1,10 +1,10 @@
-﻿using NLog;
-using System;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-
-namespace MY3DEngine.GUI
+﻿namespace MY3DEngine.GUI
 {
+    using System;
+    using System.Threading.Tasks;
+    using System.Windows.Forms;
+    using NLog;
+
     internal static class Program
     {
         private static readonly Logger logger = LogManager.GetCurrentClassLogger();

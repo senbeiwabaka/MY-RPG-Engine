@@ -1,8 +1,8 @@
-﻿using MY3DEngine.GraphicObjects;
-using SharpDX.Direct3D11;
-
-namespace MY3DEngine.Interfaces
+﻿namespace MY3DEngine.Interfaces
 {
+    using MY3DEngine.GraphicObjects;
+    using SharpDX.Direct3D11;
+
     public interface IGameObjectWithTexture
     {
         /// <summary>

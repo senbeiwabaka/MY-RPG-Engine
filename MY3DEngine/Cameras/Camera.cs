@@ -1,9 +1,9 @@
-﻿using MY3DEngine.Interfaces;
-using SharpDX;
-using System.Diagnostics;
-
-namespace MY3DEngine.Cameras
+﻿namespace MY3DEngine.Cameras
 {
+    using System.Diagnostics;
+    using MY3DEngine.Interfaces;
+    using SharpDX;
+
     /// <inherietdoc/>
     public class Camera : ICamera
     {
