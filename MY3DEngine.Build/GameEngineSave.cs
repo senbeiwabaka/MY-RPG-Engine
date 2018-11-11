@@ -15,10 +15,19 @@
         /// </summary>
         /// <param name="mainFolderLocation">The location for the new game files</param>
         /// <param name="gameName">The name of the game for the INI file</param>
+        /// <param name="width"></param>
+        /// <param name="height"></param>
         /// <param name="settings"></param>
+        /// <param name="fileIo"></param>
         /// <returns></returns>
         /// <exception cref="ArgumentNullException"></exception>
-        public static ToolsetGameModel CreateNewProject(string mainFolderLocation, string gameName, int width, int height, object settings, IFileIO fileIo)
+        public static ToolsetGameModel CreateNewProject(
+            string mainFolderLocation,
+            string gameName,
+            int width,
+            int height,
+            object settings,
+            IFileIO fileIo)
         {
             StaticLogger.Info($"Starting {nameof(GameEngineSave)}.{nameof(CreateNewProject)}");
 
@@ -73,24 +82,28 @@
                     fileIo.CreateDirectory($"{fullPath}\\Assets\\Shaders");
                 }
 
-                if(!fileIo.FileExists($"{fullPath}\\Assets\\Shaders\\Color.ps"))
+                if (!fileIo.FileExists($"{fullPath}\\Assets\\Shaders\\Color.ps"))
                 {
-                    fileIo.WriteFileContent($"{fullPath}\\Assets\\Shaders\\Color.ps", "", false);
+                    var contents = fileIo.GetFileContent($"{Environment.CurrentDirectory}\\Assets\\Shaders\\Color.ps");
+                    fileIo.WriteFileContent($"{fullPath}\\Assets\\Shaders\\Color.ps", contents, false);
                 }
 
                 if (!fileIo.FileExists($"{fullPath}\\Assets\\Shaders\\Color.vs"))
                 {
-                    fileIo.WriteFileContent($"{fullPath}\\Assets\\Shaders\\Color.vs", "", false);
+                    var contents = fileIo.GetFileContent($"{Environment.CurrentDirectory}\\Assets\\Shaders\\Color.vs");
+                    fileIo.WriteFileContent($"{fullPath}\\Assets\\Shaders\\Color.vs", contents, false);
                 }
 
                 if (!fileIo.FileExists($"{fullPath}\\Assets\\Shaders\\texture.ps"))
                 {
-                    fileIo.WriteFileContent($"{fullPath}\\Assets\\Shaders\\texture.ps", "", false);
+                    var contents = fileIo.GetFileContent($"{Environment.CurrentDirectory}\\Assets\\Shaders\\texture.ps");
+                    fileIo.WriteFileContent($"{fullPath}\\Assets\\Shaders\\texture.ps", contents, false);
                 }
 
                 if (!fileIo.FileExists($"{fullPath}\\Assets\\Shaders\\texture.vs"))
                 {
-                    fileIo.WriteFileContent($"{fullPath}\\Assets\\Shaders\\texture.vs", "", false);
+                    var contents = fileIo.GetFileContent($"{Environment.CurrentDirectory}\\Assets\\Shaders\\texture.vs");
+                    fileIo.WriteFileContent($"{fullPath}\\Assets\\Shaders\\texture.vs", contents, false);
                 }
             }
             catch (ArgumentNullException ex)

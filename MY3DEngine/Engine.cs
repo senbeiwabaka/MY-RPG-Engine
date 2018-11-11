@@ -18,6 +18,11 @@
         private Thread renderThread;
         private IShader shader;
 
+        public Engine()
+        {
+            SettingsManager = new SettingsManager();
+        }
+
         ~Engine()
         {
             Dispose(false);
@@ -26,7 +31,7 @@
         /// <summary>
         ///Gets game engine instance
         /// </summary>
-        public static Engine GameEngine => new Engine();
+        public static readonly Engine GameEngine = new Engine();
 
         /// <summary>
         /// Gets the world camera
@@ -58,7 +63,7 @@
         /// <summary>
         /// Gets this manages the games settings
         /// </summary>
-        public SettingsManager SettingsManager { get; } = new SettingsManager();
+        public SettingsManager SettingsManager { get; }
 
         /// <summary>
         /// Gets this is the memory pointer to the window where the engine is rendering its contents

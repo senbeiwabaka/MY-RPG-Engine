@@ -3,7 +3,7 @@
     /// <summary>
     /// Settings for the running game
     /// </summary>
-    public struct SettingsModel
+    public sealed class SettingsModel
     {
         /// <summary>
         /// Gets or sets the location of the assets folder
@@ -42,7 +42,7 @@
         /// Gets or sets screen width
         /// </summary>
         public int Width { get; set; }
-
+        
         /// <inheritdoc/>
         public override string ToString()
         {

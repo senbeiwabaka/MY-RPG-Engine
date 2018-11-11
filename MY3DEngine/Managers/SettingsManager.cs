@@ -22,89 +22,92 @@
         private bool isLoaded;
 
         /// <summary>
-        /// Gets holds the games settings
+        /// Gets the games settings
         /// </summary>
-        public SettingsModel Settings { get; private set; }
+        public SettingsModel Settings { get; private set; } = new SettingsModel();
 
         /// <summary>
         /// Initialize the settings for the game engine
         /// </summary>
+        /// <param name="mainFolderLocation"></param>
+        /// <param name="gameName"></param>
+        /// <param name="settings"></param>
+        /// <param name="fileIo"></param>
         /// <returns></returns>
         /// <exception cref="ArgumentNullException"></exception>
         public bool Initialize(string mainFolderLocation, string gameName, string settings, IFileIO fileIo)
         {
-            StaticLogger.Info($"Starting {nameof(SettingsManager)}.{nameof(Initialize)}");
+            StaticLogger.Info($"Starting {nameof(SettingsManager)}.{nameof(this.Initialize)}");
 
-            if (isLoaded)
+            if (!this.isLoaded)
             {
-                return isLoaded;
-            }
+                SettingsModel model;
 
-            if (string.IsNullOrWhiteSpace(mainFolderLocation))
-            {
-                StaticLogger.Exception($"Starting {nameof(SettingsManager)}.{nameof(Initialize)}", new ArgumentNullException(nameof(mainFolderLocation)));
-
-                throw new ArgumentNullException(nameof(mainFolderLocation));
-            }
-
-            SettingsModel settingsModel;
-            string fullPath = $"{mainFolderLocation}{DefaultIniFileName}";
-
-            // The settings parameter has data so just parse it
-            if (!string.IsNullOrWhiteSpace(settings))
-            {
-                settingsModel = Deserialize.DeserializeStringAsT<SettingsModel>(settings);
-            }
-
-            // The settings parameter doesn't have data so we need to build the location then parse
-            // the data
-            else
-            {
-                if (!fileIo.FileExists(fullPath))
+                if (string.IsNullOrWhiteSpace(mainFolderLocation))
                 {
-                    return (isLoaded = false);
+                    StaticLogger.Exception($"Starting {nameof(SettingsManager)}.{nameof(this.Initialize)}", new ArgumentNullException(nameof(mainFolderLocation)));
+
+                    throw new ArgumentNullException(nameof(mainFolderLocation));
                 }
 
-                settingsModel = Deserialize.DeserializeFileAsT<SettingsModel>(fullPath, new FileIO());
+                string fullPath = $"{mainFolderLocation}{DefaultIniFileName}";
+
+                // The settings parameter has data so just parse it
+                if (!string.IsNullOrWhiteSpace(settings))
+                {
+                    model = Deserialize.DeserializeStringAsT<SettingsModel>(settings);
+                }
+
+                // The settings parameter doesn't have data so we need to build the location then parse the data
+                else
+                {
+                    if (!fileIo.FileExists(fullPath))
+                    {
+                        // TODO: FIX
+                        return this.isLoaded = false;
+                    }
+
+                    model = Deserialize.DeserializeFileAsT<SettingsModel>(fullPath, new FileIO());
+                }
+
+                if (string.IsNullOrWhiteSpace(model.MainFolderLocation))
+                {
+                    model.MainFolderLocation = mainFolderLocation;
+                }
+
+                if (string.IsNullOrWhiteSpace(model.ShaderPath))
+                {
+                    model.ShaderPath = $"{model.MainFolderLocation}{DefaultShaderPath}";
+                }
+
+                if (string.IsNullOrWhiteSpace(model.AssetsPath))
+                {
+                    model.AssetsPath = $"{model.MainFolderLocation}{DefaultAssetsPath}";
+                }
+
+                if (string.IsNullOrWhiteSpace(model.LevelsPath))
+                {
+                    model.LevelsPath = $"{model.MainFolderLocation}{DefaultLevelsPath}";
+                }
+
+                if (string.IsNullOrWhiteSpace(model.SettingsFileName))
+                {
+                    model.SettingsFileName = $"{DefaultIniFileName}";
+                }
+
+                if (string.IsNullOrWhiteSpace(model.GameName))
+                {
+                    model.SettingsFileName = gameName;
+                }
+
+                this.Settings = model;
+
+                StaticLogger.Debug($"Settings: {model}");
+
+                StaticLogger.Info($"Finished {nameof(SettingsManager)}.{nameof(this.Initialize)}");
             }
 
-            if (string.IsNullOrWhiteSpace(settingsModel.MainFolderLocation))
-            {
-                settingsModel.MainFolderLocation = mainFolderLocation;
-            }
-
-            if (string.IsNullOrWhiteSpace(settingsModel.ShaderPath))
-            {
-                settingsModel.ShaderPath = $"{settingsModel.MainFolderLocation}{DefaultShaderPath}";
-            }
-
-            if (string.IsNullOrWhiteSpace(settingsModel.AssetsPath))
-            {
-                settingsModel.AssetsPath = $"{settingsModel.MainFolderLocation}{DefaultAssetsPath}";
-            }
-
-            if (string.IsNullOrWhiteSpace(settingsModel.LevelsPath))
-            {
-                settingsModel.LevelsPath = $"{settingsModel.MainFolderLocation}{DefaultLevelsPath}";
-            }
-
-            if (string.IsNullOrWhiteSpace(settingsModel.SettingsFileName))
-            {
-                settingsModel.SettingsFileName = $"{DefaultIniFileName}";
-            }
-
-            if (string.IsNullOrWhiteSpace(settingsModel.GameName))
-            {
-                settingsModel.SettingsFileName = gameName;
-            }
-
-            Settings = settingsModel;
-
-            StaticLogger.Debug($"Settings: {Settings}");
-
-            StaticLogger.Info($"Finished {nameof(SettingsManager)}.{nameof(Initialize)}");
-
-            return isLoaded = true;
+            return this.isLoaded = true;
         }
     }
 }

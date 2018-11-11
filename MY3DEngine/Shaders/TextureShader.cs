@@ -39,7 +39,7 @@
             var path = Engine.GameEngine.SettingsManager.Settings.ShaderPath;
 
             // Compile Vertex shaders
-            using (var vertexShaderByteCode = ShaderBytecode.CompileFromFile(string.Format("{0}\\texture.vs", path), "TextureVertexShader", "vs_5_0", ShaderFlags.EnableStrictness, EffectFlags.None))
+            using (var vertexShaderByteCode = ShaderBytecode.CompileFromFile($"{path}\\texture.vs", "TextureVertexShader", "vs_5_0", ShaderFlags.EnableStrictness, EffectFlags.None))
             {
                 this.vertextShader = new VertexShader(Engine.GameEngine.GraphicsManager.GetDevice, vertexShaderByteCode);
 
@@ -72,7 +72,7 @@
             }
 
             // Compile Pixel shaders
-            using (var pixelShaderByteCode = ShaderBytecode.CompileFromFile(string.Format("{0}\\texture.ps", path), "TexturePixelShader", "ps_5_0", ShaderFlags.EnableStrictness, EffectFlags.None))
+            using (var pixelShaderByteCode = ShaderBytecode.CompileFromFile($"{path}\\texture.ps", "TexturePixelShader", "ps_5_0", ShaderFlags.EnableStrictness, EffectFlags.None))
             {
                 this.pixelShader = new PixelShader(Engine.GameEngine.GraphicsManager.GetDevice, pixelShaderByteCode);
             }
@@ -146,7 +146,7 @@
             return true;
         }
 
-        protected virtual void Dispose(bool disposing)
+        protected void Dispose(bool disposing)
         {
             if (disposing)
             {

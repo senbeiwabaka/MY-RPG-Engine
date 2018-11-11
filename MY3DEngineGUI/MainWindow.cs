@@ -13,6 +13,7 @@
     using MY3DEngine.GUI.HelperForms;
     using MY3DEngine.GUI.Utilities;
     using MY3DEngine.Logging;
+    using MY3DEngine.Managers;
     using MY3DEngine.Models;
     using MY3DEngine.Primitives;
     using MY3DEngine.Utilities;
@@ -494,56 +495,58 @@
         private void CreateNewProject_Click(object sender, EventArgs e)
         {
             // create an instance of the new project form
-            var createNewProjectForm = new CreateNewProjectForm();
-            var result = createNewProjectForm.ShowDialog(); // display the form
-
-            // if they have hit okay or yes then we can create the new project
-            if (result == DialogResult.OK || result == DialogResult.Yes)
+            using (var createNewProjectForm = new CreateNewProjectForm())
             {
-                // this removes the load/create project cover
-                Controls.RemoveAt(0);
+                var result = createNewProjectForm.ShowDialog(); // display the form
 
-                // get the directory where they created the new project at
-                var directory = new DirectoryInfo(ToolsetGameModelManager.ToolsetGameModel.FolderLocation);
-                var files = directory.EnumerateFiles("*.cs").ToList(); // currently get a list of the c# files
+                // if they have hit okay or yes then we can create the new project
+                if (result == DialogResult.OK || result == DialogResult.Yes)
+                {
+                    // this removes the load/create project cover
+                    Controls.RemoveAt(0);
 
-                // add them to the tree view
-                tlvGameFiles.Roots = files;
+                    // get the directory where they created the new project at
+                    var directory = new DirectoryInfo(ToolsetGameModelManager.ToolsetGameModel.FolderLocation);
+                    var files = directory.EnumerateFiles("*.cs").ToList(); // currently get a list of the c# files
 
-                // add the new project folder location to the watch path for when new files are
-                // created outside of the toolkit so they show up
-                fswClassFileWatcher.Path = ToolsetGameModelManager.ToolsetGameModel.FolderLocation;
+                    // add them to the tree view
+                    tlvGameFiles.Roots = files;
 
-                // load the game engine into the window
-                LoadGameEngine();
-                UpdateGenerateMenuClickUsability();
+                    // add the new project folder location to the watch path for when new files are
+                    // created outside of the toolkit so they show up
+                    fswClassFileWatcher.Path = ToolsetGameModelManager.ToolsetGameModel.FolderLocation;
+
+                    // load the game engine into the window
+                    LoadGameEngine();
+                    UpdateGenerateMenuClickUsability();
+                }
             }
-
-            createNewProjectForm.Dispose();
         }
 
         // TODO -- FINISH
         private void LoadExistingProject_Click(object sender, EventArgs e)
         {
-            var selectFolderForm = new SelectFolderForm();
-            var result = selectFolderForm.ShowDialog();
-
-            if (result == DialogResult.OK || result == DialogResult.Yes)
+            using (var selectFolderForm = new SelectFolderForm())
             {
-                Controls.RemoveAt(0);
+                var result = selectFolderForm.ShowDialog();
 
-                var directory = new DirectoryInfo(ToolsetGameModelManager.ToolsetGameModel.FolderLocation);
-                var files = directory.EnumerateFiles("*.cs").ToList();
-                tlvGameFiles.Roots = files;
-
-                fswClassFileWatcher.Path = ToolsetGameModelManager.ToolsetGameModel.FolderLocation;
-
-                LoadGameEngine();
-                UpdateGenerateMenuClickUsability();
-
-                if (directory.EnumerateFiles("*.exe", SearchOption.AllDirectories).Any())
+                if (result == DialogResult.OK || result == DialogResult.Yes)
                 {
-                    buildGameToolStripMenuItem.Enabled = playGameToolStripMenuItem.Enabled = true;
+                    Controls.RemoveAt(0);
+
+                    var directory = new DirectoryInfo(ToolsetGameModelManager.ToolsetGameModel.FolderLocation);
+                    var files = directory.EnumerateFiles("*.cs").ToList();
+                    tlvGameFiles.Roots = files;
+
+                    fswClassFileWatcher.Path = ToolsetGameModelManager.ToolsetGameModel.FolderLocation;
+
+                    LoadGameEngine();
+                    UpdateGenerateMenuClickUsability();
+
+                    if (directory.EnumerateFiles("*.exe", SearchOption.AllDirectories).Any())
+                    {
+                        buildGameToolStripMenuItem.Enabled = playGameToolStripMenuItem.Enabled = true;
+                    }
                 }
             }
         }
@@ -595,13 +598,21 @@
         /// </summary>
         private void LoadGameEngine()
         {
-            Engine.GameEngine.SettingsManager.Initialize(
+            if(! Engine.GameEngine.SettingsManager.Initialize(
                 ToolsetGameModelManager.ToolsetGameModel.FolderLocation,
                 ToolsetGameModelManager.ToolsetGameModel.GameName,
                 ToolsetGameModelManager.ToolsetGameModel.Settings,
-                new FileIO());
+                new FileIO()))
+            {
+                AddToInformationDisplay("Settings did not initialize correctly.");
+                Logger.Error("Settings did not initialize correctly.");
+            }
 
-            GameEngineSave.SaveSettings(Engine.GameEngine.SettingsManager.Settings.MainFolderLocation, Engine.GameEngine.SettingsManager.Settings.SettingsFileName, Engine.GameEngine.SettingsManager.Settings, new FileIO());
+            GameEngineSave.SaveSettings(
+                Engine.GameEngine.SettingsManager.Settings.MainFolderLocation,
+                Engine.GameEngine.SettingsManager.Settings.SettingsFileName,
+                Engine.GameEngine.SettingsManager.Settings,
+                new FileIO());
 
             if (Engine.GameEngine.InitliazeGraphics(
                             rendererPnl.Handle,
