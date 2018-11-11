@@ -123,7 +123,6 @@
     <Rule Id="S2360" Action="Warning" />
     <Rule Id="S2387" Action="Warning" />
     <Rule Id="S2436" Action="Warning" />
-    <Rule Id="S2551" Action="Warning" />
     <Rule Id="S2674" Action="Warning" />
     <Rule Id="S2699" Action="Warning" />
     <Rule Id="S2701" Action="Warning" />
@@ -161,7 +160,6 @@
     <Rule Id="S3909" Action="Warning" />
     <Rule Id="S3956" Action="Warning" />
     <Rule Id="S3962" Action="Warning" />
-    <Rule Id="S3963" Action="Warning" />
     <Rule Id="S3967" Action="Warning" />
     <Rule Id="S3990" Action="Warning" />
     <Rule Id="S3992" Action="Warning" />
@@ -203,8 +201,11 @@
     <Rule Id="S4261" Action="Warning" />
     <Rule Id="S4432" Action="Warning" />
     <Rule Id="S4462" Action="Warning" />
-    <Rule Id="S4524" Action="Warning" />
     <Rule Id="S4564" Action="Warning" />
     <Rule Id="S881" Action="Warning" />
+  </Rules>
+  <Rules AnalyzerId="StyleCop.Analyzers" RuleNamespace="StyleCop.Analyzers">
+    <Rule Id="SA1101" Action="None" />
+    <Rule Id="SA1633" Action="None" />
   </Rules>
 </RuleSet>
