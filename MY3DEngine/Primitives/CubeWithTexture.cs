@@ -1,4 +1,8 @@
-﻿namespace MY3DEngine.Primitives
+﻿// <copyright file="CubeWithTexture.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
+
+namespace MY3DEngine.Primitives
 {
     using System;
     using MY3DEngine.BaseObjects;

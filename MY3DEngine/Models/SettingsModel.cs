@@ -1,4 +1,8 @@
-﻿namespace MY3DEngine.Models
+﻿// <copyright file="SettingsModel.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
+
+namespace MY3DEngine.Models
 {
     /// <summary>
     /// Settings for the running game

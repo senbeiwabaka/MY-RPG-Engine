@@ -1,15 +1,20 @@
-﻿namespace MY3DEngine.Utilities
+﻿// <copyright file="FileIO.cs" company="PlaceholderCompany">
+//     Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
+
+namespace MY3DEngine.Utilities
 {
+    using MY3DEngine.Utilities.Interfaces;
+    using NLog;
     using System;
     using System.Collections.Generic;
     using System.IO;
-    using MY3DEngine.Utilities.Interfaces;
-    using NLog;
 
     public sealed class FileIO : IFileIO
     {
-        public static readonly string GetCurrentDirectory = Environment.CurrentDirectory;
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+
+        public string GetCurrentDirectory { get; } = Environment.CurrentDirectory;
 
         /// <summary>
         /// Code a source file to a destination location. Overwrite an already existing file, if one

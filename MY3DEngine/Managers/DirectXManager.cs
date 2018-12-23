@@ -1,4 +1,8 @@
-﻿namespace MY3DEngine.Managers
+﻿// <copyright file="DirectXManager.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
+
+namespace MY3DEngine.Managers
 {
     using System;
     using SharpDX;

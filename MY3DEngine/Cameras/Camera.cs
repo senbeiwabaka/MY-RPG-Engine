@@ -1,11 +1,15 @@
-﻿namespace MY3DEngine.Cameras
+﻿// <copyright file="Camera.cs" company="PlaceholderCompany">
+//     Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
+
+namespace MY3DEngine.Cameras
 {
-    using System.Diagnostics;
     using MY3DEngine.Interfaces;
     using SharpDX;
+    using System.Diagnostics;
 
     /// <inherietdoc/>
-    public class Camera : ICamera
+    public sealed class Camera : ICamera
     {
         private Vector3 position;
 
@@ -23,7 +27,13 @@
         private Stopwatch Clock { get; } = new Stopwatch();
 
         /// <inherietdoc/>
-        public void Initialize(int width = default(int), int height = default(int))
+        public void Initialize()
+        {
+            Initialize(default(int), default(int));
+        }
+
+        /// <inherietdoc/>
+        public void Initialize(int width, int height)
         {
             Clock.Start();
         }
@@ -86,7 +96,8 @@
             // Create the rotation matrix from the yaw, pitch, and roll values.
             var rotationMatrix = Matrix.RotationYawPitchRoll(yaw, pitch, roll);
 
-            // Transform the lookAt and up vector by the rotation matrix so the view is correctly rotated at the origin.
+            // Transform the lookAt and up vector by the rotation matrix so the view is correctly
+            // rotated at the origin.
             lookAt = Vector3.TransformCoordinate(lookAt, rotationMatrix);
             var up = Vector3.TransformCoordinate(Vector3.UnitY, rotationMatrix);
 

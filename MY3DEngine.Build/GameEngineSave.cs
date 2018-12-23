@@ -1,7 +1,12 @@
-﻿namespace MY3DEngine.BuildTools
+﻿// <copyright file="GameEngineSave.cs" company="PlaceholderCompany">
+//     Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
+
+namespace MY3DEngine.BuildTools
 {
     using System;
     using System.Collections.Generic;
+    using System.Globalization;
     using MY3DEngine.BuildTools.Models;
     using MY3DEngine.BuildTools.Properties;
     using MY3DEngine.Logging;
@@ -59,8 +64,8 @@
                     .Replace("{0}", $"@\"{mainFolderLocation}\\GameObjects.go\"")
                     .Replace("{1}", $"@\"{mainFolderLocation}\\ErrorLog.txt\"")
                     .Replace("{2}", $"@\"{mainFolderLocation}\\InformationLog.txt\"")
-                    .Replace("{ScreenWidth}", width.ToString())
-                    .Replace("{ScreenHeight}", height.ToString());
+                    .Replace("{ScreenWidth}", width.ToString(CultureInfo.CurrentCulture))
+                    .Replace("{ScreenHeight}", height.ToString(CultureInfo.CurrentCulture));
 
                 var settingsFileName = Constants.SettingsFileName;
 

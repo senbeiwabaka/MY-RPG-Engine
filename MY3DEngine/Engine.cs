@@ -1,13 +1,18 @@
-﻿namespace MY3DEngine
+﻿// <copyright file="Engine.cs" company="PlaceholderCompany">
+//     Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
+
+namespace MY3DEngine
 {
-    using System;
-    using System.Threading;
     using MY3DEngine.Cameras;
     using MY3DEngine.Graphics;
     using MY3DEngine.Interfaces;
     using MY3DEngine.Managers;
     using MY3DEngine.Shaders;
+    using MY3DEngine.Utilities;
     using NLog;
+    using System;
+    using System.Threading;
 
     /// <summary>
     /// The main entry point for the engine
@@ -20,7 +25,7 @@
 
         public Engine()
         {
-            SettingsManager = new SettingsManager();
+            SettingsManager = new SettingsManager(new FileIO());
         }
 
         ~Engine()
@@ -50,7 +55,8 @@
         public IGraphicManager GraphicsManager { get; private set; }
 
         /// <summary>
-        /// Gets or sets a value indicating whether boolean stating whether or not the engine has been shutdown yet
+        /// Gets or sets a value indicating whether boolean stating whether or not the engine has
+        /// been shutdown yet
         /// </summary>
         public bool IsNotShutDown { get; set; }
 
@@ -71,7 +77,8 @@
         public IntPtr Window { get; }
 
         /// <summary>
-        /// Gets or sets a value indicating whether if set to true then debugging information is added to a collection
+        /// Gets or sets a value indicating whether if set to true then debugging information is
+        /// added to a collection
         /// </summary>
         public static bool IsDebugginTurnedOn { get; set; }
 

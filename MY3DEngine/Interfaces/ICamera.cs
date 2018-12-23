@@ -1,4 +1,8 @@
-﻿namespace MY3DEngine.Interfaces
+﻿// <copyright file="ICamera.cs" company="PlaceholderCompany">
+//     Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
+
+namespace MY3DEngine.Interfaces
 {
     using SharpDX;
 
@@ -25,9 +29,14 @@
         /// <summary>
         /// Initialize the Camera variables
         /// </summary>
+        void Initialize();
+
+        /// <summary>
+        /// Initialize the Camera variables
+        /// </summary>
         /// <param name="width"></param>
         /// <param name="height"></param>
-        void Initialize(int width = default(int), int height = default(int));
+        void Initialize(int width, int height);
 
         void OnResize(float new_width, float new_height);
 

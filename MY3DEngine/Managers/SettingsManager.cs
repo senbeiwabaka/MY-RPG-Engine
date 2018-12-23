@@ -1,10 +1,14 @@
-﻿namespace MY3DEngine.Managers
+﻿// <copyright file="SettingsManager.cs" company="PlaceholderCompany">
+//     Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
+
+namespace MY3DEngine.Managers
 {
-    using System;
     using MY3DEngine.Logging;
     using MY3DEngine.Models;
     using MY3DEngine.Utilities;
     using MY3DEngine.Utilities.Interfaces;
+    using System;
 
     /// <summary>
     /// Manages the games settings
@@ -17,24 +21,24 @@
         private const string DefaultAssetsPath = "\\Assets";
         private const string DefaultShaderPath = "\\Assets\\Shaders";
 
-        private readonly string CurrentDirectory = FileIO.GetCurrentDirectory;
+        private readonly string currentDirectory;
+        private readonly IFileIO fileIO;
 
         private bool isLoaded;
 
-        /// <summary>
-        /// Gets the games settings
-        /// </summary>
+        public SettingsManager(IFileIO fileIO)
+        {
+            if (fileIO == null)
+            {
+                throw new ArgumentNullException(nameof(fileIO));
+            }
+
+            currentDirectory = fileIO.GetCurrentDirectory;
+            this.fileIO = fileIO;
+        }
+
         public SettingsModel Settings { get; private set; } = new SettingsModel();
 
-        /// <summary>
-        /// Initialize the settings for the game engine
-        /// </summary>
-        /// <param name="mainFolderLocation"></param>
-        /// <param name="gameName"></param>
-        /// <param name="settings"></param>
-        /// <param name="fileIo"></param>
-        /// <returns></returns>
-        /// <exception cref="ArgumentNullException"></exception>
         public bool Initialize(string mainFolderLocation, string gameName, string settings, IFileIO fileIo)
         {
             StaticLogger.Info($"Starting {nameof(SettingsManager)}.{nameof(this.Initialize)}");
@@ -58,7 +62,8 @@
                     model = Deserialize.DeserializeStringAsT<SettingsModel>(settings);
                 }
 
-                // The settings parameter doesn't have data so we need to build the location then parse the data
+                // The settings parameter doesn't have data so we need to build the location then
+                // parse the data
                 else
                 {
                     if (!fileIo.FileExists(fullPath))
@@ -67,7 +72,7 @@
                         return this.isLoaded = false;
                     }
 
-                    model = Deserialize.DeserializeFileAsT<SettingsModel>(fullPath, new FileIO());
+                    model = Deserialize.DeserializeFileAsT<SettingsModel>(fullPath, fileIO);
                 }
 
                 if (string.IsNullOrWhiteSpace(model.MainFolderLocation))

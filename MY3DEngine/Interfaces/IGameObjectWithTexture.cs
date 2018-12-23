@@ -1,4 +1,8 @@
-﻿namespace MY3DEngine.Interfaces
+﻿// <copyright file="IGameObjectWithTexture.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
+
+namespace MY3DEngine.Interfaces
 {
     using MY3DEngine.GraphicObjects;
     using SharpDX.Direct3D11;

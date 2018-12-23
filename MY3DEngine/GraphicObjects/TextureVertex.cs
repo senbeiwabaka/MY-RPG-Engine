@@ -1,4 +1,8 @@
-﻿namespace MY3DEngine.GraphicObjects
+﻿// <copyright file="TextureVertex.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
+
+namespace MY3DEngine.GraphicObjects
 {
     using System.Runtime.InteropServices;
     using SharpDX;

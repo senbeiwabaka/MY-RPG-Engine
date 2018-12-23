@@ -22,7 +22,7 @@
             logger.Error(exception, message);
         }
 
-        public void Shutdown()
+        public static void Shutdown()
         {
             LogManager.Shutdown();
         }

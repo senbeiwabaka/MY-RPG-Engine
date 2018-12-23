@@ -1,4 +1,8 @@
-﻿namespace MY3DEngine.Models
+﻿// <copyright file="MatrixBuffer.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
+
+namespace MY3DEngine.Models
 {
     using System.Runtime.InteropServices;
     using SharpDX;

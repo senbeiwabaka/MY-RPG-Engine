@@ -1,4 +1,8 @@
-﻿namespace MY3DEngine.Interfaces
+﻿// <copyright file="ILevel.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
+
+namespace MY3DEngine.Interfaces
 {
     using System;
     using MY3DEngine.BaseObjects;

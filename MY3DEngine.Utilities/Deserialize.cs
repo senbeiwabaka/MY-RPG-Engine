@@ -1,40 +1,41 @@
-﻿namespace MY3DEngine.Utilities
+﻿// <copyright file="Deserialize.cs" company="PlaceholderCompany">
+//     Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
+
+namespace MY3DEngine.Utilities
 {
-    using System;
     using MY3DEngine.Utilities.Interfaces;
     using Newtonsoft.Json;
     using NLog;
+    using System;
 
     public static class Deserialize
     {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
-        public static T DeserializeStringAsT<T>(string content) where T : new()
+        public static T DeserializeStringAsT<T>(string contents)
+            where T : new()
         {
+            T result = new T();
+
             try
             {
-                return JsonConvert.DeserializeObject<T>(content);
+                result = JsonConvert.DeserializeObject<T>(contents);
             }
             catch (Exception e)
             {
                 Logger.Error(e, nameof(DeserializeStringAsT));
             }
 
-            return new T();
+            return result;
         }
 
-        public static T DeserializeFileAsT<T>(string path, IFileIO fileIo) where T : new()
+        public static T DeserializeFileAsT<T>(string path, IFileIO fileIo)
+            where T : new()
         {
-            try
-            {
-                return JsonConvert.DeserializeObject<T>(fileIo.GetFileContent($"{path}"));
-            }
-            catch (Exception e)
-            {
-                Logger.Error(e, nameof(DeserializeFileAsT));
-            }
+            string contents = fileIo.GetFileContent($"{path}");
 
-            return new T();
+            return DeserializeStringAsT<T>(contents);
         }
     }
 }

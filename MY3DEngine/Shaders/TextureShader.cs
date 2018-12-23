@@ -1,4 +1,8 @@
-﻿namespace MY3DEngine.Shaders
+﻿// <copyright file="TextureShader.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
+
+namespace MY3DEngine.Shaders
 {
     using System;
     using System.Collections.Generic;

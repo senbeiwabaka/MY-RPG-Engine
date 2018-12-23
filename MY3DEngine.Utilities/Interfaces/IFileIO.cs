@@ -1,9 +1,15 @@
-﻿namespace MY3DEngine.Utilities.Interfaces
+﻿// <copyright file="IFileIO.cs" company="PlaceholderCompany">
+//     Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
+
+namespace MY3DEngine.Utilities.Interfaces
 {
     using System.Collections.Generic;
 
     public interface IFileIO
     {
+        string GetCurrentDirectory { get; }
+
         /// <summary>
         /// Code a source file to a destination location. Overwrite an already existing file, if one
         /// is there, if the last value is set to true.

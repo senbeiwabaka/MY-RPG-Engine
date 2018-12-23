@@ -1,4 +1,8 @@
-﻿namespace MY3DEngine.Graphics
+﻿// <copyright file="GraphicsManager.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
+
+namespace MY3DEngine.Graphics
 {
     using System;
     using MY3DEngine.Interfaces;

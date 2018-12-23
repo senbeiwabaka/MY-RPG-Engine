@@ -1,4 +1,8 @@
-﻿namespace MY3DEngine.BaseObjects
+﻿// <copyright file="GameObjectWithTexture.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
+
+namespace MY3DEngine.BaseObjects
 {
     using MY3DEngine.GraphicObjects;
     using MY3DEngine.Interfaces;
