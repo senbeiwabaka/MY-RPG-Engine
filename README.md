@@ -30,4 +30,4 @@ Build status:
 
 Quality status:
 
-[![Sonarcloud Status](https://sonarcloud.io/api/project_badges/measure?project=My3dEngine&metric=alert_status)
+![Sonarcloud Status](https://sonarcloud.io/api/project_badges/measure?project=My3dEngine&metric=alert_status)
