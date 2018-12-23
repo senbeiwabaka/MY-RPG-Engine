@@ -25,4 +25,9 @@ The enginge will have (soon TM):
 Note: All is subject to change
 
 Build status:
+
 [![Build Status](https://michaeljyahner.visualstudio.com/MY%20Game%20Engine/_apis/build/status/MY%20Game%20Engine-.NET%20Desktop%20with%20SonarCloud-CI?branchName=Directx11)](https://michaeljyahner.visualstudio.com/MY%20Game%20Engine/_build/latest?definitionId=2?branchName=Directx11)
+
+Quality status:
+
+[![Sonarcloud Status](https://sonarcloud.io/api/project_badges/measure?project=My3dEngine&metric=alert_status)
