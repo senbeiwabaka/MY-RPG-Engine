@@ -1,4 +1,8 @@
-﻿namespace MY3DEngine.BuildTools.Models
+﻿// <copyright file="ToolsetGameModel.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
+
+namespace MY3DEngine.BuildTools.Models
 {
     public sealed class ToolsetGameModel
     {

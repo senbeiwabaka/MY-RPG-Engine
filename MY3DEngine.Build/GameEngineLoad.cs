@@ -1,4 +1,8 @@
-﻿namespace MY3DEngine.BuildTools
+﻿// <copyright file="GameEngineLoad.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
+
+namespace MY3DEngine.BuildTools
 {
     using System;
     using System.Collections;

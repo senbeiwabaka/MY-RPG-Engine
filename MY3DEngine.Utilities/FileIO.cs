@@ -4,11 +4,11 @@
 
 namespace MY3DEngine.Utilities
 {
-    using MY3DEngine.Utilities.Interfaces;
-    using NLog;
     using System;
     using System.Collections.Generic;
     using System.IO;
+    using MY3DEngine.Utilities.Interfaces;
+    using NLog;
 
     public sealed class FileIO : IFileIO
     {

@@ -1,4 +1,8 @@
-﻿namespace MY3DEngine.GUI.Utilities
+﻿// <copyright file="ToolsetGameModelManager.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
+
+namespace MY3DEngine.GUI.Utilities
 {
     using MY3DEngine.BuildTools.Models;
 

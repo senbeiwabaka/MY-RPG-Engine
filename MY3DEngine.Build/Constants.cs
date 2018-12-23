@@ -1,4 +1,8 @@
-﻿namespace MY3DEngine.BuildTools
+﻿// <copyright file="Constants.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
+
+namespace MY3DEngine.BuildTools
 {
     internal static class Constants
     {

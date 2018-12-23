@@ -4,11 +4,11 @@
 
 namespace MY3DEngine.Utilities
 {
-    using MY3DEngine.Logging;
-    using MY3DEngine.Utilities.Interfaces;
     using System;
     using System.Collections.Generic;
     using System.Reflection;
+    using MY3DEngine.Logging;
+    using MY3DEngine.Utilities.Interfaces;
 
     public static class AssemblyHelper
     {
