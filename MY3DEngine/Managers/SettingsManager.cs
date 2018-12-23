@@ -4,11 +4,11 @@
 
 namespace MY3DEngine.Managers
 {
-    using System;
     using MY3DEngine.Logging;
     using MY3DEngine.Models;
     using MY3DEngine.Utilities;
     using MY3DEngine.Utilities.Interfaces;
+    using System;
 
     /// <summary>
     /// Manages the games settings
@@ -21,20 +21,13 @@ namespace MY3DEngine.Managers
         private const string DefaultAssetsPath = "\\Assets";
         private const string DefaultShaderPath = "\\Assets\\Shaders";
 
-        private readonly string currentDirectory;
         private readonly IFileIO fileIO;
 
         private bool isLoaded;
 
         public SettingsManager(IFileIO fileIO)
         {
-            if (fileIO == null)
-            {
-                throw new ArgumentNullException(nameof(fileIO));
-            }
-
-            currentDirectory = fileIO.GetCurrentDirectory;
-            this.fileIO = fileIO;
+            this.fileIO = fileIO ?? throw new ArgumentNullException(nameof(fileIO));
         }
 
         public SettingsModel Settings { get; private set; } = new SettingsModel();
