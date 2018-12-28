@@ -1,0 +1,329 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="LoggerFile" xml:space="preserve">
+    <value>&lt;?xml version="1.0" encoding="utf-8" ?&gt;
+&lt;nlog xmlns="http://www.nlog-project.org/schemas/NLog.xsd"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.nlog-project.org/schemas/NLog.xsd NLog.xsd"
+      autoReload="true"
+      throwExceptions="true"
+      internalLogLevel="Off"
+      internalLogFile="c:\temp\nlog-internal.log"&gt;
+
+  &lt;!-- optional, add some variables
+  https://github.com/nlog/NLog/wiki/Configuration-file#variables
+  --&gt;
+  &lt;variable name="myvar" value="myvalue"/&gt;
+
+  &lt;!--
+  See https://github.com/nlog/nlog/wiki/Configuration-file
+  for information on customizing logging rules and outputs.
+   --&gt;
+  &lt;targets&gt;
+
+    &lt;!--
+    add your targets here
+    See https://github.com/nlog/NLog/wiki/Targets for possible targets.
+    See https://github.com/nlog/NLog/wiki/Layout-Renderers for the possible layout renderers.
+    --&gt;
+
+    &lt;!--
+    Write events to a file with the date in the filename.
+    &lt;target xsi:type="File" name="f" fileName="${basedir}/logs/${shortdate}.log"
+            layout="${longdate} ${uppercase:${level}} ${message}" /&gt;
+    --&gt;
+    &lt;target name="logfile" xsi:type="File" fileName="log.log" /&gt;
+  &lt;/targets&gt;
+
+  &lt;rules&gt;
+    &lt;!-- add your logging rules here --&gt;
+
+    &lt;!--
+    Write all events with minimal level of Debug (So Debug, Info, Warn, Error and Fatal, but not Trace)  to "f"
+    &lt;logger name="*" minlevel="Debug" writeTo="f" /&gt;
+    --&gt;
+    &lt;logger name="*" minlevel="Debug" writeTo="logfile" /&gt;
+  &lt;/rules&gt;
+&lt;/nlog&gt;</value>
+  </data>
+  <data name="MainFile" xml:space="preserve">
+    <value>using MY3DEngine;
+using MY3DEngine.BaseObjects;
+using MY3DEngine.Logging;
+using MY3DEngine.Models;
+using MY3DEngine.Primitives;
+using MY3DEngine.Utilities;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Drawing;
+using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace Game
+{
+	public class MainWindow : Form
+	{
+		public MainWindow()
+		{
+			this.ClientSize = new System.Drawing.Size({ScreenWidth}, {ScreenHeight});
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
+
+			var exceptions = new BindingList&lt;ExceptionData&gt;();
+            var generalException = new ExceptionData("Engine could not be setup correctly", "Engine", string.Empty);
+
+            Engine.IsDebugginTurnedOn = true;
+
+            try
+			{
+				if (!Engine.GameEngine.InitliazeGraphics(
+					this.Handle,
+					this.ClientSize.Width,
+					this.ClientSize.Height,
+					vsyncEnabled: true,
+                    fullScreen: false))
+				{
+					exceptions = Engine.GameEngine.Error.Exceptions;
+					exceptions.Add(generalException);
+					
+					ListExceptions(exceptions.ToList());
+					
+					if(MessageBox.Show("Error has occurred.", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error) == DialogResult.OK)
+					{
+						Close();
+					}					
+                }
+				
+				if(!Engine.GameEngine.Initialize())
+				{
+					exceptions = Engine.GameEngine.Error.Exceptions;
+					exceptions.Add(generalException);
+					
+					ListExceptions(exceptions.ToList());
+					
+					if(MessageBox.Show("Error has occurred.", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error) == DialogResult.OK)
+					{
+						Close();
+					}
+				}
+				
+				Engine.GameEngine.Load({0});
+            }
+			catch(Error e)
+			{
+                System.IO.File.AppendAllText({1}, DateTime.Now + Environment.NewLine);
+				System.IO.File.AppendAllText({1}, e.Message + Environment.NewLine);
+				System.IO.File.AppendAllText({1}, e.StackTrace + Environment.NewLine + Environment.NewLine);
+				
+				Close();
+			}
+		}
+
+        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            ShutDown();
+        }
+
+        private void ListExceptions(List&lt;ExceptionData&gt; exceptions)
+        {
+			if(exceptions.Count &gt; 0)
+			{
+				System.IO.File.AppendAllText({1}, DateTime.Now + Environment.NewLine);
+            }
+
+            foreach (var exception in exceptions)
+            {
+				System.IO.File.AppendAllText({1}, exception.ToString() + Environment.NewLine);
+            }
+
+			if(exceptions.Count &gt; 0)
+			{
+				System.IO.File.AppendAllText({1}, Environment.NewLine + Environment.NewLine);
+			}
+        }
+
+        private static void ShutDown()
+        {
+            MY3DEngine.Engine.GameEngine?.Shutdown();
+
+            MY3DEngine.Engine.GameEngine?.Dispose();
+        }
+
+		/// &lt;summary&gt;
+		/// The main entry point for the application.
+		/// &lt;/summary&gt;
+		[STAThread]
+		static void Main()
+		{
+			// Set the unhandled exception mode to force all Windows Forms errors to go through our handler.
+			Application.SetUnhandledExceptionMode(UnhandledExceptionMode.CatchException);
+
+			AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
+
+			// Add the event handler for handling UI thread exceptions to the event.
+			Application.ThreadException += Application_ThreadException;
+			
+			TaskScheduler.UnobservedTaskException += TaskScheduler_UnobservedTaskException;
+
+			Application.EnableVisualStyles();
+			Application.SetCompatibleTextRenderingDefault(false);
+			Application.Run(new MainWindow());
+		}
+		
+		private static void TaskScheduler_UnobservedTaskException(object sender, UnobservedTaskExceptionEventArgs e)
+        {
+            var exception = e.Error;
+
+            Engine.GameEngine.Error.AddException(exception);
+
+            ExitApplication();
+        }
+
+        private static void Application_ThreadException(object sender, System.Threading.ThreadExceptionEventArgs e)
+        {
+            var exception = e.Error;
+
+            Engine.GameEngine.Error.AddException(exception);
+
+            ExitApplication();
+        }
+
+        private static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
+        {
+            var exception = e.ExceptionObject as Error;
+
+            Engine.GameEngine.Error.AddException(exception);
+
+            ExitApplication();
+        }
+
+        private static void ExitApplication()
+        {
+            System.Diagnostics.Process proc = System.Diagnostics.Process.GetCurrentProcess();
+            System.Windows.Forms.Application.Exit();
+            System.Environment.Exit(0);
+            proc.Kill();
+        }
+	}
+}</value>
+  </data>
+</root>
