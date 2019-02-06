@@ -1,4 +1,4 @@
-This is my attempt at a 3D engine. At this point in time, until I learn, the GUI on top will only make this engine look like an editor.
+This is my attempt at a 3D RPG engine. At this point in time, until I learn, the GUI on top will only make this engine look like an editor.
 
 The engine can be removed from the project and modified in anyway you see fit. The GUI on top is just you can immediately see what all it can do.
 
@@ -21,6 +21,10 @@ The enginge will have (soon TM):
   3. Compiled/checked class files
   4. Bin folder for debug and release modes
   5. Fully wokring load and create projects
+  
+ Future Adds/Wants:
+  Vulkan
+  Directx 12
 
 Note: All is subject to change
 
