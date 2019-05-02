@@ -164,3 +164,5 @@ pip-log.txt
 /packages
 /.vs
 /.axoCover
+/src/.vs/MY3DEngine/v16/Server/sqlite3
+/src/packages
