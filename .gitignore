@@ -166,3 +166,4 @@ pip-log.txt
 /.axoCover
 /src/.vs/MY3DEngine/v16/Server/sqlite3
 /src/packages
+/src/MigrationBackup/0a95edc0/MY3DEngine.BuildTools
