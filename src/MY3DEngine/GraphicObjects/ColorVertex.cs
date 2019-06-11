@@ -2,11 +2,11 @@
 // Copyright (c) PlaceholderCompany. All rights reserved.
 // </copyright>
 
+using System.Runtime.InteropServices;
+using SharpDX;
+
 namespace MY3DEngine.GraphicObjects
 {
-    using System.Runtime.InteropServices;
-    using SharpDX;
-
     /// <summary>
     /// The Color Vertex for graphics
     /// </summary>

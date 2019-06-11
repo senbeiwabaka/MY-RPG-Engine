@@ -2,18 +2,18 @@
 //     Copyright (c) PlaceholderCompany. All rights reserved.
 // </copyright>
 
+using MY3DEngine.Cameras;
+using MY3DEngine.Graphics;
+using MY3DEngine.Interfaces;
+using MY3DEngine.Managers;
+using MY3DEngine.Shaders;
+using NLog;
+using System;
+using System.Threading;
+using My3DEngine.Utilities.Services;
+
 namespace MY3DEngine
 {
-    using MY3DEngine.Cameras;
-    using MY3DEngine.Graphics;
-    using MY3DEngine.Interfaces;
-    using MY3DEngine.Managers;
-    using MY3DEngine.Shaders;
-    using NLog;
-    using System;
-    using System.Threading;
-    using Utilities;
-
     /// <summary>
     /// The main entry point for the engine
     /// </summary>

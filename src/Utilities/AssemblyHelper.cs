@@ -2,14 +2,14 @@
 // Copyright (c) PlaceholderCompany. All rights reserved.
 // </copyright>
 
-namespace Utilities
-{
-    using NLog;
-    using System;
-    using System.Collections.Generic;
-    using System.Reflection;
-    using Utilities.Interfaces;
+using NLog;
+using System;
+using System.Collections.Generic;
+using System.Reflection;
+using My3DEngine.Utilities.Interfaces;
 
+namespace My3DEngine.Utilities
+{
     public static class AssemblyHelper
     {
         private static readonly ILogger Logger = LogManager.GetCurrentClassLogger();

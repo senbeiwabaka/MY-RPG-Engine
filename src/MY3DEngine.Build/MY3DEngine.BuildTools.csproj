@@ -1,13 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="..\packages\Microsoft.Net.Compilers.3.0.0\build\Microsoft.Net.Compilers.props" Condition="Exists('..\packages\Microsoft.Net.Compilers.3.0.0\build\Microsoft.Net.Compilers.props')" />
   <Import Project="..\packages\Microsoft.CodeAnalysis.Analyzers.2.9.2\build\Microsoft.CodeAnalysis.Analyzers.props" Condition="Exists('..\packages\Microsoft.CodeAnalysis.Analyzers.2.9.2\build\Microsoft.CodeAnalysis.Analyzers.props')" />
-  <Import Project="..\packages\Microsoft.CodeAnalysis.FxCopAnalyzers.2.9.2\build\Microsoft.CodeAnalysis.FxCopAnalyzers.props" Condition="Exists('..\packages\Microsoft.CodeAnalysis.FxCopAnalyzers.2.9.2\build\Microsoft.CodeAnalysis.FxCopAnalyzers.props')" />
-  <Import Project="..\packages\Microsoft.NetFramework.Analyzers.2.9.2\build\Microsoft.NetFramework.Analyzers.props" Condition="Exists('..\packages\Microsoft.NetFramework.Analyzers.2.9.2\build\Microsoft.NetFramework.Analyzers.props')" />
-  <Import Project="..\packages\Microsoft.NetCore.Analyzers.2.9.2\build\Microsoft.NetCore.Analyzers.props" Condition="Exists('..\packages\Microsoft.NetCore.Analyzers.2.9.2\build\Microsoft.NetCore.Analyzers.props')" />
-  <Import Project="..\packages\Microsoft.CodeQuality.Analyzers.2.9.2\build\Microsoft.CodeQuality.Analyzers.props" Condition="Exists('..\packages\Microsoft.CodeQuality.Analyzers.2.9.2\build\Microsoft.CodeQuality.Analyzers.props')" />
-  <Import Project="..\packages\Microsoft.CodeAnalysis.VersionCheckAnalyzer.2.9.2\build\Microsoft.CodeAnalysis.VersionCheckAnalyzer.props" Condition="Exists('..\packages\Microsoft.CodeAnalysis.VersionCheckAnalyzer.2.9.2\build\Microsoft.CodeAnalysis.VersionCheckAnalyzer.props')" />
-  <Import Project="..\packages\Text.Analyzers.2.6.2\build\Text.Analyzers.props" Condition="Exists('..\packages\Text.Analyzers.2.6.2\build\Text.Analyzers.props')" />
+  <Import Project="..\packages\Text.Analyzers.2.6.4\build\Text.Analyzers.props" Condition="Exists('..\packages\Text.Analyzers.2.6.4\build\Text.Analyzers.props')" />
+  <Import Project="..\packages\Microsoft.Net.Compilers.3.0.0\build\Microsoft.Net.Compilers.props" Condition="Exists('..\packages\Microsoft.Net.Compilers.3.0.0\build\Microsoft.Net.Compilers.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -202,41 +197,15 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Analyzer Include="..\packages\Microsoft.CodeAnalysis.Analyzers.2.6.2\analyzers\dotnet\cs\Microsoft.CodeAnalysis.Analyzers.dll" />
-    <Analyzer Include="..\packages\Microsoft.CodeAnalysis.Analyzers.2.6.2\analyzers\dotnet\cs\Microsoft.CodeAnalysis.CSharp.Analyzers.dll" />
-    <Analyzer Include="..\packages\Microsoft.CodeAnalysis.Analyzers.2.9.2\analyzers\dotnet\cs\Microsoft.CodeAnalysis.Analyzers.dll" />
-    <Analyzer Include="..\packages\Microsoft.CodeAnalysis.Analyzers.2.9.2\analyzers\dotnet\cs\Microsoft.CodeAnalysis.CSharp.Analyzers.dll" />
-    <Analyzer Include="..\packages\Microsoft.CodeAnalysis.VersionCheckAnalyzer.2.9.2\analyzers\dotnet\Microsoft.CodeAnalysis.VersionCheckAnalyzer.dll" />
-    <Analyzer Include="..\packages\Microsoft.CodeQuality.Analyzers.2.6.2\analyzers\dotnet\cs\Microsoft.CodeQuality.Analyzers.dll" />
-    <Analyzer Include="..\packages\Microsoft.CodeQuality.Analyzers.2.6.2\analyzers\dotnet\cs\Microsoft.CodeQuality.CSharp.Analyzers.dll" />
-    <Analyzer Include="..\packages\Microsoft.CodeQuality.Analyzers.2.9.2\analyzers\dotnet\cs\Humanizer.dll" />
-    <Analyzer Include="..\packages\Microsoft.CodeQuality.Analyzers.2.9.2\analyzers\dotnet\cs\Microsoft.CodeQuality.Analyzers.dll" />
-    <Analyzer Include="..\packages\Microsoft.CodeQuality.Analyzers.2.9.2\analyzers\dotnet\cs\Microsoft.CodeQuality.CSharp.Analyzers.dll" />
-    <Analyzer Include="..\packages\Microsoft.NetCore.Analyzers.2.6.2\analyzers\dotnet\cs\Microsoft.NetCore.Analyzers.dll" />
-    <Analyzer Include="..\packages\Microsoft.NetCore.Analyzers.2.6.2\analyzers\dotnet\cs\Microsoft.NetCore.CSharp.Analyzers.dll" />
-    <Analyzer Include="..\packages\Microsoft.NetCore.Analyzers.2.9.2\analyzers\dotnet\cs\Microsoft.NetCore.Analyzers.dll" />
-    <Analyzer Include="..\packages\Microsoft.NetCore.Analyzers.2.9.2\analyzers\dotnet\cs\Microsoft.NetCore.CSharp.Analyzers.dll" />
-    <Analyzer Include="..\packages\Microsoft.NetFramework.Analyzers.2.6.2\analyzers\dotnet\cs\Microsoft.NetFramework.Analyzers.dll" />
-    <Analyzer Include="..\packages\Microsoft.NetFramework.Analyzers.2.6.2\analyzers\dotnet\cs\Microsoft.NetFramework.CSharp.Analyzers.dll" />
-    <Analyzer Include="..\packages\Microsoft.NetFramework.Analyzers.2.9.2\analyzers\dotnet\cs\Microsoft.NetFramework.Analyzers.dll" />
-    <Analyzer Include="..\packages\Microsoft.NetFramework.Analyzers.2.9.2\analyzers\dotnet\cs\Microsoft.NetFramework.CSharp.Analyzers.dll" />
-    <Analyzer Include="..\packages\StyleCop.Analyzers.1.0.2\analyzers\dotnet\cs\StyleCop.Analyzers.CodeFixes.dll" />
-    <Analyzer Include="..\packages\StyleCop.Analyzers.1.0.2\analyzers\dotnet\cs\StyleCop.Analyzers.dll" />
-    <Analyzer Include="..\packages\StyleCop.Analyzers.1.1.118\analyzers\dotnet\cs\StyleCop.Analyzers.CodeFixes.dll" />
-    <Analyzer Include="..\packages\StyleCop.Analyzers.1.1.118\analyzers\dotnet\cs\StyleCop.Analyzers.dll" />
-    <Analyzer Include="..\packages\Text.Analyzers.2.6.2\analyzers\dotnet\cs\Text.Analyzers.dll" />
-    <Analyzer Include="..\packages\Text.Analyzers.2.6.2\analyzers\dotnet\cs\Text.CSharp.Analyzers.dll" />
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Utilities\Utilities.csproj">
+    <ProjectReference Include="..\Utilities\My3DEngine.Utilities.csproj">
       <Project>{173d9236-51d8-4923-8059-86d1aa317f4a}</Project>
-      <Name>Utilities</Name>
+      <Name>My3DEngine.Utilities</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
@@ -244,13 +213,8 @@
     <PropertyGroup>
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
-    <Error Condition="!Exists('..\packages\Text.Analyzers.2.6.2\build\Text.Analyzers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Text.Analyzers.2.6.2\build\Text.Analyzers.props'))" />
-    <Error Condition="!Exists('..\packages\Microsoft.CodeAnalysis.VersionCheckAnalyzer.2.9.2\build\Microsoft.CodeAnalysis.VersionCheckAnalyzer.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeAnalysis.VersionCheckAnalyzer.2.9.2\build\Microsoft.CodeAnalysis.VersionCheckAnalyzer.props'))" />
-    <Error Condition="!Exists('..\packages\Microsoft.CodeQuality.Analyzers.2.9.2\build\Microsoft.CodeQuality.Analyzers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeQuality.Analyzers.2.9.2\build\Microsoft.CodeQuality.Analyzers.props'))" />
-    <Error Condition="!Exists('..\packages\Microsoft.NetCore.Analyzers.2.9.2\build\Microsoft.NetCore.Analyzers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.NetCore.Analyzers.2.9.2\build\Microsoft.NetCore.Analyzers.props'))" />
-    <Error Condition="!Exists('..\packages\Microsoft.NetFramework.Analyzers.2.9.2\build\Microsoft.NetFramework.Analyzers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.NetFramework.Analyzers.2.9.2\build\Microsoft.NetFramework.Analyzers.props'))" />
-    <Error Condition="!Exists('..\packages\Microsoft.CodeAnalysis.FxCopAnalyzers.2.9.2\build\Microsoft.CodeAnalysis.FxCopAnalyzers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeAnalysis.FxCopAnalyzers.2.9.2\build\Microsoft.CodeAnalysis.FxCopAnalyzers.props'))" />
-    <Error Condition="!Exists('..\packages\Microsoft.CodeAnalysis.Analyzers.2.9.2\build\Microsoft.CodeAnalysis.Analyzers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeAnalysis.Analyzers.2.9.2\build\Microsoft.CodeAnalysis.Analyzers.props'))" />
     <Error Condition="!Exists('..\packages\Microsoft.Net.Compilers.3.0.0\build\Microsoft.Net.Compilers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Net.Compilers.3.0.0\build\Microsoft.Net.Compilers.props'))" />
+    <Error Condition="!Exists('..\packages\Text.Analyzers.2.6.4\build\Text.Analyzers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Text.Analyzers.2.6.4\build\Text.Analyzers.props'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.CodeAnalysis.Analyzers.2.9.2\build\Microsoft.CodeAnalysis.Analyzers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeAnalysis.Analyzers.2.9.2\build\Microsoft.CodeAnalysis.Analyzers.props'))" />
   </Target>
 </Project>

@@ -2,10 +2,10 @@
 // Copyright (c) PlaceholderCompany. All rights reserved.
 // </copyright>
 
-namespace Utilities.Interfaces
-{
-    using System.Collections.Generic;
+using System.Collections.Generic;
 
+namespace My3DEngine.Utilities.Interfaces
+{
     public interface IFileService
     {
         string GetCurrentDirectory { get; }

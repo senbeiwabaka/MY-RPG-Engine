@@ -2,11 +2,11 @@
 // Copyright (c) PlaceholderCompany. All rights reserved.
 // </copyright>
 
+using System.Diagnostics;
+using MY3DEngine.Interfaces;
+
 namespace MY3DEngine
 {
-    using System.Diagnostics;
-    using MY3DEngine.Interfaces;
-
     /// <inheritdoc/>
     public sealed class GameTimer : IGameTimer
     {

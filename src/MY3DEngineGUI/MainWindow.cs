@@ -2,26 +2,26 @@
 //     Copyright (c) PlaceholderCompany. All rights reserved.
 // </copyright>
 
+using My3DEngine.Utilities.Services;
+using MY3DEngine.BaseObjects;
+using MY3DEngine.BuildTools;
+using MY3DEngine.GUI.HelperForms;
+using MY3DEngine.GUI.Utilities;
+using MY3DEngine.Models;
+using MY3DEngine.Primitives;
+using NLog;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Diagnostics;
+using System.Drawing;
+using System.Globalization;
+using System.IO;
+using System.Linq;
+using System.Windows.Forms;
+
 namespace MY3DEngine.GUI
 {
-    using MY3DEngine.BaseObjects;
-    using MY3DEngine.BuildTools;
-    using MY3DEngine.GUI.HelperForms;
-    using MY3DEngine.GUI.Utilities;
-    using MY3DEngine.Models;
-    using MY3DEngine.Primitives;
-    using MY3DEngine.Utilities;
-    using NLog;
-    using System;
-    using System.Collections.Generic;
-    using System.ComponentModel;
-    using System.Diagnostics;
-    using System.Drawing;
-    using System.Globalization;
-    using System.IO;
-    using System.Linq;
-    using System.Windows.Forms;
-
     public partial class MainWindow : Form
     {
         private const string EngineTitle = "MY 3D Engine Builder";
@@ -302,7 +302,7 @@ namespace MY3DEngine.GUI
 
         private void GenerateGameToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            gameGeneratedSuccessfully = Build.GenerateFilesForBuildingGame(Engine.GameEngine.SettingsManager.Settings.MainFolderLocation, new FileIO());
+            gameGeneratedSuccessfully = Build.GenerateFilesForBuildingGame(Engine.GameEngine.SettingsManager.Settings.MainFolderLocation, new FileService());
 
             if (gameGeneratedSuccessfully)
             {
@@ -332,7 +332,7 @@ namespace MY3DEngine.GUI
                 var fileInfo = new FileInfo(dialog.FileName);
                 gamePath = fileInfo.DirectoryName;
 
-                var gameLoadResult = GameEngineLoad.LoadProject(dialog.FileName, new FileIO());
+                var gameLoadResult = GameEngineLoad.LoadProject(dialog.FileName, new FileService());
 
                 if (gameLoadResult.Successful)
                 {
@@ -410,7 +410,7 @@ namespace MY3DEngine.GUI
                 {
                     if (fileExplorer.SafeFileNames[i].EndsWith(".bmp", StringComparison.InvariantCultureIgnoreCase))
                     {
-                        new FileIO().CopyFile(fileExplorer.FileNames[i], $"{Engine.GameEngine.SettingsManager.Settings.AssetsPath}\\{fileExplorer.SafeFileNames[i]}", true);
+                        new FileService().CopyFile(fileExplorer.FileNames[i], $"{Engine.GameEngine.SettingsManager.Settings.AssetsPath}\\{fileExplorer.SafeFileNames[i]}", true);
                     }
                 }
             }
@@ -420,7 +420,7 @@ namespace MY3DEngine.GUI
 
         private void BuildGameToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (Build.BuildGame(Engine.GameEngine.SettingsManager.Settings.MainFolderLocation, Engine.GameEngine.SettingsManager.Settings.GameName, new FileIO()))
+            if (Build.BuildGame(Engine.GameEngine.SettingsManager.Settings.MainFolderLocation, Engine.GameEngine.SettingsManager.Settings.GameName, new FileService()))
             {
                 AddToInformationDisplay("Game built successfully.");
 
@@ -447,7 +447,7 @@ namespace MY3DEngine.GUI
 
         private void DeleteLogFileToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (new FileIO().DeleteFile($"{Environment.CurrentDirectory}\\logs\\{DateTime.Today.ToString("yyyy-MM-dd", CultureInfo.CurrentCulture)}_log.log"))
+            if (new FileService().DeleteFile($"{Environment.CurrentDirectory}\\logs\\{DateTime.Today.ToString("yyyy-MM-dd", CultureInfo.CurrentCulture)}_log.log"))
             {
                 AddToInformationDisplay("Log successfully deleted.");
 
@@ -609,7 +609,7 @@ namespace MY3DEngine.GUI
                 ToolsetGameModelManager.ToolsetGameModel.FolderLocation,
                 ToolsetGameModelManager.ToolsetGameModel.GameName,
                 ToolsetGameModelManager.ToolsetGameModel.Settings,
-                new FileIO()))
+                new FileService()))
             {
                 AddToInformationDisplay("Settings did not initialize correctly.");
                 Logger.Error("Settings did not initialize correctly.");
@@ -619,7 +619,7 @@ namespace MY3DEngine.GUI
                 Engine.GameEngine.SettingsManager.Settings.MainFolderLocation,
                 Engine.GameEngine.SettingsManager.Settings.SettingsFileName,
                 Engine.GameEngine.SettingsManager.Settings,
-                new FileIO());
+                new FileService());
 
             if (Engine.GameEngine.InitliazeGraphics(
                             rendererPnl.Handle,

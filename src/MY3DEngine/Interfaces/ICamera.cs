@@ -2,10 +2,10 @@
 //     Copyright (c) PlaceholderCompany. All rights reserved.
 // </copyright>
 
+using SharpDX;
+
 namespace MY3DEngine.Interfaces
 {
-    using SharpDX;
-
     /// <summary>
     /// Interface to build camera to see the world
     /// </summary>

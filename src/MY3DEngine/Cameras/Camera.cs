@@ -2,12 +2,12 @@
 //     Copyright (c) PlaceholderCompany. All rights reserved.
 // </copyright>
 
+using MY3DEngine.Interfaces;
+using SharpDX;
+using System.Diagnostics;
+
 namespace MY3DEngine.Cameras
 {
-    using MY3DEngine.Interfaces;
-    using SharpDX;
-    using System.Diagnostics;
-
     /// <inherietdoc/>
     public sealed class Camera : ICamera
     {

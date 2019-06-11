@@ -2,13 +2,13 @@
 // Copyright (c) PlaceholderCompany. All rights reserved.
 // </copyright>
 
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using MY3DEngine.BaseObjects;
+
 namespace MY3DEngine.Interfaces
 {
-    using System;
-    using System.Collections.Generic;
-    using System.ComponentModel;
-    using MY3DEngine.BaseObjects;
-
     /// <summary>
     /// Manages the list of objects
     /// </summary>

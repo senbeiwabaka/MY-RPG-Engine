@@ -2,13 +2,13 @@
 // Copyright (c) PlaceholderCompany. All rights reserved.
 // </copyright>
 
-namespace Utilities
-{
-    using Newtonsoft.Json;
-    using NLog;
-    using System;
-    using Utilities.Interfaces;
+using Newtonsoft.Json;
+using NLog;
+using System;
+using My3DEngine.Utilities.Interfaces;
 
+namespace My3DEngine.Utilities
+{
     public static class Deserialize
     {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();

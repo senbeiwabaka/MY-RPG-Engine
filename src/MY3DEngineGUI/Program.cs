@@ -2,13 +2,13 @@
 // Copyright (c) PlaceholderCompany. All rights reserved.
 // </copyright>
 
+using System;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+using NLog;
+
 namespace MY3DEngine.GUI
 {
-    using System;
-    using System.Threading.Tasks;
-    using System.Windows.Forms;
-    using NLog;
-
     internal static class Program
     {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();

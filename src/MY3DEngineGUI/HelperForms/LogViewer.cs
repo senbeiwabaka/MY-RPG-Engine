@@ -2,16 +2,16 @@
 // Copyright (c) PlaceholderCompany. All rights reserved.
 // </copyright>
 
+using System.Windows.Forms;
+using My3DEngine.Utilities.Services;
+
 namespace MY3DEngine.GUI.HelperForms
 {
-    using System.Windows.Forms;
-    using MY3DEngine.Utilities;
-
     public partial class LogViewer : Form
     {
         public LogViewer(string file) : this()
         {
-            rtbLogContent.Text = new FileIO().GetFileContent(file);
+            rtbLogContent.Text = new FileService().GetFileContent(file);
         }
 
         public LogViewer()

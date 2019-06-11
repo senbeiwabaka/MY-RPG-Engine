@@ -2,13 +2,13 @@
 // Copyright (c) PlaceholderCompany. All rights reserved.
 // </copyright>
 
+using System;
+using System.ComponentModel;
+using MY3DEngine.Interfaces;
+using MY3DEngine.Models;
+
 namespace MY3DEngine.Managers
 {
-    using System;
-    using System.ComponentModel;
-    using MY3DEngine.Interfaces;
-    using MY3DEngine.Models;
-
     /// <summary>
     /// Holds all of the game engine exceptions
     /// </summary>

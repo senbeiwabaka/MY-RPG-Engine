@@ -2,19 +2,19 @@
 //     Copyright (c) PlaceholderCompany. All rights reserved.
 // </copyright>
 
+using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
+using My3DEngine.Utilities;
+using My3DEngine.Utilities.Interfaces;
+using MY3DEngine.BuildTools.Properties;
+using NLog;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+
 namespace MY3DEngine.BuildTools
 {
-    using Microsoft.CodeAnalysis;
-    using Microsoft.CodeAnalysis.CSharp;
-    using MY3DEngine.BuildTools.Properties;
-    using NLog;
-    using System;
-    using System.Collections.Generic;
-    using System.IO;
-    using System.Linq;
-    using Utilities;
-    using Utilities.Interfaces;
-
     // TODO - REFACTOR/FIX
     public static class Build
     {

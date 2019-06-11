@@ -2,14 +2,14 @@
 //     Copyright (c) PlaceholderCompany. All rights reserved.
 // </copyright>
 
+using MY3DEngine.Models;
+using NLog;
+using System;
+using My3DEngine.Utilities;
+using My3DEngine.Utilities.Interfaces;
+
 namespace MY3DEngine.Managers
 {
-    using MY3DEngine.Models;
-    using NLog;
-    using System;
-    using Utilities;
-    using Utilities.Interfaces;
-
     /// <summary>
     /// Manages the games settings
     /// </summary>

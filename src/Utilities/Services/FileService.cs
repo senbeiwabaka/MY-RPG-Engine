@@ -2,14 +2,14 @@
 //     Copyright (c) PlaceholderCompany. All rights reserved.
 // </copyright>
 
-namespace Utilities
-{
-    using NLog;
-    using System;
-    using System.Collections.Generic;
-    using System.IO;
-    using Utilities.Interfaces;
+using NLog;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using My3DEngine.Utilities.Interfaces;
 
+namespace My3DEngine.Utilities.Services
+{
     public sealed class FileService : IFileService
     {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();

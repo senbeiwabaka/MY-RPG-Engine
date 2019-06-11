@@ -1,11 +1,12 @@
-﻿namespace Utilities.Tests
-{
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using Moq;
-    using System;
-    using System.IO;
-    using Utilities.Interfaces;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
+using My3DEngine.Utilities;
+using My3DEngine.Utilities.Interfaces;
+using System;
+using System.IO;
 
+namespace Utilities.Tests
+{
     [TestClass]
     public sealed class AssemblyHelperTests
     {

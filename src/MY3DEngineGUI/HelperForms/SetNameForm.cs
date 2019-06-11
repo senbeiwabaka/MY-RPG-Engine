@@ -2,12 +2,12 @@
 // Copyright (c) PlaceholderCompany. All rights reserved.
 // </copyright>
 
+using System;
+using System.Windows.Forms;
+using My3DEngine.Utilities.Services;
+
 namespace MY3DEngine.GUI.HelperForms
 {
-    using System;
-    using System.Windows.Forms;
-    using MY3DEngine.Utilities;
-
     public delegate void ClosingSetNameForm(object sender, ClosingSetNameEventArgs args);
 
     public class ClosingSetNameEventArgs : EventArgs
@@ -40,7 +40,7 @@ namespace MY3DEngine.GUI.HelperForms
         {
             var fileName = !tbName.Text.EndsWith(".cs", StringComparison.InvariantCultureIgnoreCase) ? $"{tbName.Text}.cs" : tbName.Text;
 
-            new FileIO().WriteFileContent($"{Engine.GameEngine.SettingsManager.Settings.MainFolderLocation}\\{fileName}", string.Empty);
+            new FileService().WriteFileContent($"{Engine.GameEngine.SettingsManager.Settings.MainFolderLocation}\\{fileName}", string.Empty);
 
             this.DialogResult = DialogResult.OK;
 

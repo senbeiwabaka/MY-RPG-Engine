@@ -1,7 +1,7 @@
-﻿namespace Utilities.Tests.Models
-{
-    using System.Diagnostics.CodeAnalysis;
+﻿using System.Diagnostics.CodeAnalysis;
 
+namespace Utilities.Tests.Models
+{
     [ExcludeFromCodeCoverage]
     public sealed class TestSettingsModel
     {

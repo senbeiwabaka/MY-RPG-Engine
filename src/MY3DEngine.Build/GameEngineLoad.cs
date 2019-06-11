@@ -2,17 +2,17 @@
 //     Copyright (c) PlaceholderCompany. All rights reserved.
 // </copyright>
 
+using My3DEngine.Utilities.Interfaces;
+using MY3DEngine.BuildTools.Models;
+using Newtonsoft.Json;
+using NLog;
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+
 namespace MY3DEngine.BuildTools
 {
-    using MY3DEngine.BuildTools.Models;
-    using Newtonsoft.Json;
-    using NLog;
-    using System;
-    using System.Collections;
-    using System.Collections.Generic;
-    using System.Linq;
-    using Utilities.Interfaces;
-
     public static class GameEngineLoad
     {
         private static readonly ILogger Logger = LogManager.GetCurrentClassLogger();
