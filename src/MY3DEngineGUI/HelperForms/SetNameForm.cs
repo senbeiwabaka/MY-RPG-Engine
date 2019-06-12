@@ -1,5 +1,5 @@
-﻿// <copyright file="SetNameForm.cs" company="PlaceholderCompany">
-// Copyright (c) PlaceholderCompany. All rights reserved.
+﻿// <copyright file="SetNameForm.cs" company="MY Soft Games LLC">
+//      Copyright (c) MY Soft Games LLC. All rights reserved.
 // </copyright>
 
 namespace MY3DEngine.GUI.HelperForms
