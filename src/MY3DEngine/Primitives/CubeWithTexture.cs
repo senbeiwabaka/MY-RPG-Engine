@@ -2,13 +2,13 @@
 // Copyright (c) PlaceholderCompany. All rights reserved.
 // </copyright>
 
-using System;
-using MY3DEngine.BaseObjects;
-using MY3DEngine.GraphicObjects;
-using SharpDX.Direct3D11;
-
 namespace MY3DEngine.Primitives
 {
+    using System;
+    using MY3DEngine.BaseObjects;
+    using MY3DEngine.GraphicObjects;
+    using SharpDX.Direct3D11;
+
     /// <summary>
     /// Holds properties and methods of a cube with texture
     /// </summary>

@@ -2,15 +2,15 @@
 // Copyright (c) PlaceholderCompany. All rights reserved.
 // </copyright>
 
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using MY3DEngine.BaseObjects;
-using MY3DEngine.Interfaces;
-
 namespace MY3DEngine.Managers
 {
+    using System;
+    using System.Collections.Generic;
+    using System.ComponentModel;
+    using System.Linq;
+    using MY3DEngine.BaseObjects;
+    using MY3DEngine.Interfaces;
+
     /// <inherietdoc/>
     public sealed class ObjectManager : IObjectManager
     {

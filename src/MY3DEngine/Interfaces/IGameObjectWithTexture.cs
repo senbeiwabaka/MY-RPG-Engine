@@ -2,10 +2,10 @@
 // Copyright (c) PlaceholderCompany. All rights reserved.
 // </copyright>
 
-using MY3DEngine.GraphicObjects;
-
 namespace MY3DEngine.Interfaces
 {
+    using MY3DEngine.GraphicObjects;
+
     public interface IGameObjectWithTexture
     {
         /// <summary>

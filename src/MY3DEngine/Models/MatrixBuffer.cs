@@ -2,11 +2,11 @@
 // Copyright (c) PlaceholderCompany. All rights reserved.
 // </copyright>
 
-using System.Runtime.InteropServices;
-using SharpDX;
-
 namespace MY3DEngine.Models
 {
+    using System.Runtime.InteropServices;
+    using SharpDX;
+
     [StructLayout(LayoutKind.Sequential)]
     public struct MatrixBuffer
     {

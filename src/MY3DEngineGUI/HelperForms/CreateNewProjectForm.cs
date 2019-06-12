@@ -2,15 +2,15 @@
 // Copyright (c) PlaceholderCompany. All rights reserved.
 // </copyright>
 
-using System;
-using System.Windows.Forms;
-using My3DEngine.Utilities.Services;
-using MY3DEngine.BuildTools;
-using MY3DEngine.GUI.Utilities;
-using MY3DEngine.Models;
-
 namespace MY3DEngine.GUI.HelperForms
 {
+    using System;
+    using System.Windows.Forms;
+    using MY3DEngine.BuildTools;
+    using MY3DEngine.GUI.Utilities;
+    using MY3DEngine.Models;
+    using My3DEngine.Utilities.Services;
+
     public partial class CreateNewProjectForm : Form
     {
         private string folderLocation = string.Empty;

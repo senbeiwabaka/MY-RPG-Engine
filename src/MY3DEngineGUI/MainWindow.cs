@@ -2,26 +2,26 @@
 //     Copyright (c) PlaceholderCompany. All rights reserved.
 // </copyright>
 
-using My3DEngine.Utilities.Services;
-using MY3DEngine.BaseObjects;
-using MY3DEngine.BuildTools;
-using MY3DEngine.GUI.HelperForms;
-using MY3DEngine.GUI.Utilities;
-using MY3DEngine.Models;
-using MY3DEngine.Primitives;
-using NLog;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.Drawing;
-using System.Globalization;
-using System.IO;
-using System.Linq;
-using System.Windows.Forms;
-
 namespace MY3DEngine.GUI
 {
+    using System;
+    using System.Collections.Generic;
+    using System.ComponentModel;
+    using System.Diagnostics;
+    using System.Drawing;
+    using System.Globalization;
+    using System.IO;
+    using System.Linq;
+    using System.Windows.Forms;
+    using MY3DEngine.BaseObjects;
+    using MY3DEngine.BuildTools;
+    using MY3DEngine.GUI.HelperForms;
+    using MY3DEngine.GUI.Utilities;
+    using MY3DEngine.Models;
+    using MY3DEngine.Primitives;
+    using My3DEngine.Utilities.Services;
+    using NLog;
+
     public partial class MainWindow : Form
     {
         private const string EngineTitle = "MY 3D Engine Builder";

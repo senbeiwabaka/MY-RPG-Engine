@@ -2,11 +2,11 @@
 // Copyright (c) PlaceholderCompany. All rights reserved.
 // </copyright>
 
-using System.Windows.Forms;
-using My3DEngine.Utilities.Services;
-
 namespace MY3DEngine.GUI.HelperForms
 {
+    using System.Windows.Forms;
+    using My3DEngine.Utilities.Services;
+
     public partial class LogViewer : Form
     {
         public LogViewer(string file) : this()

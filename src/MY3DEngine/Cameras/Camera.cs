@@ -2,12 +2,12 @@
 //     Copyright (c) PlaceholderCompany. All rights reserved.
 // </copyright>
 
-using MY3DEngine.Interfaces;
-using SharpDX;
-using System.Diagnostics;
-
 namespace MY3DEngine.Cameras
 {
+    using System.Diagnostics;
+    using MY3DEngine.Interfaces;
+    using SharpDX;
+
     /// <inherietdoc/>
     public sealed class Camera : ICamera
     {
@@ -37,19 +37,19 @@ namespace MY3DEngine.Cameras
         /// <inheritdoc/>
         public void OnResize(float new_width, float new_height)
         {
-            //this.ClientWidth = new_width;
-            //this.ClientHeight = new_height;
-            //this.InitProjectionMatrix(this.Angle, new_width, new_height, this.Nearest, this.Farthest);
-            //this.InitOrthoMatrix(new_width, new_height, 0.0f, this.Farthest);
+            // this.ClientWidth = new_width;
+            // this.ClientHeight = new_height;
+            // this.InitProjectionMatrix(this.Angle, new_width, new_height, this.Nearest, this.Farthest);
+            // this.InitOrthoMatrix(new_width, new_height, 0.0f, this.Farthest);
         }
 
         public bool RayIntersection(Vector2 mousePosition)
         {
             var mouse = new Vector3();
 
-            //mouse.X = (((2.0f * mousePosition.X) / Engine.GameEngine.LocalDevice.ThisDevice.Viewport.Width) - 1) / projection.M11;
-            //mouse.Y = -(((2.0f * mousePosition.Y) / Engine.GameEngine.LocalDevice.ThisDevice.Viewport.Height) - 1) / projection.M22;
-            //mouse.Z = 1.0f;
+            // mouse.X = (((2.0f * mousePosition.X) / Engine.GameEngine.LocalDevice.ThisDevice.Viewport.Width) - 1) / projection.M11;
+            // mouse.Y = -(((2.0f * mousePosition.Y) / Engine.GameEngine.LocalDevice.ThisDevice.Viewport.Height) - 1) / projection.M22;
+            // mouse.Z = 1.0f;
 
             Matrix worldView = new Matrix(); // this.View * Engine.GameEngine.LocalDevice.GetDevice.ImmediateContext.(TransformState.World);
 
@@ -70,10 +70,10 @@ namespace MY3DEngine.Cameras
 
             var selectionRay = new Ray(mouse, direction);
 
-            //if (mesh != null)
-            //{
+            // if (mesh != null)
+            // {
             //    return mesh.ObjectMesh.Intersects(selectionRay);
-            //}
+            // }
 
             return false;
         }

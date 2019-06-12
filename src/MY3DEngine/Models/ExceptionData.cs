@@ -2,10 +2,10 @@
 // Copyright (c) PlaceholderCompany. All rights reserved.
 // </copyright>
 
-using System;
-
 namespace MY3DEngine.Models
 {
+    using System;
+
     /// <summary>Provides the base class for value types.</summary>
     public struct ErrorModel
     {

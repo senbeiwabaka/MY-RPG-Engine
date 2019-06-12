@@ -2,12 +2,12 @@
 // Copyright (c) PlaceholderCompany. All rights reserved.
 // </copyright>
 
-using System;
-using System.ComponentModel;
-using MY3DEngine.Models;
-
 namespace MY3DEngine.Interfaces
 {
+    using System;
+    using System.ComponentModel;
+    using MY3DEngine.Models;
+
     public interface IExceptionManager
     {
         /// <summary>

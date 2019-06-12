@@ -2,14 +2,14 @@
 // Copyright (c) PlaceholderCompany. All rights reserved.
 // </copyright>
 
-using MY3DEngine.BaseObjects;
-using MY3DEngine.GraphicObjects;
-using MY3DEngine.Managers;
-using SharpDX;
-using SharpDX.Direct3D11;
-
 namespace MY3DEngine.Primitives
 {
+    using MY3DEngine.BaseObjects;
+    using MY3DEngine.GraphicObjects;
+    using MY3DEngine.Managers;
+    using SharpDX;
+    using SharpDX.Direct3D11;
+
     /// <summary>
     /// A basic triangle with a texture applied
     /// </summary>

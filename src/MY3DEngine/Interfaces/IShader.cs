@@ -2,13 +2,13 @@
 // Copyright (c) PlaceholderCompany. All rights reserved.
 // </copyright>
 
-using System;
-using System.Collections.Generic;
-using MY3DEngine.BaseObjects;
-using SharpDX;
-
 namespace MY3DEngine.Interfaces
 {
+    using System;
+    using System.Collections.Generic;
+    using MY3DEngine.BaseObjects;
+    using SharpDX;
+
     /// <summary>
     /// Interface for using shaders in the engine
     /// </summary>

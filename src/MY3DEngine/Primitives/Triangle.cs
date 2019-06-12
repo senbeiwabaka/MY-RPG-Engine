@@ -2,13 +2,13 @@
 // Copyright (c) PlaceholderCompany. All rights reserved.
 // </copyright>
 
-using MY3DEngine.BaseObjects;
-using MY3DEngine.GraphicObjects;
-using SharpDX;
-using SharpDX.Direct3D11;
-
 namespace MY3DEngine.Primitives
 {
+    using MY3DEngine.BaseObjects;
+    using MY3DEngine.GraphicObjects;
+    using SharpDX;
+    using SharpDX.Direct3D11;
+
     /// <summary>
     /// Basic game triangle object
     /// </summary>
@@ -70,7 +70,7 @@ namespace MY3DEngine.Primitives
         /// <inheritdoc/>
         public override void Render()
         {
-            //int size = Utilities.SizeOf<ColorVertex>();
+            // int size = Utilities.SizeOf<ColorVertex>();
             // Set the vertex buffer to active in the input assembler so it can be rendered.
             Engine.GameEngine.GraphicsManager.GetDeviceContext.InputAssembler.SetVertexBuffers(0, new VertexBufferBinding(this.VertexBuffer, ColorVertex.Size, 0));
 

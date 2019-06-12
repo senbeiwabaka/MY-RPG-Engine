@@ -2,13 +2,13 @@
 // Copyright (c) PlaceholderCompany. All rights reserved.
 // </copyright>
 
-using System;
-using MY3DEngine.Interfaces;
-using MY3DEngine.Managers;
-using SharpDX.Direct3D11;
-
 namespace MY3DEngine.Graphics
 {
+    using System;
+    using MY3DEngine.Interfaces;
+    using MY3DEngine.Managers;
+    using SharpDX.Direct3D11;
+
     internal sealed class GraphicsManager : IGraphicManager
     {
         /// <inheritdoc/>

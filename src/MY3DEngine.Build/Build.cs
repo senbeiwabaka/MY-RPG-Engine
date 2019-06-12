@@ -69,11 +69,11 @@ namespace MY3DEngine.BuildTools
 
                 var tree = CSharpSyntaxTree.ParseText(fileContents);
 
-                //var root = (CompilationUnitSyntax)tree.GetRoot();
-                //var usings = root.Usings;
+                // var root = (CompilationUnitSyntax)tree.GetRoot();
+                // var usings = root.Usings;
 
-                //foreach (var use in usings)
-                //{
+                // foreach (var use in usings)
+                // {
                 //    var usingName = use.Name.ToString();
 
                 // if (usingName == "MY3DEngine" || usingName == "MY3DEngine.Models" || usingName ==
@@ -81,10 +81,10 @@ namespace MY3DEngine.BuildTools
 
                 // var assembly = System.Reflection.Assembly.Load(usingName);
 
-                //    references.Add(MetadataReference.CreateFromFile(assembly.Location));
-                //}
+                // references.Add(MetadataReference.CreateFromFile(assembly.Location));
+                // }
 
-                //The location of the .NET assemblies
+                // The location of the .NET assemblies
                 var assemblyPath = Path.GetDirectoryName(typeof(object).Assembly.Location);
 
                 /*

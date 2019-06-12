@@ -2,13 +2,13 @@
 // Copyright (c) PlaceholderCompany. All rights reserved.
 // </copyright>
 
-using MY3DEngine.BaseObjects;
-using MY3DEngine.GraphicObjects;
-using SharpDX;
-using SharpDX.Direct3D11;
-
 namespace MY3DEngine.Primitives
 {
+    using MY3DEngine.BaseObjects;
+    using MY3DEngine.GraphicObjects;
+    using SharpDX;
+    using SharpDX.Direct3D11;
+
     /// <summary>
     /// Base object that can have color applied
     /// </summary>

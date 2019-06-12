@@ -2,12 +2,12 @@
 // Copyright (c) PlaceholderCompany. All rights reserved.
 // </copyright>
 
-using System;
-using MY3DEngine.Managers;
-using SharpDX.Direct3D11;
-
 namespace MY3DEngine.Interfaces
 {
+    using System;
+    using MY3DEngine.Managers;
+    using SharpDX.Direct3D11;
+
     public interface IGraphicManager : IDisposable
     {
         /// <summary>

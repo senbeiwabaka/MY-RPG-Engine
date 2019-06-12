@@ -2,12 +2,12 @@
 // Copyright (c) PlaceholderCompany. All rights reserved.
 // </copyright>
 
-using System;
-using System.Windows.Forms;
-using My3DEngine.Utilities.Services;
-
 namespace MY3DEngine.GUI.HelperForms
 {
+    using System;
+    using System.Windows.Forms;
+    using My3DEngine.Utilities.Services;
+
     public delegate void ClosingSetNameForm(object sender, ClosingSetNameEventArgs args);
 
     public class ClosingSetNameEventArgs : EventArgs

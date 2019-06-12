@@ -2,16 +2,16 @@
 // Copyright (c) PlaceholderCompany. All rights reserved.
 // </copyright>
 
-using System;
-using SharpDX;
-using SharpDX.Direct3D;
-using SharpDX.Direct3D11;
-using SharpDX.DXGI;
-using SharpDX.Mathematics.Interop;
-using Device = SharpDX.Direct3D11.Device;
-
 namespace MY3DEngine.Managers
 {
+    using System;
+    using SharpDX;
+    using SharpDX.Direct3D;
+    using SharpDX.Direct3D11;
+    using SharpDX.DXGI;
+    using SharpDX.Mathematics.Interop;
+    using Device = SharpDX.Direct3D11.Device;
+
     /// <summary>
     /// The device manager.
     /// </summary>
@@ -84,7 +84,7 @@ namespace MY3DEngine.Managers
             // create directx graphics interface factory
             using (var factory = new Factory1())
             {
-                //factory.MakeWindowAssociation(windowHandle, WindowAssociationFlags.IgnoreAll);
+                // factory.MakeWindowAssociation(windowHandle, WindowAssociationFlags.IgnoreAll);
 
                 using (var adapter = factory.GetAdapter1(0))
                 {

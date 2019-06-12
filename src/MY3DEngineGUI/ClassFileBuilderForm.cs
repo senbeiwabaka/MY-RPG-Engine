@@ -2,16 +2,16 @@
 // Copyright (c) PlaceholderCompany. All rights reserved.
 // </copyright>
 
-using System;
-using System.Drawing;
-using System.IO;
-using System.Windows.Forms;
-using MY3DEngine.BuildTools;
-using NLog;
-using ScintillaNET;
-
 namespace MY3DEngine.GUI
 {
+    using System;
+    using System.Drawing;
+    using System.IO;
+    using System.Windows.Forms;
+    using MY3DEngine.BuildTools;
+    using NLog;
+    using ScintillaNET;
+
     public partial class ClassFileBuilderForm : Form
     {
         private const int PaddingSize = 2;
