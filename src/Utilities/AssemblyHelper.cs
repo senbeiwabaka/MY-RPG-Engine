@@ -1,15 +1,15 @@
-﻿// <copyright file="AssemblyHelper.cs" company="PlaceholderCompany">
-// Copyright (c) PlaceholderCompany. All rights reserved.
+﻿// <copyright file="AssemblyHelper.cs" company="MY Soft Games LLC">
+//      Copyright (c) MY Soft Games LLC. All rights reserved.
 // </copyright>
-
-using NLog;
-using System;
-using System.Collections.Generic;
-using System.Reflection;
-using My3DEngine.Utilities.Interfaces;
 
 namespace My3DEngine.Utilities
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Reflection;
+    using My3DEngine.Utilities.Interfaces;
+    using NLog;
+
     public static class AssemblyHelper
     {
         private static readonly ILogger Logger = LogManager.GetCurrentClassLogger();

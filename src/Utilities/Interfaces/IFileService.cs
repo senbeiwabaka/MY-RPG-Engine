@@ -1,11 +1,11 @@
-﻿// <copyright file="IFileService.cs" company="PlaceholderCompany">
-// Copyright (c) PlaceholderCompany. All rights reserved.
+﻿// <copyright file="IFileService.cs" company="MY Soft Games LLC">
+//      Copyright (c) MY Soft Games LLC. All rights reserved.
 // </copyright>
-
-using System.Collections.Generic;
 
 namespace My3DEngine.Utilities.Interfaces
 {
+    using System.Collections.Generic;
+
     public interface IFileService
     {
         string GetCurrentDirectory { get; }

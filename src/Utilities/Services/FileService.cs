@@ -1,15 +1,15 @@
-﻿// <copyright file="FileService.cs" company="PlaceholderCompany">
-//     Copyright (c) PlaceholderCompany. All rights reserved.
+﻿// <copyright file="FileService.cs" company="MY Soft Games LLC">
+//      Copyright (c) MY Soft Games LLC. All rights reserved.
 // </copyright>
-
-using NLog;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using My3DEngine.Utilities.Interfaces;
 
 namespace My3DEngine.Utilities.Services
 {
+    using System;
+    using System.Collections.Generic;
+    using System.IO;
+    using My3DEngine.Utilities.Interfaces;
+    using NLog;
+
     public sealed class FileService : IFileService
     {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();

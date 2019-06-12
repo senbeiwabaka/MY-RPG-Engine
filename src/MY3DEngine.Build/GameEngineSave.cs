@@ -1,18 +1,18 @@
-﻿// <copyright file="GameEngineSave.cs" company="PlaceholderCompany">
-//     Copyright (c) PlaceholderCompany. All rights reserved.
+﻿// <copyright file="GameEngineSave.cs" company="MY Soft Games LLC">
+//      Copyright (c) MY Soft Games LLC. All rights reserved.
 // </copyright>
-
-using My3DEngine.Utilities.Interfaces;
-using MY3DEngine.BuildTools.Models;
-using MY3DEngine.BuildTools.Properties;
-using Newtonsoft.Json;
-using NLog;
-using System;
-using System.Collections.Generic;
-using System.Globalization;
 
 namespace MY3DEngine.BuildTools
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Globalization;
+    using MY3DEngine.BuildTools.Models;
+    using MY3DEngine.BuildTools.Properties;
+    using My3DEngine.Utilities.Interfaces;
+    using Newtonsoft.Json;
+    using NLog;
+
     public static class GameEngineSave
     {
         private static readonly ILogger Logger = LogManager.GetCurrentClassLogger();

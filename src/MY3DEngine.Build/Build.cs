@@ -1,20 +1,20 @@
-﻿// <copyright file="Build.cs" company="PlaceholderCompany">
-//     Copyright (c) PlaceholderCompany. All rights reserved.
+﻿// <copyright file="Build.cs" company="MY Soft Games LLC">
+//      Copyright (c) MY Soft Games LLC. All rights reserved.
 // </copyright>
-
-using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.CSharp;
-using My3DEngine.Utilities;
-using My3DEngine.Utilities.Interfaces;
-using MY3DEngine.BuildTools.Properties;
-using NLog;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 
 namespace MY3DEngine.BuildTools
 {
+    using System;
+    using System.Collections.Generic;
+    using System.IO;
+    using System.Linq;
+    using Microsoft.CodeAnalysis;
+    using Microsoft.CodeAnalysis.CSharp;
+    using MY3DEngine.BuildTools.Properties;
+    using My3DEngine.Utilities;
+    using My3DEngine.Utilities.Interfaces;
+    using NLog;
+
     // TODO - REFACTOR/FIX
     public static class Build
     {

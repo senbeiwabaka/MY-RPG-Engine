@@ -1,14 +1,14 @@
-﻿// <copyright file="Deserialize.cs" company="PlaceholderCompany">
-// Copyright (c) PlaceholderCompany. All rights reserved.
+﻿// <copyright file="Deserialize.cs" company="MY Soft Games LLC">
+//      Copyright (c) MY Soft Games LLC. All rights reserved.
 // </copyright>
-
-using Newtonsoft.Json;
-using NLog;
-using System;
-using My3DEngine.Utilities.Interfaces;
 
 namespace My3DEngine.Utilities
 {
+    using System;
+    using My3DEngine.Utilities.Interfaces;
+    using Newtonsoft.Json;
+    using NLog;
+
     public static class Deserialize
     {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
