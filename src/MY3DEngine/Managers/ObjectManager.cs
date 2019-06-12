@@ -35,6 +35,7 @@ namespace MY3DEngine.Managers
         }
 
         /// <inherietdoc/>
+/// <returns></returns>
         public bool AddObject(BaseObject gameObject, bool isNewObject = true)
         {
             try
@@ -64,7 +65,8 @@ namespace MY3DEngine.Managers
         }
 
         /// <inherietdoc/>
-        public IReadOnlyList<BaseObject> GetGameObjects()
+/// <returns></returns>
+        public IReadOnlyList<BaseObject> GetImmutableListOfGameObjects()
         {
             lock (GameObjects)
             {
@@ -73,6 +75,7 @@ namespace MY3DEngine.Managers
         }
 
         /// <inherietdoc/>
+/// <returns></returns>
         public bool LoadObjects(IEnumerable<BaseObject> objects)
         {
             foreach (var item in objects)
@@ -86,6 +89,7 @@ namespace MY3DEngine.Managers
         }
 
         /// <inherietdoc/>
+/// <returns></returns>
         public bool RemoveObject(BaseObject gameObject)
         {
             try

@@ -22,7 +22,6 @@ namespace MY3DEngine.Interfaces
         /// <summary>
         /// Initialize the required memory and datasets
         /// </summary>
-        /// <returns></returns>
         void Initialize();
 
         /// <summary>
@@ -32,6 +31,7 @@ namespace MY3DEngine.Interfaces
         /// <param name="worldMatrix"></param>
         /// <param name="viewMatrix"></param>
         /// <param name="projectionMatrix"></param>
+        /// <returns></returns>
         bool Render(IEnumerable<BaseObject> gameObjects, Matrix worldMatrix, Matrix viewMatrix, Matrix projectionMatrix);
     }
 }

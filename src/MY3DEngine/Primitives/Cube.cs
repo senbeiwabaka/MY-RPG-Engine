@@ -43,13 +43,13 @@ namespace MY3DEngine.Primitives
                         new ColorVertex(new Vector3(-1f, -1f, 0f), new Vector4(1.0f, 1.0f, 1.0f, 1.0f)), // Bottom Left
                         new ColorVertex(new Vector3(-1f, 1f, 0f), new Vector4(1.0f, 1.0f, 1.0f, 1.0f)), // Top Left
                         new ColorVertex(new Vector3(1f, 1f, 0f), new Vector4(1.0f, 1.0f, 1.0f, 1.0f)), // Top Right
-                        new ColorVertex(new Vector3(1f, -1f, 0f), new Vector4(1.0f, 1.0f, 1.0f, 1.0f)) // Bottom Right
+                        new ColorVertex(new Vector3(1f, -1f, 0f), new Vector4(1.0f, 1.0f, 1.0f, 1.0f)), // Bottom Right
                 };
 
                 this.Indices = new int[]
                 {
                     0, 1, 2,
-                    0, 2, 3
+                    0, 2, 3,
                 };
             }
 

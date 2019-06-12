@@ -134,7 +134,7 @@ namespace MY3DEngine.BuildTools
                 MainFileName = Constants.MainFileName,
                 GameName = gameName,
                 FolderLocation = fullPath,
-                Settings = settingsContent
+                Settings = settingsContent,
             };
         }
 

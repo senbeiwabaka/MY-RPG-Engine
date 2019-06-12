@@ -31,7 +31,7 @@ namespace MY3DEngine.BuildTools
                 {
                     var jsonSettings = new JsonSerializerSettings
                     {
-                        TypeNameHandling = TypeNameHandling.Auto
+                        TypeNameHandling = TypeNameHandling.Auto,
                     };
                     var gameObject = JsonConvert.DeserializeObject(item.ToString(), jsonSettings);
 
@@ -53,14 +53,19 @@ namespace MY3DEngine.BuildTools
             return false;
         }
 
-        // TODO: FINISH
         /// <summary>
         /// Load a game project
         /// </summary>
         /// <param name="folderLocation">The location for the game files</param>
         /// <returns>The load project result. <see cref="ToolsetGameModel"/></returns>
+        /// <remarks>TODO: FINISH</remarks>
         public static ToolsetGameModel LoadProject(string folderLocation, IFileService fileIo)
         {
+            if (fileIo == null)
+            {
+                throw new ArgumentNullException(nameof(fileIo));
+            }
+
             Logger.Info($"Starting {nameof(GameEngineLoad)}.{nameof(LoadProject)}");
 
             ToolsetGameModel model;
@@ -74,7 +79,7 @@ namespace MY3DEngine.BuildTools
             {
                 model = new ToolsetGameModel(true)
                 {
-                    FolderLocation = folderLocation
+                    FolderLocation = folderLocation,
                 };
 
                 var files = fileIo.GetFiles(folderLocation, Constants.MainFileName);

@@ -35,6 +35,6 @@ namespace MY3DEngine.GraphicObjects
         /// <summary>
         /// Gets how big the object is for transfering data and building buffers
         /// </summary>
-        public static int Size => SharpDX.Utilities.SizeOf<TextureVertex>();
+        public static int Size => Utilities.SizeOf<TextureVertex>();
     }
 }

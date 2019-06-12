@@ -47,14 +47,14 @@ namespace MY3DEngine.Primitives
                     new ColorVertex(new Vector3(0, 1, 0), new Vector4(1.0f, 1.0f, 1.0f, 1.0f)),
 
                     // Bottom right.
-                    new ColorVertex(new Vector3(1, -1, 0), new Vector4(1.0f, 1.0f, 1.0f, 1.0f))
+                    new ColorVertex(new Vector3(1, -1, 0), new Vector4(1.0f, 1.0f, 1.0f, 1.0f)),
                 };
 
                 this.Indices = new int[]
                 {
                     0,
                     1,
-                    2
+                    2,
                 };
             }
 

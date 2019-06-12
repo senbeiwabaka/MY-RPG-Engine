@@ -38,6 +38,6 @@ namespace MY3DEngine.GraphicObjects
         /// <summary>
         /// Gets how big the object is for transfering data and building buffers
         /// </summary>
-        public static int Size => SharpDX.Utilities.SizeOf<ColorVertex>();
+        public static int Size => Utilities.SizeOf<ColorVertex>();
     }
 }

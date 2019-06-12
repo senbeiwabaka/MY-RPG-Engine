@@ -11,7 +11,7 @@ namespace MY3DEngine.BaseObjects
     /// <inheritdoc/>
     public abstract class GameObjectWithTexture : BaseObject, IGameObjectWithTexture
     {
-        protected ShaderResourceView Texture;
+        protected ShaderResourceView texture;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="GameObjectWithTexture"/> class.

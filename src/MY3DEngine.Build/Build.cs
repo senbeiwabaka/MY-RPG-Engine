@@ -128,6 +128,8 @@ namespace MY3DEngine.BuildTools
                 Logger.Error(exception, nameof(BuildGame));
 
                 buildSuccessful = false;
+
+                throw;
             }
 
             Logger.Info($"Finished {nameof(Build)}.{nameof(BuildGame)}");
@@ -167,6 +169,8 @@ namespace MY3DEngine.BuildTools
                 Logger.Error(exception, nameof(CompileFile));
 
                 return false;
+
+                throw;
             }
 
             Logger.Info($"Finished {nameof(CompileFile)}");
@@ -223,6 +227,8 @@ namespace MY3DEngine.BuildTools
                 Logger.Error(exception, $"{nameof(Build)}.nameof{nameof(GenerateFilesForBuildingGame)}");
 
                 return false;
+
+                throw;
             }
 
             Logger.Info($"Finished {nameof(Build)}.{nameof(GenerateFilesForBuildingGame)}");

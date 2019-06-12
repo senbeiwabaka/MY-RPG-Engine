@@ -324,7 +324,7 @@ namespace MY3DEngine.GUI
         {
             var dialog = new OpenFileDialog
             {
-                Multiselect = false
+                Multiselect = false,
             };
 
             if (dialog.ShowDialog() == DialogResult.OK)
@@ -356,7 +356,7 @@ namespace MY3DEngine.GUI
         {
             UseWaitCursor = true;
 
-            if (GameEngineSave.SaveProject(ToolsetGameModelManager.ToolsetGameModel.MainFileFolderLocation, Engine.GameEngine.Manager.GetGameObjects()))
+            if (GameEngineSave.SaveProject(ToolsetGameModelManager.ToolsetGameModel.MainFileFolderLocation, Engine.GameEngine.Manager.GetImmutableListOfGameObjects()))
             {
                 AddToInformationDisplay("Game saved successfully.");
 
@@ -399,7 +399,7 @@ namespace MY3DEngine.GUI
                 CheckFileExists = true,
                 CheckPathExists = true,
                 DefaultExt = ".bmp",
-                Multiselect = true
+                Multiselect = true,
             };
 
             var result = fileExplorer.ShowDialog();
@@ -479,7 +479,7 @@ namespace MY3DEngine.GUI
 
             if (result == DialogResult.Yes)
             {
-                if (GameEngineSave.SaveProject(ToolsetGameModelManager.ToolsetGameModel.FolderLocation, Engine.GameEngine.Manager.GetGameObjects()))
+                if (GameEngineSave.SaveProject(ToolsetGameModelManager.ToolsetGameModel.FolderLocation, Engine.GameEngine.Manager.GetImmutableListOfGameObjects()))
                 {
                     MessageBox.Show("Game saved successfully.", MessageResources.Information, MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
@@ -661,7 +661,7 @@ namespace MY3DEngine.GUI
             {
                 ExceptionBindingSource.DataSource = new BindingList<ErrorModel>
                 {
-                    graphicsException
+                    graphicsException,
                 };
             }
         }
@@ -676,17 +676,17 @@ namespace MY3DEngine.GUI
                 Dock = DockStyle.None,
                 Visible = true,
                 Width = ClientSize.Width,
-                Height = ClientSize.Height
+                Height = ClientSize.Height,
             };
             var loadExistingProject = new Button
             {
                 Text = "Load Project",
-                AutoSize = true
+                AutoSize = true,
             };
             var createNewProject = new Button
             {
                 Text = "Create Project",
-                AutoSize = true
+                AutoSize = true,
             };
 
             loadExistingProject.Left = (ClientSize.Width - loadExistingProject.Width) / 2;

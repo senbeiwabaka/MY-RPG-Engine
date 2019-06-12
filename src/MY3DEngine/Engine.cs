@@ -34,7 +34,7 @@ namespace MY3DEngine
         }
 
         /// <summary>
-        ///Gets game engine instance
+        /// Gets game engine instance
         /// </summary>
         public static readonly Engine GameEngine = new Engine();
 

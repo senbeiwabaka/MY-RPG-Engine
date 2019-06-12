@@ -43,29 +43,29 @@ namespace MY3DEngine.Primitives
                     new TextureVertex
                     {
                         Position = new Vector3(-1, -1, 0),
-                        Texture = new Vector2(0, 1)
+                        Texture = new Vector2(0, 1),
                     },
 
                     // Top middle.
                     new TextureVertex
                     {
                         Position = new Vector3(0, 1, 0),
-                        Texture = new Vector2(.5f, 0)
+                        Texture = new Vector2(.5f, 0),
                     },
 
                     // Bottom right.
                     new TextureVertex
                     {
                         Position = new Vector3(1, -1, 0),
-                        Texture = new Vector2(1, 1)
-                    }
+                        Texture = new Vector2(1, 1),
+                    },
                 };
 
             // Create Indicies to load into the IndexBuffer.
             this.Indices = new int[] {
                     0, // Bottom left.
                     1, // Top middle.
-                    2 // Bottom right.
+                    2, // Bottom right.
             };
 
             // Instantiate Vertex buffer from vertex data
@@ -77,7 +77,7 @@ namespace MY3DEngine.Primitives
             var path = Engine.GameEngine.SettingsManager.Settings.AssetsPath;
             path = $"{path}\\seafloor.bmp";
 
-            TextureManager.Initialize(Engine.GameEngine.GraphicsManager.GetDevice, path, ref this.Texture);
+            TextureManager.Initialize(Engine.GameEngine.GraphicsManager.GetDevice, path, ref this.texture);
         }
 
         /// <inheritdoc/>
@@ -93,7 +93,7 @@ namespace MY3DEngine.Primitives
             Engine.GameEngine.GraphicsManager.GetDeviceContext.InputAssembler.PrimitiveTopology = SharpDX.Direct3D.PrimitiveTopology.TriangleList;
 
             // Set shader resource in the pixel shader.
-            Engine.GameEngine.GraphicsManager.GetDeviceContext.PixelShader.SetShaderResource(0, this.Texture);
+            Engine.GameEngine.GraphicsManager.GetDeviceContext.PixelShader.SetShaderResource(0, this.texture);
         }
     }
 }

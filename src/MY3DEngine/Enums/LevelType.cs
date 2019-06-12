@@ -9,6 +9,6 @@ namespace MY3DEngine.Enums
         LoadingScreen,
         MainMenu,
         Credits,
-        Level
+        Level,
     }
 }

@@ -55,10 +55,7 @@ namespace MY3DEngine.Managers
 
         internal Matrix ProjectionMatrix { get; set; }
 
-        /// <summary>
-        ///
-        /// </summary>
-/// <inheritdoc/>
+        /// <inheritdoc/>
         public void Dispose()
         {
             this.Dispose(true);
@@ -84,8 +81,6 @@ namespace MY3DEngine.Managers
             // create directx graphics interface factory
             using (var factory = new Factory1())
             {
-                // factory.MakeWindowAssociation(windowHandle, WindowAssociationFlags.IgnoreAll);
-
                 using (var adapter = factory.GetAdapter1(0))
                 {
                     using (var adapterOutput = adapter.GetOutput(0))
@@ -156,7 +151,7 @@ namespace MY3DEngine.Managers
                 Flags = SwapChainFlags.None,
 
                 // Discard the back buffer content after presenting.
-                SwapEffect = SwapEffect.Discard
+                SwapEffect = SwapEffect.Discard,
             };
 
             // set the feature level to directx 11
@@ -209,7 +204,7 @@ namespace MY3DEngine.Managers
                 Usage = ResourceUsage.Default,
                 BindFlags = BindFlags.DepthStencil,
                 CpuAccessFlags = CpuAccessFlags.None,
-                OptionFlags = ResourceOptionFlags.None
+                OptionFlags = ResourceOptionFlags.None,
             };
 
             // create the texture for the depth buffer
@@ -232,7 +227,7 @@ namespace MY3DEngine.Managers
                     FailOperation = StencilOperation.Keep,
                     DepthFailOperation = StencilOperation.Increment,
                     PassOperation = StencilOperation.Keep,
-                    Comparison = Comparison.Always
+                    Comparison = Comparison.Always,
                 },
 
                 // Stencil operation if pixel is back-facing.
@@ -241,8 +236,8 @@ namespace MY3DEngine.Managers
                     FailOperation = StencilOperation.Keep,
                     DepthFailOperation = StencilOperation.Decrement,
                     PassOperation = StencilOperation.Keep,
-                    Comparison = Comparison.Always
-                }
+                    Comparison = Comparison.Always,
+                },
             };
 
             this.depthStencilState = new DepthStencilState(this.GetDevice, depthStencilDesc);
@@ -263,8 +258,8 @@ namespace MY3DEngine.Managers
                 Dimension = DepthStencilViewDimension.Texture2D,
                 Texture2D = new DepthStencilViewDescription.Texture2DResource
                 {
-                    MipSlice = 0
-                }
+                    MipSlice = 0,
+                },
             };
 
             this.depthStencilView = new DepthStencilView(this.GetDevice, this.depthStencilBuffer, depthStencilViewDescription);
@@ -290,7 +285,7 @@ namespace MY3DEngine.Managers
                 IsFrontCounterClockwise = false,
                 IsMultisampleEnabled = false,
                 IsScissorEnabled = false,
-                SlopeScaledDepthBias = .0f
+                SlopeScaledDepthBias = .0f,
             };
 
             this.rasterizerState = new RasterizerState(this.GetDevice, rasterizerStateDescription);
@@ -364,7 +359,7 @@ namespace MY3DEngine.Managers
                 IsFrontCounterClockwise = false,
                 IsMultisampleEnabled = false,
                 IsScissorEnabled = false,
-                SlopeScaledDepthBias = 0.0f
+                SlopeScaledDepthBias = 0.0f,
             };
 
             if (enable)

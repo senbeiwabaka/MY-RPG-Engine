@@ -31,7 +31,7 @@ namespace MY3DEngine.Interfaces
         /// Get the list of game objects
         /// </summary>
         /// <returns></returns>
-        IReadOnlyList<BaseObject> GetGameObjects();
+        IReadOnlyList<BaseObject> GetImmutableListOfGameObjects();
 
         /// <summary>
         /// Load a group of objects. Usually used when loading up a game

@@ -61,7 +61,7 @@ namespace MY3DEngine.Cameras
             {
                 X = mouse.X * m.M11 + mouse.Y * m.M21 + mouse.Z * m.M31,
                 Y = mouse.X * m.M12 + mouse.Y * m.M22 + mouse.Z * m.M32,
-                Z = mouse.X * m.M13 + mouse.Y * m.M23 + mouse.Z * m.M33
+                Z = mouse.X * m.M13 + mouse.Y * m.M23 + mouse.Z * m.M33,
             };
 
             mouse.X = m.M41;

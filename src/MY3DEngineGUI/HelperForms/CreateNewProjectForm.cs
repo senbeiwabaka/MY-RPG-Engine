@@ -33,7 +33,7 @@ namespace MY3DEngine.GUI.HelperForms
             {
                 GameName = tbName.Text.Trim(),
                 Width = 800,
-                Height = 600
+                Height = 600,
             };
             var toolsetGameModel = GameEngineSave.CreateNewProject(folderLocation.Trim(), settings.GameName, settings.Width, settings.Height, settings, new FileService());
 

@@ -60,7 +60,7 @@ namespace MY3DEngine.Shaders
                                 Slot = 0,
                                 AlignedByteOffset = 0,
                                 Classification = InputClassification.PerVertexData,
-                                InstanceDataStepRate = 0
+                                InstanceDataStepRate = 0,
                             },
                             new InputElement
                             {
@@ -70,8 +70,8 @@ namespace MY3DEngine.Shaders
                                 Slot = 0,
                                 AlignedByteOffset = InputElement.AppendAligned,
                                 Classification = InputClassification.PerVertexData,
-                                InstanceDataStepRate = 0
-                            }
+                                InstanceDataStepRate = 0,
+                            },
                     });
             }
 
@@ -84,11 +84,11 @@ namespace MY3DEngine.Shaders
             var matrixBufDesc = new BufferDescription()
             {
                 Usage = ResourceUsage.Dynamic,
-                SizeInBytes = SharpDX.Utilities.SizeOf<MatrixBuffer>(),
+                SizeInBytes = Utilities.SizeOf<MatrixBuffer>(),
                 BindFlags = BindFlags.ConstantBuffer,
                 CpuAccessFlags = CpuAccessFlags.Write,
                 OptionFlags = ResourceOptionFlags.None,
-                StructureByteStride = 0
+                StructureByteStride = 0,
             };
 
             this.ConstantMatrixBuffer = new SharpDX.Direct3D11.Buffer(Engine.GameEngine.GraphicsManager.GetDevice, matrixBufDesc);
@@ -104,7 +104,7 @@ namespace MY3DEngine.Shaders
                 ComparisonFunction = Comparison.Always,
                 BorderColor = new SharpDX.Mathematics.Interop.RawColor4(0.0f, 0.0f, 0.0f, 0.0f),
                 MinimumLod = 0,
-                MaximumLod = float.MaxValue
+                MaximumLod = float.MaxValue,
             };
             this.samplerState = new SamplerState(Engine.GameEngine.GraphicsManager.GetDevice, sampleStateDescription);
 
