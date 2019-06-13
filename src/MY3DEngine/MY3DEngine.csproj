@@ -43,35 +43,6 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.12.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
-      <HintPath>..\packages\NLog.4.6.3\lib\net45\NLog.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="SharpDX, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
-      <HintPath>..\packages\SharpDX.4.0.1\lib\net45\SharpDX.dll</HintPath>
-    </Reference>
-    <Reference Include="SharpDX.D3DCompiler, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
-      <HintPath>..\packages\SharpDX.D3DCompiler.4.0.1\lib\net45\SharpDX.D3DCompiler.dll</HintPath>
-    </Reference>
-    <Reference Include="SharpDX.Direct2D1, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
-      <HintPath>..\packages\SharpDX.Direct2D1.4.0.1\lib\net45\SharpDX.Direct2D1.dll</HintPath>
-    </Reference>
-    <Reference Include="SharpDX.Direct3D11, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
-      <HintPath>..\packages\SharpDX.Direct3D11.4.0.1\lib\net45\SharpDX.Direct3D11.dll</HintPath>
-    </Reference>
-    <Reference Include="SharpDX.DXGI, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
-      <HintPath>..\packages\SharpDX.DXGI.4.0.1\lib\net45\SharpDX.DXGI.dll</HintPath>
-    </Reference>
-    <Reference Include="SharpDX.Mathematics, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
-      <HintPath>..\packages\SharpDX.Mathematics.4.0.1\lib\net45\SharpDX.Mathematics.dll</HintPath>
-    </Reference>
-    <Reference Include="SharpDX.RawInput, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
-      <HintPath>..\packages\SharpDX.RawInput.4.0.1\lib\net45\SharpDX.RawInput.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
@@ -142,13 +113,30 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\Utilities\My3DEngine.Utilities.csproj">
       <Project>{173D9236-51D8-4923-8059-86D1AA317F4A}</Project>
       <Name>My3DEngine.Utilities</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json">
+      <Version>12.0.2</Version>
+    </PackageReference>
+    <PackageReference Include="SharpDX.D3DCompiler">
+      <Version>4.0.1</Version>
+    </PackageReference>
+    <PackageReference Include="SharpDX.Direct2D1">
+      <Version>4.0.1</Version>
+    </PackageReference>
+    <PackageReference Include="SharpDX.Direct3D11">
+      <Version>4.0.1</Version>
+    </PackageReference>
+    <PackageReference Include="SharpDX.Mathematics">
+      <Version>4.0.1</Version>
+    </PackageReference>
+    <PackageReference Include="SharpDX.RawInput">
+      <Version>4.0.1</Version>
+    </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.

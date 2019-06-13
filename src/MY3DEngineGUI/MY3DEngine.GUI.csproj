@@ -30,27 +30,6 @@
     <RootNamespace>MY3DEngine.GUI</RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
-      <HintPath>..\packages\NLog.4.5.11\lib\net45\NLog.dll</HintPath>
-    </Reference>
-    <Reference Include="ObjectListView, Version=2.9.1.1072, Culture=neutral, PublicKeyToken=b1c5bf581481bcd4, processorArchitecture=MSIL">
-      <HintPath>..\packages\ObjectListView.Official.2.9.1\lib\net20\ObjectListView.dll</HintPath>
-    </Reference>
-    <Reference Include="ScintillaNET, Version=3.6.3.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\jacobslusser.ScintillaNET.3.6.3\lib\net40\ScintillaNET.dll</HintPath>
-    </Reference>
-    <Reference Include="SharpDX, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
-      <HintPath>..\packages\SharpDX.4.0.1\lib\net45\SharpDX.dll</HintPath>
-    </Reference>
-    <Reference Include="SharpDX.Direct3D11, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
-      <HintPath>..\packages\SharpDX.Direct3D11.4.0.1\lib\net45\SharpDX.Direct3D11.dll</HintPath>
-    </Reference>
-    <Reference Include="SharpDX.DXGI, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
-      <HintPath>..\packages\SharpDX.DXGI.4.0.1\lib\net45\SharpDX.DXGI.dll</HintPath>
-    </Reference>
-    <Reference Include="SharpDX.Mathematics, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
-      <HintPath>..\packages\SharpDX.Mathematics.4.0.1\lib\net45\SharpDX.Mathematics.dll</HintPath>
-    </Reference>
     <Reference Include="System">
       <Private>False</Private>
     </Reference>
@@ -146,10 +125,6 @@
       <LastGenOutput>MessageResources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <None Include="app.config" />
-    <Content Include="NLog.config">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MY3DEngine.Build\MY3DEngine.BuildTools.csproj">
@@ -164,6 +139,20 @@
       <Project>{173d9236-51d8-4923-8059-86d1aa317f4a}</Project>
       <Name>My3DEngine.Utilities</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="jacobslusser.ScintillaNET">
+      <Version>3.6.3</Version>
+    </PackageReference>
+    <PackageReference Include="ObjectListView.Official">
+      <Version>2.9.1</Version>
+    </PackageReference>
+    <PackageReference Include="SharpDX.Direct3D11">
+      <Version>4.0.1</Version>
+    </PackageReference>
+    <PackageReference Include="SharpDX.Mathematics">
+      <Version>4.0.1</Version>
+    </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.

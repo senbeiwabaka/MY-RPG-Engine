@@ -168,3 +168,4 @@ pip-log.txt
 /src/MigrationBackup/
 /src/.vs/MY3DEngine/config
 /.vs/*
+/MigrationBackup
