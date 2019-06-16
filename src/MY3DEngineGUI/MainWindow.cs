@@ -21,6 +21,8 @@ namespace MY3DEngine.GUI
     using MY3DEngine.Primitives;
     using My3DEngine.Utilities.Services;
     using NLog;
+    using System.Runtime.InteropServices;
+    using System.Numerics;
 
     public partial class MainWindow : Form
     {
@@ -61,7 +63,7 @@ namespace MY3DEngine.GUI
         {
             if (!string.IsNullOrWhiteSpace(tbLeftRight.Text))
             {
-                Engine.GameEngine.Camera.SetPosition(new SharpDX.Vector3(float.Parse(tbLeftRight.Text), Engine.GameEngine.Camera.Position.Y, Engine.GameEngine.Camera.Position.Z));
+                Engine.GameEngine.Camera.SetPosition(new Vector3(float.Parse(tbLeftRight.Text), Engine.GameEngine.Camera.Position.Y, Engine.GameEngine.Camera.Position.Z));
             }
         }
 
@@ -70,7 +72,7 @@ namespace MY3DEngine.GUI
             if (!string.IsNullOrWhiteSpace(tbRotateX.Text))
             {
                 Engine.GameEngine.Camera.SetRotation(
-                    new SharpDX.Vector3(float.Parse(tbRotateX.Text, CultureInfo.CurrentCulture), Engine.GameEngine.Camera.Rotation.Y, Engine.GameEngine.Camera.Rotation.Z));
+                    new Vector3(float.Parse(tbRotateX.Text, CultureInfo.CurrentCulture), Engine.GameEngine.Camera.Rotation.Y, Engine.GameEngine.Camera.Rotation.Z));
             }
         }
 
@@ -79,7 +81,7 @@ namespace MY3DEngine.GUI
             if (!string.IsNullOrWhiteSpace(tbRotateY.Text))
             {
                 Engine.GameEngine.Camera.SetRotation(
-                    new SharpDX.Vector3(Engine.GameEngine.Camera.Rotation.X, float.Parse(tbRotateY.Text, CultureInfo.CurrentCulture), Engine.GameEngine.Camera.Rotation.Z));
+                    new Vector3(Engine.GameEngine.Camera.Rotation.X, float.Parse(tbRotateY.Text, CultureInfo.CurrentCulture), Engine.GameEngine.Camera.Rotation.Z));
             }
         }
 
@@ -88,7 +90,7 @@ namespace MY3DEngine.GUI
             if (!string.IsNullOrWhiteSpace(tbRotateZ.Text))
             {
                 Engine.GameEngine.Camera.SetRotation(
-                    new SharpDX.Vector3(Engine.GameEngine.Camera.Rotation.X, Engine.GameEngine.Camera.Rotation.Y, float.Parse(tbRotateZ.Text, CultureInfo.CurrentCulture)));
+                    new Vector3(Engine.GameEngine.Camera.Rotation.X, Engine.GameEngine.Camera.Rotation.Y, float.Parse(tbRotateZ.Text, CultureInfo.CurrentCulture)));
             }
         }
 
@@ -97,7 +99,7 @@ namespace MY3DEngine.GUI
             if (!string.IsNullOrWhiteSpace(tbUpDown.Text))
             {
                 Engine.GameEngine.Camera.SetPosition(
-                    new SharpDX.Vector3(Engine.GameEngine.Camera.Position.X, float.Parse(tbUpDown.Text, CultureInfo.CurrentCulture), Engine.GameEngine.Camera.Position.Z));
+                    new Vector3(Engine.GameEngine.Camera.Position.X, float.Parse(tbUpDown.Text, CultureInfo.CurrentCulture), Engine.GameEngine.Camera.Position.Z));
             }
         }
 
@@ -106,7 +108,7 @@ namespace MY3DEngine.GUI
             if (!string.IsNullOrWhiteSpace(tbZoomInOut.Text))
             {
                 Engine.GameEngine.Camera.SetPosition(
-                    new SharpDX.Vector3(Engine.GameEngine.Camera.Position.X, Engine.GameEngine.Camera.Position.Y, float.Parse(tbZoomInOut.Text, CultureInfo.CurrentCulture)));
+                    new Vector3(Engine.GameEngine.Camera.Position.X, Engine.GameEngine.Camera.Position.Y, float.Parse(tbZoomInOut.Text, CultureInfo.CurrentCulture)));
             }
         }
 
@@ -170,7 +172,7 @@ namespace MY3DEngine.GUI
 
                         for (var i = 0; i < gameObject.Vertexies.Length; ++i)
                         {
-                            gameObject.Vertexies[i].Color = new SharpDX.Vector4(red, green, blue, alpha);
+                            gameObject.Vertexies[i].Color = new Vector4(red, green, blue, alpha);
                         }
 
                         gameObject.ApplyColor();
@@ -623,6 +625,7 @@ namespace MY3DEngine.GUI
 
             if (Engine.GameEngine.InitliazeGraphics(
                             rendererPnl.Handle,
+                            Marshal.GetHINSTANCE(rendererPnl.GetType().Module),
                             rendererPnl.Width,
                             rendererPnl.Height,
                             vsyncEnabled: useVsyncToolStripMenuItem.Checked,
@@ -649,8 +652,8 @@ namespace MY3DEngine.GUI
                     TreeListViewSceneGraph.SetObjects(Engine.GameEngine.Manager.GameObjects, true);
                 }
 
-                AddToInformationDisplay($"Video card memory : {Engine.GameEngine.GraphicsManager.GetDirectXManager.VideoCardMemory} MB");
-                AddToInformationDisplay($"Video card description : {Engine.GameEngine.GraphicsManager.GetDirectXManager.VideoCardDescription}");
+                //AddToInformationDisplay($"Video card memory : {Engine.GameEngine.GraphicsManager.GetDirectXManager.VideoCardMemory} MB");
+                //AddToInformationDisplay($"Video card description : {Engine.GameEngine.GraphicsManager.GetDirectXManager.VideoCardDescription}");
 
                 return;
             }
@@ -704,7 +707,7 @@ namespace MY3DEngine.GUI
             Controls.SetChildIndex(form, 0);
         }
 
-        private void OpenClassBuilder(string fileName, string folderPath = default(string))
+        private void OpenClassBuilder(string fileName, string folderPath = default)
         {
             if (!fileName.EndsWith(".cs", StringComparison.InvariantCultureIgnoreCase))
             {

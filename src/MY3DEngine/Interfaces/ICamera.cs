@@ -2,10 +2,10 @@
 //      Copyright (c) MY Soft Games LLC. All rights reserved.
 // </copyright>
 
+using System.Numerics;
+
 namespace MY3DEngine.Interfaces
 {
-    using SharpDX;
-
     /// <summary>
     /// Interface to build camera to see the world
     /// </summary>
@@ -24,7 +24,7 @@ namespace MY3DEngine.Interfaces
         /// <summary>
         /// Gets or sets the view of the camera in the world
         /// </summary>
-        Matrix ViewMatrix { get; set; }
+        Matrix4x4 ViewMatrix { get; set; }
 
         /// <summary>
         /// Initialize the Camera variables

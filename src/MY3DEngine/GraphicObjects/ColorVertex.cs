@@ -4,6 +4,7 @@
 
 namespace MY3DEngine.GraphicObjects
 {
+    using System.Numerics;
     using System.Runtime.InteropServices;
     using SharpDX;
 
@@ -19,11 +20,16 @@ namespace MY3DEngine.GraphicObjects
         /// </summary>
         /// <param name="position"></param>
         /// <param name="color"></param>
-        public ColorVertex(Vector3 position = default(Vector3), Vector4 color = default(Vector4))
+        public ColorVertex(Vector3 position = default, Vector4 color = default)
         {
             this.Position = position;
             this.Color = color;
         }
+
+        /// <summary>
+        /// Gets how big the object is for transfering data and building buffers
+        /// </summary>
+        public static int Size => Utilities.SizeOf<ColorVertex>();
 
         /// <summary>
         /// Gets or sets position of the object in the world
@@ -34,10 +40,5 @@ namespace MY3DEngine.GraphicObjects
         /// Gets or sets color of the object in the world
         /// </summary>
         public Vector4 Color { get; set; }
-
-        /// <summary>
-        /// Gets how big the object is for transfering data and building buffers
-        /// </summary>
-        public static int Size => Utilities.SizeOf<ColorVertex>();
     }
 }

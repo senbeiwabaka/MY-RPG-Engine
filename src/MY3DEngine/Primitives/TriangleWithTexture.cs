@@ -4,10 +4,10 @@
 
 namespace MY3DEngine.Primitives
 {
+    using System.Numerics;
     using MY3DEngine.BaseObjects;
     using MY3DEngine.GraphicObjects;
     using MY3DEngine.Managers;
-    using SharpDX;
     using SharpDX.Direct3D11;
 
     /// <summary>
@@ -27,7 +27,7 @@ namespace MY3DEngine.Primitives
         /// <inheritdoc/>
         public override void Draw()
         {
-            Engine.GameEngine.GraphicsManager.GetDeviceContext.DrawIndexed(this.IndexCount, 0, 0);
+            //Engine.GameEngine.GraphicsManager.GetDeviceContext.DrawIndexed(this.IndexCount, 0, 0);
         }
 
         /// <inheritdoc/>
@@ -59,7 +59,7 @@ namespace MY3DEngine.Primitives
                         Position = new Vector3(1, -1, 0),
                         Texture = new Vector2(1, 1),
                     },
-                };
+            };
 
             // Create Indicies to load into the IndexBuffer.
             this.Indices = new int[] {
@@ -69,31 +69,31 @@ namespace MY3DEngine.Primitives
             };
 
             // Instantiate Vertex buffer from vertex data
-            this.VertexBuffer = Buffer.Create(Engine.GameEngine.GraphicsManager.GetDevice, BindFlags.VertexBuffer, this.TextureVerticies);
+            //this.VertexBuffer = Buffer.Create(Engine.GameEngine.GraphicsManager.GetDevice, BindFlags.VertexBuffer, this.TextureVerticies);
 
-            // Instantiate Index Buffer from index data
-            this.IndexBuffer = Buffer.Create(Engine.GameEngine.GraphicsManager.GetDevice, BindFlags.IndexBuffer, this.Indices);
+            //// Instantiate Index Buffer from index data
+            //this.IndexBuffer = Buffer.Create(Engine.GameEngine.GraphicsManager.GetDevice, BindFlags.IndexBuffer, this.Indices);
 
-            var path = Engine.GameEngine.SettingsManager.Settings.AssetsPath;
-            path = $"{path}\\seafloor.bmp";
+            //var path = Engine.GameEngine.SettingsManager.Settings.AssetsPath;
+            //path = $"{path}\\seafloor.bmp";
 
-            TextureManager.Initialize(Engine.GameEngine.GraphicsManager.GetDevice, path, ref this.texture);
+            //TextureManager.Initialize(Engine.GameEngine.GraphicsManager.GetDevice, path, ref this.texture);
         }
 
         /// <inheritdoc/>
         public override void Render()
         {
             // Set the vertex buffer to active in the input assembler so it can be rendered.
-            Engine.GameEngine.GraphicsManager.GetDeviceContext.InputAssembler.SetVertexBuffers(0, new VertexBufferBinding(this.VertexBuffer, TextureVertex.Size, 0));
+            //Engine.GameEngine.GraphicsManager.GetDeviceContext.InputAssembler.SetVertexBuffers(0, new VertexBufferBinding(this.VertexBuffer, TextureVertex.Size, 0));
 
-            // Set the index buffer to active in the input assembler so it can be rendered.
-            Engine.GameEngine.GraphicsManager.GetDeviceContext.InputAssembler.SetIndexBuffer(this.IndexBuffer, SharpDX.DXGI.Format.R32_UInt, 0);
+            //// Set the index buffer to active in the input assembler so it can be rendered.
+            //Engine.GameEngine.GraphicsManager.GetDeviceContext.InputAssembler.SetIndexBuffer(this.IndexBuffer, SharpDX.DXGI.Format.R32_UInt, 0);
 
-            // Set the type of the primitive that should be rendered from this vertex buffer, in this case triangles.
-            Engine.GameEngine.GraphicsManager.GetDeviceContext.InputAssembler.PrimitiveTopology = SharpDX.Direct3D.PrimitiveTopology.TriangleList;
+            //// Set the type of the primitive that should be rendered from this vertex buffer, in this case triangles.
+            //Engine.GameEngine.GraphicsManager.GetDeviceContext.InputAssembler.PrimitiveTopology = SharpDX.Direct3D.PrimitiveTopology.TriangleList;
 
-            // Set shader resource in the pixel shader.
-            Engine.GameEngine.GraphicsManager.GetDeviceContext.PixelShader.SetShaderResource(0, this.texture);
+            //// Set shader resource in the pixel shader.
+            //Engine.GameEngine.GraphicsManager.GetDeviceContext.PixelShader.SetShaderResource(0, this.texture);
         }
     }
 }

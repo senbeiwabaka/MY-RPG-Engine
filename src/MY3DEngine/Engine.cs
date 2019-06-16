@@ -7,12 +7,12 @@ namespace MY3DEngine
     using System;
     using System.Threading;
     using MY3DEngine.Cameras;
-    using MY3DEngine.Graphics;
     using MY3DEngine.Interfaces;
     using MY3DEngine.Managers;
     using MY3DEngine.Shaders;
     using My3DEngine.Utilities.Services;
     using NLog;
+    using Veldrid;
 
     /// <summary>
     /// The main entry point for the engine
@@ -22,6 +22,10 @@ namespace MY3DEngine
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         private Thread renderThread;
         private IShader shader;
+
+        private GraphicsDevice graphicsDevice;
+        private Swapchain _sc;
+        private CommandList _cl;
 
         public Engine()
         {
@@ -126,11 +130,20 @@ namespace MY3DEngine
         /// <param name="vsyncEnabled"></param>
         /// <param name="fullScreen"></param>
         /// <returns></returns>
-        public bool InitliazeGraphics(IntPtr windowHandle, int screenWidth = 720, int screenHeight = 480, bool vsyncEnabled = true, bool fullScreen = false)
+        public bool InitliazeGraphics(IntPtr windowHandle, IntPtr hinstance, int screenWidth = 720, int screenHeight = 480, bool vsyncEnabled = true, bool fullScreen = false)
         {
-            GraphicsManager = new GraphicsManager();
+            graphicsDevice = GraphicsDevice.CreateVulkan(new GraphicsDeviceOptions(true));
 
-            return GraphicsManager.InitializeDirectXManager(windowHandle, screenWidth, screenHeight, vsyncEnabled, fullScreen);
+            SwapchainSource source = SwapchainSource.CreateWin32(windowHandle, hinstance);
+
+            _sc = graphicsDevice.ResourceFactory.CreateSwapchain(new SwapchainDescription(source, (uint)screenWidth, (uint)screenHeight, null, false));
+            _cl = graphicsDevice.ResourceFactory.CreateCommandList();
+
+            //GraphicsManager = new GraphicsManager();
+
+            //return GraphicsManager.InitializeDirectXManager(windowHandle, screenWidth, screenHeight, vsyncEnabled, fullScreen);
+
+            return graphicsDevice != null;
         }
 
         /// <summary>
@@ -193,13 +206,13 @@ namespace MY3DEngine
 
             // Get the world, view, and projection matrices from camera and d3d objects.
             var viewMatrix = Camera.ViewMatrix;
-            var worldMatrix = GraphicsManager.GetDirectXManager.WorldMatrix;
-            var projectionMatrix = GraphicsManager.GetDirectXManager.ProjectionMatrix;
+            //var worldMatrix = GraphicsManager.GetDirectXManager.WorldMatrix;
+            //var projectionMatrix = GraphicsManager.GetDirectXManager.ProjectionMatrix;
 
             // Rotate the world matrix by the rotation value so that the triangle will spin.
-            // Matrix.RotationY(1.0f, out worldMatrix);
+            // Matrix4x4.RotationY(1.0f, out worldMatrix);
 
-            shader.Render(Manager.GameObjects, worldMatrix, viewMatrix, projectionMatrix);
+            //shader.Render(Manager.GameObjects, worldMatrix, viewMatrix, projectionMatrix);
 
             GraphicsManager.EndScene();
         }

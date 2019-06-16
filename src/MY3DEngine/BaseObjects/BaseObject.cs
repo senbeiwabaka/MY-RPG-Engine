@@ -6,11 +6,11 @@ namespace MY3DEngine.BaseObjects
 {
     using System;
     using System.ComponentModel;
+    using System.Numerics;
     using System.Runtime.CompilerServices;
     using MY3DEngine.GraphicObjects;
     using MY3DEngine.Interfaces;
     using Newtonsoft.Json;
-    using SharpDX;
     using SharpDX.Direct3D11;
 
     /// <inheritdoc/>
@@ -113,7 +113,7 @@ namespace MY3DEngine.BaseObjects
         {
             if (this.IsPrimitive)
             {
-                this.VertexBuffer = SharpDX.Direct3D11.Buffer.Create(Engine.GameEngine.GraphicsManager.GetDevice, BindFlags.VertexBuffer, this.Vertexies);
+                //this.VertexBuffer = SharpDX.Direct3D11.Buffer.Create(Engine.GameEngine.GraphicsManager.GetDevice, BindFlags.VertexBuffer, this.Vertexies);
             }
         }
 

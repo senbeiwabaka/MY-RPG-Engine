@@ -20,7 +20,7 @@ namespace MY3DEngine.BaseObjects
         /// <param name="fileName">The file name of the object</param>
         /// <param name="path">The path of the object</param>
         /// <param name="name"></param>
-        protected GameObjectWithTexture(string fileName = default(string), string path = default(string), string name = "Object")
+        protected GameObjectWithTexture(string fileName = default, string path = default, string name = "Object")
             : base(name)
         {
             this.FileName = fileName;

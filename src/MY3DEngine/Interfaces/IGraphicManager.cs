@@ -13,14 +13,14 @@ namespace MY3DEngine.Interfaces
         /// <summary>
         /// Gets get the device
         /// </summary>
-        Device GetDevice { get; }
+        //Device GetDevice { get; }
 
         /// <summary>
         /// Gets get the device context from the device
         /// </summary>
-        DeviceContext GetDeviceContext { get; }
+        //DeviceContext GetDeviceContext { get; }
 
-        DirectXManager GetDirectXManager { get; }
+        //DirectXManager GetDirectXManager { get; }
 
         /// <summary>
         /// The begin scene logic

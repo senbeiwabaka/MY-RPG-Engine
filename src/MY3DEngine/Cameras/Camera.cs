@@ -5,8 +5,9 @@
 namespace MY3DEngine.Cameras
 {
     using System.Diagnostics;
+    using System.Numerics;
     using MY3DEngine.Interfaces;
-    using SharpDX;
+    using Veldrid.Utilities;
 
     /// <inherietdoc/>
     public sealed class Camera : ICamera
@@ -18,14 +19,14 @@ namespace MY3DEngine.Cameras
         public Vector3 Rotation { get; private set; }
 
         /// <inherietdoc/>
-        public Matrix ViewMatrix { get; set; }
+        public Matrix4x4 ViewMatrix { get; set; }
 
         private Stopwatch Clock { get; } = new Stopwatch();
 
         /// <inherietdoc/>
         public void Initialize()
         {
-            Initialize(default(int), default(int));
+            Initialize(default, default);
         }
 
         /// <inherietdoc/>
@@ -45,17 +46,17 @@ namespace MY3DEngine.Cameras
 
         public bool RayIntersection(Vector2 mousePosition)
         {
-            var mouse = new Vector3();
+            var mouse = default(Vector3);
 
             // mouse.X = (((2.0f * mousePosition.X) / Engine.GameEngine.LocalDevice.ThisDevice.Viewport.Width) - 1) / projection.M11;
             // mouse.Y = -(((2.0f * mousePosition.Y) / Engine.GameEngine.LocalDevice.ThisDevice.Viewport.Height) - 1) / projection.M22;
             // mouse.Z = 1.0f;
 
-            Matrix worldView = new Matrix(); // this.View * Engine.GameEngine.LocalDevice.GetDevice.ImmediateContext.(TransformState.World);
+            Matrix4x4 worldView = default(Matrix4x4); // this.View * Engine.GameEngine.LocalDevice.GetDevice.ImmediateContext.(TransformState.World);
 
-            var m = new Matrix();
+            var m = default(Matrix4x4);
 
-            m = Matrix.Invert(worldView);
+            Matrix4x4.Invert(worldView, out m);
 
             var direction = new Vector3
             {
@@ -90,18 +91,18 @@ namespace MY3DEngine.Cameras
             var roll = Rotation.Z * 0.0174532925f;
 
             // Create the rotation matrix from the yaw, pitch, and roll values.
-            var rotationMatrix = Matrix.RotationYawPitchRoll(yaw, pitch, roll);
+            var rotationMatrix = Matrix4x4.CreateFromYawPitchRoll(yaw, pitch, roll);
 
             // Transform the lookAt and up vector by the rotation matrix so the view is correctly
             // rotated at the origin.
-            lookAt = Vector3.TransformCoordinate(lookAt, rotationMatrix);
-            var up = Vector3.TransformCoordinate(Vector3.UnitY, rotationMatrix);
+            lookAt = Vector3.Transform(lookAt, rotationMatrix);
+            var up = Vector3.Transform(Vector3.UnitY, rotationMatrix);
 
             // Translate the rotated camera position to the location of the viewer.
             lookAt = Position + lookAt;
 
             // Finally create the view matrix from the three updated vectors.
-            this.ViewMatrix = Matrix.LookAtLH(Position, lookAt, up);
+            this.ViewMatrix = Matrix4x4.CreateLookAt(Position, lookAt, up);
         }
 
         /// <inherietdoc/>

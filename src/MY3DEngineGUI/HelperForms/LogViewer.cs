@@ -9,7 +9,8 @@ namespace MY3DEngine.GUI.HelperForms
 
     public partial class LogViewer : Form
     {
-        public LogViewer(string file) : this()
+        public LogViewer(string file)
+            : this()
         {
             rtbLogContent.Text = new FileService().GetFileContent(file);
         }

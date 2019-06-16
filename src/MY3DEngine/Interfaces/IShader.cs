@@ -6,8 +6,8 @@ namespace MY3DEngine.Interfaces
 {
     using System;
     using System.Collections.Generic;
+    using System.Numerics;
     using MY3DEngine.BaseObjects;
-    using SharpDX;
 
     /// <summary>
     /// Interface for using shaders in the engine
@@ -32,6 +32,6 @@ namespace MY3DEngine.Interfaces
         /// <param name="viewMatrix"></param>
         /// <param name="projectionMatrix"></param>
         /// <returns></returns>
-        bool Render(IEnumerable<BaseObject> gameObjects, Matrix worldMatrix, Matrix viewMatrix, Matrix projectionMatrix);
+        bool Render(IEnumerable<BaseObject> gameObjects, Matrix4x4 worldMatrix, Matrix4x4 viewMatrix, Matrix4x4 projectionMatrix);
     }
 }

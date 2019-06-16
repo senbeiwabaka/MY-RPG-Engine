@@ -21,7 +21,7 @@ namespace MY3DEngine.GUI
         private readonly string folder;
         private int baseMaxLineNumberCharLength;
 
-        public ClassFileBuilderForm(string fileName, string folder = default(string))
+        public ClassFileBuilderForm(string fileName, string folder = default)
             : this()
         {
             if (string.IsNullOrWhiteSpace(fileName))

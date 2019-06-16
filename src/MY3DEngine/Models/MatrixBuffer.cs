@@ -4,13 +4,13 @@
 
 namespace MY3DEngine.Models
 {
+    using System.Numerics;
     using System.Runtime.InteropServices;
-    using SharpDX;
 
     [StructLayout(LayoutKind.Sequential)]
     public struct MatrixBuffer
     {
-        public MatrixBuffer(Matrix world, Matrix view, Matrix projection)
+        public MatrixBuffer(Matrix4x4 world, Matrix4x4 view, Matrix4x4 projection)
         {
             this.World = world;
             this.View = view;
@@ -20,17 +20,17 @@ namespace MY3DEngine.Models
         /// <summary>
         /// Gets the World from the matrix
         /// </summary>
-        public Matrix World { get; }
+        public Matrix4x4 World { get; }
 
         /// <summary>
         /// Gets View from the matrix
         /// </summary>
-        public Matrix View { get; }
+        public Matrix4x4 View { get; }
 
         /// <summary>
         /// Gets Projection from the matrix
         /// </summary>
-        public Matrix Projection { get; }
+        public Matrix4x4 Projection { get; }
 
         public static bool operator ==(MatrixBuffer left, MatrixBuffer right) => left.Equals(right);
 
@@ -51,7 +51,7 @@ namespace MY3DEngine.Models
         /// <inheritdoc/>
         public override int GetHashCode()
         {
-           return base.GetHashCode();
+            return base.GetHashCode();
         }
     }
 }

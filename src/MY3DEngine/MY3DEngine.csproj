@@ -1,149 +1,18 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>8.0.30703</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{03537171-7E7B-41BE-AF46-CF5B85C1EB65}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MY3DEngine</RootNamespace>
-    <AssemblyName>MY3DEngine</AssemblyName>
-    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile>
-    </TargetFrameworkProfile>
-    <NuGetPackageImportStamp>
-    </NuGetPackageImportStamp>
+    <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <PlatformTarget>x64</PlatformTarget>
-    <DocumentationFile>bin\Debug\MY3DEngine.XML</DocumentationFile>
-    <RegisterForComInterop>false</RegisterForComInterop>
-    <Prefer32Bit>false</Prefer32Bit>
-    <UseVSHostingProcess>true</UseVSHostingProcess>
-    <LangVersion>latest</LangVersion>
-    <CodeAnalysisRuleSet>..\..\Default.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
-  </PropertyGroup>
+
   <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="System.Configuration" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.IO.Compression" />
-    <Reference Include="System.Runtime.Serialization" />
-    <Reference Include="System.ServiceModel" />
-    <Reference Include="System.Transactions" />
-    <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
+    <PackageReference Include="BepuPhysics" Version="2.0.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
+    <PackageReference Include="System.Numerics.Vectors" Version="4.5.0" />
+    <PackageReference Include="Veldrid" Version="4.6.1" />
+    <PackageReference Include="Veldrid.Utilities" Version="4.6.1" />
   </ItemGroup>
+
   <ItemGroup>
-    <Compile Include="BaseObjects\GameObjectWithTexture.cs" />
-    <Compile Include="Interfaces\IGameObjectWithTexture.cs" />
-    <Compile Include="GraphicObjects\ColorVertex.cs" />
-    <Compile Include="Cameras\Camera.cs" />
-    <Compile Include="Interfaces\ICamera.cs" />
-    <Compile Include="Interfaces\IExceptionManager.cs" />
-    <Compile Include="Managers\TextureManager.cs" />
-    <Compile Include="Enums\LevelType.cs" />
-    <Compile Include="GameTimer.cs" />
-    <Compile Include="GraphicObjects\TextureVertex.cs" />
-    <Compile Include="Interfaces\IGameTimer.cs" />
-    <Compile Include="Managers\DirectXManager.cs" />
-    <Compile Include="Engine.cs" />
-    <Compile Include="Managers\ExceptionManager.cs" />
-    <Compile Include="Interfaces\IObjectManager.cs" />
-    <Compile Include="Managers\SettingsManager.cs" />
-    <Compile Include="Models\ExceptionData.cs" />
-    <Compile Include="Graphics\GraphicsManager.cs" />
-    <Compile Include="Interfaces\IGraphicManager.cs" />
-    <Compile Include="Interfaces\ILevel.cs" />
-    <Compile Include="Models\MatrixBuffer.cs" />
-    <Compile Include="Models\SettingsModel.cs" />
-    <Compile Include="Interfaces\IShader.cs" />
-    <Compile Include="Primitives\CubeWithTexture.cs" />
-    <Compile Include="Shaders\Shader.cs" />
-    <Compile Include="Shaders\TextureShader.cs" />
-    <Content Include="Assets\seafloor.bmp">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Assets\Shaders\Color.ps">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Assets\Shaders\Color.vs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <None Include="app.config" />
-    <Compile Include="BaseObjects\BaseObject.cs" />
-    <Compile Include="Interfaces\IGameObject.cs" />
-    <Compile Include="Managers\ObjectManager.cs" />
-    <Compile Include="Primitives\Cube.cs" />
-    <Compile Include="Primitives\Triangle.cs" />
-    <Compile Include="Primitives\TriangleWithTexture.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Content Include="Assets\Shaders\texture.ps">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="DefaultSettings.ini">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Assets\Shaders\texture.vs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
+    <ProjectReference Include="..\Utilities\My3DEngine.Utilities.csproj" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Utilities\My3DEngine.Utilities.csproj">
-      <Project>{173D9236-51D8-4923-8059-86D1AA317F4A}</Project>
-      <Name>My3DEngine.Utilities</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json">
-      <Version>12.0.2</Version>
-    </PackageReference>
-    <PackageReference Include="SharpDX.D3DCompiler">
-      <Version>4.0.1</Version>
-    </PackageReference>
-    <PackageReference Include="SharpDX.Direct2D1">
-      <Version>4.0.1</Version>
-    </PackageReference>
-    <PackageReference Include="SharpDX.Direct3D11">
-      <Version>4.0.1</Version>
-    </PackageReference>
-    <PackageReference Include="SharpDX.Mathematics">
-      <Version>4.0.1</Version>
-    </PackageReference>
-    <PackageReference Include="SharpDX.RawInput">
-      <Version>4.0.1</Version>
-    </PackageReference>
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
 </Project>

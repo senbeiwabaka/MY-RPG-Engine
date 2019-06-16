@@ -6,7 +6,7 @@ namespace MY3DEngine.Interfaces
 {
     using System;
     using System.ComponentModel;
-    using SharpDX;
+    using System.Numerics;
 
     /// <summary>
     /// Interface for the basic properties and methods of a game object (cube, triangle, sphere, mesh, etc)
