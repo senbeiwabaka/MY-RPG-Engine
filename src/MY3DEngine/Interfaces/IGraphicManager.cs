@@ -11,18 +11,6 @@ namespace MY3DEngine.Interfaces
     public interface IGraphicManager : IDisposable
     {
         /// <summary>
-        /// Gets get the device
-        /// </summary>
-        //Device GetDevice { get; }
-
-        /// <summary>
-        /// Gets get the device context from the device
-        /// </summary>
-        //DeviceContext GetDeviceContext { get; }
-
-        //DirectXManager GetDirectXManager { get; }
-
-        /// <summary>
         /// The begin scene logic
         /// </summary>
         /// <param name="red"></param>
@@ -48,6 +36,6 @@ namespace MY3DEngine.Interfaces
         /// </summary>
         void EndScene();
 
-        bool InitializeDirectXManager(IntPtr windowHandle, int screenWidth = 720, int screenHeight = 480, bool vsyncEnabled = true, bool fullScreen = false);
+        bool Initializer(IntPtr windowHandle, IntPtr hInstance, int screenWidth = 720, int screenHeight = 480, bool vsyncEnabled = true, bool fullScreen = false);
     }
 }

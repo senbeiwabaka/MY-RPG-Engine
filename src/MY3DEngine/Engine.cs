@@ -13,6 +13,7 @@ namespace MY3DEngine
     using My3DEngine.Utilities.Services;
     using NLog;
     using Veldrid;
+    using MY3DEngine.Graphics;
 
     /// <summary>
     /// The main entry point for the engine
@@ -22,10 +23,6 @@ namespace MY3DEngine
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         private Thread renderThread;
         private IShader shader;
-
-        private GraphicsDevice graphicsDevice;
-        private Swapchain _sc;
-        private CommandList _cl;
 
         public Engine()
         {
@@ -132,18 +129,9 @@ namespace MY3DEngine
         /// <returns></returns>
         public bool InitliazeGraphics(IntPtr windowHandle, IntPtr hinstance, int screenWidth = 720, int screenHeight = 480, bool vsyncEnabled = true, bool fullScreen = false)
         {
-            graphicsDevice = GraphicsDevice.CreateVulkan(new GraphicsDeviceOptions(true));
+            GraphicsManager = new GraphicsManager();
 
-            SwapchainSource source = SwapchainSource.CreateWin32(windowHandle, hinstance);
-
-            _sc = graphicsDevice.ResourceFactory.CreateSwapchain(new SwapchainDescription(source, (uint)screenWidth, (uint)screenHeight, null, false));
-            _cl = graphicsDevice.ResourceFactory.CreateCommandList();
-
-            //GraphicsManager = new GraphicsManager();
-
-            //return GraphicsManager.InitializeDirectXManager(windowHandle, screenWidth, screenHeight, vsyncEnabled, fullScreen);
-
-            return graphicsDevice != null;
+            return GraphicsManager.Initializer(windowHandle, hinstance, screenWidth, screenHeight, vsyncEnabled, fullScreen);
         }
 
         /// <summary>

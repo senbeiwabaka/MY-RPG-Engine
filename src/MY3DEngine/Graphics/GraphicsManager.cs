@@ -7,18 +7,13 @@ namespace MY3DEngine.Graphics
     using System;
     using MY3DEngine.Interfaces;
     using MY3DEngine.Managers;
-    using SharpDX.Direct3D11;
+    using Veldrid;
 
     internal sealed class GraphicsManager : IGraphicManager
     {
-        /// <inheritdoc/>
-        //public Device GetDevice => GetDirectXManager?.GetDevice;
-
-        /// <inheritdoc/>
-        //public DeviceContext GetDeviceContext => GetDirectXManager?.GetDeviceContext;
-
-        /// <inheritdoc/>
-        //public DirectXManager GetDirectXManager { get; private set; } = new DirectXManager();
+        private GraphicsDevice graphicsDevice;
+        private Swapchain swapChain;
+        private CommandList commandList;
 
         public IntPtr GetWindowHandle { get; private set; }
 
@@ -30,7 +25,9 @@ namespace MY3DEngine.Graphics
         /// <inheritdoc/>
         public void BeginScene(float red, float green, float blue, float alpha)
         {
-            //GetDirectXManager.BeginScene(red, green, blue, alpha);
+            commandList.Begin();
+            commandList.SetFramebuffer(swapChain.Framebuffer);
+            commandList.ClearColorTarget(0, new RgbaFloat(red, green, blue, alpha));
         }
 
         /// <inheritdoc/>
@@ -56,16 +53,20 @@ namespace MY3DEngine.Graphics
         /// <inheritdoc/>
         public void EndScene()
         {
-            //GetDirectXManager.EndScene();
+            commandList.End();
+            graphicsDevice.SubmitCommands(commandList);
+            graphicsDevice.SwapBuffers(swapChain);
         }
 
         /// <inheritdoc/>
-        public bool InitializeDirectXManager(IntPtr windowHandle, int screenWidth = 720, int screenHeight = 480, bool vsyncEnabled = true, bool fullScreen = false)
+        public bool Initializer(IntPtr windowHandle, IntPtr hInstance, int screenWidth = 720, int screenHeight = 480, bool vsyncEnabled = true, bool fullScreen = false)
         {
-            //if (!GetDirectXManager.Initialize(windowHandle, screenWidth, screenHeight, vsyncEnabled, fullScreen))
-            //{
-            //    return false;
-            //}
+            graphicsDevice = GraphicsDevice.CreateVulkan(new GraphicsDeviceOptions(true));
+
+            SwapchainSource source = SwapchainSource.CreateWin32(windowHandle, hInstance);
+
+            swapChain = graphicsDevice.ResourceFactory.CreateSwapchain(new SwapchainDescription(source, (uint)screenWidth, (uint)screenHeight, null, false));
+            commandList = graphicsDevice.ResourceFactory.CreateCommandList();
 
             GetWindowHandle = windowHandle;
 
