@@ -4,15 +4,15 @@
 
 namespace MY3DEngine
 {
-    using System;
-    using System.Threading;
+    using My3DEngine.Utilities.Services;
     using MY3DEngine.Cameras;
     using MY3DEngine.Graphics;
     using MY3DEngine.Interfaces;
     using MY3DEngine.Managers;
     using MY3DEngine.Shaders;
-    using My3DEngine.Utilities.Services;
     using NLog;
+    using System;
+    using System.Threading;
 
     /// <summary>
     /// The main entry point for the engine

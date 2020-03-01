@@ -4,15 +4,15 @@
 
 namespace MY3DEngine.Shaders
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
     using MY3DEngine.BaseObjects;
     using MY3DEngine.Interfaces;
     using MY3DEngine.Models;
     using SharpDX;
     using SharpDX.D3DCompiler;
     using SharpDX.Direct3D11;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
 
     internal class TextureShader : IShader
     {
@@ -49,7 +49,7 @@ namespace MY3DEngine.Shaders
 
                 this.inputLayout = new InputLayout(
                     Engine.GameEngine.GraphicsManager.GetDevice,
-                    ShaderSignature.GetInputSignature(vertexShaderByteCode),
+                    vertexShaderByteCode.Bytecode,
                     new InputElement[]
                     {
                             new InputElement
