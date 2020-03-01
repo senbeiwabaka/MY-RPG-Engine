@@ -6,12 +6,12 @@ namespace MY3DEngine.BaseObjects
 {
     using MY3DEngine.GraphicObjects;
     using MY3DEngine.Interfaces;
-    using Newtonsoft.Json;
     using SharpDX;
     using SharpDX.Direct3D11;
     using System;
     using System.ComponentModel;
     using System.Runtime.CompilerServices;
+    using System.Text.Json.Serialization;
 
     /// <inheritdoc/>
     public abstract class BaseObject : IGameObject, INotifyPropertyChanged
@@ -95,11 +95,8 @@ namespace MY3DEngine.BaseObjects
         /// </summary>
         public ColorVertex[] Vertexies { get; set; }
 
-        /// <inheritdoc/>
-        [JsonIgnore]
         protected SharpDX.Direct3D11.Buffer IndexBuffer { get; set; }
 
-        /// <inheritdoc/>
         [JsonIgnore]
         protected SharpDX.Direct3D11.Buffer VertexBuffer { get; set; }
 

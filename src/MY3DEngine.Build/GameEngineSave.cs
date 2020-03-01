@@ -4,14 +4,14 @@
 
 namespace MY3DEngine.BuildTools
 {
+    using My3DEngine.Utilities.Interfaces;
+    using MY3DEngine.BuildTools.Models;
+    using MY3DEngine.BuildTools.Properties;
+    using NLog;
     using System;
     using System.Collections.Generic;
     using System.Globalization;
-    using MY3DEngine.BuildTools.Models;
-    using MY3DEngine.BuildTools.Properties;
-    using My3DEngine.Utilities.Interfaces;
-    using Newtonsoft.Json;
-    using NLog;
+    using System.Text.Json;
 
     public static class GameEngineSave
     {
@@ -58,7 +58,7 @@ namespace MY3DEngine.BuildTools
             var folderLocation = settings.GetType().GetProperty("MainFolderLocation");
             folderLocation.SetValue(settings, fullPath);
 
-            var settingsContent = JsonConvert.SerializeObject(settings);
+            var settingsContent = JsonSerializer.Serialize(settings);
 
             try
             {
@@ -154,7 +154,7 @@ namespace MY3DEngine.BuildTools
 
             try
             {
-                var jsonSerializedData = JsonConvert.SerializeObject(settingsData);
+                var jsonSerializedData = JsonSerializer.Serialize(settingsData);
 
                 fileIo.WriteFileContent($"{filePath}\\{fileName}", jsonSerializedData, false);
 

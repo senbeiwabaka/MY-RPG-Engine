@@ -4,14 +4,14 @@
 
 namespace MY3DEngine.BuildTools
 {
+    using My3DEngine.Utilities.Interfaces;
+    using MY3DEngine.BuildTools.Models;
+    using NLog;
     using System;
     using System.Collections;
     using System.Collections.Generic;
     using System.Linq;
-    using MY3DEngine.BuildTools.Models;
-    using My3DEngine.Utilities.Interfaces;
-    using Newtonsoft.Json;
-    using NLog;
+    using System.Text.Json;
 
     public static class GameEngineLoad
     {
@@ -25,15 +25,15 @@ namespace MY3DEngine.BuildTools
             try
             {
                 var contentsofFile = System.IO.File.ReadAllText(path);
-                var jsonDeserializedData = JsonConvert.DeserializeObject(contentsofFile) as IEnumerable;
+                var jsonDeserializedData = JsonSerializer.Deserialize<IEnumerable>(contentsofFile);
 
                 foreach (var item in jsonDeserializedData)
                 {
-                    var jsonSettings = new JsonSerializerSettings
+                    var jsonSettings = new JsonSerializerOptions
                     {
-                        TypeNameHandling = TypeNameHandling.Auto,
+                        WriteIndented = true,
                     };
-                    var gameObject = JsonConvert.DeserializeObject(item.ToString(), jsonSettings);
+                    var gameObject = JsonSerializer.Deserialize(item.ToString(), typeof(object), jsonSettings);
 
                     if (gameObject != null)
                     {

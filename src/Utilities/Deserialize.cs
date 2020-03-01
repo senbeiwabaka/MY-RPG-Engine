@@ -4,10 +4,10 @@
 
 namespace My3DEngine.Utilities
 {
-    using System;
     using My3DEngine.Utilities.Interfaces;
-    using Newtonsoft.Json;
     using NLog;
+    using System;
+    using System.Text.Json;
 
     public static class Deserialize
     {
@@ -20,7 +20,7 @@ namespace My3DEngine.Utilities
 
             try
             {
-                result = JsonConvert.DeserializeObject<T>(contents);
+                result = JsonSerializer.Deserialize<T>(contents);
             }
             catch (Exception e)
             {
